@@ -1,0 +1,66 @@
+# base on https://github.com/nodejs/docker-node/tree/main/16/bullseye-slim
+FROM debian:bullseye-slim
+
+ENV NODE_VERSION 16.15.1
+
+RUN set -ex \
+    && apt-get update \
+    && apt-get install -yq curl wget
+
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get update
+RUN apt-get install -y nodejs
+
+# update npm
+ENV NPM_VERSION 8.12.2
+RUN npm install --location=global npm@$NPM_VERSION
+
+# install angular cli
+ENV ANGULAR_CLI_VERSION 14.0.2
+RUN npm install --location=global @angular/cli@$ANGULAR_CLI_VERSION
+# disable autocompletion and statistic
+RUN echo '{"version": 1,"cli": {"completion": {"prompted": true},"analytics": false}}' > /root/.angular-config.json
+#RUN echo 'source <(ng completion script)' > /root/.bashrc
+RUN chmod u=rwx,g=rwx,o=rwx /root
+RUN chmod u=rw,g=rw,o=rw /root/.angular-config.json
+RUN chmod u=rw,g=r,o=rw /root/.bashrc
+
+# install Chrome for ng test
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN apt-get update
+RUN apt-get install -yq google-chrome-stable
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /etc/apt/sources.list.d/*
+
+# install tmux v3.3a \
+RUN sh -c 'echo "deb http://deb.debian.org/debian testing main non-free contrib" >> /etc/apt/sources.list'
+RUN sh -c 'echo "deb-src http://deb.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list'
+RUN apt-get update
+RUN apt-get install -y tmux
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /server
+VOLUME /server
+WORKDIR /server
+
+# node server
+EXPOSE 3000
+# node test server
+EXPOSE 3100
+# angular
+EXPOSE 4200
+# node debug
+EXPOSE 9229
+# test debug
+EXPOSE 9119
+# karma
+EXPOSE 9876
+# remote debug
+EXPOSE 9222
+
+# smoke tests
+RUN ng version
+RUN tmux -V
+RUN google-chrome --version
+CMD [ "bash" ]

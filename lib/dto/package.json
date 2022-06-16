@@ -1,0 +1,21 @@
+{
+  "name": "dto",
+  "version": "1.0.0",
+  "description": "dto library",
+  "main": "dto.js",
+  "types": "dto.d.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf ../../dist/lib/dto",
+    "build": "ttsc --project ./tsconfig.lib.json --watch",
+
+    "test": "NODE_ENV=test mocha",
+
+    "debug": "nodemon",
+
+    "preprod": "rm -rf ../../dist/lib/dto",
+    "prod": "ttsc --project ./tsconfig.lib.prod.json"
+  },
+  "author": "",
+  "license": "ISC"
+}

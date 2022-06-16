@@ -1,0 +1,25 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "db library",
+  "main": "db.js",
+  "types": "db.d.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf ../../dist/lib/db && mkdir -p ../../dist/lib/db && cp -R ./node_modules ../../dist/lib/db/node_modules",
+    "build": "ttsc --project ./tsconfig.lib.json --watch",
+
+    "test": "NODE_ENV=test mocha",
+
+    "debug": "nodemon",
+
+    "preprod": "rm -rf ../../dist/lib/db",
+    "prod": "ttsc --project ./tsconfig.lib.prod.json",
+    "postprod": "cp ./package.json ../../dist/lib/db/package.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mariadb": "^3.0.0"
+  }
+}

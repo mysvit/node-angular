@@ -1,0 +1,21 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "core library",
+  "main": "core.js",
+  "types": "core.d.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf ../../dist/lib/core",
+    "build": "ttsc --project ./tsconfig.lib.json --watch",
+
+    "test": "NODE_ENV=test mocha",
+
+    "debug": "nodemon",
+
+    "preprod": "rm -rf ../../dist/lib/core",
+    "prod": "ttsc --project ./tsconfig.lib.prod.json"
+  },
+  "author": "",
+  "license": "ISC"
+}

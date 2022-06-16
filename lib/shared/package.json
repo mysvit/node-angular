@@ -1,0 +1,21 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "shared library",
+  "main": "shared.js",
+  "types": "shared.d.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf ../../dist/lib/shared",
+    "build": "ttsc --project ./tsconfig.lib.json --watch",
+
+    "test": "NODE_ENV=test mocha",
+
+    "debug": "nodemon",
+
+    "preprod": "rm -rf ../../dist/lib/shared",
+    "prod": "ttsc --project ./tsconfig.lib.prod.json"
+  },
+  "author": "",
+  "license": "ISC"
+}
