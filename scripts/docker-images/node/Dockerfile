@@ -1,5 +1,4 @@
-# base on https://github.com/nodejs/docker-node/tree/main/16/bullseye-slim
-FROM debian:bullseye-slim
+FROM ubuntu:jammy
 
 ENV NODE_VERSION 16.15.1
 
@@ -30,10 +29,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN dpkg -i /tmp/google-chrome-stable_current_amd64.deb
 RUN rm /tmp/google-chrome-stable_current_amd64.deb
 
-# install tmux v3.3a \
-RUN sh -c 'echo "deb http://deb.debian.org/debian testing main non-free contrib" >> /etc/apt/sources.list'
-RUN sh -c 'echo "deb-src http://deb.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list'
-RUN apt-get update
+# install tmux v3.2a \
 RUN apt-get install -y tmux
 RUN rm -rf /var/lib/apt/lists/*
 
