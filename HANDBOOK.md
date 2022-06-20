@@ -4,8 +4,8 @@
 
 - [Introduction](#introduction)
 - [Setting up](#setting-up)
-  - [Local environment for Debian/Ubuntu](#local)
-  - [Docker environment](#docker-environment)
+  - [Local environment Ubuntu](#local-environment-ubuntu)
+  - [Docker environment Ubuntu](#docker-environment-ubuntu)
   - [Developer tools](#developer-tools)
 - [How work with tools](#how-work-with-tools)
   - [Debug with Chrome Developer Tools](#debug-with-chrome-developer-tools)
@@ -36,12 +36,12 @@ Hi stranger! I've written this document for:
 
 Tech environment could be installed on **local os** or run by **docker**.
 
-### Local environment for Debian/Ubuntu
+### Local environment Ubuntu
 For Debian run under root `su -` or set up [sudo for Debian](#sudo-for-debian)
 
 #### Node.js v16.x [official install instruction](https://nodejs.org/en/download/package-manager)
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+wget -qO- https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
@@ -55,15 +55,15 @@ npm install -g @angular/cli
 **Step 1**: Update system apt index. optionally
 ```bash
 sudo apt -y update
-sudo apt -y install curl software-properties-common gnupg2
+sudo apt -y install wget software-properties-common gnupg
 sudo apt -y upgrade
 sudo reboot
 ```
 **Step 2**: Import MariaDB gpg key and add repository.
 ```bash
-curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.8" --os-type="debian" --os-version="bullseye"
+wget -qO- https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.8" --os-type="ubuntu" --os-version="jammy"
 ```
-**Step 3**: Install MariaDB 10.8 on Debian 11 (bullseye).
+**Step 3**: Install MariaDB 10.8 on Ubuntu 22 (jammy).
 ```bash
 sudo apt install mariadb-server mariadb-client
 ```
@@ -81,25 +81,21 @@ sudo mariadb-secure-installation
 **Step 1**: Set up the repository
 ```bash
 # Update the apt
-sudo apt-get update
-sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+sudo apt-get update;
+sudo apt-get install ca-certificates wget gnupg lsb-release;
 
 # Add Docker’s official GPG key:
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo mkdir -p /etc/apt/keyrings;
+wget -qO- https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor | sudo dd of=/etc/apt/keyrings/docker.gpg;
 
 # Set up the repository
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo dd of=/etc/apt/sources.list.d/docker.list
 ```
 **Step 2**: Install Docker Engine
 ```bash
-sudo apt-get update
+sudo apt-get update;
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
@@ -108,7 +104,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 **xclip** - copy and paste command line tools used for `tmux` mouse support
 ```bash
-apt install tmux xclip
+sudo apt-get install tmux xclip
 ```
 
 

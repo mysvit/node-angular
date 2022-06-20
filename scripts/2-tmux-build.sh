@@ -3,6 +3,11 @@
 # run from root folder
 # sudo bash scripts/2-tmux-build.sh docker  - run docker containers for build and serve a project
 # bash scripts/2-tmux-build.sh              - it run build and serve in local environment
+if [ $# -eq 0 ]; then
+  echo "Use parameter: [docker] or [local]"
+  echo "Example: sudo bash scripts/2-tmux-build.sh docker"
+  exit 1
+fi
 
 # kill previous session and processes in case they still in memory
 killPrevSession() {
@@ -64,13 +69,13 @@ runDockerBuild() {
   tmux select-pane -t build:0.5 -T 'Server Serve'
   tmux select-pane -t build:0.6 -T 'Angular'
 
-  tmux send-keys -t build:0.0 "docker run -it --rm -v $(pwd):/server -w /server/lib/shared --net dev-net  nodeng npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.1 "docker run -it --rm -v $(pwd):/server -w /server/lib/dto    --net dev-net  nodeng npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.2 "docker run -it --rm -v $(pwd):/server -w /server/lib/db     --net dev-net  nodeng npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.3 "docker run -it --rm -v $(pwd):/server -w /server/lib/core   --net dev-net  nodeng npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.4 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net  nodeng npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.5 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net  nodeng npm run debug" Enter && sleep 10
-  tmux send-keys -t build:0.6 "docker run -it --rm -v $(pwd):/server -w /server/client     --net dev-net  nodeng npm start"     Enter
+  tmux send-keys -t build:0.0 "docker run -it --rm -v $(pwd):/server -w /server/lib/shared --net dev-net  mynode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.1 "docker run -it --rm -v $(pwd):/server -w /server/lib/dto    --net dev-net  mynode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.2 "docker run -it --rm -v $(pwd):/server -w /server/lib/db     --net dev-net  mynode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.3 "docker run -it --rm -v $(pwd):/server -w /server/lib/core   --net dev-net  mynode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.4 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net  mynode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.5 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net  mynode npm run debug" Enter && sleep 10
+  tmux send-keys -t build:0.6 "docker run -it --rm -v $(pwd):/server -w /server/client     --net dev-net  mynode npm start"     Enter
 }
 
 # main part
@@ -80,7 +85,7 @@ enableMouse
 createTmuxLayout
 sleep 0.2
 # if not argument run build for local configuration
-if [ $# -eq 0 ]; then
+if [ $1 = "local" ]; then
   runLocalBuild&
 elif [ $1 = "docker" ]; then
   runDockerBuild&

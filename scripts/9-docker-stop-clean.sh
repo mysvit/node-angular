@@ -4,7 +4,7 @@
 
 docker stop wreason-db
 
-docker stop $(docker ps -qa --filter ancestor=nodeng)
+docker stop $(docker ps -qa --filter ancestor=mynode)
 
 docker network rm dev-net
 

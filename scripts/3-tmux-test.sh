@@ -3,6 +3,11 @@
 # run from root folder
 # sudo bash scripts/3-tmux-test.sh docker   - it run unit tests for all project in docker containers
 # bash scripts/3-tmux-test.sh               - it run build and serve in local environment
+if [ $# -eq 0 ]; then
+  echo "Use parameter: [docker] or [local]"
+  echo "Example: sudo bash scripts/3-tmux-test.sh docker"
+  exit 1
+fi
 
 # kill previous session and processes in case they still in memory
 killPrevSession() {
@@ -52,12 +57,12 @@ runLocalTest() {
 
 # run test from docker
 runDockerTest() {
-  tmux select-pane -t test:0.0 -T 'Shared'  && tmux send-keys -t test:0.0 "docker run -it --rm -v $(pwd):/server -w /server/lib/shared --net dev-net nodeng npm test" Enter && sleep 5
-  tmux select-pane -t test:0.1 -T 'DTO'     && tmux send-keys -t test:0.1 "docker run -it --rm -v $(pwd):/server -w /server/lib/dto    --net dev-net nodeng npm test" Enter && sleep 5
-  tmux select-pane -t test:0.2 -T 'DB'      && tmux send-keys -t test:0.2 "docker run -it --rm -v $(pwd):/server -w /server/lib/db     --net dev-net nodeng npm test" Enter && sleep 5
-  tmux select-pane -t test:0.3 -T 'Core'    && tmux send-keys -t test:0.3 "docker run -it --rm -v $(pwd):/server -w /server/lib/core   --net dev-net nodeng npm test" Enter && sleep 5
-  tmux select-pane -t test:0.4 -T 'Server'  && tmux send-keys -t test:0.4 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net nodeng npm test" Enter && sleep 5
-  tmux select-pane -t test:0.5 -T 'Angular' && tmux send-keys -t test:0.5 "docker run -it --rm -v $(pwd):/server -w /server/client     --net dev-net nodeng npm test" Enter
+  tmux select-pane -t test:0.0 -T 'Shared'  && tmux send-keys -t test:0.0 "docker run -it --rm -v $(pwd):/server -w /server/lib/shared --net dev-net mynode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.1 -T 'DTO'     && tmux send-keys -t test:0.1 "docker run -it --rm -v $(pwd):/server -w /server/lib/dto    --net dev-net mynode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.2 -T 'DB'      && tmux send-keys -t test:0.2 "docker run -it --rm -v $(pwd):/server -w /server/lib/db     --net dev-net mynode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.3 -T 'Core'    && tmux send-keys -t test:0.3 "docker run -it --rm -v $(pwd):/server -w /server/lib/core   --net dev-net mynode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.4 -T 'Server'  && tmux send-keys -t test:0.4 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net mynode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.5 -T 'Angular' && tmux send-keys -t test:0.5 "docker run -it --rm -v $(pwd):/server -w /server/client     --net dev-net mynode npm test" Enter
 }
 
 # main part
@@ -67,7 +72,7 @@ enableMouse
 createTmuxLayout
 sleep 0.2
 # if not argument run test for local configuration
-if [ $# -eq 0 ]; then
+if [ $1 = "local" ]; then
   runLocalTest&
 elif [ $1 = "docker" ]; then
   runDockerTest&
