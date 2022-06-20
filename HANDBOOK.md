@@ -48,16 +48,14 @@ sudo apt-get install -y nodejs
 #### Angular v14.x [official install instruction](https://angular.io/guide/setup-local)
 Install the CLI using the npm package manager under work user:
 ```bash
-npm install -g @angular/cli
+npm install --location=global @angular/cli@14.0.2
 ```
 
 #### MariaDB v10.x: [official install instruction](https://mariadb.com/kb/en/installing-mariadb-deb-files)
 **Step 1**: Update system apt index. optionally
 ```bash
-sudo apt -y update
-sudo apt -y install wget software-properties-common gnupg
-sudo apt -y upgrade
-sudo reboot
+sudo apt -y update;
+sudo apt -y install wget software-properties-common gnupg;
 ```
 **Step 2**: Import MariaDB gpg key and add repository.
 ```bash
@@ -87,17 +85,43 @@ sudo apt-get update;
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin;
 ```
 
-### Developer tools
-**tmux** - is a terminal multiplexer
+## Developer tools
+### Google Chrome - Browser and developer tool
+```
+wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | sudo dd of=/usr/share/keyrings/google.gpg;
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+ | sudo dd of=/etc/apt/sources.list.d/google-chrome.list;
+sudo apt update;
+sudo apt install -y google-chrome-stable;
+```
+
+### DBeaver - database designer and admin tool
+```bash
+wget -qO- https://dbeaver.io/debs/dbeaver.gpg.key | gpg --dearmor | sudo dd of=/usr/share/keyrings/dbeaver.gpg;
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/dbeaver.gpg] https://dbeaver.io/debs/dbeaver-ce /" | sudo dd of=/etc/apt/sources.list.d/dbeaver.list;
+sudo apt-get update;
+sudo apt -y install default-jdk;
+sudo apt -y install dbeaver-ce;
+```
+
+### Tmux - terminal multiplexer
 
 **xclip** - copy and paste command line tools used for `tmux` mouse support
 ```bash
 sudo apt-get install tmux xclip
 ```
 
-
 ## How work with tools
-
+### DBeaver - connect to MariaDB
+1. Database -> New Database Connection
+2. Select MariaDB
+3. Fill out next fields:
+   - Server Host: localhost
+   - Port: 3306 
+   - Database: testdb
+   - Username: root
+   - Password: root
+4. It will ask download driver. Select last version of driver: v3.0.5 for now
 
 ### Debug with Chrome Developer Tools
 Quick guide about how to use Chrome Developer Tools for debug server, lib, client and unit tests.

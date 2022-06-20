@@ -31,6 +31,7 @@ initDBinDocker() {
             --net dev-net \
              -v $(pwd)/db:/docker-entrypoint-initdb.d \
              -v $(pwd)/mariadb:/var/lib/mysql \
+             -p 3306:3306 \
              -e MARIADB_DATABASE=whatreasondb \
              -e MARIADB_ROOT_PASSWORD=root \
              --pull missing mariadb:10.8.3-jammy

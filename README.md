@@ -13,10 +13,10 @@ cd node-angular
 ```
 #### Run in local environment:
 ```
-bash scripts/0-prepare.sh             # npm install
-bash scripts/1-start-db.sh            # import and creation db 
-bash scripts/2-tmux-build.sh          # build and serve server and client in tmux with multiple windows layout  
-bash scripts/3-tmux-test.sh           # run unit test in tmux
+bash scripts/0-prepare.sh local                 # npm install
+bash scripts/1-start-db.sh local                # import and creation db 
+bash scripts/2-tmux-build.sh local              # build and serve server and client in tmux with multiple windows layout  
+bash scripts/3-tmux-test.sh local               # run unit test in tmux
 ```
 #### Run by docker:
 ```
