@@ -75,28 +75,16 @@ sudo mariadb-secure-installation
 # for root set password [root]
 ```
 
-###  Docker environment
+###  Docker environment Ubuntu
 #### Setting up docker engine - [official install instruction](https://docs.docker.com/engine/install/debian/#set-up-the-repository)
 
 **Step 1**: Set up the repository
 ```bash
-# Update the apt
+wget -qO- https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/docker.gpg;
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo dd of=/etc/apt/sources.list.d/docker.list;
 sudo apt-get update;
-sudo apt-get install ca-certificates wget gnupg lsb-release;
-
-# Add Docker’s official GPG key:
-sudo mkdir -p /etc/apt/keyrings;
-wget -qO- https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor | sudo dd of=/etc/apt/keyrings/docker.gpg;
-
-# Set up the repository
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo dd of=/etc/apt/sources.list.d/docker.list
-```
-**Step 2**: Install Docker Engine
-```bash
-sudo apt-get update;
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin;
 ```
 
 ### Developer tools
