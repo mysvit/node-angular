@@ -31,24 +31,24 @@ RUN apt-get install -y google-chrome-stable
 RUN apt-get install -y tmux
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /server
-VOLUME /server
-WORKDIR /server
+RUN mkdir /server-cli
+VOLUME /server-cli
+WORKDIR /server-cli
 
 # node server
-EXPOSE 3000
+#EXPOSE 3000
 # node test server
-EXPOSE 3100
+#EXPOSE 3100
 # angular
-EXPOSE 4200
+#EXPOSE 4200
 # node debug
-EXPOSE 9229
+#EXPOSE 9229
 # test debug
-EXPOSE 9119
+#EXPOSE 9119
 # karma
-EXPOSE 9876
+#EXPOSE 9876
 # remote debug
-EXPOSE 9222
+#EXPOSE 9222
 
 # smoke tests
 RUN ng version

@@ -1,4 +1,5 @@
 #!/bin/sh
+source $(pwd)/scripts/config.sh
 
 # how to use
 # run from root folder
@@ -12,11 +13,11 @@ if [ $# -eq 0 ]; then
 fi
 
 initDB() {
-  if [[ -z "`mariadb -h 127.0.0.1 -u root -proot -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='whatreasondb'" 2>&1`" ]];
+  if [[ -z "`mariadb -h 127.0.0.1 -u root -proot -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='$DBNAME'" 2>&1`" ]];
   then
     echo "DATABASE DOES NOT EXIST"
-    mariadb -h 127.0.0.1 -u root -proot -e "CREATE DATABASE whatreasondb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
-    mariadb -h 127.0.0.1 -u root -proot -D whatreasondb < whatreasondb-schema-data.sql
+    mariadb -h 127.0.0.1 -u root -proot -e "CREATE DATABASE $DBNAME CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
+    mariadb -h 127.0.0.1 -u root -proot -D $DBNAME < $DBNAME-schema-data.sql
   else
     echo "DATABASE ALREADY EXISTS"
   fi
@@ -27,12 +28,12 @@ initDBinDocker() {
   docker network create dev-net || true
 
   docker run --rm \
-            --name wreason-db \
+            --name server-db \
             --net dev-net \
              -v $(pwd)/db:/docker-entrypoint-initdb.d \
              -v $(pwd)/mariadb:/var/lib/mysql \
              -p 3306:3306 \
-             -e MARIADB_DATABASE=whatreasondb \
+             -e MARIADB_DATABASE=$DBNAME \
              -e MARIADB_ROOT_PASSWORD=root \
              --pull missing mariadb:10.8.3-jammy
 }

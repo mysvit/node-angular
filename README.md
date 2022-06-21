@@ -8,8 +8,8 @@ All server and dev technology absolutely free.
 
 #### Quick start:
 ```
-git clone https://github.com/mysvit/node-angular.git
-cd node-angular
+git clone https://github.com/mysvit/server-cli.git
+cd server-cli
 ```
 #### Run in local environment:
 ```

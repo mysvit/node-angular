@@ -20,18 +20,18 @@ npmInstall() {
 }
 
 dockerImageBuild() {
-  docker image rm maridb || true
-  docker image rm mynode || true
-  cd scripts/docker-images/node
-  docker build -t mynode .
+  docker image rm mariadb || true
+  docker image rm devnode || true
+  cd scripts/docker-images/devnode
+  docker build -t devnode .
   docker rm -f $(docker ps -qa)
   cd ../../..
 }
 
 npmInstallDocker() {
-  docker run -it --rm -v $(pwd):/server -w /server         mynode npm install
-  docker run -it --rm -v $(pwd):/server -w /server/client  mynode npm install
-  docker run -it --rm -v $(pwd):/server -w /server/lib/db  mynode npm install
+  docker run -it --rm -v $(pwd):/server-cli -w /server-cli         devnode npm install
+  docker run -it --rm -v $(pwd):/server-cli -w /server-cli/client  devnode npm install
+  docker run -it --rm -v $(pwd):/server-cli -w /server-cli/lib/db  devnode npm install
 }
 
 if [ $1 = "local" ]; then

@@ -47,7 +47,7 @@ runLocalBuild() {
   tmux select-pane -t build:0.3 -T 'Core'         && tmux send-keys -t build:0.3 "PATH=${PATH}:${WORKDIR} && cd ./lib/core   && clear" Enter && sleep 0.1
   tmux select-pane -t build:0.4 -T 'Server Build' && tmux send-keys -t build:0.4 "PATH=${PATH}:${WORKDIR} && clear"                    Enter && sleep 0.1
   tmux select-pane -t build:0.5 -T 'Server Serve' && tmux send-keys -t build:0.5 "PATH=${PATH}:${WORKDIR} && clear"                    Enter && sleep 0.1
-  tmux select-pane -t build:0.6 -T 'Angular'      && tmux send-keys -t build:0.6 "PATH=${PATH}:${WORKDIR} && cd ./client     && clear" Enter && sleep 0.1
+  tmux select-pane -t build:0.6 -T 'Client'       && tmux send-keys -t build:0.6 "PATH=${PATH}:${WORKDIR} && cd ./client     && clear" Enter && sleep 0.1
 
   # run build commands
   tmux select-pane -t build:0.0 && tmux send-keys -t build:0.0 "npm run build" Enter && sleep 10 #shared
@@ -67,15 +67,15 @@ runDockerBuild() {
   tmux select-pane -t build:0.3 -T 'Core'
   tmux select-pane -t build:0.4 -T 'Server Build'
   tmux select-pane -t build:0.5 -T 'Server Serve'
-  tmux select-pane -t build:0.6 -T 'Angular'
+  tmux select-pane -t build:0.6 -T 'Client'
 
-  tmux send-keys -t build:0.0 "docker run -it --rm -v $(pwd):/server -w /server/lib/shared --name build-shared --net dev-net  mynode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.1 "docker run -it --rm -v $(pwd):/server -w /server/lib/dto    --name build-dto    --net dev-net  mynode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.2 "docker run -it --rm -v $(pwd):/server -w /server/lib/db     --name build-db     --net dev-net  mynode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.3 "docker run -it --rm -v $(pwd):/server -w /server/lib/core   --name build-core   --net dev-net  mynode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.4 "docker run -it --rm -v $(pwd):/server -w /server            --name build-server --net dev-net  mynode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.5 "docker run -it --rm -v $(pwd):/server -w /server            -p 3000:3000 -p 9229:9229 --name serve-debug-server  --net dev-net  mynode npm run debug" Enter && sleep 10
-  tmux send-keys -t build:0.6 "docker run -it --rm -v $(pwd):/server -w /server/client     -p 4200:4200              --name debug-client        --net dev-net  mynode npm start --host 0.0.0.0"     Enter
+  tmux send-keys -t build:0.0 "docker run -it --rm --name build-shared -v $(pwd):/server-cli -w /server-cli/lib/shared devnode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.1 "docker run -it --rm --name build-dto    -v $(pwd):/server-cli -w /server-cli/lib/dto    devnode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.2 "docker run -it --rm --name build-db     -v $(pwd):/server-cli -w /server-cli/lib/db     devnode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.3 "docker run -it --rm --name build-core   -v $(pwd):/server-cli -w /server-cli/lib/core   devnode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.4 "docker run -it --rm --name build-server -v $(pwd):/server-cli -w /server-cli            devnode npm run build" Enter && sleep 10
+  tmux send-keys -t build:0.5 "docker run -it --rm --name debug-server -v $(pwd):/server-cli -w /server-cli            --net dev-net -p 3000:3000 -p 9229:9229 devnode npm run debug" Enter && sleep 10
+  tmux send-keys -t build:0.6 "docker run -it --rm --name debug-client -v $(pwd):/server-cli -w /server-cli/client     --net dev-net -p 4200:4200              devnode npm start"     Enter
 }
 
 # main part

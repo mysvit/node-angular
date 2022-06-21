@@ -44,7 +44,7 @@ runLocalTest() {
   tmux select-pane -t test:0.2 -T 'DB'          && tmux send-keys -t test:0.2 "PATH=${PATH}:${WORKDIR} && cd ./lib/db     && clear" Enter && sleep 0.1
   tmux select-pane -t test:0.3 -T 'Core'        && tmux send-keys -t test:0.3 "PATH=${PATH}:${WORKDIR} && cd ./lib/core   && clear" Enter && sleep 0.1
   tmux select-pane -t test:0.4 -T 'Server Test' && tmux send-keys -t test:0.4 "PATH=${PATH}:${WORKDIR} && clear"                    Enter && sleep 0.1
-  tmux select-pane -t test:0.5 -T 'Angular'     && tmux send-keys -t test:0.5 "PATH=${PATH}:${WORKDIR} && cd ./client     && clear" Enter && sleep 0.1
+  tmux select-pane -t test:0.5 -T 'Client'     && tmux send-keys -t test:0.5 "PATH=${PATH}:${WORKDIR} && cd ./client     && clear" Enter && sleep 0.1
 
   # run test commands
   tmux send-keys -t test:0.0 "npm test" Enter && sleep 0.1 #shared
@@ -57,12 +57,12 @@ runLocalTest() {
 
 # run test from docker
 runDockerTest() {
-  tmux select-pane -t test:0.0 -T 'Shared'  && tmux send-keys -t test:0.0 "docker run -it --rm -v $(pwd):/server -w /server/lib/shared --net dev-net mynode npm test" Enter && sleep 5
-  tmux select-pane -t test:0.1 -T 'DTO'     && tmux send-keys -t test:0.1 "docker run -it --rm -v $(pwd):/server -w /server/lib/dto    --net dev-net mynode npm test" Enter && sleep 5
-  tmux select-pane -t test:0.2 -T 'DB'      && tmux send-keys -t test:0.2 "docker run -it --rm -v $(pwd):/server -w /server/lib/db     --net dev-net mynode npm test" Enter && sleep 5
-  tmux select-pane -t test:0.3 -T 'Core'    && tmux send-keys -t test:0.3 "docker run -it --rm -v $(pwd):/server -w /server/lib/core   --net dev-net mynode npm test" Enter && sleep 5
-  tmux select-pane -t test:0.4 -T 'Server'  && tmux send-keys -t test:0.4 "docker run -it --rm -v $(pwd):/server -w /server            --net dev-net mynode npm test" Enter && sleep 5
-  tmux select-pane -t test:0.5 -T 'Angular' && tmux send-keys -t test:0.5 "docker run -it --rm -v $(pwd):/server -w /server/client     --net dev-net mynode npm test" Enter
+  tmux select-pane -t test:0.0 -T 'Shared'  && tmux send-keys -t test:0.0 "docker run -it --rm --name test-shared -v $(pwd):/server-cli -w /server-cli/lib/shared --net dev-net -p 9119:9119 devnode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.1 -T 'DTO'     && tmux send-keys -t test:0.1 "docker run -it --rm --name test-dto    -v $(pwd):/server-cli -w /server-cli/lib/dto    --net dev-net -p 9119:9119 devnode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.2 -T 'DB'      && tmux send-keys -t test:0.2 "docker run -it --rm --name test-db     -v $(pwd):/server-cli -w /server-cli/lib/db     --net dev-net -p 9119:9119 devnode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.3 -T 'Core'    && tmux send-keys -t test:0.3 "docker run -it --rm --name test-core   -v $(pwd):/server-cli -w /server-cli/lib/core   --net dev-net -p 9119:9119 devnode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.4 -T 'Server'  && tmux send-keys -t test:0.4 "docker run -it --rm --name test-server -v $(pwd):/server-cli -w /server-cli            --net dev-net -p 9119:9119 -p 3100:3100 devnode npm test" Enter && sleep 5
+  tmux select-pane -t test:0.5 -T 'Client'  && tmux send-keys -t test:0.5 "docker run -it --rm --name test-client -v $(pwd):/server-cli -w /server-cli/client     --net dev-net -p 9876:9876 -p 9222:9222 devnode npm test" Enter
 }
 
 # main part

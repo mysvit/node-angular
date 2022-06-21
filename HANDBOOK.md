@@ -36,22 +36,22 @@ Hi stranger! I've written this document for:
 
 Tech environment could be installed on **local os** or run by **docker**.
 
-### Local environment Ubuntu
+## Local environment Ubuntu
 For Debian run under root `su -` or set up [sudo for Debian](#sudo-for-debian)
 
-#### Node.js v16.x [official install instruction](https://nodejs.org/en/download/package-manager)
+### Node.js v16.x [official install instruction](https://nodejs.org/en/download/package-manager)
 ```bash
 wget -qO- https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-#### Angular v14.x [official install instruction](https://angular.io/guide/setup-local)
+### Angular v14.x [official install instruction](https://angular.io/guide/setup-local)
 Install the CLI using the npm package manager under work user:
 ```bash
 npm install --location=global @angular/cli@14.0.2
 ```
 
-#### MariaDB v10.x: [official install instruction](https://mariadb.com/kb/en/installing-mariadb-deb-files)
+### MariaDB v10.x: [official install instruction](https://mariadb.com/kb/en/installing-mariadb-deb-files)
 **Step 1**: Update system apt index. optionally
 ```bash
 sudo apt -y update;
@@ -61,7 +61,7 @@ sudo apt -y install wget software-properties-common gnupg;
 ```bash
 wget -qO- https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.8" --os-type="ubuntu" --os-version="jammy"
 ```
-**Step 3**: Install MariaDB 10.8 on Ubuntu 22 (jammy).
+**Step 3**: Install MariaDB 10.8.3 on Ubuntu 22.04 (jammy).
 ```bash
 sudo apt install mariadb-server mariadb-client
 ```
@@ -73,10 +73,9 @@ sudo mariadb-secure-installation
 # for root set password [root]
 ```
 
-###  Docker environment Ubuntu
-#### Setting up docker engine - [official install instruction](https://docs.docker.com/engine/install/debian/#set-up-the-repository)
+##  Docker environment Ubuntu
+### Setting up docker engine - [official install instruction](https://docs.docker.com/engine/install/debian/#set-up-the-repository)
 
-**Step 1**: Set up the repository
 ```bash
 wget -qO- https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/docker.gpg;
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
@@ -304,13 +303,13 @@ node --inspect --loader=ts-node/esm src/server.ts       ### start live ts server
 │   └─── shared            -# shared common used functions for client and server
 ├── scripts              -# startup scripts for docker and tmux
 │   ├─── docke-images                   -# Dockerfiles for build images 
-│   ├─ 0-build-rebuild-docker-images.sh    # build local images 
+│   ├─ 0-preapre.sh                        # build local images and prepare repository 
 │   ├─ 1-start-db.sh                       # start or import MariaDB server  
 │   ├─ 2-tmux-build.sh                     # build and serve project
 │   ├─ 3-tmux-test.sh                      # run unit tests
 │   ├─ 9-docker-stop-clean.sh              # stop all containers and remove broken
-│   ├─ dump-db.sh                          # dump data and schema from database 
-│   └─ import-db.sh                        # import data and schema into local database
+│   ├─ config.sh                           # contain database name for scripts 
+│   └─ dump-db.sh                          # dump data and schema from database
 ├── src                  -# server sources
 │   ├─── routes            # api routes and middleware
 │   └─ server.ts           # server entry point
