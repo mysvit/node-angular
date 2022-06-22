@@ -11,6 +11,7 @@ describe('Helper', () => {
     expect(isEmpty({})).to.true
   })
   it('isEmpty Not', () => {
+    expect(isEmpty(false)).to.false
     expect(isEmpty(0)).to.false
     expect(isEmpty([1])).to.false
     expect(isEmpty({id:1})).to.false

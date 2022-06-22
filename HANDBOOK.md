@@ -326,7 +326,6 @@ node --inspect --loader=ts-node/esm src/server.ts       ### start live ts server
 │   └─ server.ts           # server entry point
 ├─ .mocharc.json        # mocha - unit test
 ├─ nodemon.json         # nodemon - restart compilation when files changed
-├─ nodemon.test.json    # nodemon - restart unit tests when files changed
 ├─ package.json         # specifics npm handling - scripts and package dependency
 ├─ package-lock.json    # automatically generated and keeps node_modules tree
 ├─ tsconfig.json        # root typescript config file for development

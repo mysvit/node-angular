@@ -1,34 +1,27 @@
 // Handle any errors that come up
-import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express"
+import { logger } from '../../logger.js'
+import { BaseError } from './base-error.js'
 
-export function errorHandle(err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) {
-    // if (err.status) {
-    //     res.status(err.status).json({'message': err.message})
-    // } else {
-        console.error(err)
-        res.status(500).json({message: 'Internal server error'})
-    // }
+export function logError(err) {
+    logger.error(err)
 }
 
-// // Handle case where user requests nonexistent endpoint
-// exports.nullRoute = (req: Request, res: Response, next: NextFunction) => {
-//   res.status(404).json({message: 'not found'})
-// }
+export function logErrorMiddleware(err: Error, req: Request, res: Response, next: NextFunction) {
+    logError(err)
+    next(err)
+}
 
-// Create an error for the api error handler
-export function newHttpError(status, message) {
-    let err
-    if (message === null || message === undefined) {
-        err = new Error('Internal server error')
-    } else {
-        err = new Error(message)
+export function isOperationalError(error: BaseError) {
+    if (error instanceof BaseError) {
+        return error.isOperational
     }
-    err.status = status
-    return err
+    return false
 }
 
-
-// Handle case where user requests nonexistent endpoint
-export function nullRoute(req: Request, res: Response, next: NextFunction) {
-  res.status(404).json({message: 'NOT FOUND'})
+export async function errorHandle(err: BaseError, req: Request, res: Response, next: NextFunction) {
+    if (isOperationalError(err)) {
+        logErrorMiddleware(err, req, res, next)
+    }
+    next(err)
 }
