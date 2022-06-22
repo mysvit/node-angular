@@ -128,18 +128,29 @@ To know how was set up debug environment see [Notes](#notes) sections.
 
 How to use:
 
-In Chrome open url `chrome://inspect` in DevTools click `[Configure...]` and add host:port listed below.
-Click `Open dedicated DevTools for Node` link. In opened DevTools in tab `Filesystem` -> `+ Add folder to workspace` add project folder: `server`.
+In Chrome open url `chrome://inspect` in Device section click `Open dedicated DevTools for Node` link.
+In DevTools tab `Connection` click `[Add connection]` host:port listed below.
+#### Debug unit tests:
+When test with `--inspect` option will start go to `Source` tab and below to `Node` tab where will be located all 
+source code for debug. Find the file where you want to put a breakpoint, put it and run test again. 
+`Mocha` should be run first time without `--exit` option. It allows you to see all files in `Node` tab.
+
+- [localhost:9119]() - Unit tests for Server and Lib debug port listener
+
+##### Debug server:
+Run server with `--inspect` option and use DevTools like for test
+
+- [localhost:9229]() - Server debug port listener
 
 All addresses and ports:
-- **http://localhost:9229** - Server debug port listener
-- **http://localhost:9119** - Unit test for Server and Lib debug port listener
-- **http://localhost:3000** - Server API port listener
-- **http://localhost:3100** - Server test env API port listener
+- [localhost:3000]() - Server API port listener
+- [localhost:3100]() - Server test env API port listener
 
-For the client app base on Angular just open link below in browser and call `Developer Tools` any time by pressing **F12** or **CTRL+SHIFT+I**.    
-- **http://localhost:4200** - Client port listener
-- **http://localhost:9876/debug.html** - Unit test for Client debug port listener
+##### Debug client:
+For the client app base on Angular just open client in browser and call `Developer Tools` any time by pressing **F12** or **CTRL+SHIFT+I**.
+Find your file for breakpoint and refresh client if it needed.
+- [http://localhost:4200]() - Client port listener
+- [http://localhost:9876/debug.html]() - Unit test for Client debug port listener
 
 
 ### Tmux - terminal multiplexer
