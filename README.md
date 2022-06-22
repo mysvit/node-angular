@@ -1,10 +1,10 @@
 # NodeJS - Angular - MariaDB
 
-Server tech spec: `NodeJS v16.15.1` `Angular v14.0.2` `MariaDB v10.8.3` `Docker v20.10.16` setting uo instruction in [HANDBOOK](HANDBOOK.md)
+Server tech spec: `NodeJS v16.15.1` `Angular v14.0.2` `MariaDB v10.8.3` `Docker v20.10.16`.
 
-Developer tech spec: `Debian v11.3`, `Chrome dev tools v100+` `DBeaver v22.1.0` `tmux v3.3` how to use see in [HANDBOOK](HANDBOOK.md)
+Developer tech spec: `Debian v11.3`, `Chrome dev tools v100+` `DBeaver v22.1.0` `tmux v3.3`
 
-All server and dev technology absolutely free. 
+How to install and use them see in [HANDBOOK](HANDBOOK.md). All technology are free. 
 
 #### Quick start:
 ```

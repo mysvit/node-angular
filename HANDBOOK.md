@@ -246,9 +246,9 @@ Run test for all `*.spec.ts` typescript files
 ```
 mocha --loader=ts-node/esm src/**/*.spec.ts     
 ```
-Start test for `simple.spec.ts` file and for specific test name `'property name'`
+Start test for `user.spec.ts` file and for specific test name `'property name'`
 ```
-mocha --loader=ts-node/esm ./src/simple/simple.spec.ts -g 'property name'
+mocha --loader=ts-node/esm ./src/simple/user.spec.ts -g 'property name'
 ```
 For `.js` files
 ```
@@ -386,12 +386,12 @@ To be able to run and debug tests in Angular project in Docker container need to
 - install Chrome in docker image
 
 add to you `Dockerfile`
-```
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+```Dockerfile
+RUN wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | dd of=/usr/share/keyrings/google.gpg;
+RUN sh -c 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+ | dd of=/etc/apt/sources.list.d/google-chrome.list'
 RUN apt-get update
-RUN apt-get install -yq google-chrome-stable
-EXPOSE 9876
+RUN apt-get install -y google-chrome-stable
 ```
 - setting up ChromeHeadless for `Karma`  
 

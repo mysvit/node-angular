@@ -6,7 +6,7 @@ import * as api from "./api/index.js";
 export const routes = express.Router()
 
 // Api
-routes.use('/api', api.simpleRouter)
+routes.use('/api', api.routerUser)
 // Wire up middleware
 routes.use(middleware.doSomethingInteresting)
 // Wire up error-handling middleware

@@ -16,16 +16,16 @@ export function errorHandle(err: ErrorRequestHandler, req: Request, res: Respons
 // }
 
 // Create an error for the api error handler
-// exports.newHttpError = (status, message) => {
-//     let err;
-//     if (message === null || message === undefined) {
-//         err = new Error();
-//     } else {
-//         err = new Error(message);
-//     }
-//     err.status = status;
-//     return err;
-// }
+export function newHttpError(status, message) {
+    let err
+    if (message === null || message === undefined) {
+        err = new Error('Internal server error')
+    } else {
+        err = new Error(message)
+    }
+    err.status = status
+    return err
+}
 
 
 // Handle case where user requests nonexistent endpoint
