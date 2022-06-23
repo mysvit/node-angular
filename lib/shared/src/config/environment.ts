@@ -8,5 +8,6 @@ export interface DbConnection {
 
 export interface Environment {
     production: boolean
+    port: number
     db: DbConnection
 }

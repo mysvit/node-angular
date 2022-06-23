@@ -29,7 +29,7 @@ createTmuxLayout() {
   tmux split-window -h -p 76 -t build:0.0  # top (right / left)
   tmux split-window -h -p 68 -t build:0.1  # top (right / left)
   tmux split-window -h -p 50 -t build:0.2  # top (right / left)
-  tmux split-window -h -p 70 -t build:0.4  # bottom (right / left)
+  tmux split-window -h -p 76 -t build:0.4  # bottom (right / left)
   tmux split-window -h -p 50 -t build:0.5  # bottom (right / left)
 
   # set pane configuration

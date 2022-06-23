@@ -1,7 +1,8 @@
 import {Environment} from "@shared/config/environment.js";
 
 export const environment: Environment = {
-  production: false,
+  production: true,
+  port: 3000,
   db: {
     host: 'production-db',
     database: 'serverdb',

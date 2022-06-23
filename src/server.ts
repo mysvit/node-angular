@@ -2,15 +2,10 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
+import { environment } from './environments/environment.js'
 import { logger } from './logger.js'
-// import { copyConfig, loadConfig } from "./config";
+import { ErrorHandler } from './routes/errors/error-handler.js'
 import { routes } from "./routes/routes.js"
-// copy config file in development mode
-// console.log(process.env['PRG_ENV'])
-// if (process.env['PRG_ENV'] === 'DEV') {
-//   copyConfig()
-// }
-// loadConfig()
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -30,13 +25,22 @@ export function app(): express.Express {
 }
 
 export function server() {
-    const port = process.env['NODE_ENV'] === 'test' ? 3100 : 3000
-    // process.env['PORT'] || 3000
+    // Promise rejection
+    process.on('unhandledRejection', (reason: Error, promise: Promise<any>) => {
+        ErrorHandler.baseHandle(new Error(`Unhandled Rejection at: ${promise}/n reason: ${reason}`)).finally()
+    })
+
+    // last error resort
+    process.on('uncaughtException', (error: Error, origin) => {
+        error.stack = (error.stack || '').concat(`/n Exception origin: ${origin}`)
+        ErrorHandler.baseHandle(error).finally()
+        process.exit(1)
+    })
 
     // Start up the Node server
     const server = app()
-    server.listen(port, () => {
-        logger.info(`:) Node Express server listening on http://localhost:${port}`)
+    server.listen(environment.port, () => {
+        logger.info(`:) Node Express server listening on http://localhost:${environment.port}`)
     })
     server.on('close', () => {
         logger.info('Node Express server closed!')

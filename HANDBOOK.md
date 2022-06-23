@@ -41,8 +41,9 @@ For Debian run under root `su -` or set up [sudo for Debian](#sudo-for-debian)
 
 ### Node.js v16.x [official install instruction](https://nodejs.org/en/download/package-manager)
 ```bash
-wget -qO- https://deb.nodesource.com/setup_16.x | sudo -E bash -
-sudo apt-get install -y nodejs
+wget -qO- https://deb.nodesource.com/setup_16.x | sudo -E bash -;
+sudo apt-get install -y nodejs;
+sudo npm install --location=global npm@latest;
 ```
 
 ### Angular v14.x [official install instruction](https://angular.io/guide/setup-local)

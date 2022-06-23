@@ -6,6 +6,7 @@ import {Environment} from '@shared/shared.js';
 
 export const environment: Environment = {
     production: false,
+    port: 3000,
     db: {
         host: 'server-db',
         database: 'serverdb',

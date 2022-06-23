@@ -5,6 +5,8 @@ import { CoreBase } from '../core-base.js'
 export class User extends CoreBase {
 
     async getById(user_id: string): Promise<ISimple> {
+        // const a = undefined
+        // const b = a.a
         const dbUser = new DbUser(this.env)
         return await dbUser.getById(user_id)
     }

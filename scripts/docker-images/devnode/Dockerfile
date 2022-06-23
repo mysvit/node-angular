@@ -9,7 +9,7 @@ RUN wget -qO- https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
 # update npm
-ENV NPM_VERSION 8.12.2
+ENV NPM_VERSION 8.13.0
 RUN npm install --location=global npm@$NPM_VERSION
 
 # install angular cli

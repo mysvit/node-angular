@@ -1,10 +1,11 @@
 import { StatusCodes } from 'http-status-codes'
 
-export class BaseError extends Error {
+export class ErrorBase extends Error {
 
     public readonly name: string
     public readonly statusCode: StatusCodes
     public readonly isOperational: boolean
+    public errorId: string
 
     constructor(name: string,
                 statusCode: number,
@@ -18,4 +19,5 @@ export class BaseError extends Error {
         this.isOperational = isOperational
         Error.captureStackTrace(this)
     }
+
 }
