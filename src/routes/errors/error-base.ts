@@ -11,7 +11,7 @@ export class ErrorBase extends Error {
                 statusCode: number,
                 isOperational: boolean,
                 message: string) {
-        super(message)
+        super(message || name)
 
         Object.setPrototypeOf(this, new.target.prototype)
         this.name = name

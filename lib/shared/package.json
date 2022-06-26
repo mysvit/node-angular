@@ -10,8 +10,7 @@
     "build": "ttsc --project ./tsconfig.lib.json --watch",
 
     "test": "NODE_ENV=test mocha",
-
-    "debug": "nodemon",
+    "test:debug": "NODE_ENV=test mocha --inspect-brk=0.0.0.0:9119",
 
     "preprod": "rm -rf ../../dist/lib/shared",
     "prod": "ttsc --project ./tsconfig.lib.prod.json"

@@ -1,8 +1,9 @@
 import * as express from 'express'
-import { apiUserGet } from './api-user.js'
+import { ErrorHandler } from '../errors/error-handler.js'
+import { ApiUser } from './api-user.js'
 
 // Router
 export const routerUser = express.Router()
 
 // apiUrl+/user/get
-routerUser.get('/user/get', apiUserGet)
+routerUser.get('/user/get', ErrorHandler.apiCatch(ApiUser.getById))

@@ -9,11 +9,13 @@ RUN wget -qO- https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
 # update npm
-ENV NPM_VERSION 8.13.0
+ARG NPM_VERSION
+RUN echo $NPM_VERSION
 RUN npm install --location=global npm@$NPM_VERSION
 
 # install angular cli
-ENV ANGULAR_CLI_VERSION 14.0.2
+ARG ANGULAR_CLI_VERSION
+RUN echo $ANGULAR_CLI_VERSION
 RUN npm install --location=global @angular/cli@$ANGULAR_CLI_VERSION
 # disable autocompletion and statistic
 RUN echo '{"version": 1,"cli": {"completion": {"prompted": true},"analytics": false}}' > /root/.angular-config.json
@@ -31,9 +33,10 @@ RUN apt-get install -y google-chrome-stable
 RUN apt-get install -y tmux
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /server-cli
-VOLUME /server-cli
-WORKDIR /server-cli
+ARG PWD
+RUN mkdir -p $PWD
+VOLUME $PWD
+WORKDIR $PWD
 
 # node server
 #EXPOSE 3000

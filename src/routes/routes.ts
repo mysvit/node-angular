@@ -11,3 +11,4 @@ routes.use('/api', api.routerUser)
 routes.use(middleware.doSomethingInteresting)
 // Wire up error-handling middleware
 routes.use(ErrorHandler.apiHandler)
+routes.use(ErrorHandler.api404)

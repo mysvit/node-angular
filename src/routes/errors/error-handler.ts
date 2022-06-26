@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto'
-import { NextFunction, Request, Response } from "express"
+import { NextFunction, Request, RequestHandler, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
-import { BaseError } from '../../../dist/routes/errors/base-error.js'
 import { environment } from '../../environments/environment.js'
 import { logger } from '../../logger.js'
+import { ErrorBase } from './error-base.js'
 
 export class ErrorHandler {
 
@@ -14,11 +14,22 @@ export class ErrorHandler {
         // await sendEventsToSentry()
     }
 
+    // wrap all api method in try catch
+    static apiCatch(fn: RequestHandler) {
+        return async function (req: Request, res: Response, next: NextFunction): Promise<void> {
+            try {
+                await fn(req, res, next)
+            } catch (error) {
+                next(error)
+            }
+        }
+    }
+
     // api error handler middleware
-    static async apiHandler(err: BaseError, req: Request, res: Response, next: NextFunction) {
+    static async apiHandler(err: ErrorBase, req: Request, res: Response, next: NextFunction) {
         err.errorId = randomUUID()
         await ErrorHandler.baseHandle(err)
-        if (ErrorHandler.isOperational(err)) {
+        if (err.isOperational) {
             res.status(err.statusCode)
             res.json([{message: err.message}])
         } else {
@@ -31,12 +42,8 @@ export class ErrorHandler {
         }
     }
 
-    // check if error Operational
-    static isOperational(error: Error) {
-        if (error instanceof BaseError) {
-            return error.isOperational
-        }
-        return false
+    static api404(req: Request, res: Response) {
+        res.status(StatusCodes.NOT_FOUND).send({message: `Route [${req.originalUrl}] not found.`})
     }
 
 }

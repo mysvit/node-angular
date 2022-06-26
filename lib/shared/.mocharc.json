@@ -1,4 +1,6 @@
 {
-    "exit": true,
-    "spec": ["../../dist/lib/shared/**/*.spec.js"]
+  "exit": true,
+  "spec": [
+    "../../dist/lib/shared/**/*.spec.js"
+  ]
 }

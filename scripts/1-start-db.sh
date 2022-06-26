@@ -7,6 +7,7 @@ source $(pwd)/scripts/config.sh
 # bash scripts/1-start-db.sh local        - in local running MariaDB create database, import data and schema from db/whatreasondb-schema-data.sql
 
 if [ $# -eq 0 ]; then
+  echo
   echo "Use parameter: [docker] or [local]"
   echo "Example: sudo bash scripts/1-start-db.sh docker"
   exit 1

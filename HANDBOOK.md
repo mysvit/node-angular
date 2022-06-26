@@ -132,9 +132,10 @@ How to use:
 In Chrome open url `chrome://inspect` in Device section click `Open dedicated DevTools for Node` link.
 In DevTools tab `Connection` click `[Add connection]` host:port listed below.
 #### Debug unit tests:
-When test with `--inspect` option will start go to `Source` tab and below to `Node` tab where will be located all 
-source code for debug. Find the file where you want to put a breakpoint, put it and run test again. 
-`Mocha` should be run first time without `--exit` option. It allows you to see all files in `Node` tab.
+In DevTools `Filesystem` tab `+ Add folder to workspace` select source folder what you want to debug. 
+Run docker with `npm run test:debug` what run `mocha` with  `--inspect-brk`. 
+When DevTools connect to debugger find the file where you want to put a breakpoint. 
+Put it and resume script execution map file should be loaded and breakpoint will be triggered. 
 
 - [localhost:9119]() - Unit tests for Server and Lib debug port listener
 
