@@ -259,9 +259,9 @@ Run test for all `*.spec.ts` typescript files
 ```
 mocha --loader=ts-node/esm src/**/*.spec.ts     
 ```
-Start test for `user.spec.ts` file and for specific test name `'property name'`
+Start test for `core-user.spec.ts` file and for specific test name `'property name'`
 ```
-mocha --loader=ts-node/esm ./src/simple/user.spec.ts -g 'property name'
+mocha --loader=ts-node/esm ./src/db/core-user.spec.ts -g 'property name'
 ```
 For `.js` files
 ```

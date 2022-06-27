@@ -1,1 +1,1 @@
-export * from './simple/index.js'
+export * from './tables/index.js'

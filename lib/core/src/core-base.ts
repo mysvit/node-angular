@@ -1,6 +1,11 @@
-import { Environment } from '@shared/config/environment.js'
+import { DbUser } from '@db/db.js'
+import { Environment } from '@shared/shared.js'
 
 export class CoreBase {
-    constructor(public env: Environment) {
+
+    dbUser = new DbUser(this.environment)
+
+    constructor(public environment: Environment) {
     }
+
 }

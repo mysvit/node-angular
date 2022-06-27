@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { coreUser } from './core.js'
+import { coreUser } from '../core-lib.js'
 import { ApiValidation } from './api-validation.js'
 
 // apiUrl+/user/get

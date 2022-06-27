@@ -4,7 +4,7 @@ import chaiSpies from 'chai-spies'
 import { randomUUID } from 'crypto'
 import { StatusCodes } from 'http-status-codes'
 import { after } from 'mocha'
-import { coreUser } from './core.js'
+import { coreUser } from '../core-lib.js'
 import { app } from '../../server.js'
 import { ApiUser } from './api-user.js'
 import { ApiValidation } from './api-validation.js'
@@ -18,6 +18,7 @@ describe('ApiUser', () => {
         chai.spy.restore(ApiValidation)
     })
 
+    // test input parameters
     it('GET /api/user/get', (done) => {
         const uuid = randomUUID()
 

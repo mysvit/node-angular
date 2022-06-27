@@ -1,8 +1,11 @@
 import { Environment } from '@shared/config/environment.js'
-
-export * from './tables/user/index.js'
+import { createPool } from 'mariadb'
 
 export class DbBase {
-    constructor(public env: Environment) {
+
+    pool = createPool(this.environment.db)
+
+    constructor(public environment: Environment) {
     }
+
 }
