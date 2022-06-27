@@ -3,7 +3,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
 import { environment } from '../../environments/environment.js'
 import { logger } from '../../logger.js'
-import { ErrorBase } from './error-base.js'
+import { ErrorBase } from '@shared/shared.js'
 
 export class ErrorHandler {
 

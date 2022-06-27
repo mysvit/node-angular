@@ -7,3 +7,4 @@ export const routerUser = express.Router()
 
 // apiUrl+/user/get
 routerUser.get('/user/get', ErrorHandler.apiCatch(ApiUser.getById))
+routerUser.post('/user/add', ErrorHandler.apiCatch(ApiUser.add))

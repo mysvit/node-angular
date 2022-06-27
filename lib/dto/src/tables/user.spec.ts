@@ -3,13 +3,9 @@ import { User } from './user.js'
 
 describe('User', () => {
 
-    it('id', () => {
-        const result = new User({id: '1'})
-        expect(result.id).to.equal('1')
+    it('user_id', () => {
+        const result = new User({user_id: '1111-2222'})
+        expect(result.user_id).to.equal('1111-2222')
     })
 
-    it('property name', () => {
-        const result = new User({name: 'abc'})
-        expect(result.name).to.equal('abc')
-    })
 })

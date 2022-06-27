@@ -1,7 +1,8 @@
 import { StringHelper } from '@shared/shared.js'
+import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import { expect } from 'chai'
 import { randomUUID } from 'crypto'
-import { ApiValidation, messageInvalidUUID } from './api-validation.js'
+import { ApiValidation } from './api-validation.js'
 
 describe('ApiValidation', () => {
 
@@ -20,7 +21,7 @@ describe('ApiValidation', () => {
         try {
             ApiValidation.validateId(badUUID)
         } catch (error) {
-            expect(error.message).to.eq(StringHelper.format(messageInvalidUUID, badUUID))
+            expect(error.message).to.eq(StringHelper.format(ErrorsMsg.IdHasInvalidUuid, badUUID))
         }
     })
 
