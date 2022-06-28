@@ -3,8 +3,7 @@
 # sudo bash scripts/9-docker-stop-clean.sh
 
 docker stop server-db
-
-docker stop $(docker ps -qa --filter ancestor=mynode)
+docker stop $(docker ps -qa --filter ancestor=devnode)
 
 docker network rm dev-net
 

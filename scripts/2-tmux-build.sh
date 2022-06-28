@@ -69,6 +69,8 @@ runDockerBuild() {
   tmux select-pane -t build:0.5 -T 'Server Serve'
   tmux select-pane -t build:0.6 -T 'Client'
 
+  sleep 1
+
   tmux send-keys -t build:0.0 "docker run -it --rm --name build-shared -v $(pwd):$(pwd) -w $(pwd)/lib/shared devnode npm run build" Enter && sleep 10
   tmux send-keys -t build:0.1 "docker run -it --rm --name build-dto    -v $(pwd):$(pwd) -w $(pwd)/lib/dto    devnode npm run build" Enter && sleep 10
   tmux send-keys -t build:0.2 "docker run -it --rm --name build-db     -v $(pwd):$(pwd) -w $(pwd)/lib/db     devnode npm run build" Enter && sleep 10

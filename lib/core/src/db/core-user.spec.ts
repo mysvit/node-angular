@@ -4,18 +4,16 @@ import { ErrorApi500 } from '@shared/errors/index.js'
 import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
-import { afterEach, before } from 'mocha'
+import { afterEach } from 'mocha'
 import { CoreUser } from './core-user.js'
 
 const expect = chai.expect
 chai.use(chaiSpies)
 
 describe('CoreUser', () => {
+
     const coreUser = new CoreUser(<Environment>{db: {}})
 
-    before(() => {
-
-    })
     afterEach(() => {
         chai.spy.restore(CoreUser)
     })
