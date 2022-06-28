@@ -9,7 +9,7 @@
   "scripts": {
     "build": "ttsc --project ./tsconfig.json --watch",
     "test": "NODE_ENV=test mocha",
-    "test:debug": "NODE_ENV=test mocha --allow-uncaught --inspect-brk=0.0.0.0:9119",
+    "test:debug": "NODE_ENV=test mocha --inspect-brk=0.0.0.0:9119",
     "debug": "nodemon",
     "preprod": "rm -rf ./dist",
     "prod": "ttsc --build --project ./tsconfig.prod.json",

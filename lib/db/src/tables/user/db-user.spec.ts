@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment.test.js'
 import { DbUser } from './db-user.js'
 
 const expect = chai.expect
-const should = chai.should()
 
 describe('DbUser', () => {
 
@@ -28,7 +27,7 @@ describe('DbUser', () => {
 
     it('add', async () => {
         const user_id = await dbUser.add(user_test)
-        user_id.should.be.eq(user_test.user_id)
+        expect(user_id).to.be.eq(user_test.user_id)
     })
 
     it('getById', async () => {

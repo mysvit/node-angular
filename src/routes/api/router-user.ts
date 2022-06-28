@@ -5,6 +5,10 @@ import { ApiUser } from './api-user.js'
 // Router
 export const routerUser = express.Router()
 
-// apiUrl+/user/get
-routerUser.get('/user/get', ErrorHandler.apiCatch(ApiUser.getById))
+// apiBase/user/getById?[query]
+// user_id: uuid
+routerUser.get('/user/getById', ErrorHandler.apiCatch(ApiUser.getById))
+// apiBase/user/add
+// [form]
+// user: User
 routerUser.post('/user/add', ErrorHandler.apiCatch(ApiUser.add))

@@ -1,15 +1,16 @@
+import { ErrorBase, StringHelper } from '@shared/shared.js'
+import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import { randomUUID } from 'crypto'
 import { NextFunction, Request, RequestHandler, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
 import { environment } from '../../environments/environment.js'
 import { logger } from '../../logger.js'
-import { ErrorBase } from '@shared/shared.js'
 
 export class ErrorHandler {
 
     // log error and send them if needed
-    static async baseHandle(error: Error): Promise<void> {
-        await logger.error('Error-handling:', error)
+    static async logErrors(error: Error): Promise<void> {
+        await logger.error('Centralized error handling:', error)
         // await sendMailToAdminIfCritical()
         // await sendEventsToSentry()
     }
@@ -28,7 +29,7 @@ export class ErrorHandler {
     // api error handler middleware
     static async apiHandler(err: ErrorBase, req: Request, res: Response, next: NextFunction) {
         err.errorId = randomUUID()
-        await ErrorHandler.baseHandle(err)
+        await ErrorHandler.logErrors(err)
         if (err.isOperational) {
             res.status(err.statusCode)
             res.json([{message: err.message}])
@@ -43,7 +44,7 @@ export class ErrorHandler {
     }
 
     static api404(req: Request, res: Response) {
-        res.status(StatusCodes.NOT_FOUND).send({message: `Route [${req.originalUrl}] not found.`})
+        res.status(StatusCodes.NOT_FOUND).send({message: StringHelper.format(ErrorsMsg.RouteNotFound, req.originalUrl)})
     }
 
 }

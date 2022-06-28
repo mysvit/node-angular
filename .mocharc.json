@@ -1,5 +1,9 @@
 {
-    "exit": true,
-    "spec": ["dist/**/*.spec.js"],
-    "exclude": ["dist/lib/**/*.spec.js"]
+  "exit": true,
+  "spec": [
+    "dist/**/*.spec.js"
+  ],
+  "exclude": [
+    "dist/lib/**/*.spec.js"
+  ]
 }

@@ -1,7 +1,7 @@
 import { ErrorApi500, StringHelper, Validation } from '@shared/shared.js'
 import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 
-export class ApiValidation {
+export class ParamValidation {
 
     // check if this is uuid
     static validateId(uuID: string) {

@@ -17,7 +17,7 @@ describe('Array Helper Performance', () => {
     it('isArray', () => {
         // const startTime = performance.now()
         for (let i = 0; i < 10000; i++) {
-            expect(isArray([undefined,1])).to.true
+            expect(isArray([undefined, 1])).to.true
         }
         // const endTime = performance.now()
         // console.log(`Call to isArray took ${endTime - startTime} milliseconds`)
@@ -25,7 +25,7 @@ describe('Array Helper Performance', () => {
     it('isArrayNew', () => {
         // const startTime = performance.now()
         for (let i = 0; i < 10000; i++) {
-            expect(isArrayNew([undefined,1])).to.true
+            expect(isArrayNew([undefined, 1])).to.true
         }
         // const endTime = performance.now()
         // console.log(`Call to isArray took ${endTime - startTime} milliseconds`)

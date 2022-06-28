@@ -27,13 +27,13 @@ export function app(): express.Express {
 export function server() {
     // Promise rejection
     process.on('unhandledRejection', (reason: Error, promise: Promise<any>) => {
-        ErrorHandler.baseHandle(new Error(`Unhandled Rejection at: ${promise}/n reason: ${reason}`)).finally()
+        ErrorHandler.logErrors(new Error(`Unhandled Rejection at: ${promise}/n reason: ${reason}`)).finally()
     })
 
     // last error resort
     process.on('uncaughtException', (error: Error, origin) => {
         error.stack = (error.stack || '').concat(`/n Exception origin: ${origin}`)
-        ErrorHandler.baseHandle(error).finally()
+        ErrorHandler.logErrors(error).finally()
         process.exit(1)
     })
 

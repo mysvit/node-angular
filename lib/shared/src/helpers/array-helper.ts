@@ -3,10 +3,10 @@
 
 // old array support
 // moder Array.isArray()
-export function isArray(arr){
-  return Object.prototype.toString.call(arr) === '[object Array]'
+export function isArray(arr) {
+    return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
-export function isArrayNew(arr){
-  return Array.isArray(arr)
+export function isArrayNew(arr) {
+    return Array.isArray(arr)
 }
