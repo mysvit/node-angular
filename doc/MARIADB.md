@@ -15,12 +15,12 @@
 ### Connection
 Connection count
 ``` sql
-SHOW STATUS WHERE variable_name = 'threads_connected';
+SHOW STATUS WHERE variable_name = 'threads_connected'
 ```
 Show query [info]
 ``` sql
 SELECT info, progress, command, state, time, id, user, host, db 
-FROM information_schema.processlist;
+FROM information_schema.processlist
 ```
 
 ### Insert 
