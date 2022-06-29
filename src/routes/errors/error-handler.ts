@@ -1,10 +1,10 @@
-import { ErrorBase, StringHelper } from '@shared/shared.js'
+import { ErrorBase, StringHelper } from '@shared/index.js'
 import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import { randomUUID } from 'crypto'
 import { NextFunction, Request, RequestHandler, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
 import { environment } from '../../environments/environment.js'
-import { logger } from '../../logger.js'
+import { logger } from '../logger.js'
 
 export class ErrorHandler {
 
@@ -27,7 +27,7 @@ export class ErrorHandler {
     }
 
     // api error handler middleware
-    static async apiHandler(err: ErrorBase, req: Request, res: Response, next: NextFunction) {
+    static async apiHandler(err: ErrorBase, req: Request, res: Response) {
         err.errorId = randomUUID()
         await ErrorHandler.logErrors(err)
         if (err.isOperational) {

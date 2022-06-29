@@ -2,9 +2,8 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import chaiSpies from 'chai-spies'
 import { afterEach } from 'mocha'
-import { app } from '../../server.js'
-import { coreUser } from '../core-lib.js'
-import { ApiUser } from './api-user.js'
+import { app } from '../../../server.js'
+import { userCore } from '../../core-lib.js'
 
 const expect = chai.expect
 chai.use(chaiHttp)
@@ -16,11 +15,11 @@ describe('ApiUser', () => {
     const agent = chai.request.agent(app())
 
     afterEach(() => {
-        chai.spy.restore(coreUser)
+        chai.spy.restore(userCore)
     })
 
     it('GET /api/user/getById', async () => {
-        const getById = chai.spy.on(coreUser, 'getById', () => true)
+        const getById = chai.spy.on(userCore, 'getById', () => true)
         await agent
             .get('/api/user/getById')
             .query({user_id: 'uuid'})
@@ -28,7 +27,7 @@ describe('ApiUser', () => {
     })
 
     it('POST /api/user/add', async () => {
-        const add = chai.spy.on(coreUser, 'add', () => true)
+        const add = chai.spy.on(userCore, 'add', () => true)
         await agent
             .post('/api/user/add')
             .type('form')

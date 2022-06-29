@@ -1,7 +1,7 @@
 import { Environment } from '@shared/config/environment.js'
 import { createPool, QueryOptions } from 'mariadb'
 
-export class DbBase {
+export class Db {
 
     pool = createPool(this.environment.db)
 

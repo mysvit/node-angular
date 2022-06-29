@@ -9,7 +9,7 @@
   - [Developer tools](#developer-tools)
 - [How work with tools](#how-work-with-tools)
   - [Debug with Chrome Developer Tools](#debug-with-chrome-developer-tools)
-  - [Tmux - terminal multiplexer](#tmux---terminal-multiplexer)
+  - [Terminal multiplexer - tmux](#terminal-multiplexer---tmux)
   - [Docker command line](#docker-command-line)
   - [MariaDB](#mariadb)
   - [Mocha](#mocha)
@@ -19,8 +19,8 @@
   - [Folder structure](#folder-structure)
   - [Debug concept](#debug-concept)
   - [Setting up Path Alias in TypeScript](#setting-up-path-alias-in-typescript)
-  - [package.json](#package-json)
-  - [tsconfig.json](#tsconfig-json)
+  - [package.json](#packagejson)
+  - [tsconfig.json](#tsconfigjson)
   - [Sudo for Debian](#sudo-for-debian)
   - [Setting up Angular Test environment for Docker](#setting-up-angular-test-environment-for-docker)
 
@@ -104,7 +104,7 @@ sudo apt -y install default-jdk;
 sudo apt -y install dbeaver-ce;
 ```
 
-### Tmux - terminal multiplexer
+### Terminal multiplexer - tmux
 
 **xclip** - copy and paste command line tools used for `tmux` mouse support
 ```bash
@@ -259,9 +259,9 @@ Run test for all `*.spec.ts` typescript files
 ```
 mocha --loader=ts-node/esm src/**/*.spec.ts     
 ```
-Start test for `core-user.spec.ts` file and for specific test name `'property name'`
+Start test for `user-core.spec.ts` file and for specific test name `'property name'`
 ```
-mocha --loader=ts-node/esm ./src/db/core-user.spec.ts -g 'property name'
+mocha --loader=ts-node/esm ./src/db/user-core.spec.ts -g 'property name'
 ```
 For `.js` files
 ```

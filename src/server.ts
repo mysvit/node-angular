@@ -3,7 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 import { environment } from './environments/environment.js'
-import { logger } from './logger.js'
+import { logger } from './routes/logger.js'
 import { ErrorHandler } from './routes/errors/error-handler.js'
 import { routes } from "./routes/routes.js"
 

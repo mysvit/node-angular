@@ -1,7 +1,7 @@
-import { User } from '@dto/dto.js'
-import { DbBase } from '../../db-base.js'
+import { User } from '@dto/index.js'
+import { Db } from '../db.js'
 
-export class DbUser extends DbBase {
+export class UserDb extends Db {
 
     async getById(user_id: string): Promise<User> {
         return await this.dbQuery(

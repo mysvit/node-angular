@@ -1,21 +1,21 @@
-import { User } from '@dto/dto.js'
+import { User } from '@dto/index.js'
 import { Environment } from '@shared/config/environment.js'
 import { ErrorApi500 } from '@shared/errors/index.js'
 import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
 import { afterEach } from 'mocha'
-import { CoreUser } from './core-user.js'
+import { UserCore } from './user-core.js'
 
 const expect = chai.expect
 chai.use(chaiSpies)
 
 describe('CoreUser', () => {
 
-    const coreUser = new CoreUser(<Environment>{db: {}})
+    const coreUser = new UserCore(<Environment>{db: {}})
 
     afterEach(() => {
-        chai.spy.restore(CoreUser)
+        chai.spy.restore(UserCore)
     })
 
     // test input parameters

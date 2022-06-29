@@ -1,5 +1,5 @@
 import * as winston from 'winston'
-import { environment } from './environments/environment.js'
+import { environment } from '../environments/environment.js'
 
 const customLevels = {
     levels: {

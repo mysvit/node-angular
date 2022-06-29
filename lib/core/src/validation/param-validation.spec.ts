@@ -1,4 +1,4 @@
-import { StringHelper } from '@shared/shared.js'
+import { StringHelper } from '@shared/index.js'
 import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import { expect } from 'chai'
 import { randomUUID } from 'crypto'

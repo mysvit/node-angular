@@ -1,11 +1,11 @@
-import { User } from '@dto/dto.js'
+import { User } from '@dto/index.js'
 import { ErrorApi500 } from '@shared/errors/index.js'
 import { ErrorsMsg } from '@shared/translation/errors-msg.js'
 import { randomUUID } from 'crypto'
-import { CoreBase } from '../core-base.js'
+import { Core } from './core.js'
 import { ParamValidation } from '../validation/param-validation.js'
 
-export class CoreUser extends CoreBase {
+export class UserCore extends Core {
 
     async getById(query): Promise<User> {
         ParamValidation.validateId(query?.user_id)

@@ -1,4 +1,4 @@
-import {Environment} from "@shared/config/environment.js";
+import { Environment } from '@shared/config/environment.js'
 
 export const environment: Environment = {
   production: true,
