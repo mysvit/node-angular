@@ -1,2 +1,2 @@
-export * from './error-base.js'
-export * from './error-api.js'
+export * from './error-base'
+export * from './error-api'

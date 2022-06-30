@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { userCore } from '../../core-lib.js'
+import { userCore } from '../../ref/core'
+
 
 // apiUrl+/user/get
 export class UserApi {

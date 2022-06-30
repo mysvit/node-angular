@@ -1,1 +1,1 @@
-export * from './user-db.js'
+export * from './user-db'

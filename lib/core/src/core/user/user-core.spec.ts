@@ -1,11 +1,10 @@
-import { User } from '@dto/index.js'
-import { Environment } from '@shared/config/environment.js'
-import { ErrorApi500 } from '@shared/errors/index.js'
-import { ErrorsMsg } from '@shared/translation/errors-msg.js'
+import { User } from '@dto'
+import { Environment } from '@env'
+import { ErrorApi500, ErrorsMsg } from '@shared'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
 import { afterEach } from 'mocha'
-import { UserCore } from './user-core.js'
+import { UserCore } from './user-core'
 
 const expect = chai.expect
 chai.use(chaiSpies)

@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { ErrorBase } from './error-base.js'
+import { ErrorBase } from './error-base'
 
 export class ErrorApi400 extends ErrorBase {
     constructor(message) {

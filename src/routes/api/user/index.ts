@@ -1,1 +1,1 @@
-export * from './user-router.js'
+export * from './user-router'

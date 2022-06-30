@@ -1,6 +1,6 @@
 import * as express from 'express'
-import { ErrorHandler } from '../../errors/error-handler.js'
-import { UserApi } from './user-api.js'
+import { ErrorHandler } from '../../errors'
+import { UserApi } from './user-api'
 
 // Router
 export const userRouter = express.Router()

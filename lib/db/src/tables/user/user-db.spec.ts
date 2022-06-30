@@ -1,9 +1,9 @@
-import { User } from '@dto/tables/index.js'
+import { User } from '@dto'
+import { environment } from '@env'
 import chai from 'chai'
 import { randomUUID } from 'crypto'
 import { after, before } from 'mocha'
-import { environment } from '../../environments/environment.test.js'
-import { UserDb } from './user-db.js'
+import { UserDb } from './user-db'
 
 const expect = chai.expect
 

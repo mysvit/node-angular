@@ -1,5 +1,4 @@
-import { ErrorApi500, StringHelper, Validation } from '@shared/index.js'
-import { ErrorsMsg } from '@shared/translation/errors-msg.js'
+import { ErrorApi500, ErrorsMsg, StringHelper, Validation } from '@shared'
 
 export class ParamValidation {
 

@@ -1,4 +1,9 @@
 {
-    "exit": true,
-    "spec": ["../../dist/lib/dto/**/*.spec.js"]
+  "exit": true,
+  "spec": [
+    "../../dist/lib/dto/**/*.spec.js"
+  ],
+  "node-option": [
+    "experimental-specifier-resolution=node"
+  ]
 }

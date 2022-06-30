@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { User } from './user.js'
+import { User } from './user'
 
 describe('User', () => {
 

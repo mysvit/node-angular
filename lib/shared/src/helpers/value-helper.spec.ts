@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { isEmpty } from './value-helper.js'
+import { isEmpty } from './value-helper'
 
 describe('Helper', () => {
 

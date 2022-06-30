@@ -1,11 +1,11 @@
+import { environment } from '@env'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
-import { environment } from './environments/environment.js'
-import { logger } from './routes/logger.js'
-import { ErrorHandler } from './routes/errors/error-handler.js'
-import { routes } from "./routes/routes.js"
+import { ErrorHandler } from './routes/errors'
+import { logger } from './routes/ref/logger'
+import { routes } from "./routes/routes"
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {

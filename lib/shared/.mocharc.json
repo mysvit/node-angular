@@ -2,5 +2,8 @@
   "exit": true,
   "spec": [
     "../../dist/lib/shared/**/*.spec.js"
+  ],
+  "node-option": [
+    "experimental-specifier-resolution=node"
   ]
 }

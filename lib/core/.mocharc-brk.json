@@ -1,0 +1,10 @@
+{
+  "exit": true,
+  "spec": [
+    "../../dist/lib/core/**/*.spec.js"
+  ],
+  "node-option": [
+    "experimental-specifier-resolution=node",
+    "inspect-brk=0.0.0.0:9119"
+  ]
+}

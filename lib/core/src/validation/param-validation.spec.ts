@@ -1,8 +1,7 @@
-import { StringHelper } from '@shared/index.js'
-import { ErrorsMsg } from '@shared/translation/errors-msg.js'
+import { ErrorsMsg, StringHelper } from '@shared'
 import { expect } from 'chai'
 import { randomUUID } from 'crypto'
-import { ParamValidation } from './param-validation.js'
+import { ParamValidation } from './param-validation'
 
 describe('ApiValidation', () => {
 

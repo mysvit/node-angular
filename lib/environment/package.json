@@ -1,0 +1,14 @@
+{
+  "name": "environment",
+  "version": "1.0.0",
+  "description": "Environment config",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "ttsc --project ./tsconfig.lib.json",
+    "prod": "ttsc --project ./tsconfig.lib.prod.json"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,6 +1,6 @@
 import chai from 'chai'
 import { randomUUID } from 'crypto'
-import { Validation } from './validation.js'
+import { Validation } from './validation'
 
 const expect = chai.expect
 

@@ -1,12 +1,12 @@
 import * as express from 'express'
-import * as api from "./api/user"
-import { ErrorHandler } from './errors/error-handler.js'
-import * as middleware from './middleware/middleware.js'
+import { userRouter } from './api/user'
+import { ErrorHandler } from './errors'
+import * as middleware from './middleware'
 
 export const routes = express.Router()
 
 // Api
-routes.use('/api', api.userRouter)
+routes.use('/api', userRouter)
 // Wire up middleware
 routes.use(middleware.doSomethingInteresting)
 // Wire up error-handling middleware

@@ -1,5 +1,5 @@
-import { User } from '@dto/index.js'
-import { Db } from '../db.js'
+import { User } from '@dto'
+import { Db } from '../db'
 
 export class UserDb extends Db {
 

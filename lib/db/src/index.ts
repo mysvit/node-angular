@@ -1,1 +1,1 @@
-export * from './tables/user/index.js'
+export * from './tables/user'

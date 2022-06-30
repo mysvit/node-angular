@@ -9,90 +9,41 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-# kill previous session and processes in case they still in memory
-killPrevSession() {
-  pkill node                      # don't need for docker
-  tmux kill-session -t build      # kill build session    node  don't need for docker
+# stop execute if error
+set -ex
+
+WORKDIR=$(pwd)
+
+cleanUpPrevBuild() {
+  rm -fr $WORKDIR/dist
 }
 
-# tmux mouse support
-enableMouse() {
-  echo "set -g mouse on" > ~/.tmux.conf
-  echo "set -s copy-command 'xclip -in -selection clipboard'" >> ~/.tmux.conf
-  tmux source-file ~/.tmux.conf   # reloading the tmux config
-}
-
-# create windows layout
-createTmuxLayout() {
-  tmux new-session -s build -d             # open new-session [new-session]
-  tmux split-window -v -p 60 -t build:0.0  # top / bottom
-  tmux split-window -h -p 76 -t build:0.0  # top (right / left)
-  tmux split-window -h -p 68 -t build:0.1  # top (right / left)
-  tmux split-window -h -p 50 -t build:0.2  # top (right / left)
-  tmux split-window -h -p 76 -t build:0.4  # bottom (right / left)
-  tmux split-window -h -p 50 -t build:0.5  # bottom (right / left)
-
-  # set pane configuration
-  tmux set -g pane-border-status top
-  tmux set -g pane-border-format "#{pane_index} #{pane_title}"
-}
-
+# run build from local
 runLocalBuild() {
-  # set path for node_modules
-  WORKDIR=$(pwd)/node_modules/.bin
-  # set pane name and test commands
-  tmux select-pane -t build:0.0 -T 'Shared'       && tmux send-keys -t build:0.0 "PATH=${PATH}:${WORKDIR} && cd ./lib/shared && clear" Enter && sleep 0.1
-  tmux select-pane -t build:0.1 -T 'DTO'          && tmux send-keys -t build:0.1 "PATH=${PATH}:${WORKDIR} && cd ./lib/dto    && clear" Enter && sleep 0.1
-  tmux select-pane -t build:0.2 -T 'DB'           && tmux send-keys -t build:0.2 "PATH=${PATH}:${WORKDIR} && cd ./lib/db     && clear" Enter && sleep 0.1
-  tmux select-pane -t build:0.3 -T 'Core'         && tmux send-keys -t build:0.3 "PATH=${PATH}:${WORKDIR} && cd ./lib/core   && clear" Enter && sleep 0.1
-  tmux select-pane -t build:0.4 -T 'Server Build' && tmux send-keys -t build:0.4 "PATH=${PATH}:${WORKDIR} && clear"                    Enter && sleep 0.1
-  tmux select-pane -t build:0.5 -T 'Server Serve' && tmux send-keys -t build:0.5 "PATH=${PATH}:${WORKDIR} && clear"                    Enter && sleep 0.1
-  tmux select-pane -t build:0.6 -T 'Client'       && tmux send-keys -t build:0.6 "PATH=${PATH}:${WORKDIR} && cd ./client     && clear" Enter && sleep 0.1
-
-  # run build commands
-  tmux select-pane -t build:0.0 && tmux send-keys -t build:0.0 "npm run build" Enter && sleep 10 #shared
-  tmux select-pane -t build:0.1 && tmux send-keys -t build:0.1 "npm run build" Enter && sleep 10 #dto
-  tmux select-pane -t build:0.2 && tmux send-keys -t build:0.2 "npm run build" Enter && sleep 10 #db
-  tmux select-pane -t build:0.3 && tmux send-keys -t build:0.3 "npm run build" Enter && sleep 10 #core
-  tmux select-pane -t build:0.4 && tmux send-keys -t build:0.4 "npm run build" Enter && sleep 10 #server build
-  tmux select-pane -t build:0.5 && tmux send-keys -t build:0.5 "npm run debug" Enter && sleep 10 #server debug
-  tmux select-pane -t build:0.6 && tmux send-keys -t build:0.6 "npm start" Enter && sleep 10 #angular
+  cd $WORKDIR/lib/environment && npm run build
+  cd $WORKDIR/lib/shared      && npm run build
+  cd $WORKDIR/lib/dto         && npm run build
+  cd $WORKDIR/lib/db          && npm run build
+  cd $WORKDIR/lib/core        && npm run build
+  cd $WORKDIR                 && npm run build
 }
 
 # run build from docker
 runDockerBuild() {
-  tmux select-pane -t build:0.0 -T 'Shared'
-  tmux select-pane -t build:0.1 -T 'DTO'
-  tmux select-pane -t build:0.2 -T 'DB'
-  tmux select-pane -t build:0.3 -T 'Core'
-  tmux select-pane -t build:0.4 -T 'Server Build'
-  tmux select-pane -t build:0.5 -T 'Server Serve'
-  tmux select-pane -t build:0.6 -T 'Client'
-
-  sleep 1
-
-  tmux send-keys -t build:0.0 "docker run -it --rm --name build-shared -v $(pwd):$(pwd) -w $(pwd)/lib/shared devnode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.1 "docker run -it --rm --name build-dto    -v $(pwd):$(pwd) -w $(pwd)/lib/dto    devnode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.2 "docker run -it --rm --name build-db     -v $(pwd):$(pwd) -w $(pwd)/lib/db     devnode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.3 "docker run -it --rm --name build-core   -v $(pwd):$(pwd) -w $(pwd)/lib/core   devnode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.4 "docker run -it --rm --name build-server -v $(pwd):$(pwd) -w $(pwd)            devnode npm run build" Enter && sleep 10
-  tmux send-keys -t build:0.5 "docker run -it --rm --name debug-server -v $(pwd):$(pwd) -w $(pwd)            --net dev-net -p 3000:3000 -p 9229:9229 devnode npm run debug" Enter && sleep 10
-  tmux send-keys -t build:0.6 "docker run -it --rm --name debug-client -v $(pwd):$(pwd) -w $(pwd)/client     --net dev-net -p 4200:4200              devnode npm start"     Enter
+  docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/environment  devnode npm run build
+  docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/shared       devnode npm run build
+  docker run -it --rm --name build-dto    -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/dto          devnode npm run build
+  docker run -it --rm --name build-db     -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/db           devnode npm run build
+  docker run -it --rm --name build-core   -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/core         devnode npm run build
+  docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR                  devnode npm run build
 }
 
 # main part
 
-killPrevSession
-enableMouse
-createTmuxLayout
-sleep 0.2
+cleanUpPrevBuild
 # if not argument run build for local configuration
 if [ $1 = "local" ]; then
-  runLocalBuild&
+  runLocalBuild
 elif [ $1 = "docker" ]; then
-  docker network create dev-net || true
-  runDockerBuild&
+  runDockerBuild
 fi
-
-sleep 0.2
-tmux attach -t build

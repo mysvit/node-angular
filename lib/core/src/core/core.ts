@@ -1,5 +1,5 @@
-import { UserDb } from '@db/index.js'
-import { Environment } from '@shared/index.js'
+import { UserDb } from '@db'
+import { Environment } from '@env'
 
 export class Core {
 

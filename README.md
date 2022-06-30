@@ -11,7 +11,7 @@ How to install and use them see in [HANDBOOK](doc/HANDBOOK.md). All technology a
 git clone https://github.com/mysvit/server-cli.git
 cd server-cli
 ```
-#### Run in local environment:
+#### Run in local config:
 ```bash
 bash scripts/0-prepare.sh local                 # npm install
 bash scripts/1-start-db.sh local                # import and creation db 

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { StringHelper } from './string-helper.js'
+import { StringHelper } from './string-helper'
 
 describe('StringHelper', () => {
 

@@ -1,10 +1,9 @@
-import { ErrorBase, StringHelper } from '@shared/index.js'
-import { ErrorsMsg } from '@shared/translation/errors-msg.js'
+import { environment } from '@env'
+import { ErrorBase, ErrorsMsg, StringHelper } from '@shared'
 import { randomUUID } from 'crypto'
 import { NextFunction, Request, RequestHandler, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
-import { environment } from '../../environments/environment.js'
-import { logger } from '../logger.js'
+import { logger } from '../ref/logger'
 
 export class ErrorHandler {
 
@@ -27,7 +26,7 @@ export class ErrorHandler {
     }
 
     // api error handler middleware
-    static async apiHandler(err: ErrorBase, req: Request, res: Response) {
+    static async apiHandler(err: ErrorBase, req: Request, res: Response, next: NextFunction) {
         err.errorId = randomUUID()
         await ErrorHandler.logErrors(err)
         if (err.isOperational) {
@@ -43,7 +42,7 @@ export class ErrorHandler {
         }
     }
 
-    static api404(req: Request, res: Response) {
+    static api404(req: Request, res: Response, next: NextFunction) {
         res.status(StatusCodes.NOT_FOUND).send({message: StringHelper.format(ErrorsMsg.RouteNotFound, req.originalUrl)})
     }
 

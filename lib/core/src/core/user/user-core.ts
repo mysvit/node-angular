@@ -1,9 +1,8 @@
-import { User } from '@dto/index.js'
-import { ErrorApi500 } from '@shared/errors/index.js'
-import { ErrorsMsg } from '@shared/translation/errors-msg.js'
+import { User } from '@dto'
+import { ErrorApi500, ErrorsMsg } from '@shared'
 import { randomUUID } from 'crypto'
-import { Core } from './core.js'
-import { ParamValidation } from '../validation/param-validation.js'
+import { ParamValidation } from '../../validation'
+import { Core } from '../core'
 
 export class UserCore extends Core {
 

@@ -1,5 +1,5 @@
+import { Environment } from '@env'
 import * as winston from 'winston'
-import { environment } from '../environments/environment.js'
 
 const customLevels = {
     levels: {
@@ -33,21 +33,25 @@ const formatter = winston.format.combine(
     })
 )
 
-class Logger {
+export class Logger {
     private logger: winston.Logger
 
-    constructor() {
-        const prodTransport = new winston.transports.File({
-            filename: 'logs/error.log',
-            level: 'error'
-        })
-        const transport = new winston.transports.Console({
-            format: formatter
-        })
+    constructor(public environment: Environment) {
+        let transport
+        if (environment.production) {
+            transport = new winston.transports.File({
+                filename: 'logs/error.log',
+                level: 'error'
+            })
+        } else {
+            transport = new winston.transports.Console({
+                format: formatter
+            })
+        }
         this.logger = winston.createLogger({
             level: environment.production ? 'error' : 'trace',
             levels: customLevels.levels,
-            transports: [environment.production ? prodTransport : transport]
+            transports: [transport]
         })
         winston.addColors(customLevels.colors)
     }
@@ -76,5 +80,3 @@ class Logger {
         this.logger.log('fatal', msg, meta)
     }
 }
-
-export const logger = new Logger()

@@ -1,4 +1,4 @@
-import { Environment } from '@shared/config/environment.js'
+import { Environment } from '@env'
 import { createPool, QueryOptions } from 'mariadb'
 
 export class Db {

@@ -2,8 +2,8 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import chaiSpies from 'chai-spies'
 import { afterEach } from 'mocha'
-import { app } from '../../../server.js'
-import { userCore } from '../../core-lib.js'
+import { app } from '../../../server'
+import { userCore } from '../../ref/core'
 
 const expect = chai.expect
 chai.use(chaiHttp)
