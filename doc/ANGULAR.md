@@ -27,8 +27,10 @@ Name                               Version                  Command to update
 @angular/cli                       14.0.2 -> 14.0.6         ng update @angular/cli
 @angular/core                      14.0.2 -> 14.0.6         ng update @angular/core
 ```
-Run commands what needed
-
+Run commands what needed. For example start with core:
+```bash
+ng update @angular/core
+```
 
 
 ## Notes
