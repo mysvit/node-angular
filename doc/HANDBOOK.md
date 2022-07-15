@@ -24,7 +24,6 @@
   - [Sudo for Debian](#sudo-for-debian)
   - [Setting up Angular Test environment for Docker](#setting-up-angular-test-environment-for-docker)
 
-
 <!-- tocstop -->
 
 ## Introduction

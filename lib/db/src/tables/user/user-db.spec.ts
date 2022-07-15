@@ -40,6 +40,11 @@ describe('DbUser', () => {
         expect(res).to.be.true
     })
 
+    it('isExist Not', async () => {
+        const res = await dbUser.isExist('someuser', 'some@email.em')
+        expect(res).to.be.true
+    })
+
     it('update', async () => {
         const res = await dbUser.update(user_test)
         expect(res).to.be.true
