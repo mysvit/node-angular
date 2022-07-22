@@ -1,0 +1,14 @@
+@import "themes";
+
+.sl-full-width {
+    width: 100%
+}
+
+.sl-form-single-col {
+    flex: 1;
+    max-width: var(--form-single-col-width);
+
+    h1 {
+        padding-top: 20px;
+    }
+}

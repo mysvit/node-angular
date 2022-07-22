@@ -1,0 +1,5 @@
+<mat-form-field class="sl-full-width" appearance="fill">
+    <mat-label>Enter your email</mat-label>
+    <input type="email" matInput [formControl]="email" placeholder="Ex. myemail@domain.com">
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+</mat-form-field>

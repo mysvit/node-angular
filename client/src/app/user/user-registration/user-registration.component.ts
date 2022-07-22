@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'app-user-registration',
-  templateUrl: './user-registration.component.html',
-  styleUrls: ['./user-registration.component.scss']
+    selector: 'app-user-registration',
+    templateUrl: './user-registration.component.html',
+    styleUrls: ['./user-registration.component.scss']
 })
 export class UserRegistrationComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
 }
