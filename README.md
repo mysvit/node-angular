@@ -32,6 +32,7 @@ If you need rebuild `Node` container run `9-docker-stop-clean.sh` script to stop
 ```bash
 sudo bash scripts/9-stop-clean.sh          # stop all docker container and stop node and ng processes
 ```
+run without `sudo` if run for local 
 
 Dump database to `db` folder
 ```bash
