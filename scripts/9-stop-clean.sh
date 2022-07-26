@@ -2,12 +2,11 @@
 # how to use
 # sudo bash scripts/9-docker-stop-clean.sh
 
-docker stop server-host
-docker stop $(docker ps -qa --filter ancestor=devnode)
+sudo docker stop server-host || true
+sudo docker stop $(sudo docker ps -qa --filter ancestor=devnode) || true
+sudo docker network rm dev-net || true
 
-docker network rm dev-net
-
-pkill node
-pkill ng
-tmux kill-session -t build
-tmux kill-session -t test
+sudo pkill node || true
+sudo pkill ng || true
+tmux kill-session -t build || true
+tmux kill-session -t test || true
