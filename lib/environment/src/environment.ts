@@ -24,8 +24,8 @@ export const environment: Environment = {
             : 80,
 
     db: {
-        host: isTest || isDev ? 'server-db' : 'prod-host',
-        database: isTest || isDev ? 'serverdb' : 'prod-db',
+        host: isTest || isDev ? 'server-host' : 'prod-host',
+        database: isTest || isDev ? 'server-db' : 'prod-db',
         user: 'root',
         password: isTest || isDev ? 'root' : 'prodPassword',
         connectionLimit: 5

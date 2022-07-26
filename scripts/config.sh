@@ -1,3 +1,3 @@
 #!/bin/bash
 
-DBNAME="serverdb"
+DBNAME="server-db"

@@ -42,13 +42,13 @@ For Debian run under root `su -` or set up [sudo for Debian](#sudo-for-debian)
 ```bash
 wget -qO- https://deb.nodesource.com/setup_16.x | sudo -E bash -;
 sudo apt-get install -y nodejs;
-sudo npm install --location=global npm@latest;
+sudo npm install --location=global npm@latest
 ```
 
 ### Angular v14.x [official install instruction](https://angular.io/guide/setup-local)
 Install the CLI using the npm package manager under work user:
 ```bash
-npm install --location=global @angular/cli@14.0.2
+npm install --location=global @angular/cli@latest
 ```
 
 ### MariaDB v10.x: [official install instruction](https://mariadb.com/kb/en/installing-mariadb-deb-files)
@@ -72,6 +72,17 @@ sudo mariadb-secure-installation
 # Everything else [y]
 # for root set password [root]
 ```
+### Add host DB for local test build
+```bash 
+sudo nano /etc/hosts
+```
+Add: **127.0.1.1     server-host**
+
+Restart network
+```bash
+sudo systemctl restart systemd-networkd
+```
+
 
 ##  Docker environment Ubuntu
 ### Setting up docker engine - [official install instruction](https://docs.docker.com/engine/install/debian/#set-up-the-repository)
