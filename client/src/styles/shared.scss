@@ -17,10 +17,16 @@
     }
 }
 
-.sl-row-center {
+.sl-row-center-sa {
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+.sl-row-center-sb {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .sl-col-right {
@@ -29,6 +35,10 @@
     align-items: end;
 }
 
-.sl-spacer {
+.sl-h-20 {
     height: 20px;
+}
+
+.sl-w-48p {
+    width: 48%;
 }

@@ -1,4 +1,16 @@
-<div class="sl-form-single-col">
+<div class="sl-signup-form">
     <h1>Sign up!</h1>
-    <app-email-field></app-email-field>
+    <div class="sl-signup-group">
+        <app-email-field value="{{registerModel.email}}"></app-email-field>
+        <app-username-field></app-username-field>
+        <div class="sl-row-center-sb">
+            <app-password-field class="sl-w-48p"></app-password-field>
+            <app-password-field class="sl-w-48p" label="Confirm"></app-password-field>
+        </div>
+
+        <div class="sl-h-20"></div>
+        <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Register" (click)="registerClick()">
+            <span>Register</span>
+        </button>
+    </div>
 </div>

@@ -2,3 +2,20 @@
     display: flex;
     justify-content: center;
 }
+
+.sl-signup-form {
+    flex: 1;
+    max-width: 440px;
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+    }
+}
+
+.sl-signup-group {
+    border: var(--borger-group) 1px solid;
+    border-radius: 4px;
+    padding: 20px;
+}
