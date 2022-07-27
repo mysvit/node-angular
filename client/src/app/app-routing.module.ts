@@ -9,12 +9,12 @@ const appRoutes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'user-authentication',
-        loadChildren: () => import('./user/user-authentication/user-authentication.module').then(m => m.UserAuthenticationModule)
+        path: 'login',
+        loadChildren: () => import('./user/user-login/user-login.module').then(m => m.UserLoginModule)
     },
     {
-        path: 'user-registration',
-        loadChildren: () => import('./user/user-registration/user-registration.module').then(m => m.UserRegistrationModule)
+        path: 'signup',
+        loadChildren: () => import('./user/user-signup/user-signup.module').then(m => m.UserSignupModule)
     },
     {
         path: '**', component: NotFoundPageComponent

@@ -1,7 +1,11 @@
 @import "themes";
 
-.sl-full-width {
-    width: 100%
+.sl-field-fill {
+    width: 100%;
+
+    &span {
+        margin-left: 10px;
+    }
 }
 
 .sl-form-single-col {
@@ -11,4 +15,20 @@
     h1 {
         padding-top: 20px;
     }
+}
+
+.sl-row-center {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.sl-col-right {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.sl-spacer {
+    height: 20px;
 }

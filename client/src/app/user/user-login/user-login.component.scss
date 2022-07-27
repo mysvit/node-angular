@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+.sl-login-form {
+    flex: 1;
+    max-width: 340px;
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        padding-top: 80px;
+    }
+}
+
+.sl-login-group {
+    border: var(--borger-group) 1px solid;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.sl-field-fill span {
+    margin-left: 10px;
+}
