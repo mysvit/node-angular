@@ -3,20 +3,20 @@
     <div class="sl-login-group sl-col-right">
         <mat-form-field class="sl-field-fill" appearance="fill">
             <mat-label>Username or email address</mat-label>
-            <input type="email" matInput [formControl]="email" placeholder="Ex. myemail@domain.com or my-username">
-            <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+            <input type="email" matInput [formControl]="userLogin.username" placeholder="Ex. myemail@domain.com or my-username">
+            <mat-error *ngIf="userLogin.username.invalid">{{FieldValidators.errorMessage(userLogin.username)}}</mat-error>
         </mat-form-field>
         <a href="/signup">
             <span>Forgot password?</span>
         </a>
         <mat-form-field class="sl-field-fill" appearance="fill">
             <mat-label>Password</mat-label>
-            <input type="password" matInput [formControl]="password">
-            <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            <input type="password" matInput [formControl]="userLogin.password">
+            <mat-error *ngIf="userLogin.password.invalid">{{FieldValidators.errorMessage(userLogin.password)}}</mat-error>
         </mat-form-field>
 
         <div class="sl-h-20"></div>
-        <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Sign in">
+        <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Sign in" (click)="loginClick()">
             <mat-icon>login</mat-icon>
             <span>Sign in</span>
         </button>

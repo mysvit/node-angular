@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { FormControl, Validators } from '@angular/forms'
+import { FieldValidators } from '@shared/validators'
+import { UserLoginModel } from './user-login-model'
 
 @Component({
     selector: 'app-user-login',
@@ -8,21 +9,17 @@ import { FormControl, Validators } from '@angular/forms'
 })
 export class UserLoginComponent implements OnInit {
 
-    email = new FormControl('', [Validators.required])
-    password = new FormControl('', [Validators.required])
+    userLogin = new UserLoginModel()
+    FieldValidators = FieldValidators
 
     constructor() {
-    }
-
-    getEmailErrorMessage() {
-        return 'You must enter a username or email address!'
-    }
-
-    getPasswordErrorMessage() {
-        return 'You must enter a password!'
     }
 
     ngOnInit(): void {
     }
 
+    loginClick() {
+        this.userLogin.formGroup.markAllAsTouched()
+        console.debug(this.userLogin.formGroup.touched, this.userLogin.formGroup.valid)
+    }
 }
