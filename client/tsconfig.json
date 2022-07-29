@@ -7,8 +7,11 @@
       "@dto": [
         "../dist/lib/dto"
       ],
-      "@shared": [
-        "../dist/lib/shared"
+      "@shared-lib/*": [
+        "../dist/lib/shared/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
       ]
     },
     "outDir": "./dist/out-tsc",

@@ -4,7 +4,7 @@ export class ParamValidation {
 
     // check if this is uuid
     static validateId(uuID: string) {
-        if (!Validation.isValidUUID(uuID)) {
+        if (!Validation.isUUIDValid(uuID)) {
             throw new ErrorApi500(StringHelper.format(ErrorsMsg.IdHasInvalidUuid, uuID))
         }
     }

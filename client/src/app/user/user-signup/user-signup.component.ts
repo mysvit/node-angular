@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { RegisterModel } from '@dto'
+import { FieldValidators } from '@shared/validators'
+import { UserSignupModel } from './user-signup-model'
 
 @Component({
     selector: 'app-user-signup',
@@ -8,17 +9,18 @@ import { RegisterModel } from '@dto'
 })
 export class UserSignupComponent implements OnInit {
 
-    registerModel: RegisterModel = new RegisterModel()
+    userSignup = new UserSignupModel()
+    FieldValidators = FieldValidators
 
     constructor() {
-        this.registerModel.email = 'test@email.com'
     }
 
     ngOnInit(): void {
     }
 
     registerClick() {
-
+        this.userSignup.signupGroup.markAllAsTouched()
+        console.debug(this.userSignup.signupGroup.touched, this.userSignup.signupGroup.valid)
     }
 
 }

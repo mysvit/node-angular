@@ -1,14 +1,34 @@
-<div class="sl-signup-form">
+<div class="sl-signup-form" [formGroup]="userSignup.signupGroup">
     <h1>Sign up!</h1>
     <div class="sl-signup-group">
-        <app-email-field value="{{registerModel.email}}"></app-email-field>
-        <app-username-field></app-username-field>
-        <div class="sl-row-center-sb">
-            <app-password-field class="sl-w-48p"></app-password-field>
-            <app-password-field class="sl-w-48p" label="Confirm"></app-password-field>
-        </div>
+        <mat-form-field class="sl-field-fill" appearance="fill">
+            <mat-label>Email address</mat-label>
+            <input type="email" matInput [formControl]="userSignup.email" placeholder="Ex. myemail@domain.com">
+            <mat-error *ngIf="userSignup.email.invalid">{{FieldValidators.errorMessage(userSignup.email)}}</mat-error>
+        </mat-form-field>
 
         <div class="sl-h-20"></div>
+        <mat-form-field class="sl-field-fill" appearance="fill">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput [formControl]="userSignup.username">
+            <mat-error *ngIf="userSignup.username.invalid">{{FieldValidators.errorMessage(userSignup.username)}}</mat-error>
+        </mat-form-field>
+
+        <div class="sl-h-20"></div>
+        <div class="sl-row-center-sb">
+            <mat-form-field class="sl-w-48p" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput [formControl]="userSignup.password">
+                <mat-error *ngIf="userSignup.password.invalid">{{FieldValidators.errorMessage(userSignup.password)}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="sl-w-48p" appearance="fill">
+                <mat-label>Confirm</mat-label>
+                <input type="password" matInput [formControl]="userSignup.confirm">
+                <mat-error *ngIf="userSignup.confirm.invalid">{{FieldValidators.errorMessage(userSignup.confirm)}}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="sl-h-40"></div>
         <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Register" (click)="registerClick()">
             <span>Register</span>
         </button>

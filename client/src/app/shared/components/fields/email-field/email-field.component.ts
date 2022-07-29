@@ -1,30 +1,35 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { FormControl, Validators } from '@angular/forms'
+import { Component, OnInit } from '@angular/core'
+import { AbstractValueAccessor, MakeProvider } from '../abstract-value-accessor'
 
 @Component({
     selector: 'app-email-field',
     templateUrl: './email-field.component.html',
-    styleUrls: ['./email-field.component.scss']
+    styleUrls: ['./email-field.component.scss'],
+    providers: [MakeProvider(EmailFieldComponent)]
 })
-export class EmailFieldComponent implements OnInit {
+export class EmailFieldComponent extends AbstractValueAccessor implements OnInit {
 
-    @Input() value: string = ''
-
-    formControl = new FormControl('', [Validators.required, Validators.email])
+    // formC: FormControl = new FormControl('')
 
     constructor() {
+        super()
+        // console.debug('constructor', this.formC)
     }
 
-    getErrorMessage() {
-        if (this.formControl.hasError('required')) {
-            return 'You must enter an email'
-        }
-
-        return this.formControl.hasError('email') ? 'Not a valid email' : ''
-    }
+    // getErrorMessage() {
+    //     if (this.formC.hasError('required')) {
+    //         return 'You must enter an email'
+    //     }
+    //
+    //     return this.formC.hasError('email') ? 'Not a valid email' : ''
+    // }
 
     ngOnInit(): void {
-        this.formControl.setValue(this.value)
+        // console.debug('ngOnInit', this.formC)
+        setTimeout(() => {
+            console.debug('ngOnInit.value', this, this.value)
+        }, 2000)
+
     }
 
 }
