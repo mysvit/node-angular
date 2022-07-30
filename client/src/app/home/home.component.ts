@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { Storage } from '@core/storage'
 
 @Component({
     selector: 'app-home',
@@ -11,6 +12,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        console.debug('token', Storage.token)
     }
 
 }

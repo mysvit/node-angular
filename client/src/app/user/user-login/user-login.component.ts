@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import { FieldValidators } from '@shared/validators'
 import { UserLoginModel } from './user-login-model'
+import { UserLoginService } from './user-login.service'
 
 @Component({
     selector: 'app-user-login',
@@ -9,17 +11,23 @@ import { UserLoginModel } from './user-login-model'
 })
 export class UserLoginComponent implements OnInit {
 
-    userLogin = new UserLoginModel()
+    model = new UserLoginModel()
     FieldValidators = FieldValidators
 
-    constructor() {
+    constructor(
+        private router: Router,
+        private userLogin: UserLoginService
+    ) {
     }
 
     ngOnInit(): void {
     }
 
     loginClick() {
-        this.userLogin.formGroup.markAllAsTouched()
-        console.debug(this.userLogin.formGroup.touched, this.userLogin.formGroup.valid)
+        this.model.formGroup.markAllAsTouched()
+        console.debug(this.model.formGroup.touched, this.model.formGroup.valid)
+        this.userLogin.login(this.model.username.value, this.model.password.value)
+            .subscribe(() => this.router.navigate(['/']))
     }
+
 }

@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { UserLoginRoutingModule } from './user-login-routing.module'
 import { UserLoginComponent } from './user-login.component'
+import { UserLoginService } from './user-login.service'
 
 
 @NgModule({
@@ -19,6 +20,9 @@ import { UserLoginComponent } from './user-login.component'
         ReactiveFormsModule,
         MatIconModule,
         MatButtonModule
+    ],
+    providers: [
+        UserLoginService
     ]
 })
 export class UserLoginModule {

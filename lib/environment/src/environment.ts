@@ -19,8 +19,10 @@ const isTest = process.env.NODE_ENV === 'test'
 export const environment: Environment = {
     production: !isTest && !isDev,
 
-    port: isTest ? 3100
-        : isDev ? 3000
+    port: isTest
+        ? 3100
+        : isDev
+            ? 3000
             : 80,
 
     db: {
