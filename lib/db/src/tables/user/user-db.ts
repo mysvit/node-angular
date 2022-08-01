@@ -18,16 +18,27 @@ export class UserDb extends Db {
             .then(data => data ? data[0] : undefined)
     }
 
-    async isExist(user_name: string, user_email: string): Promise<boolean> {
+    async isEmailExist(user_email: string): Promise<boolean> {
         return await this.dbQuery(
-            `SELECT user_name FROM user 
+            `SELECT COUNT(*) as cnt FROM user 
                 WHERE
                     is_del = 0
-                    AND user_name = ? 
                     AND user_email = ?`,
-            [user_name, user_email])
+            [user_email])
             .then(data => {
-                return !!data
+                return data['0'].cnt > 0
+            })
+    }
+
+    async isUserExist(user_name: string): Promise<boolean> {
+        return await this.dbQuery(
+            `SELECT COUNT(*) as cnt FROM user 
+                WHERE
+                    is_del = 0
+                    AND user_name = ?`,
+            [user_name])
+            .then(data => {
+                return data['0'].cnt > 0
             })
     }
 

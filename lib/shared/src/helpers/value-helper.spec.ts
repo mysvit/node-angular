@@ -1,20 +1,20 @@
 import { expect } from 'chai'
-import { isEmpty } from './value-helper'
+import { ValueHelper } from './value-helper'
 
-describe('Helper', () => {
+describe('ValueHelper', () => {
 
     it('isEmpty', () => {
-        expect(isEmpty(undefined)).to.true
-        expect(isEmpty(null)).to.true
-        expect(isEmpty('')).to.true
-        expect(isEmpty([])).to.true
-        expect(isEmpty({})).to.true
+        expect(ValueHelper.isEmpty(undefined)).to.true
+        expect(ValueHelper.isEmpty(null)).to.true
+        expect(ValueHelper.isEmpty('')).to.true
+        expect(ValueHelper.isEmpty([])).to.true
+        expect(ValueHelper.isEmpty({})).to.true
     })
     it('isEmpty Not', () => {
-        expect(isEmpty(false)).to.false
-        expect(isEmpty(0)).to.false
-        expect(isEmpty([1])).to.false
-        expect(isEmpty({id: 1})).to.false
+        expect(ValueHelper.isEmpty(false)).to.false
+        expect(ValueHelper.isEmpty(0)).to.false
+        expect(ValueHelper.isEmpty([1])).to.false
+        expect(ValueHelper.isEmpty({id: 1})).to.false
     })
 
 })

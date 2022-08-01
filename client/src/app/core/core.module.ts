@@ -3,17 +3,22 @@ import { NgModule } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
+import { DisableFormComponent } from '@core/components/form/disable-form'
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
+import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component'
 
+const components = [
+    ToolbarComponent,
+    NotFoundPageComponent,
+    DisableFormComponent
+]
 
 @NgModule({
     declarations: [
-        NotFoundPageComponent,
-        ToolbarComponent
+        components
     ],
     exports: [
-        ToolbarComponent
+        components
     ],
     imports: [
         CommonModule,

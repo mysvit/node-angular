@@ -35,14 +35,24 @@ describe('DbUser', () => {
         expect(user).to.deep.eq(user_test)
     })
 
-    it('isExist', async () => {
-        const res = await dbUser.isExist(user_test.user_name, user_test.user_email)
+    it('isEmailExist', async () => {
+        const res = await dbUser.isEmailExist(user_test.user_email)
         expect(res).to.be.true
     })
 
-    it('isExist Not', async () => {
-        const res = await dbUser.isExist('someuser', 'some@email.em')
+    it('isEmailExist Not', async () => {
+        const res = await dbUser.isEmailExist('some@email.em')
+        expect(res).to.be.false
+    })
+
+    it('isUserExist', async () => {
+        const res = await dbUser.isUserExist(user_test.user_name)
         expect(res).to.be.true
+    })
+
+    it('isUserExist Not', async () => {
+        const res = await dbUser.isUserExist('someuser')
+        expect(res).to.be.false
     })
 
     it('update', async () => {

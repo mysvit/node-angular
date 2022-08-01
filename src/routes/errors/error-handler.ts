@@ -31,7 +31,7 @@ export class ErrorHandler {
         await ErrorHandler.logErrors(err)
         if (err.isOperational) {
             res.status(err.statusCode)
-            res.json([{message: err.message}])
+            res.send({message: err.message})
         } else {
             const message = 'Unknown error, see server log'
             res.status(StatusCodes.INTERNAL_SERVER_ERROR)

@@ -1,43 +1,41 @@
-<ng-template [ngIf]="isSignedUp" [ngIfElse]="signedForm">
-    <div>
-        Check your email to confirm you account.
-    </div>
-</ng-template>
-<ng-template #signedForm>
-    <div class="sl-signup-form" [formGroup]="model.formGroup">
-        <h1>Sign up!</h1>
-        <div class="sl-signup-group">
-            <mat-form-field class="sl-field-fill" appearance="fill">
-                <mat-label>Email address</mat-label>
-                <input type="email" matInput [formControl]="model.user_email" placeholder="Ex. myemail@domain.com">
-                <mat-error *ngIf="model.user_email.invalid">{{FieldValidators.errorMessage(model.user_email)}}</mat-error>
+<div class="sl-signup-form">
+    <h1>Sign up!</h1>
+    <form class="sl-signup-group" [formGroup]="model.formGroup" [disableForm]="disableForm" (submit)="registerClick()">
+        <!--        <fieldset [disabled]="disableForm" class="sl-signup-group">-->
+        <mat-form-field class="sl-field-fill" appearance="fill">
+            <mat-label>Email address</mat-label>
+            <input type="email" matInput [formControl]="model.user_email" placeholder="Ex. myemail@domain.com">
+            <mat-error *ngIf="model.user_email.invalid">{{FieldValidators.errorMessage(model.user_email)}}</mat-error>
+        </mat-form-field>
+
+        <div class="sl-h-20"></div>
+        <mat-form-field class="sl-field-fill" appearance="fill">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput [formControl]="model.user_name">
+            <mat-error *ngIf="model.user_name.invalid">{{FieldValidators.errorMessage(model.user_name)}}</mat-error>
+        </mat-form-field>
+
+        <div class="sl-h-20"></div>
+        <div class="sl-row-center-sb">
+            <mat-form-field class="sl-w-48p" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput [formControl]="model.user_pass">
+                <mat-error *ngIf="model.user_pass.invalid">{{FieldValidators.errorMessage(model.user_pass)}}</mat-error>
             </mat-form-field>
-
-            <div class="sl-h-20"></div>
-            <mat-form-field class="sl-field-fill" appearance="fill">
-                <mat-label>Username</mat-label>
-                <input type="text" matInput [formControl]="model.user_name">
-                <mat-error *ngIf="model.user_name.invalid">{{FieldValidators.errorMessage(model.user_name)}}</mat-error>
+            <mat-form-field class="sl-w-48p" appearance="fill">
+                <mat-label>Confirm</mat-label>
+                <input type="password" matInput [formControl]="model.confirm">
+                <mat-error *ngIf="model.confirm.invalid">{{FieldValidators.errorMessage(model.confirm)}}</mat-error>
             </mat-form-field>
-
-            <div class="sl-h-20"></div>
-            <div class="sl-row-center-sb">
-                <mat-form-field class="sl-w-48p" appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input type="password" matInput [formControl]="model.user_pass">
-                    <mat-error *ngIf="model.user_pass.invalid">{{FieldValidators.errorMessage(model.user_pass)}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="sl-w-48p" appearance="fill">
-                    <mat-label>Confirm</mat-label>
-                    <input type="password" matInput [formControl]="model.confirm">
-                    <mat-error *ngIf="model.confirm.invalid">{{FieldValidators.errorMessage(model.confirm)}}</mat-error>
-                </mat-form-field>
-            </div>
-
-            <div class="sl-h-40"></div>
-            <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Register" (click)="registerClick()">
-                <span>Register</span>
-            </button>
         </div>
-    </div>
-</ng-template>
+
+        <div class="sl-h-20"></div>
+        <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+
+        <div class="sl-h-20"></div>
+        <button type='submit' mat-flat-button color="primary" class="sl-field-fill" aria-label="Register">
+            <span>Register</span>
+        </button>
+        <!--        </fieldset>-->
+    </form>
+</div>
