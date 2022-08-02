@@ -20,5 +20,3 @@ const routes: Routes = [
 })
 export class UserSignupRoutingModule {
 }
-
-// ,data: {id: '{0000-1C3417B9-DDC9-44E1-8438-DA385638CF1D}'}

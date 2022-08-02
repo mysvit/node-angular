@@ -13,7 +13,7 @@ export class ProcessForm {
         return this.processState === ProcessStates.EXECUTING
     }
 
-    protected execute(observable: Observable<Object>, singleProcess = true): void {
+    protected execute(observable: Observable<Object| void>, singleProcess = true): void {
         this.resetMessages()
         this.processExecuting()
         if (singleProcess) {

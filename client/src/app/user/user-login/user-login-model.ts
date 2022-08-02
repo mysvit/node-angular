@@ -12,7 +12,7 @@ export class UserLoginModel {
 
     formGroup: FormGroup = new FormGroup({
             username: this.username,
-            password: this.password,
+            password: this.password
         }
     )
 
