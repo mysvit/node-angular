@@ -17,6 +17,16 @@
     }
 }
 
+.sl-fieldset {
+    border: var(--borger-fieldset) 1px solid;
+    border-radius: 4px;
+    padding: 20px;
+
+    &:disabled {
+        cursor: wait;
+    }
+}
+
 .sl-row-center-sa {
     display: flex;
     align-items: center;

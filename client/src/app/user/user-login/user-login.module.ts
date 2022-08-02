@@ -15,11 +15,11 @@ import { UserLoginService } from './user-login.service'
     ],
     imports: [
         CommonModule,
-        UserLoginRoutingModule,
+        MatButtonModule,
+        MatIconModule,
         MatInputModule,
         ReactiveFormsModule,
-        MatIconModule,
-        MatButtonModule
+        UserLoginRoutingModule
     ],
     providers: [
         UserLoginService

@@ -1,24 +1,23 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Storage } from '@core/storage'
-import { map, of } from 'rxjs'
+import { environment } from '@env'
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserLoginService {
 
-    constructor(http: HttpClient) {
+    constructor(private http: HttpClient) {
     }
 
-    login(user: string, password: string) {
-        return of({user: user, password: password})
-            .pipe(
-                map(data => {
-                    Storage.user = data.user
-                    Storage.token = data.password
-                })
-            )
+    login(user: any) {
+        return this.http.post(environment.apiEndPoint + '/user/login', user)
+        // .pipe(
+        //     map(data => {
+        //         Storage.user = data.user
+        //         Storage.token = data.password
+        //     })
+        // )
     }
 
 }
