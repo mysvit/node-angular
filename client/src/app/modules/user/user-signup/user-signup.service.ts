@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { SignupModel } from '@dto'
 import { environment } from '@env'
+import { ApiPath } from '@shared-lib/api'
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class UserSignupService {
     }
 
     signup(user: SignupModel) {
-        return this.http.post(environment.apiEndPoint + '/user/add', user)
+        return this.http.post(environment.apiEndPoint + ApiPath.user_signup, user)
     }
 
 }

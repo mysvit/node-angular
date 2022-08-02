@@ -41,8 +41,8 @@ runLocalBuild() {
   # set path for node_modules
   WORKDIR=$(pwd)/node_modules/.bin
   # set pane name and test commands
-  tmux select-pane -t build:0.0 -T 'Shared'       && tmux send-keys -t build:0.0 "PATH=${PATH}:${WORKDIR} && cd ./lib/shared && clear" Enter && sleep 0.1
-  tmux select-pane -t build:0.1 -T 'DTO'          && tmux send-keys -t build:0.1 "PATH=${PATH}:${WORKDIR} && cd ./lib/dto    && clear" Enter && sleep 0.1
+  tmux select-pane -t build:0.0 -T 'DTO'          && tmux send-keys -t build:0.1 "PATH=${PATH}:${WORKDIR} && cd ./lib/dto    && clear" Enter && sleep 0.1
+  tmux select-pane -t build:0.1 -T 'Shared'       && tmux send-keys -t build:0.0 "PATH=${PATH}:${WORKDIR} && cd ./lib/shared && clear" Enter && sleep 0.1
   tmux select-pane -t build:0.2 -T 'DB'           && tmux send-keys -t build:0.2 "PATH=${PATH}:${WORKDIR} && cd ./lib/db     && clear" Enter && sleep 0.1
   tmux select-pane -t build:0.3 -T 'Core'         && tmux send-keys -t build:0.3 "PATH=${PATH}:${WORKDIR} && cd ./lib/core   && clear" Enter && sleep 0.1
   tmux select-pane -t build:0.4 -T 'Server Build' && tmux send-keys -t build:0.4 "PATH=${PATH}:${WORKDIR} && clear"                    Enter && sleep 0.1
@@ -50,8 +50,8 @@ runLocalBuild() {
   tmux select-pane -t build:0.6 -T 'Client'       && tmux send-keys -t build:0.6 "PATH=${PATH}:${WORKDIR} && cd ./client     && clear" Enter && sleep 0.1
 
   # run build commands
-  tmux select-pane -t build:0.0 && tmux send-keys -t build:0.0 "npm run watch" Enter && sleep 0.1 #shared
-  tmux select-pane -t build:0.1 && tmux send-keys -t build:0.1 "npm run watch" Enter && sleep 0.1 #dto
+  tmux select-pane -t build:0.0 && tmux send-keys -t build:0.1 "npm run watch" Enter && sleep 0.1 #dto
+  tmux select-pane -t build:0.1 && tmux send-keys -t build:0.0 "npm run watch" Enter && sleep 0.1 #shared
   tmux select-pane -t build:0.2 && tmux send-keys -t build:0.2 "npm run watch" Enter && sleep 0.1 #db
   tmux select-pane -t build:0.3 && tmux send-keys -t build:0.3 "npm run watch" Enter && sleep 0.1 #core
   tmux select-pane -t build:0.4 && tmux send-keys -t build:0.4 "npm run watch" Enter && sleep 10  #server build
@@ -61,8 +61,8 @@ runLocalBuild() {
 
 # run build from docker
 runDockerBuild() {
-  tmux select-pane -t build:0.0 -T 'Shared'
-  tmux select-pane -t build:0.1 -T 'DTO'
+  tmux select-pane -t build:0.0 -T 'DTO'
+  tmux select-pane -t build:0.1 -T 'Shared'
   tmux select-pane -t build:0.2 -T 'DB'
   tmux select-pane -t build:0.3 -T 'Core'
   tmux select-pane -t build:0.4 -T 'Server Build'
@@ -71,8 +71,8 @@ runDockerBuild() {
 
   sleep 1
 
-  tmux send-keys -t build:0.0 "docker run -it --rm --name build-shared -v $(pwd):$(pwd) -w $(pwd)/lib/shared devnode npm run watch" Enter && sleep 0.1
-  tmux send-keys -t build:0.1 "docker run -it --rm --name build-dto    -v $(pwd):$(pwd) -w $(pwd)/lib/dto    devnode npm run watch" Enter && sleep 0.1
+  tmux send-keys -t build:0.0 "docker run -it --rm --name build-dto    -v $(pwd):$(pwd) -w $(pwd)/lib/dto    devnode npm run watch" Enter && sleep 0.1
+  tmux send-keys -t build:0.1 "docker run -it --rm --name build-shared -v $(pwd):$(pwd) -w $(pwd)/lib/shared devnode npm run watch" Enter && sleep 0.1
   tmux send-keys -t build:0.2 "docker run -it --rm --name build-db     -v $(pwd):$(pwd) -w $(pwd)/lib/db     devnode npm run watch" Enter && sleep 0.1
   tmux send-keys -t build:0.3 "docker run -it --rm --name build-core   -v $(pwd):$(pwd) -w $(pwd)/lib/core   devnode npm run watch" Enter && sleep 0.1
   tmux send-keys -t build:0.4 "docker run -it --rm --name build-server -v $(pwd):$(pwd) -w $(pwd)            devnode npm run watch" Enter && sleep 10

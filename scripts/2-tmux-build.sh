@@ -21,8 +21,8 @@ cleanUpPrevBuild() {
 # run build from local
 runLocalBuild() {
   cd $WORKDIR/lib/environment && npm run build
-  cd $WORKDIR/lib/shared      && npm run build
   cd $WORKDIR/lib/dto         && npm run build
+  cd $WORKDIR/lib/shared      && npm run build
   cd $WORKDIR/lib/db          && npm run build
   cd $WORKDIR/lib/core        && npm run build
   cd $WORKDIR                 && npm run build
@@ -31,8 +31,8 @@ runLocalBuild() {
 # run build from docker
 runDockerBuild() {
   docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/environment  devnode npm run build
-  docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/shared       devnode npm run build
   docker run -it --rm --name build-dto    -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/dto          devnode npm run build
+  docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/shared       devnode npm run build
   docker run -it --rm --name build-db     -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/db           devnode npm run build
   docker run -it --rm --name build-core   -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/core         devnode npm run build
   docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR                  devnode npm run build

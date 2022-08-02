@@ -10,7 +10,7 @@ const expect = chai.expect
 describe('DbUser', () => {
 
     const dbUser = new UserDb(environment)
-    const user_test = new User({user_id: randomUUID(), user_name: 'username', user_email: 'user@email.com', user_hash: 'hash'})
+    const user_test = new User({user_id: randomUUID(), user_name: 'username', user_email: 'user@email.com', user_hash: 'hash', user_salt: 'salt'})
 
     before(() => {
     })

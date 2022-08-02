@@ -44,8 +44,8 @@ export class UserDb extends Db {
 
     async add(user: User): Promise<string> {
         return await this.dbExecute(
-            `INSERT INTO user (user_id, user_name, user_email, user_hash) 
-                VALUES (?, ?, ?, ?) RETURNING user_id`,
+            `INSERT INTO user (user_id, user_name, user_email, user_hash, user_salt) 
+                VALUES (?, ?, ?, ?, ?) RETURNING user_id`,
             user.addArr)
             .then(data => {
                 return data[0].user_id

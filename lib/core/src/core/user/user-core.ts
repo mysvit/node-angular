@@ -22,12 +22,13 @@ export class UserCore extends Core {
             throw new ErrorApi500(ErrorsMsg.UserRegistered)
         }
         const id = randomUUID()
-        const hash = PasswordHash.create(model.password)
+        const saltedHash = PasswordHash.create(model.password)
         const user: User = new User(<IUser>{
             user_id: id,
             user_name: model.username,
             user_email: model.email,
-            user_hash: hash
+            user_hash: saltedHash.hash,
+            user_salt: saltedHash.salt
         })
         return this.dbUser.add(user)
     }

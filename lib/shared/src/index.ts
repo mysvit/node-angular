@@ -1,3 +1,4 @@
+export * from './api'
 export * from './crypt'
 export * from './errors'
 export * from './helpers'
