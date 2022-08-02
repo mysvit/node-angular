@@ -1,4 +1,4 @@
-import { ProcessStates } from '@core/enum/process-states'
+import { ProcessStates } from '@static/enum'
 import { Observable, Subject, takeUntil } from 'rxjs'
 
 export class ProcessForm {

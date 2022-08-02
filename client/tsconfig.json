@@ -10,11 +10,14 @@
       "@shared-lib/*": [
         "../dist/lib/shared/*"
       ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
       "@core/*": [
         "src/app/core/*"
+      ],
+      "@static/*": [
+        "src/app/static/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
       ],
       "@env": [
         "src/environments/environment"

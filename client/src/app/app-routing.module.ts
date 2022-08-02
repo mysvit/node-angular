@@ -5,16 +5,16 @@ import { NotFoundPageComponent } from '@core/pages/not-found-page/not-found-page
 const appRoutes: Routes = [
     {
         path: '',
-        loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
         pathMatch: 'full'
     },
     {
         path: 'login',
-        loadChildren: () => import('./user/user-login/user-login.module').then(m => m.UserLoginModule)
+        loadChildren: () => import('./modules/user/user-login/user-login.module').then(m => m.UserLoginModule)
     },
     {
         path: 'signup',
-        loadChildren: () => import('./user/user-signup/user-signup.module').then(m => m.UserSignupModule)
+        loadChildren: () => import('./modules/user/user-signup/user-signup.module').then(m => m.UserSignupModule)
     },
     {
         path: '**', component: NotFoundPageComponent

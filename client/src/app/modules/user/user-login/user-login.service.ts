@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Storage } from '@core/storage'
 import { environment } from '@env'
+import { Storage } from '@static/storage'
 import { map } from 'rxjs'
 
 @Injectable({

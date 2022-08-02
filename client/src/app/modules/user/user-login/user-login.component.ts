@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ProcessForm } from '@core/components/form/process-form'
-import { FieldValidators } from '@shared/validators'
+import { ProcessForm } from '@static/form'
+import { FieldValidators } from '@static/validators'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
 

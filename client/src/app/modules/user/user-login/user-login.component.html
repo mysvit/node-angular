@@ -1,7 +1,7 @@
 <div class="sl-login-form">
     <h1>Sign in!</h1>
     <form [formGroup]="model.formGroup" (submit)="loginClick()">
-        <fieldset class="sl-fieldset sl-col-right" [disabled]="disableForm">
+        <fieldset class="sl-fieldset" [disabled]="disableForm">
             <mat-form-field class="sl-field-fill" appearance="fill">
                 <mat-label>Username or email address</mat-label>
                 <input type="email" matInput [formControl]="model.username" placeholder="Ex. myemail@domain.com or my-username">
@@ -21,16 +21,16 @@
                 <mat-icon>login</mat-icon>
                 <span>Sign in</span>
             </button>
+
+            <div class="sl-h-20"></div>
+            <div class="sl-row-center-sb">
+                <span>Don't have account?</span>
+                <a href="/signup">
+                    <span>Create an account .</span>
+                </a>
+            </div>
         </fieldset>
     </form>
-
-    <div class="sl-h-20"></div>
-    <div class="sl-login-group sl-row-center-sb">
-        <span>Don't have account?</span>
-        <a href="/signup">
-            <span>Create an account .</span>
-        </a>
-    </div>
 
     <div class="sl-h-20"></div>
     <div class="sl-row-center-sa">

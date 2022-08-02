@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Storage } from '@core/storage'
+import { Storage } from '@static/storage'
 
 @Component({
     selector: 'app-home',
