@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IUser } from '@dto'
+import { SignupModel } from '@dto'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
 import { UserSignupModel } from './user-signup.model'
@@ -29,10 +29,10 @@ export class UserSignupComponent extends ProcessForm {
         if (this.model.formGroup.touched && this.model.formGroup.valid) {
             this.execute(
                 this.userSignup.signup(
-                    <IUser>{
-                        user_email: this.model.user_email.value,
-                        user_name: this.model.user_name.value,
-                        user_pass: this.model.user_pass.value
+                    <SignupModel>{
+                        email: this.model.user_email.value,
+                        username: this.model.user_name.value,
+                        password: this.model.user_pass.value
                     })
             )
         }

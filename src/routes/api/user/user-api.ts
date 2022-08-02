@@ -11,8 +11,8 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async add(req: Request, res: Response) {
-        const result = await userCore.add(req.body)
+    static async signup(req: Request, res: Response) {
+        const result = await userCore.signup(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 

@@ -1,4 +1,4 @@
-import { User } from '@dto'
+import { SignupModel } from '@dto'
 import { Environment } from '@env'
 import { ErrorApi500, ErrorsMsg } from '@shared'
 import chai from 'chai'
@@ -27,16 +27,18 @@ describe('CoreUser', () => {
         chai.spy.restore(UserCore)
     })
 
-    it('add - not exist', async () => {
-        const user = new User({user_name: 'not exist', user_email: 'not exist'})
-        const res = await coreUser.add(user)
+    it('signup - not exist', async () => {
+        const res = await coreUser.signup(<SignupModel>{
+            username: 'not exist', email: 'not exist', password: 'pass'
+        })
         expect(res).to.be.true
     })
 
-    it('add - email exist', async () => {
-        const user = new User({user_name: 'not exist', user_email: 'exist'})
+    it('signup - email exist', async () => {
         try {
-            await coreUser.add(user)
+            await coreUser.signup(<SignupModel>{
+                username: 'not exist', email: 'exist', password: 'pass'
+            })
         } catch (err) {
             const er = new ErrorApi500(ErrorsMsg.EmailRegistered)
             expect(err.isOperational).to.be.eq(er.isOperational)
@@ -45,10 +47,11 @@ describe('CoreUser', () => {
         }
     })
 
-    it('add - user exist', async () => {
-        const user = new User({user_name: 'exist', user_email: 'not exist'})
+    it('signup - user exist', async () => {
         try {
-            await coreUser.add(user)
+            await coreUser.signup(<SignupModel>{
+                username: 'exist', email: 'not exist', password: 'pass'
+            })
         } catch (err) {
             const er = new ErrorApi500(ErrorsMsg.UserRegistered)
             expect(err.isOperational).to.be.eq(er.isOperational)

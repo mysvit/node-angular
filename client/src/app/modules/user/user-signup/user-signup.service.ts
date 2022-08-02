@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { IUser } from '@dto'
+import { SignupModel } from '@dto'
 import { environment } from '@env'
 
 @Injectable({
@@ -11,7 +11,7 @@ export class UserSignupService {
     constructor(private http: HttpClient) {
     }
 
-    signup(user: IUser) {
+    signup(user: SignupModel) {
         return this.http.post(environment.apiEndPoint + '/user/add', user)
     }
 

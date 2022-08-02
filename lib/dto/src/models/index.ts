@@ -1,1 +1,1 @@
-export * from './register-model'
+export * from './signup-model'

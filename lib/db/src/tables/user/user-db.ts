@@ -9,7 +9,7 @@ export class UserDb extends Db {
                     user_id, 
                     user_name, 
                     user_email, 
-                    user_pass 
+                    user_hash 
                 FROM 
                     user 
                 WHERE 
@@ -44,7 +44,7 @@ export class UserDb extends Db {
 
     async add(user: User): Promise<string> {
         return await this.dbExecute(
-            `INSERT INTO user (user_id, user_name, user_email, user_pass) 
+            `INSERT INTO user (user_id, user_name, user_email, user_hash) 
                 VALUES (?, ?, ?, ?) RETURNING user_id`,
             user.addArr)
             .then(data => {
@@ -58,7 +58,7 @@ export class UserDb extends Db {
                 SET
                     user_name=?,
                     user_email=?,
-                    user_pass=?
+                    user_hash=?
                 WHERE
                     user_id = ?`,
             user.updateArr)

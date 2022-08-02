@@ -11,4 +11,4 @@ userRouter.get('/user/getById', ErrorHandler.apiCatch(UserApi.getById))
 // apiBase/user/add
 // [form]
 // user: User
-userRouter.post('/user/add', ErrorHandler.apiCatch(UserApi.add))
+userRouter.post('/user/signup', ErrorHandler.apiCatch(UserApi.signup))
