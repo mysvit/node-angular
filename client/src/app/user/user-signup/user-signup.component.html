@@ -1,7 +1,6 @@
 <div class="sl-signup-form">
     <h1>Sign up!</h1>
     <form class="sl-signup-group" [formGroup]="model.formGroup" [disableForm]="disableForm" (submit)="registerClick()">
-        <!--        <fieldset [disabled]="disableForm" class="sl-signup-group">-->
         <mat-form-field class="sl-field-fill" appearance="fill">
             <mat-label>Email address</mat-label>
             <input type="email" matInput [formControl]="model.user_email" placeholder="Ex. myemail@domain.com">
@@ -36,6 +35,5 @@
         <button type='submit' mat-flat-button color="primary" class="sl-field-fill" aria-label="Register">
             <span>Register</span>
         </button>
-        <!--        </fieldset>-->
     </form>
 </div>

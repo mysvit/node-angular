@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { UserSignupCompleteComponent } from './user-signup-complete/user-signup-complete.component'
+import { CompletedPageComponent } from '@core/pages/completed-page/completed-page.component'
 import { UserSignupComponent } from './user-signup.component'
 
 const routes: Routes = [
@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: 'completed',
-        component: UserSignupCompleteComponent
+        component: CompletedPageComponent
     }
 ]
 
@@ -20,3 +20,5 @@ const routes: Routes = [
 })
 export class UserSignupRoutingModule {
 }
+
+// ,data: {id: '{0000-1C3417B9-DDC9-44E1-8438-DA385638CF1D}'}
