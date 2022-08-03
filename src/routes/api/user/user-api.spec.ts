@@ -1,3 +1,4 @@
+import { ApiPath } from '@shared'
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import chaiSpies from 'chai-spies'
@@ -18,21 +19,30 @@ describe('ApiUser', () => {
         chai.spy.restore(userCore)
     })
 
-    it('GET /api/user/getById', async () => {
-        const getById = chai.spy.on(userCore, 'getById', () => true)
+    it('GET ' + ApiPath.api + ApiPath.user_getById, async () => {
+        const spy = chai.spy.on(userCore, 'getById', () => true)
         await agent
-            .get('/api/user/getById')
+            .get(ApiPath.api + ApiPath.user_getById)
             .query({user_id: 'uuid'})
-        expect(getById).to.have.been.called()
+        expect(spy).to.have.been.called()
     })
 
-    it('POST /api/user/add', async () => {
-        const add = chai.spy.on(userCore, 'add', () => true)
+    it('POST ' + ApiPath.api + ApiPath.user_signup, async () => {
+        const spy = chai.spy.on(userCore, 'signup', () => true)
         await agent
-            .post('/api/user/add')
+            .post(ApiPath.api + ApiPath.user_signup)
             .type('form')
             .send({})
-        expect(add).to.have.been.called()
+        expect(spy).to.have.been.called()
+    })
+
+    it('POST ' + ApiPath.api + ApiPath.user_login, async () => {
+        const spy = chai.spy.on(userCore, 'login', () => true)
+        await agent
+            .post(ApiPath.api + ApiPath.user_login)
+            .type('form')
+            .send({})
+        expect(spy).to.have.been.called()
     })
 
 })

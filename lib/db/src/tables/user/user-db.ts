@@ -9,12 +9,30 @@ export class UserDb extends Db {
                     user_id, 
                     user_name, 
                     user_email, 
-                    user_hash 
+                    user_hash,
+                    user_salt 
                 FROM 
                     user 
                 WHERE 
                     user_id = ?`,
             user_id)
+            .then(data => data ? data[0] : undefined)
+    }
+
+    async getByEmail(user_email: string): Promise<User> {
+        return await this.dbQuery(
+            `SELECT 
+                    user_id, 
+                    user_name, 
+                    user_email, 
+                    user_hash,
+                    user_salt 
+                FROM 
+                    user 
+                WHERE 
+                    is_del = 0
+                    AND user_email = ?`,
+            [user_email])
             .then(data => data ? data[0] : undefined)
     }
 
@@ -25,9 +43,7 @@ export class UserDb extends Db {
                     is_del = 0
                     AND user_email = ?`,
             [user_email])
-            .then(data => {
-                return data['0'].cnt > 0
-            })
+            .then(data => data['0'].cnt > 0)
     }
 
     async isUserExist(user_name: string): Promise<boolean> {
@@ -37,9 +53,7 @@ export class UserDb extends Db {
                     is_del = 0
                     AND user_name = ?`,
             [user_name])
-            .then(data => {
-                return data['0'].cnt > 0
-            })
+            .then(data => data['0'].cnt > 0)
     }
 
     async add(user: User): Promise<string> {
@@ -47,9 +61,7 @@ export class UserDb extends Db {
             `INSERT INTO user (user_id, user_name, user_email, user_hash, user_salt) 
                 VALUES (?, ?, ?, ?, ?) RETURNING user_id`,
             user.addArr)
-            .then(data => {
-                return data[0].user_id
-            })
+            .then(data => data[0].user_id)
     }
 
     async update(user: User): Promise<boolean> {

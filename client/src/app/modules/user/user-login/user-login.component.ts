@@ -29,7 +29,7 @@ export class UserLoginComponent extends ProcessForm {
             this.execute(
                 this.userLogin.login(
                     {
-                        user: this.model.username.value,
+                        user: this.model.email.value,
                         pass: this.model.password.value
                     })
             )

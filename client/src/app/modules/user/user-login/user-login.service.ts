@@ -16,7 +16,7 @@ export class UserLoginService {
         return this.http.post(environment.apiEndPoint + '/user/login', user)
             .pipe(
                 map((data: any) => {
-                    Storage.token = data.password
+                    Storage.token = data
                 })
             )
     }

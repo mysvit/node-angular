@@ -3,7 +3,7 @@ import { FieldValidators } from '@static/validators'
 
 export class UserLoginModel {
 
-    username: FormControl = new FormControl(undefined, [
+    email: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an username.')
     ])
     password: FormControl = new FormControl(undefined, [
@@ -11,7 +11,7 @@ export class UserLoginModel {
     ])
 
     formGroup: FormGroup = new FormGroup({
-            username: this.username,
+            email: this.email,
             password: this.password
         }
     )
