@@ -31,7 +31,12 @@ describe('DbUser', () => {
     })
 
     it('getById', async () => {
-        const user = await dbUser.getById(user_test.user_id)
+        const user = await dbUser.getProfile(user_test.user_id)
+        expect(user).to.deep.eq(user_test)
+    })
+
+    it('getByEmail', async () => {
+        const user = await dbUser.getByEmail(user_test.user_email)
         expect(user).to.deep.eq(user_test)
     })
 

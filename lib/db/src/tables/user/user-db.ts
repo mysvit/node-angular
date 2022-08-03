@@ -3,14 +3,12 @@ import { Db } from '../db'
 
 export class UserDb extends Db {
 
-    async getById(user_id: string): Promise<User> {
+    async getProfile(user_id: string): Promise<User> {
         return await this.dbQuery(
             `SELECT 
                     user_id, 
                     user_name, 
-                    user_email, 
-                    user_hash,
-                    user_salt 
+                    user_email
                 FROM 
                     user 
                 WHERE 

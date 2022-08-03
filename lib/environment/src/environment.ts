@@ -10,6 +10,7 @@ export interface Environment {
     production: boolean
     port: number
     db: DbConnection
+    token_key: string
 }
 
 // default production
@@ -31,5 +32,6 @@ export const environment: Environment = {
         user: 'root',
         password: isTest || isDev ? 'root' : 'prodPassword',
         connectionLimit: 5
-    }
+    },
+    token_key: '15f73e49d44d444c980d62b7bf05160fc057ad6f2417e4f13e9f069f972b14f8'
 }

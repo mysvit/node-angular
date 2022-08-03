@@ -19,10 +19,10 @@ describe('ApiUser', () => {
         chai.spy.restore(userCore)
     })
 
-    it('GET ' + ApiPath.api + ApiPath.user_getById, async () => {
+    it('GET ' + ApiPath.api + ApiPath.user_getProfile, async () => {
         const spy = chai.spy.on(userCore, 'getById', () => true)
         await agent
-            .get(ApiPath.api + ApiPath.user_getById)
+            .get(ApiPath.api + ApiPath.user_getProfile)
             .query({user_id: 'uuid'})
         expect(spy).to.have.been.called()
     })

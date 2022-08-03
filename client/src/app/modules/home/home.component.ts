@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Storage } from '@static/storage'
+import { HomeService } from './home.service'
 
 @Component({
     selector: 'app-home',
@@ -8,11 +9,17 @@ import { Storage } from '@static/storage'
 })
 export class HomeComponent implements OnInit {
 
-    constructor() {
+    constructor(
+        private home: HomeService
+    ) {
     }
 
     ngOnInit(): void {
         console.debug('token', Storage.token)
+    }
+
+    userClick() {
+        this.home.getUserById(Storage.user_id).subscribe(data => console.debug(data))
     }
 
 }

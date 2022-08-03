@@ -1,10 +1,10 @@
 export class Storage {
-    static get user() {
-        return localStorage.getItem(StorageItems.user) ?? ''
+    static get user_id() {
+        return localStorage.getItem(StorageItems.user_id) ?? ''
     }
 
-    static set user(value: string) {
-        localStorage.setItem(StorageItems.user, value)
+    static set user_id(value: string) {
+        localStorage.setItem(StorageItems.user_id, value)
     }
 
     static get token() {
@@ -21,6 +21,6 @@ export class Storage {
 }
 
 export enum StorageItems {
-    user = 'user',
+    user_id = 'user_id',
     token = 'token'
 }

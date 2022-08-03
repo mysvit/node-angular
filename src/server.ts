@@ -4,6 +4,7 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 import { ErrorHandler } from './routes/errors'
+import { updateEnvironmentTokenKey } from './routes/middleware'
 import { logger } from './routes/ref/logger'
 import { routes } from "./routes/routes"
 
@@ -25,6 +26,7 @@ export function app(): express.Express {
 }
 
 export function server() {
+    updateEnvironmentTokenKey()
     // Promise rejection
     process.on('unhandledRejection', (reason: Error, promise: Promise<any>) => {
         ErrorHandler.logErrors(new Error(`Unhandled Rejection at: ${promise}/n reason: ${reason}`)).finally()

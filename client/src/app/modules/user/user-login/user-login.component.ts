@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
+import { LoginModel } from '@dto'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
 
@@ -28,9 +29,9 @@ export class UserLoginComponent extends ProcessForm {
         if (this.model.formGroup.touched && this.model.formGroup.valid) {
             this.execute(
                 this.userLogin.login(
-                    {
-                        user: this.model.email.value,
-                        pass: this.model.password.value
+                    <LoginModel>{
+                        email: this.model.email.value,
+                        password: this.model.password.value
                     })
             )
         }
@@ -38,7 +39,7 @@ export class UserLoginComponent extends ProcessForm {
 
     override processCompleted() {
         super.processCompleted()
-        this.router.navigate(['home'], {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}).finally()
+        // this.router.navigate(['home'], {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}).finally()
     }
 
 }

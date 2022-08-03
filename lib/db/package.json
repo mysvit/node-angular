@@ -6,7 +6,7 @@
   "types": "db.d.ts",
   "type": "module",
   "scripts": {
-    "prebuild": "rm -rf ../../dist/lib/db && mkdir -p ../../dist/lib/db && cp -R ./node_modules ../../dist/lib/db/node_modules",
+    "prebuild": "rm -rf ../../dist/lib/db",
     "build": "ttsc --project ./tsconfig.lib.json",
     "watch": "ttsc --project ./tsconfig.lib.json --watch",
 
@@ -18,8 +18,5 @@
     "postprod": "cp ./package.json ../../dist/lib/db/package.json"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "mariadb": "^3.0.0"
-  }
+  "license": "ISC"
 }

@@ -1,16 +1,14 @@
-import { IUser, SignupModel, User } from '@dto'
+import { LoginModel, SignupModel, TokenModel, User } from '@dto'
+import { environment } from '@env'
 import { ErrorApi500, ErrorsMsg, PasswordHash, ValueHelper } from '@shared'
 import { randomUUID } from 'crypto'
-import { LoginModel } from '../../../../../dist/lib/dto/models/login-model'
+import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
 
-export class UserCore extends Core {
+const {sign} = jwt
 
-    async getById(query): Promise<User> {
-        ParamValidation.validateId(query?.user_id)
-        return await this.dbUser.getById(query?.user_id)
-    }
+export class UserCore extends Core {
 
     async signup(model: SignupModel): Promise<string> {
         if (ValueHelper.isEmpty(model.username) || ValueHelper.isEmpty(model.email) || ValueHelper.isEmpty(model.password)) {
@@ -24,7 +22,7 @@ export class UserCore extends Core {
         }
         const id = randomUUID()
         const saltedHash = PasswordHash.createSaltedHash(model.password)
-        const user: User = new User(<IUser>{
+        const user: User = new User(<User>{
             user_id: id,
             user_name: model.username,
             user_email: model.email,
@@ -34,15 +32,25 @@ export class UserCore extends Core {
         return this.dbUser.add(user)
     }
 
-    async login(model: LoginModel): Promise<string> {
+    async login(model: LoginModel): Promise<TokenModel> {
         if (ValueHelper.isEmpty(model.email) || ValueHelper.isEmpty(model.password)) {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
         }
         const user = await this.dbUser.getByEmail(model.email)
-        if (PasswordHash.validatePassword(model.password, user.user_salt, user.user_hash)) {
+        if (ValueHelper.isEmpty(user)) {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
-        return user.user_id
+        if (!PasswordHash.isValidPassword(model.password, user.user_salt, user.user_hash)) {
+            throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
+        }
+
+        const token = sign({user_id: user.user_id}, environment.token_key, {expiresIn: '60s'})
+        return <TokenModel>{user_id: user.user_id, token: token}
+    }
+
+    async getProfile(query): Promise<User> {
+        ParamValidation.validateId(query?.user_id)
+        return await this.dbUser.getProfile(query?.user_id)
     }
 
 }

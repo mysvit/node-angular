@@ -13,7 +13,7 @@ export namespace PasswordHash {
     }
 
     // compare password with hash
-    export function validatePassword(password: string, salt: string, hash: string): boolean {
+    export function isValidPassword(password: string, salt: string, hash: string): boolean {
         // Hashing user's salt and password with 1000 iterations, 64 length and sha512 digest
         const passwordHash = pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`)
         return passwordHash === hash
