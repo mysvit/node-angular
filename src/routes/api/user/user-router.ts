@@ -19,4 +19,4 @@ userAuth.post(ApiPath.user_login, ErrorHandler.apiCatch(UserApi.login))
 
 // apiBase/user/getProfile?[query]
 // user_id: uuid
-userProf.get(ApiPath.user_getProfile, ErrorHandler.apiCatch(UserApi.getProfile))
+userProf.get(ApiPath.user_getProfileShort, ErrorHandler.apiCatch(UserApi.getProfileShort))

@@ -17,10 +17,10 @@ describe('CoreUser', () => {
         chai.spy.on(coreUser.dbUser, 'isEmailExist', async (user_email: string) => {
             return user_email === 'exist'
         })
-        chai.spy.on(coreUser.dbUser, 'isUserExist', async (user_name: string) => {
+        chai.spy.on(coreUser.dbUser, 'isNameExist', async (user_name: string) => {
             return user_name === 'exist'
         })
-        chai.spy.on(coreUser.dbUser, 'add', () => true)
+        chai.spy.on(coreUser.dbUser, 'signup', () => true)
     })
 
     afterEach(() => {

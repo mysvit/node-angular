@@ -1,4 +1,4 @@
-import { LoginModel, SignupModel, TokenModel, User } from '@dto'
+import { LoginModel, SignupModel, TokenModel, UserProfileShort, UserSignup } from '@dto'
 import { environment } from '@env'
 import { ErrorApi500, ErrorsMsg, PasswordHash, ValueHelper } from '@shared'
 import { randomUUID } from 'crypto'
@@ -17,26 +17,26 @@ export class UserCore extends Core {
         if (await this.dbUser.isEmailExist(model.email)) {
             throw new ErrorApi500(ErrorsMsg.EmailRegistered)
         }
-        if (await this.dbUser.isUserExist(model.username)) {
+        if (await this.dbUser.isNameExist(model.username)) {
             throw new ErrorApi500(ErrorsMsg.UserRegistered)
         }
         const id = randomUUID()
         const saltedHash = PasswordHash.createSaltedHash(model.password)
-        const user: User = new User(<User>{
+        const user = new UserSignup(<UserSignup>{
             user_id: id,
             user_name: model.username,
             user_email: model.email,
             user_hash: saltedHash.hash,
             user_salt: saltedHash.salt
         })
-        return this.dbUser.add(user)
+        return this.dbUser.signup(user)
     }
 
     async login(model: LoginModel): Promise<TokenModel> {
         if (ValueHelper.isEmpty(model.email) || ValueHelper.isEmpty(model.password)) {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
         }
-        const user = await this.dbUser.getByEmail(model.email)
+        const user = await this.dbUser.getSecurityInfo(model.email)
         if (ValueHelper.isEmpty(user)) {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
@@ -48,9 +48,9 @@ export class UserCore extends Core {
         return <TokenModel>{user_id: user.user_id, token: token}
     }
 
-    async getProfile(query): Promise<User> {
+    async getProfileShort(query): Promise<UserProfileShort> {
         ParamValidation.validateId(query?.user_id)
-        return await this.dbUser.getProfile(query?.user_id)
+        return await this.dbUser.getProfileShort(query?.user_id)
     }
 
 }

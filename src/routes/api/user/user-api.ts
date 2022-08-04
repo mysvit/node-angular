@@ -10,14 +10,13 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
-
     static async login(req: Request, res: Response) {
         const result = await userCore.login(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async getProfile(req: Request, res: Response) {
-        const result = await userCore.getProfile(req.query)
+    static async getProfileShort(req: Request, res: Response) {
+        const result = await userCore.getProfileShort(req.query)
         res.status(StatusCodes.OK).json(result)
     }
 

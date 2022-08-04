@@ -1,9 +1,16 @@
-import { User } from '@dto'
+import { UserProfileShort, UserSecurityInfo, UserSignup } from '@dto'
 import { Db } from '../db'
 
 export class UserDb extends Db {
 
-    async getProfile(user_id: string): Promise<User> {
+    async signup(userSignup: UserSignup): Promise<any> {
+        return await this.dbExecute(
+            `INSERT INTO user (user_id, user_name, user_email, user_hash, user_salt) 
+                VALUES (?, ?, ?, ?, ?)`,
+            userSignup.signupArr)
+    }
+
+    async getProfileShort(user_id: string): Promise<UserProfileShort> {
         return await this.dbQuery(
             `SELECT 
                     user_id, 
@@ -17,12 +24,10 @@ export class UserDb extends Db {
             .then(data => data ? data[0] : undefined)
     }
 
-    async getByEmail(user_email: string): Promise<User> {
+    async getSecurityInfo(user_email: string): Promise<UserSecurityInfo> {
         return await this.dbQuery(
             `SELECT 
                     user_id, 
-                    user_name, 
-                    user_email, 
                     user_hash,
                     user_salt 
                 FROM 
@@ -44,7 +49,7 @@ export class UserDb extends Db {
             .then(data => data['0'].cnt > 0)
     }
 
-    async isUserExist(user_name: string): Promise<boolean> {
+    async isNameExist(user_name: string): Promise<boolean> {
         return await this.dbQuery(
             `SELECT COUNT(*) as cnt FROM user 
                 WHERE
@@ -54,36 +59,28 @@ export class UserDb extends Db {
             .then(data => data['0'].cnt > 0)
     }
 
-    async add(user: User): Promise<string> {
-        return await this.dbExecute(
-            `INSERT INTO user (user_id, user_name, user_email, user_hash, user_salt) 
-                VALUES (?, ?, ?, ?, ?) RETURNING user_id`,
-            user.addArr)
-            .then(data => data[0].user_id)
-    }
-
-    async update(user: User): Promise<boolean> {
-        return await this.dbExecute(
-            `UPDATE user
-                SET
-                    user_name=?,
-                    user_email=?,
-                    user_hash=?
-                WHERE
-                    user_id = ?`,
-            user.updateArr)
-            .then(data => data.affectedRows === 1)
-    }
-
-    async delete(user_id: string): Promise<boolean> {
-        return await this.dbExecute(
-            `UPDATE user
-                SET
-                    is_del=1
-                WHERE
-                    user_id = ?`,
-            user_id)
-            .then(data => data.affectedRows === 1)
-    }
+    // async update(user: User): Promise<boolean> {
+    //     return await this.dbExecute(
+    //         `UPDATE user
+    //             SET
+    //                 user_name=?,
+    //                 user_email=?,
+    //                 user_hash=?
+    //             WHERE
+    //                 user_id = ?`,
+    //         user.updateArr)
+    //         .then(data => data.affectedRows === 1)
+    // }
+    //
+    // async delete(user_id: string): Promise<boolean> {
+    //     return await this.dbExecute(
+    //         `UPDATE user
+    //             SET
+    //                 is_del=1
+    //             WHERE
+    //                 user_id = ?`,
+    //         user_id)
+    //         .then(data => data.affectedRows === 1)
+    // }
 
 }

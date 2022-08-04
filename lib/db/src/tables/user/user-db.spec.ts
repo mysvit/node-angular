@@ -1,4 +1,4 @@
-import { User } from '@dto'
+import { UserSignup, UserProfileShort, UserSecurityInfo } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import { randomUUID } from 'crypto'
@@ -10,7 +10,9 @@ const expect = chai.expect
 describe('DbUser', () => {
 
     const dbUser = new UserDb(environment)
-    const user_test = new User({user_id: randomUUID(), user_name: 'username', user_email: 'user@email.com', user_hash: 'hash', user_salt: 'salt'})
+    const userSignup = new UserSignup({user_id: randomUUID(), user_name: 'username', user_email: 'user@email.com', user_hash: 'hash', user_salt: 'salt'})
+    const userProfileShort = <UserProfileShort>{user_id: userSignup.user_id, user_name: userSignup.user_name, user_email: userSignup.user_email}
+    const userSecurityInfo = <UserSecurityInfo>{user_id: userSignup.user_id, user_hash: 'hash', user_salt: 'salt'}
 
     before(() => {
     })
@@ -19,29 +21,29 @@ describe('DbUser', () => {
     after(async () => {
         const conn = await dbUser.getConnection
         try {
-            await conn.execute('DELETE FROM user WHERE user_name = ?', user_test.user_name)
+            await conn.execute('DELETE FROM user WHERE user_name = ?', userSignup.user_name)
         } finally {
             if (conn) await conn.release()
         }
     })
 
-    it('add', async () => {
-        const user_id = await dbUser.add(user_test)
-        expect(user_id).to.be.eq(user_test.user_id)
+    it('signup', async () => {
+        const signup = await dbUser.signup(userSignup)
+        expect(signup.affectedRows).to.be.eq(1)
     })
 
-    it('getById', async () => {
-        const user = await dbUser.getProfile(user_test.user_id)
-        expect(user).to.deep.eq(user_test)
+    it('getProfileShort', async () => {
+        const user = await dbUser.getProfileShort(userSignup.user_id)
+        expect(user).to.deep.eq(userProfileShort)
     })
 
-    it('getByEmail', async () => {
-        const user = await dbUser.getByEmail(user_test.user_email)
-        expect(user).to.deep.eq(user_test)
+    it('getSecurityInfo', async () => {
+        const user = await dbUser.getSecurityInfo(userSignup.user_email)
+        expect(user).to.deep.eq(userSecurityInfo)
     })
 
     it('isEmailExist', async () => {
-        const res = await dbUser.isEmailExist(user_test.user_email)
+        const res = await dbUser.isEmailExist(userSignup.user_email)
         expect(res).to.be.true
     })
 
@@ -51,23 +53,23 @@ describe('DbUser', () => {
     })
 
     it('isUserExist', async () => {
-        const res = await dbUser.isUserExist(user_test.user_name)
+        const res = await dbUser.isNameExist(userSignup.user_name)
         expect(res).to.be.true
     })
 
     it('isUserExist Not', async () => {
-        const res = await dbUser.isUserExist('someuser')
+        const res = await dbUser.isNameExist('someuser')
         expect(res).to.be.false
     })
 
-    it('update', async () => {
-        const res = await dbUser.update(user_test)
-        expect(res).to.be.true
-    })
-
-    it('delete', async () => {
-        const res = await dbUser.delete(user_test.user_id)
-        expect(res).to.be.true
-    })
+    // it('update', async () => {
+    //     const res = await dbUser.update(userSignup)
+    //     expect(res).to.be.true
+    // })
+    //
+    // it('delete', async () => {
+    //     const res = await dbUser.delete(userSignup.user_id)
+    //     expect(res).to.be.true
+    // })
 
 })

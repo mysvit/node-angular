@@ -9,7 +9,7 @@ export class ErrorHandler {
 
     // log error and send them if needed
     static async logErrors(error: Error): Promise<void> {
-        await logger.error('Centralized error handling:', error)
+        await logger.error(ErrorsMsg.CentralizedError, error)
         // await sendMailToAdminIfCritical()
         // await sendEventsToSentry()
     }
@@ -42,6 +42,7 @@ export class ErrorHandler {
         }
     }
 
+    // not found route
     static api404(req: Request, res: Response, next: NextFunction) {
         res.status(StatusCodes.NOT_FOUND).send({message: StringHelper.format(ErrorsMsg.RouteNotFound, req.originalUrl)})
     }
