@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
+import { MatMenuModule } from '@angular/material/menu'
 import { MatToolbarModule } from '@angular/material/toolbar'
+import { StatesService } from '@core/services/states.service'
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { WarnMessageComponent } from './components/warn-message/warn-message.component'
 import { CompletedPageComponent } from './pages/completed-page/completed-page.component'
@@ -34,7 +36,11 @@ const pages = [
         MatButtonModule,
         MatIconModule,
         MatToolbarModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatMenuModule
+    ],
+    providers: [
+        StatesService
     ]
 })
 export class CoreModule {

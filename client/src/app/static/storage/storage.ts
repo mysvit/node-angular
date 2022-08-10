@@ -1,26 +1,33 @@
+import { Props } from '@shared-lib/constants'
+
 export class Storage {
+
+    static get username() {
+        return localStorage.getItem(Props.username) ?? ''
+    }
+
+    static set username(value: string) {
+        localStorage.setItem(Props.username, value)
+    }
+
     static get user_id() {
-        return localStorage.getItem(StorageItems.user_id) ?? ''
+        return localStorage.getItem(Props.user_id) ?? ''
     }
 
     static set user_id(value: string) {
-        localStorage.setItem(StorageItems.user_id, value)
+        localStorage.setItem(Props.user_id, value)
     }
 
     static get token() {
-        return localStorage.getItem(StorageItems.token) ?? ''
+        return localStorage.getItem(Props.token) ?? ''
     }
 
     static set token(value: string) {
-        localStorage.setItem(StorageItems.token, value)
+        localStorage.setItem(Props.token, value)
     }
 
-    removeItem(item: StorageItems) {
-        localStorage.removeItem(item)
+    static clear() {
+        localStorage.clear()
     }
-}
 
-export enum StorageItems {
-    user_id = 'user_id',
-    token = 'token'
 }

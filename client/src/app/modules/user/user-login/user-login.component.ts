@@ -1,8 +1,10 @@
+import { Location } from '@angular/common'
 import { Component } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Router } from '@angular/router'
+import { LoginModel } from '@dto'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
-import { LoginModel } from '@dto'
+import { AppService } from '../../../app.service'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
 
@@ -18,8 +20,9 @@ export class UserLoginComponent extends ProcessForm {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
-        private userLogin: UserLoginService
+        private location: Location,
+        private userLogin: UserLoginService,
+        private app: AppService
     ) {
         super()
     }
@@ -39,7 +42,8 @@ export class UserLoginComponent extends ProcessForm {
 
     override processCompleted() {
         super.processCompleted()
-        // this.router.navigate(['home'], {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}).finally()
+        this.app.getUserProfileShort()
+        return this.router.navigate(['..'])
     }
 
 }

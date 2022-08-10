@@ -44,7 +44,7 @@ export class UserCore extends Core {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
 
-        const token = sign({user_id: user.user_id}, environment.token_key, {expiresIn: '60s'})
+        const token = sign({user_id: user.user_id}, environment.token_key, {expiresIn: '2h'})
         return <TokenModel>{user_id: user.user_id, token: token}
     }
 

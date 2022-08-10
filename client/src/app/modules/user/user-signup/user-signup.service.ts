@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { SignupModel } from '@dto'
 import { environment } from '@env'
-import { ApiPath } from '@shared-lib/api'
+import { ApiPath } from '@shared-lib/constants'
 
 @Injectable({
     providedIn: 'root'

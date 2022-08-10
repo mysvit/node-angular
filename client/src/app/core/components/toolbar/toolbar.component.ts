@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { StatesService } from '@core/services/states.service'
 
 @Component({
     selector: 'app-toolbar',
@@ -7,7 +8,13 @@ import { Component } from '@angular/core'
 })
 export class ToolbarComponent {
 
-    constructor() {
+    isAuth: boolean = false
+
+    constructor(private states: StatesService) {
+        this.states.isAuth().subscribe(data => {
+            console.debug(data)
+            this.isAuth = data
+        })
     }
 
 }

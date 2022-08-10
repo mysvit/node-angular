@@ -22,29 +22,29 @@ describe('ApiUser', () => {
         chai.spy.restore(userCore)
     })
 
-    it('POST ' + ApiPath.api + ApiPath.user_signup, async () => {
+    it('POST ' + ApiPath.user_signup, async () => {
         const spy = chai.spy.on(userCore, 'signup', () => true)
         await agent
-            .post(ApiPath.api + ApiPath.user_signup)
+            .post(ApiPath.user_signup)
             .type('form')
             .send({})
         expect(spy).to.have.been.called()
     })
 
-    it('POST ' + ApiPath.api + ApiPath.user_login, async () => {
+    it('POST ' + ApiPath.user_login, async () => {
         const spy = chai.spy.on(userCore, 'login', () => true)
         await agent
-            .post(ApiPath.api + ApiPath.user_login)
+            .post(ApiPath.user_login)
             .type('form')
             .send({})
         expect(spy).to.have.been.called()
     })
 
-    it('GET ' + ApiPath.api + ApiPath.user_getProfileShort, async () => {
+    it('GET ' + ApiPath.user_get_profile_short, async () => {
         const spy = chai.spy.on(userCore, 'getProfileShort', () => true)
         const token = sign({user_id: 'user_test_uuid'}, environment.token_key, {expiresIn: '60s'})
         await agent
-            .get(ApiPath.api + ApiPath.user_getProfileShort)
+            .get(ApiPath.user_get_profile_short)
             .query({user_id: 'uuid'})
             .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
         expect(spy).to.have.been.called()

@@ -6,12 +6,12 @@ import { Middleware } from './middleware'
 export const routes = express.Router()
 
 // Api
-routes.use('/api', userAuth)
+routes.use('/', userAuth)
 
 // Authenticated
 routes.use(Middleware.verifyToken)
 // user profile
-routes.use('/api', userProf)
+routes.use('/', userProf)
 // 404 for authenticated path
 routes.use(ErrorHandler.api404)
 
