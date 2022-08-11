@@ -1,4 +1,4 @@
-import { UserSignup, UserProfileShort, UserSecurityInfo } from '@dto'
+import { UserProfileShort, UserSecurityInfo, UserSignup } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import { randomUUID } from 'crypto'
@@ -10,9 +10,9 @@ const expect = chai.expect
 describe('DbUser', () => {
 
     const dbUser = new UserDb(environment)
-    const userSignup = new UserSignup({user_id: randomUUID(), user_name: 'username', user_email: 'user@email.com', user_hash: 'hash', user_salt: 'salt'})
-    const userProfileShort = <UserProfileShort>{user_id: userSignup.user_id, user_name: userSignup.user_name, user_email: userSignup.user_email}
-    const userSecurityInfo = <UserSecurityInfo>{user_id: userSignup.user_id, user_hash: 'hash', user_salt: 'salt'}
+    const userSignup = new UserSignup({user_id: randomUUID(), username: 'username', email: 'user@email.com', password_hash: 'hash', password_salt: 'salt'})
+    const userProfileShort = <UserProfileShort>{user_id: userSignup.user_id, username: userSignup.username, email: userSignup.email}
+    const userSecurityInfo = <UserSecurityInfo>{user_id: userSignup.user_id, password_hash: 'hash', password_salt: 'salt'}
 
     before(() => {
     })
@@ -21,7 +21,7 @@ describe('DbUser', () => {
     after(async () => {
         const conn = await dbUser.getConnection
         try {
-            await conn.execute('DELETE FROM user WHERE user_name = ?', userSignup.user_name)
+            await conn.execute('DELETE FROM user WHERE username = ?', userSignup.username)
         } finally {
             if (conn) await conn.release()
         }
@@ -38,12 +38,12 @@ describe('DbUser', () => {
     })
 
     it('getSecurityInfo', async () => {
-        const user = await dbUser.getSecurityInfo(userSignup.user_email)
+        const user = await dbUser.getSecurityInfo(userSignup.email)
         expect(user).to.deep.eq(userSecurityInfo)
     })
 
     it('isEmailExist', async () => {
-        const res = await dbUser.isEmailExist(userSignup.user_email)
+        const res = await dbUser.isEmailExist(userSignup.email)
         expect(res).to.be.true
     })
 
@@ -53,7 +53,7 @@ describe('DbUser', () => {
     })
 
     it('isUserExist', async () => {
-        const res = await dbUser.isNameExist(userSignup.user_name)
+        const res = await dbUser.isNameExist(userSignup.username)
         expect(res).to.be.true
     })
 
@@ -68,7 +68,7 @@ describe('DbUser', () => {
     // })
     //
     // it('delete', async () => {
-    //     const res = await dbUser.delete(userSignup.user_id)
+    //     const res = await dbUser.delete(userSignup.userId)
     //     expect(res).to.be.true
     // })
 

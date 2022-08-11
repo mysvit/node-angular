@@ -18,5 +18,5 @@ userAuth.post(ApiPath.user_login, ErrorHandler.apiCatch(UserApi.login))
 
 
 // apiBase/user/getProfile?[query]
-// user_id: uuid
+// userId: uuid
 userProf.get(ApiPath.user_get_profile_short, ErrorHandler.apiCatch(UserApi.getProfileShort))

@@ -10,7 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
         const authReq = req.clone({
             setHeaders: {
                 authorization: Storage.token,
-                user_id: Storage.user_id
+                user_id: Storage.userId
             }
         })
 

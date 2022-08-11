@@ -1,6 +1,6 @@
 -- MariaDB dump 10.19  Distrib 10.8.3-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: 0.0.0.0    Database: serverdb
+-- Host: 0.0.0.0    Database: server-db
 -- ------------------------------------------------------
 -- Server version	10.8.3-MariaDB-1:10.8.3+maria~jammy
 
@@ -24,10 +24,10 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `user_id` varchar(36) NOT NULL,
-  `user_name` varchar(30) NOT NULL,
-  `user_email` varchar(30) NOT NULL,
-  `user_pass` varchar(100) NOT NULL,
-  `user_session` varchar(300) DEFAULT NULL,
+  `username` varchar(20) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `password_hash` varchar(150) NOT NULL,
+  `password_salt` varchar(50) DEFAULT NULL,
   `user_session_exp` datetime DEFAULT NULL,
   `is_del` smallint(6) DEFAULT 0,
   PRIMARY KEY (`user_id`)
@@ -41,7 +41,7 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES
-('d0904fe8-f5f0-11ec-b939-0242ac120002','qqq','w','w',NULL,NULL,0);
+('e9c9bf9f-2d1b-4587-8c06-d0ee4223c5bf','qq1','q@q.qq','df95b8322a109b53310341833bdfb36488b42c8f90ae5d4d7bf1fe816ccf2e5e255888b6ceff9d644ab9aed4a3ba19053dd9ec5ff419f4ec2999288dc0aade64','36804ac73ecc30f274f8067efcdb66a9',NULL,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-29  7:27:24
+-- Dump completed on 2022-08-11 12:59:05

@@ -9,14 +9,14 @@ export namespace PasswordHash {
         const salt = randomBytes(16).toString('hex')
         // Hashing user's salt and password with 1000 iterations, 64 length and sha512 digest
         const hash = pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`)
-        return <SaltedHash>{salt: salt, hash: hash}
+        return <SaltedHash>{passwordSalt: salt, passwordHash: hash}
     }
 
     // compare password with hash
-    export function isValidPassword(password: string, salt: string, hash: string): boolean {
+    export function isValidPassword(password: string, currentSalt: string, currentHash: string): boolean {
         // Hashing user's salt and password with 1000 iterations, 64 length and sha512 digest
-        const passwordHash = pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`)
-        return passwordHash === hash
+        const validationHash = pbkdf2Sync(password, currentSalt, 1000, 64, `sha512`).toString(`hex`)
+        return validationHash === currentHash
     }
 
 }

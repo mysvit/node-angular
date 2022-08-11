@@ -10,12 +10,12 @@ export class Storage {
         localStorage.setItem(Props.username, value)
     }
 
-    static get user_id() {
-        return localStorage.getItem(Props.user_id) ?? ''
+    static get userId() {
+        return localStorage.getItem(Props.userId) ?? ''
     }
 
-    static set user_id(value: string) {
-        localStorage.setItem(Props.user_id, value)
+    static set userId(value: string) {
+        localStorage.setItem(Props.userId, value)
     }
 
     static get token() {

@@ -24,10 +24,10 @@ export class UserCore extends Core {
         const saltedHash = PasswordHash.createSaltedHash(model.password)
         const user = new UserSignup(<UserSignup>{
             user_id: id,
-            user_name: model.username,
-            user_email: model.email,
-            user_hash: saltedHash.hash,
-            user_salt: saltedHash.salt
+            username: model.username,
+            email: model.email,
+            password_hash: saltedHash.passwordHash,
+            password_salt: saltedHash.passwordSalt
         })
         return this.dbUser.signup(user)
     }
@@ -40,7 +40,7 @@ export class UserCore extends Core {
         if (ValueHelper.isEmpty(user)) {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
-        if (!PasswordHash.isValidPassword(model.password, user.user_salt, user.user_hash)) {
+        if (!PasswordHash.isValidPassword(model.password, user.password_salt, user.password_hash)) {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
 

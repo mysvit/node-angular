@@ -14,7 +14,7 @@ describe('Middleware', () => {
 
     const agent = chai.request.agent(app())
 
-    it('verifyToken - FORBIDDEN: not user_id or authorization header', async () => {
+    it('verifyToken - FORBIDDEN: not userId or authorization header', async () => {
         const notUser = await agent.get('').set({'authorization': 'Bearer 1111111111111111'})
         expect(notUser).to.have.status(StatusCodes.FORBIDDEN)
         expect(notUser.body.message).to.equal(ErrorsMsg.TokenRequired)

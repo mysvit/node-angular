@@ -17,6 +17,7 @@
   - [TS-node](#ts-node)
 - [Notes](#notes)
   - [Folder structure](#folder-structure)
+  - [Guidelines for naming fields and variables](#guidelines-for-naming-fields-and-variables)
   - [Debug concept](#debug-concept)
   - [Setting up Path Alias in TypeScript](#setting-up-path-alias-in-typescript)
   - [package.json](#packagejson)
@@ -343,6 +344,15 @@ node --inspect --loader=ts-node/esm src/server.ts       ### start live ts server
 ├─ tsconfig.json        # root typescript config file for development
 └─ tsconfig.prod.json   # inherited from root for production
 ```
+
+#### Guidelines for naming fields and variables
+
+Use a **PascalCase**: class, namespace
+
+Use a **camelCase**: variable, property, method, function
+
+Use a **snake_case**: database field, api path, api get parameter
+
 
 #### Debug concept:
 Compiles `.ts` files by `tsc --watch` compiler to `.js` files with map.

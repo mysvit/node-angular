@@ -5,7 +5,7 @@ export class UserDb extends Db {
 
     async signup(userSignup: UserSignup): Promise<any> {
         return await this.dbExecute(
-            `INSERT INTO user (user_id, user_name, user_email, user_hash, user_salt) 
+            `INSERT INTO user (user_id, username, email, password_hash, password_salt) 
                 VALUES (?, ?, ?, ?, ?)`,
             userSignup.signupArr)
     }
@@ -14,8 +14,8 @@ export class UserDb extends Db {
         return await this.dbQuery(
             `SELECT 
                     user_id, 
-                    user_name, 
-                    user_email
+                    username, 
+                    email
                 FROM 
                     user 
                 WHERE 
@@ -24,38 +24,38 @@ export class UserDb extends Db {
             .then(data => data ? data[0] : undefined)
     }
 
-    async getSecurityInfo(user_email: string): Promise<UserSecurityInfo> {
+    async getSecurityInfo(email: string): Promise<UserSecurityInfo> {
         return await this.dbQuery(
             `SELECT 
                     user_id, 
-                    user_hash,
-                    user_salt 
+                    password_hash,
+                    password_salt 
                 FROM 
                     user 
                 WHERE 
                     is_del = 0
-                    AND user_email = ?`,
-            [user_email])
+                    AND email = ?`,
+            [email])
             .then(data => data ? data[0] : undefined)
     }
 
-    async isEmailExist(user_email: string): Promise<boolean> {
+    async isEmailExist(email: string): Promise<boolean> {
         return await this.dbQuery(
             `SELECT COUNT(*) as cnt FROM user 
                 WHERE
                     is_del = 0
-                    AND user_email = ?`,
-            [user_email])
+                    AND email = ?`,
+            [email])
             .then(data => data['0'].cnt > 0)
     }
 
-    async isNameExist(user_name: string): Promise<boolean> {
+    async isNameExist(username: string): Promise<boolean> {
         return await this.dbQuery(
             `SELECT COUNT(*) as cnt FROM user 
                 WHERE
                     is_del = 0
-                    AND user_name = ?`,
-            [user_name])
+                    AND username = ?`,
+            [username])
             .then(data => data['0'].cnt > 0)
     }
 
@@ -67,19 +67,19 @@ export class UserDb extends Db {
     //                 user_email=?,
     //                 user_hash=?
     //             WHERE
-    //                 user_id = ?`,
+    //                 userId = ?`,
     //         user.updateArr)
     //         .then(data => data.affectedRows === 1)
     // }
     //
-    // async delete(user_id: string): Promise<boolean> {
+    // async delete(userId: string): Promise<boolean> {
     //     return await this.dbExecute(
     //         `UPDATE user
     //             SET
     //                 is_del=1
     //             WHERE
-    //                 user_id = ?`,
-    //         user_id)
+    //                 userId = ?`,
+    //         userId)
     //         .then(data => data.affectedRows === 1)
     // }
 
