@@ -22,6 +22,7 @@ export class AppService {
         this.http.get<UserProfileShort>(environment.apiEndPoint + ApiPath.user_get_profile_short, options)
             .subscribe({
                 next: (data) => {
+                    this.states.userProfileShort = data
                     Storage.username = data.username
                 },
                 complete: () => {

@@ -1,4 +1,5 @@
 <mat-toolbar color="primary">
+
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
@@ -6,28 +7,29 @@
     <span class="sl-flex-spacer"></span>
 
     <ng-template [ngIf]="isAuth" [ngIfElse]="login">
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                    <mat-icon>dialpad</mat-icon>
-                    <span>Redial</span>
+        <button mat-mini-fab color="white" [matMenuTriggerFor]="menu" class="sl-menu-icon">{{this.profileMenuIcon}}</button>
+        <mat-menu #menu="matMenu">
+            <ng-template matMenuContent>
+                <div class="sl-menu-title">Signed in as <b>{{states.userProfileShort?.username}}</b></div>
+                <hr/>
+                <button mat-menu-item (click)="profileClick()">
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Your profile</span>
                 </button>
-                <button mat-menu-item disabled>
-                    <mat-icon>voicemail</mat-icon>
-                    <span>Check voice mail</span>
+                <hr/>
+                <button mat-menu-item (click)="signOutClick()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Sign Out</span>
                 </button>
-                <button mat-menu-item>
-                    <mat-icon>notifications_off</mat-icon>
-                    <span>Disable alerts</span>
-                </button>
-            </mat-menu>
+            </ng-template>
+        </mat-menu>
     </ng-template>
+
     <ng-template #login>
-        <a mat-stroked-button class="sl-sign-in-button" (click)="gotoLoginClick()">
+        <a mat-stroked-button class="sl-sign-in-button" (click)="loginClick()">
             <mat-icon>login</mat-icon>
             <span>Sign in</span>
         </a>
     </ng-template>
+
 </mat-toolbar>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { UserProfileShort } from '@dto'
 import { Subject } from 'rxjs'
 
 @Injectable({
@@ -6,6 +7,7 @@ import { Subject } from 'rxjs'
 })
 export class StatesService {
 
+    userProfileShort?: UserProfileShort
     private auth: Subject<boolean> = new Subject()
 
     constructor() {
@@ -13,6 +15,10 @@ export class StatesService {
 
     isAuth() {
         return this.auth
+    }
+
+    profileMenuIcon() {
+        return this.userProfileShort?.username?.substr(1, 1).toUpperCase() || ''
     }
 
 }

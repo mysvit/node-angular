@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { StatesService } from '@core/services/states.service'
 import { ClientPath } from '@shared-lib/constants'
+import { Storage } from '@static/storage'
 
 @Component({
     selector: 'app-toolbar',
@@ -11,18 +12,29 @@ import { ClientPath } from '@shared-lib/constants'
 export class ToolbarComponent {
 
     isAuth: boolean = false
+    profileMenuIcon: string = ''
 
     constructor(
         private router: Router,
-        private states: StatesService
+        public states: StatesService
     ) {
         this.states.isAuth().subscribe(data => {
-            console.debug(data)
             this.isAuth = data
+            this.profileMenuIcon = this.states.profileMenuIcon()
         })
     }
 
-    gotoLoginClick() {
+    loginClick() {
         this.router.navigate([ClientPath.login]).finally()
     }
+
+    profileClick() {
+
+    }
+
+    signOutClick() {
+        Storage.clear()
+        this.states.isAuth().next(false)
+    }
+
 }
