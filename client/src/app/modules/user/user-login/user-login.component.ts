@@ -2,6 +2,7 @@ import { Location } from '@angular/common'
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { LoginModel } from '@dto'
+import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
 import { AppService } from '../../../app.service'
@@ -43,7 +44,15 @@ export class UserLoginComponent extends ProcessForm {
     override processCompleted() {
         super.processCompleted()
         this.app.getUserProfileShort()
-        return this.router.navigate(['..'])
+        this.router.navigate([ClientPath.one_level_back]).finally()
+    }
+
+    signupClick() {
+        this.router.navigate([ClientPath.signup]).finally()
+    }
+
+    forgotPasswordClick() {
+        this.router.navigate([ClientPath.forgot_password]).finally()
     }
 
 }

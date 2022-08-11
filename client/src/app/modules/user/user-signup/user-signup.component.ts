@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SignupModel } from '@dto'
+import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
 import { UserSignupModel } from './user-signup.model'
@@ -40,7 +41,7 @@ export class UserSignupComponent extends ProcessForm {
 
     override processCompleted() {
         super.processCompleted()
-        this.router.navigate(['completed'], {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}).finally()
+        this.router.navigate([ClientPath.forgot_password], {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}).finally()
     }
 
 }

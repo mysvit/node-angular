@@ -18,7 +18,7 @@ export class UserLoginService {
         return this.http.post<TokenModel>(environment.apiEndPoint + ApiPath.user_login, user)
             .pipe(
                 map((data: TokenModel) => {
-                    Storage.userId = data.user_id
+                    Storage.user_id = data.user_id
                     Storage.token = `Bearer ${data.token}`
                 })
             )

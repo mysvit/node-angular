@@ -27,6 +27,15 @@
     }
 }
 
+.sl-a-button {
+    text-decoration: underline;
+    color: var(--c-link-button);
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .sl-flex-spacer {
     flex: 1 1 auto;
 }

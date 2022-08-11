@@ -1,29 +1,29 @@
-import { Props } from '@shared-lib/constants'
+import { Params } from '@shared-lib/constants'
 
 export class Storage {
 
     static get username() {
-        return localStorage.getItem(Props.username) ?? ''
+        return localStorage.getItem(Params.username) ?? ''
     }
 
     static set username(value: string) {
-        localStorage.setItem(Props.username, value)
+        localStorage.setItem(Params.username, value)
     }
 
-    static get userId() {
-        return localStorage.getItem(Props.userId) ?? ''
+    static get user_id() {
+        return localStorage.getItem(Params.user_id) ?? ''
     }
 
-    static set userId(value: string) {
-        localStorage.setItem(Props.userId, value)
+    static set user_id(value: string) {
+        localStorage.setItem(Params.user_id, value)
     }
 
     static get token() {
-        return localStorage.getItem(Props.token) ?? ''
+        return localStorage.getItem(Params.token) ?? ''
     }
 
     static set token(value: string) {
-        localStorage.setItem(Props.token, value)
+        localStorage.setItem(Params.token, value)
     }
 
     static clear() {

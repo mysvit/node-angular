@@ -25,7 +25,7 @@
             </mat-menu>
     </ng-template>
     <ng-template #login>
-        <a mat-stroked-button class="sl-sign-in-button" href="/login">
+        <a mat-stroked-button class="sl-sign-in-button" (click)="gotoLoginClick()">
             <mat-icon>login</mat-icon>
             <span>Sign in</span>
         </a>

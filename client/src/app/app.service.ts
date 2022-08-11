@@ -18,7 +18,7 @@ export class AppService {
     }
 
     getUserProfileShort() {
-        const options = {params: new HttpParams().set(Params.user_id, Storage.userId)}
+        const options = {params: new HttpParams().set(Params.user_id, Storage.user_id)}
         this.http.get<UserProfileShort>(environment.apiEndPoint + ApiPath.user_get_profile_short, options)
             .subscribe({
                 next: (data) => {
