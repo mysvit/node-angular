@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnDestroy } from '@angular/core'
 import { Router } from '@angular/router'
 import { StatesService } from '@core/services/states.service'
 import { ClientPath } from '@shared-lib/constants'
@@ -9,7 +9,7 @@ import { Storage } from '@static/storage'
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnDestroy {
 
     isAuth: boolean = false
     profileMenuIcon: string = ''
@@ -24,17 +24,22 @@ export class ToolbarComponent {
         })
     }
 
+    ngOnDestroy() {
+        this.states.isAuth().unsubscribe()
+    }
+
     loginClick() {
         this.router.navigate([ClientPath.login]).finally()
     }
 
     profileClick() {
-
+        this.router.navigate([ClientPath.user_profile]).finally()
     }
 
     signOutClick() {
         Storage.clear()
         this.states.isAuth().next(false)
+        this.router.navigate([ClientPath.root]).finally()
     }
 
 }

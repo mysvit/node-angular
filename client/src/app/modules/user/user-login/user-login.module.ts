@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input'
 import { CoreModule } from '@core/core.module'
 import { UserLoginRoutingModule } from './user-login-routing.module'
 import { UserLoginComponent } from './user-login.component'
-import { UserLoginService } from './user-login.service'
 
 
 @NgModule({
@@ -23,9 +22,6 @@ import { UserLoginService } from './user-login.service'
         UserLoginRoutingModule,
         CoreModule,
         FormsModule
-    ],
-    providers: [
-        UserLoginService
     ]
 })
 export class UserLoginModule {

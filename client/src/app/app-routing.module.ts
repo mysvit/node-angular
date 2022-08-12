@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { NotFoundPageComponent } from '@core/pages/not-found-page/not-found-page.component'
+import { ClientPath } from '@shared-lib/constants'
+import { StringHelper } from '@shared-lib/helpers'
 
 const appRoutes: Routes = [
     {
@@ -9,12 +11,16 @@ const appRoutes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'login',
+        path: StringHelper.removeSlash(ClientPath.login),
         loadChildren: () => import('./modules/user/user-login/user-login.module').then(m => m.UserLoginModule)
     },
     {
-        path: 'signup',
+        path: StringHelper.removeSlash(ClientPath.signup),
         loadChildren: () => import('./modules/user/user-signup/user-signup.module').then(m => m.UserSignupModule)
+    },
+    {
+        path: StringHelper.removeSlash(ClientPath.user_profile),
+        loadChildren: () => import('./modules/user/user-profile/user-profile.module').then(m => m.UserProfileModule)
     },
     {
         path: '**', component: NotFoundPageComponent

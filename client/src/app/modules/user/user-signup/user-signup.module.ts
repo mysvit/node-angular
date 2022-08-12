@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { UserSignupRoutingModule } from './user-signup-routing.module'
 import { UserSignupComponent } from './user-signup.component'
-import { UserSignupService } from './user-signup.service'
 
 
 @NgModule({
@@ -20,9 +19,6 @@ import { UserSignupService } from './user-signup.service'
         MatInputModule,
         ReactiveFormsModule,
         UserSignupRoutingModule
-    ],
-    providers: [
-        UserSignupService
     ]
 })
 export class UserSignupModule {

@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms'
 import { FieldValidators } from '@static/validators'
 
-export class UserSignupModel {
+export class UserProfileModel {
 
     email: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an email.'),
@@ -15,15 +15,10 @@ export class UserSignupModel {
         FieldValidators.required('You must enter a password.'),
         FieldValidators.password('Password should contain minimum eight characters, at least one letter and one number.')
     ])
-    confirm: FormControl = new FormControl(undefined, [
-        FieldValidators.match(this.password, 'Those password did not match.')
-    ])
 
     formGroup: FormGroup = new FormGroup({
             email: this.email,
-            username: this.username,
-            password: this.password,
-            confirm: this.confirm
+            password: this.password
         }
     )
 

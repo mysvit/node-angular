@@ -18,7 +18,7 @@ export class StatesService {
     }
 
     profileMenuIcon() {
-        return this.userProfileShort?.username?.substr(1, 1).toUpperCase() || ''
+        return this.userProfileShort?.username?.substr(0, 1).toUpperCase() || ''
     }
 
 }

@@ -31,9 +31,9 @@ export class UserSignupComponent extends ProcessForm {
             this.execute(
                 this.userSignup.signup(
                     <SignupModel>{
-                        email: this.model.user_email.value,
-                        username: this.model.user_name.value,
-                        password: this.model.user_pass.value
+                        email: this.model.email.value,
+                        username: this.model.username.value,
+                        password: this.model.password.value
                     })
             )
         }

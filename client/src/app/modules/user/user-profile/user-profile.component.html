@@ -1,0 +1,80 @@
+<mat-accordion class="sl-user-profile" multi>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>account_circle</mat-icon>
+                Public profile
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+            333333333333333
+        </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>email</mat-icon>
+                Email
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+            <app-user-emails></app-user-emails>
+        </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>password</mat-icon>
+                Password
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+            <app-user-emails></app-user-emails>
+        </ng-template>
+    </mat-expansion-panel>
+
+</mat-accordion>
+
+
+<!--<div class="sl-signup-form">-->
+<!--    <h1>Sign up!</h1>-->
+<!--    <form [formGroup]="model.formGroup" (submit)="saveClick()">-->
+<!--        <fieldset class="sl-fieldset" [disabled]="disableForm">-->
+<!--            <mat-form-field class="sl-field-fill" appearance="fill">-->
+<!--                <mat-label>Email address</mat-label>-->
+<!--                <input type="email" matInput [formControl]="model.email" placeholder="Ex. myemail@domain.com">-->
+<!--                <mat-error *ngIf="model.email.invalid">{{FieldValidators.errorMessage(model.email)}}</mat-error>-->
+<!--            </mat-form-field>-->
+
+<!--            <div class="sl-h-20"></div>-->
+<!--            <mat-form-field class="sl-field-fill" appearance="fill">-->
+<!--                <mat-label>Username</mat-label>-->
+<!--                <input type="text" matInput [formControl]="model.username">-->
+<!--                <mat-error *ngIf="model.username.invalid">{{FieldValidators.errorMessage(model.username)}}</mat-error>-->
+<!--            </mat-form-field>-->
+
+<!--            <div class="sl-h-20"></div>-->
+<!--            <div class="sl-row-center-sb">-->
+<!--                <mat-form-field class="sl-w-48p" appearance="fill">-->
+<!--                    <mat-label>Password</mat-label>-->
+<!--                    <input type="password" matInput [formControl]="model.password">-->
+<!--                    <mat-error *ngIf="model.password.invalid">{{FieldValidators.errorMessage(model.password)}}</mat-error>-->
+<!--                </mat-form-field>-->
+<!--            </div>-->
+
+<!--            <div class="sl-h-20"></div>-->
+<!--            <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>-->
+
+<!--            <div class="sl-h-20"></div>-->
+<!--            <button type='submit' mat-flat-button color="primary" class="sl-field-fill" aria-label="Register">-->
+<!--                <span>Register</span>-->
+<!--            </button>-->
+<!--        </fieldset>-->
+<!--    </form>-->
+<!--</div>-->
