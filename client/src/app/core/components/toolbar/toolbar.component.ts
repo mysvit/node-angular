@@ -12,7 +12,6 @@ import { Storage } from '@static/storage'
 export class ToolbarComponent implements OnDestroy {
 
     isAuth: boolean = false
-    profileMenuIcon: string = ''
 
     constructor(
         private router: Router,
@@ -20,7 +19,6 @@ export class ToolbarComponent implements OnDestroy {
     ) {
         this.states.isAuth().subscribe(data => {
             this.isAuth = data
-            this.profileMenuIcon = this.states.profileMenuIcon()
         })
     }
 

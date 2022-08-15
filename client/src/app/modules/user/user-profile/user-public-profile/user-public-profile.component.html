@@ -1,1 +1,49 @@
-<p>user-public-profile works!</p>
+<div class="sl-form">
+
+    <div class="sl-col">
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput>
+            <!--    [formControl]="model.username"-->
+            <!--    <mat-error *ngIf="model.username.invalid">{{FieldValidators.errorMessage(model.username)}}</mat-error>-->
+        </mat-form-field>
+        <div class="sl-flex-spacer"></div>
+        <div>
+            <button mat-flat-button color="primary" aria-label="Update profile" (click)="updateProfileClick()">
+                <span>Update profile</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="sl-col">
+        <div class="sl-profile-picture">
+            <h3>Profile picture</h3>
+
+            <ng-template [ngIf]="this.imgSrc" [ngIfElse]="gravatar">
+                <img class="sl-gravatar" src="{{imgSrc}}">
+            </ng-template>
+            <ng-template #gravatar>
+                <div class="sl-gravatar">{{states.profileMenuIcon}}</div>
+            </ng-template>
+
+            <div class="sl-h-20"></div>
+
+            <button mat-raised-button [matMenuTriggerFor]="menuImage">
+                <mat-icon>edit</mat-icon>
+                Edit picture
+            </button>
+            <mat-menu #menuImage="matMenu">
+                <button mat-menu-item (click)="uploadPictureCommand()">
+                    <mat-icon>add_photo_alternate</mat-icon>
+                    <span>Upload picture</span>
+                </button>
+                <button mat-menu-item *ngIf="this.imgSrc" (click)="clearPictureCommand()">
+                    <mat-icon>delete</mat-icon>
+                    <span>Clear picture</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+
+</div>

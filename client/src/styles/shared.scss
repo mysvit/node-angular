@@ -8,15 +8,6 @@
     }
 }
 
-.sl-form-single-col {
-    flex: 1;
-    max-width: var(--form-single-col-width);
-
-    h1 {
-        padding-top: 20px;
-    }
-}
-
 .sl-fieldset {
     border: var(--c-borger-fieldset) 1px solid;
     border-radius: 4px;
@@ -24,6 +15,15 @@
 
     &:disabled {
         cursor: wait;
+    }
+}
+
+.sl-form-single-col {
+    flex: 1;
+    max-width: var(--form-single-col-width);
+
+    h1 {
+        padding-top: 20px;
     }
 }
 
@@ -69,4 +69,24 @@
 
 .sl-w-48p {
     width: 48%;
+}
+
+
+// form multi columns
+
+// fieldset for form with multiple column
+.sl-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 1em;
+}
+
+.sl-col {
+    display: flex;
+    flex-direction: column;
+    border: none;
+
+    &button {
+        flex-grow: 0;
+    }
 }

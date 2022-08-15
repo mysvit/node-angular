@@ -1,6 +1,6 @@
 <mat-accordion class="sl-user-profile" multi>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <mat-icon>account_circle</mat-icon>
@@ -9,9 +9,12 @@
         </mat-expansion-panel-header>
 
         <ng-template matExpansionPanelContent>
-            333333333333333
+            <hr/>
+            <app-user-public-profile></app-user-public-profile>
         </ng-template>
     </mat-expansion-panel>
+
+    <hr/>
 
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -35,7 +38,7 @@
         </mat-expansion-panel-header>
 
         <ng-template matExpansionPanelContent>
-            <app-user-emails></app-user-emails>
+            <app-user-password></app-user-password>
         </ng-template>
     </mat-expansion-panel>
 
@@ -52,12 +55,7 @@
 <!--                <mat-error *ngIf="model.email.invalid">{{FieldValidators.errorMessage(model.email)}}</mat-error>-->
 <!--            </mat-form-field>-->
 
-<!--            <div class="sl-h-20"></div>-->
-<!--            <mat-form-field class="sl-field-fill" appearance="fill">-->
-<!--                <mat-label>Username</mat-label>-->
-<!--                <input type="text" matInput [formControl]="model.username">-->
-<!--                <mat-error *ngIf="model.username.invalid">{{FieldValidators.errorMessage(model.username)}}</mat-error>-->
-<!--            </mat-form-field>-->
+
 
 <!--            <div class="sl-h-20"></div>-->
 <!--            <div class="sl-row-center-sb">-->

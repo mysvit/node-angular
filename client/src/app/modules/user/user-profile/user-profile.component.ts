@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
-import { UserProfileModel } from './user-profile-model'
+import { UserPublicProfileModel } from './user-public-profile/user-public-profile-model'
 
 @Component({
     selector: 'app-user-profile',
@@ -11,7 +11,7 @@ import { UserProfileModel } from './user-profile-model'
 export class UserProfileComponent extends ProcessForm implements OnInit {
 
     FieldValidators = FieldValidators
-    model = new UserProfileModel()
+    model = new UserPublicProfileModel()
 
     constructor() {
         super()

@@ -17,7 +17,7 @@ export class StatesService {
         return this.auth
     }
 
-    profileMenuIcon() {
+    get profileMenuIcon() {
         return this.userProfileShort?.username?.substr(0, 1).toUpperCase() || ''
     }
 
