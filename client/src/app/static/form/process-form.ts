@@ -13,7 +13,7 @@ export class ProcessForm {
         return this.processState === ProcessStates.EXECUTING
     }
 
-    protected execute(observable: Observable<Object| void>, singleProcess = true): void {
+    protected execute(observable: Observable<Object | void>, singleProcess = true): void {
         this.resetMessages()
         this.processExecuting()
         if (singleProcess) {
@@ -43,10 +43,11 @@ export class ProcessForm {
         this.completedMessage = message || ''
     }
 
-    protected processError(error?: any) {
-        console.error(error)
+    protected processError(errorEvent?: any) {
+        console.error('processError', errorEvent)
         this.processState = ProcessStates.ERROR
-        this.errorMessage = error?.error?.message || ''
+        // this.errorMessage = error.name === 'HttpErrorResponse' ? 'Check internet connection.' : ''
+        this.errorMessage = errorEvent?.error?.message || ''
     }
 
     private resetMessages() {

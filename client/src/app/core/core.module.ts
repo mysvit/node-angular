@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { StatesService } from '@core/services/states.service'
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
@@ -40,7 +41,8 @@ const pages = [
         MatMenuModule
     ],
     providers: [
-        StatesService
+        StatesService,
+        MatSnackBar
     ]
 })
 export class CoreModule {

@@ -1,1 +1,1 @@
-export * from './image-helper'
+export * from './picture-helper'
