@@ -1,10 +1,24 @@
 html {
-    --c-body: #fafafa;
-    --c-borger-fieldset: #d3d3d3;
-    --c-error: #f44336;
-    --c-error-background: #ffebeb;
-    --c-error-border: #f2bebe;
-    --c-link-button: #0000ff;
+    --c-body: #FAFAFA;
+    --c-borger-fieldset: #D3D3D3;
+
+    --c-info: #FFFFFF;
+    --c-info-background: #636262;
+    --c-info-border: #323232;
+
+    --c-success: #3C763DFF;
+    --c-success-background: #c5f6c6;
+    --c-success-border: #a4e5a7;
+
+    --c-warn: #BB8C00;
+    --c-warn-background: #F8EBC4;
+    --c-warn-border: #fdde81;
+
+    --c-error: #F44336;
+    --c-error-background: #FFEBEB;
+    --c-error-border: #f0caca;
+
+    --c-link-button: #0000FF;
 
     //Form
     --form-single-col-width: 600px

@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
+import { MessageType } from '@static/enum'
 import { PictureHelper } from '@static/helper'
 import { UploadHelper } from '@static/helper/upload-helper'
 
@@ -15,19 +16,15 @@ export class UserPublicProfileComponent implements OnInit {
 
     constructor(
         private renderer: Renderer2,
-        private snackBar: MatSnackBar,
+        private snackBar: SnackBarService,
         public states: StatesService) {
     }
 
     ngOnInit(): void {
     }
 
-    // fileChanged(file: any) {
-    //     this.uploadFile(file.target.files[0])
-    // }
-
     updateProfileClick() {
-        console.debug('updateProfileClick')
+        this.snackBar.show('Test message', MessageType.Info)
     }
 
     clearPictureCommand() {
@@ -40,7 +37,7 @@ export class UserPublicProfileComponent implements OnInit {
             .then(file => PictureHelper.resizePicture(file, 40, 40))
             .then(picture => this.imgSrc = picture.content)
             .catch(error => {
-                this.snackBar.open(error.message, 'close', {panelClass: 'sl-snack-error'})
+                this.snackBar.show(error.message, MessageType.Error)
             })
     }
 

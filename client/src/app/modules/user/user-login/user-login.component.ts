@@ -1,11 +1,12 @@
 import { Location } from '@angular/common'
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
+import { SnackBarService } from '@core/services/snack-bar.service'
+import { StatesService } from '@core/services/states.service'
 import { LoginModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
-import { AppService } from '../../../app.service'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
 
@@ -23,7 +24,8 @@ export class UserLoginComponent extends ProcessForm {
         private router: Router,
         private location: Location,
         private userLogin: UserLoginService,
-        private app: AppService
+        private states: StatesService,
+        private snackBar: SnackBarService
     ) {
         super()
     }
@@ -31,6 +33,7 @@ export class UserLoginComponent extends ProcessForm {
     loginClick() {
         this.model.formGroup.markAllAsTouched()
         if (this.model.formGroup.touched && this.model.formGroup.valid) {
+            this.snackBar.dismiss()
             this.execute(
                 this.userLogin.login(
                     <LoginModel>{
@@ -43,7 +46,7 @@ export class UserLoginComponent extends ProcessForm {
 
     override processCompleted() {
         super.processCompleted()
-        this.app.getUserProfileShort()
+        this.states.getUserProfileShort().subscribe()
         this.router.navigate([ClientPath.one_level_back]).finally()
     }
 

@@ -4,4 +4,5 @@ export namespace ApiPath {
     export const user_get_profile_short = api + user + '/get_profile_short'
     export const user_signup = api + user + '/signup'
     export const user_login = api + user + '/login'
+    export const auth = api + user + '/auth'
 }

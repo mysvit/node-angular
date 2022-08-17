@@ -5,6 +5,7 @@ import { UserProfileShort } from '@dto'
 import { environment } from '@env'
 import { ApiPath, Params } from '@shared-lib/constants'
 import { Storage } from '@static/storage'
+import { catchError, map, throwError } from 'rxjs'
 
 @Injectable({
     providedIn: 'root'
@@ -17,22 +18,16 @@ export class AppService {
     ) {
     }
 
-    getUserProfileShort() {
-        const options = {params: new HttpParams().set(Params.user_id, Storage.user_id)}
-        this.http.get<UserProfileShort>(environment.apiEndPoint + ApiPath.user_get_profile_short, options)
-            .subscribe({
-                next: (data) => {
-                    this.states.userProfileShort = data
-                    Storage.username = data.username
-                },
-                complete: () => {
-                    this.states.isAuth().next(true)
-                },
-                error: () => {
+    isAuth() {
+        return this.http.get(environment.apiEndPoint + ApiPath.auth)
+            .pipe(
+                map(() => this.states.getUserProfileShort()),
+                catchError((error) => {
                     this.states.isAuth().next(false)
                     Storage.clear()
-                }
-            })
+                    return throwError(() => new Error(error))
+                })
+            )
     }
 
 }

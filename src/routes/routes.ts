@@ -1,15 +1,17 @@
 import * as express from 'express'
-import { userAuth, userProf } from './api/user'
+import { userAuth, userBase, userProf } from './api/user'
 import { ErrorHandler } from './errors'
 import { Middleware } from './middleware'
 
 export const routes = express.Router()
 
 // Api
-routes.use('/', userAuth)
+routes.use('/', userBase)
 
 // Authenticated
 routes.use(Middleware.verifyToken)
+// user Auth
+routes.use('/', userAuth)
 // user profile
 routes.use('/', userProf)
 // 404 for authenticated path

@@ -72,9 +72,44 @@
 }
 
 // snack bar
-.sl-snack-error {
+.sl-snack-bar-info {
+    color: var(--c-info);
+    background-color: var(--c-info-background);
+    border: 1px solid var(--c-info-border);
+
+    .mat-button {
+        color: var(--c-info);
+    }
+}
+
+.sl-snack-bar-success {
+    color: var(--c-success);
+    background-color: var(--c-success-background);
+    border: 1px solid var(--c-success-border);
+
+    .mat-button {
+        color: var(--c-success);
+    }
+}
+
+.sl-snack-bar-warn {
+    color: var(--c-warn);
+    background-color: var(--c-warn-background);
+    border: 1px solid var(--c-warn-border);
+
+    .mat-button {
+        color: var(--c-warn);
+    }
+}
+
+.sl-snack-bar-error {
     color: var(--c-error);
     background-color: var(--c-error-background);
+    border: 1px solid var(--c-error-border);
+
+    .mat-button {
+        color: var(--c-error);
+    }
 }
 
 // form multi columns

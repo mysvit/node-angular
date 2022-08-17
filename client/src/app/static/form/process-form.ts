@@ -5,9 +5,9 @@ export class ProcessForm {
 
     cancel$: Subject<boolean> = new Subject<boolean>()
     processState: ProcessStates = ProcessStates.INITIAL
-    executingMessage: string = ''
-    completedMessage: string = ''
-    errorMessage: string = ''
+    executingMessage?: string
+    completedMessage?: string
+    errorMessage?: string
 
     get disableForm() {
         return this.processState === ProcessStates.EXECUTING
@@ -35,25 +35,23 @@ export class ProcessForm {
 
     protected processExecuting(message?: string) {
         this.processState = ProcessStates.EXECUTING
-        this.executingMessage = message || ''
+        this.executingMessage = message
     }
 
     protected processCompleted(message?: string) {
         this.processState = ProcessStates.COMPLETED
-        this.completedMessage = message || ''
+        this.completedMessage = message
     }
 
-    protected processError(errorEvent?: any) {
-        console.error('processError', errorEvent)
+    protected processError(message?: any) {
         this.processState = ProcessStates.ERROR
-        // this.errorMessage = error.name === 'HttpErrorResponse' ? 'Check internet connection.' : ''
-        this.errorMessage = errorEvent?.error?.message || ''
+        this.errorMessage = message
     }
 
     private resetMessages() {
-        this.executingMessage = ''
-        this.completedMessage = ''
-        this.errorMessage = ''
+        this.executingMessage = undefined
+        this.completedMessage = undefined
+        this.errorMessage = undefined
     }
 
 }

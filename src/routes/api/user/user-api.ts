@@ -15,6 +15,10 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async isAuth(req: Request, res: Response) {
+        res.status(StatusCodes.OK).send()
+    }
+
     static async getProfileShort(req: Request, res: Response) {
         const result = await userCore.getProfileShort(req.query)
         res.status(StatusCodes.OK).json(result)

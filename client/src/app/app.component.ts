@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.app.getUserProfileShort()
+        this.app.isAuth().subscribe()
     }
+
 }

@@ -1,41 +1,49 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { SnackBarService } from '@core/services/snack-bar.service'
+import { ApiPath } from '@shared-lib/constants'
+import { MessageType } from '@static/enum'
+import { StatusCodes } from 'http-status-codes'
 import { catchError, throwError } from 'rxjs'
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+    constructor(private snackBar: SnackBarService) {
+    }
+
+    // catch error for request and response and generate simplified error message for client
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-        return next.handle(req).pipe(
-            catchError((error) => {
-                    if (error.status === 0) {
-                        // A client-side or network error occurred. Handle it accordingly.
-                        console.error('An error occurred:', error.error)
-                    } else {
+        return next
+            .handle(req)
+            .pipe(
+                catchError(
+                    (error) => {
                         // The backend returned an unsuccessful response code.
-                        // The response body may contain clues as to what went wrong.
-                        console.error(
-                            `Backend returned code ${error.status}, body was: `, error.error)
+                        let message = error.error?.message || error.message
+                        switch (error.status) {
+                            // A client-side or network error occurred. Handle it accordingly.
+                            case 0:
+                                message = 'No Internet Connection.'
+                                break
+                            // for unauthenticated call show message
+                            case StatusCodes.UNAUTHORIZED:
+                            case StatusCodes.FORBIDDEN:
+                                message = 'User is not authenticated.'
+                                break
+                        }
+                        // for check authentication doesn't show snackBar
+                        if (error?.url?.indexOf(ApiPath.auth) >= 0) {
+                            return throwError(() => new Error('User is not authenticated.'))
+                        }
+
+                        // show snack bar for all backend error
+                        this.snackBar.show(message, MessageType.Error)
+                        // Return an observable with a user-facing error message.
+                        return throwError(() => new Error(message))
                     }
-                    // Return an observable with a user-facing error message.
-                    return throwError(() => new Error('Something bad happened; please try again later.'))
-                }
+                )
             )
-        )
-        //     tap({
-        //         // Succeeds when there is a response; ignore other events
-        //         next: (event) => (ok = event instanceof HttpResponse ? 'succeeded' : ''),
-        //         // Operation failed; error is an HttpErrorResponse
-        //         error: (error) => (ok = 'failed')
-        //     }),
-        //     // Log when response observable either completes or errors
-        //     finalize(() => {
-        //         const elapsed = Date.now() - started;
-        //         const msg = `${req.method} "${req.urlWithParams}"
-        //      ${ok} in ${elapsed} ms.`;
-        //         this.messenger.add(msg);
-        //     })
-        // );
     }
 
 }
