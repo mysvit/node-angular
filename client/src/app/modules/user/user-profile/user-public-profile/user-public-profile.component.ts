@@ -1,9 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core'
 import { SnackBarService } from '@core/services/snack-bar.service'
+import { MessageType } from '@shared/enum'
+import { PictureHelper } from '@shared/helper'
+import { UploadHelper } from '@shared/helper/upload-helper'
 import { StatesService } from '@core/services/states.service'
-import { MessageType } from '@static/enum'
-import { PictureHelper } from '@static/helper'
-import { UploadHelper } from '@static/helper/upload-helper'
 
 @Component({
     selector: 'app-user-public-profile',

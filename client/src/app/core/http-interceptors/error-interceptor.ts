@@ -1,15 +1,21 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { ApiPath } from '@shared-lib/constants'
-import { MessageType } from '@static/enum'
+import { MessageType } from '@shared/enum'
 import { StatusCodes } from 'http-status-codes'
 import { catchError, throwError } from 'rxjs'
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(private snackBar: SnackBarService) {
+    constructor(
+        private snackBar: SnackBarService,
+        @Optional() @SkipSelf() error: ErrorInterceptor
+    ) {
+        if (error) {
+            throw new Error('ErrorInterceptor is already created. Provide it in the CoreModule only')
+        }
     }
 
     // catch error for request and response and generate simplified error message for client

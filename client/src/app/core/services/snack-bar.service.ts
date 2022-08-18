@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { MessageType } from '@static/enum'
+import { MessageType } from '@shared/enum'
 
 @Injectable({
     providedIn: 'root'

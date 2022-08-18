@@ -1,5 +1,5 @@
 import { Renderer2 } from '@angular/core'
-import { FileContent } from '@static/models/file-content'
+import { FileContent } from '@shared/models/file-content'
 
 export namespace UploadHelper {
 

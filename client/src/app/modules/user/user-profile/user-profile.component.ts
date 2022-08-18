@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { ProcessForm } from '@static/form'
-import { FieldValidators } from '@static/validators'
+import { ProcessForm } from '@shared/form'
+import { FieldValidators } from '@shared/validators'
 import { UserPublicProfileModel } from './user-public-profile/user-public-profile-model'
 
 @Component({

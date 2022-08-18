@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { StatesService } from '@core/services/states.service'
 import { environment } from '@env'
 import { ApiPath } from '@shared-lib/constants'
-import { Storage } from '@static/storage'
+import { Storage } from '@shared/storage'
 import { catchError, switchMap, throwError } from 'rxjs'
 
 @Injectable({

@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { UserProfileShort } from '@dto'
 import { environment } from '@env'
 import { ApiPath, Params } from '@shared-lib/constants'
-import { Storage } from '@static/storage'
+import { Storage } from '@shared/storage'
 import { map, Observable, Subject } from 'rxjs'
 
 @Injectable({
@@ -15,16 +15,19 @@ export class StatesService {
     private auth: Subject<boolean> = new Subject()
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        @Optional() @SkipSelf() states: StatesService
     ) {
-        console.info('StatesService created')
+        if (states) {
+            throw new Error('StatesService is already created. Provide it in the CoreModule only')
+        }
     }
 
-    get profileMenuIcon() {
+    get profileMenuIcon(): string {
         return this.userProfileShort?.username?.substr(0, 1).toUpperCase() || ''
     }
 
-    isAuth() {
+    isAuth(): Subject<boolean> {
         return this.auth
     }
 

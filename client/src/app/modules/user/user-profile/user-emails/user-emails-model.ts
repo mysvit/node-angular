@@ -1,5 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms'
-import { FieldValidators } from '@static/validators'
+import { FieldValidators } from '@shared/validators'
 
 export class UserEmailsModel {
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { LoginModel, TokenModel } from '@dto'
 import { environment } from '@env'
 import { ApiPath } from '@shared-lib/constants'
-import { Storage } from '@static/storage'
+import { Storage } from '@shared/storage'
 import { map, Observable } from 'rxjs'
 
 @Injectable({

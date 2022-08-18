@@ -1,10 +1,18 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { Params } from '@shared-lib/constants'
-import { Storage } from '@static/storage'
+import { Storage } from '@shared/storage'
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+
+    constructor(
+        @Optional() @SkipSelf() auth: AuthInterceptor
+    ) {
+        if (auth) {
+            throw new Error('AuthInterceptor is already created. Provide it in the CoreModule only')
+        }
+    }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         // Clone the request and set the new header in one step.

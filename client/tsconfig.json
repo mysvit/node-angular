@@ -13,9 +13,6 @@
       "@core/*": [
         "src/app/core/*"
       ],
-      "@static/*": [
-        "src/app/static/*"
-      ],
       "@shared/*": [
         "src/app/shared/*"
       ],

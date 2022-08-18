@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core'
 import { Router } from '@angular/router'
-import { StatesService } from '@core/services/states.service'
 import { ClientPath } from '@shared-lib/constants'
-import { Storage } from '@static/storage'
+import { Storage } from '@shared/storage'
+import { StatesService } from '../../services/states.service'
 
 @Component({
     selector: 'app-toolbar',

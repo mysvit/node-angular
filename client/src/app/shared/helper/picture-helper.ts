@@ -1,6 +1,6 @@
 import { FileHelper } from '@shared-lib/helpers'
-import { FileContent } from '@static/models/file-content'
-import { PictureContent } from '@static/models/picture-content'
+import { FileContent } from '@shared/models/file-content'
+import { PictureContent } from '@shared/models/picture-content'
 
 export namespace PictureHelper {
 

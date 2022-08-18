@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CoreModule } from '@core/core.module'
-import { httpInterceptorProviders } from '@core/http-interceptors'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 
@@ -12,14 +11,11 @@ import { AppComponent } from './app.component'
         AppComponent
     ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        CoreModule,
         BrowserAnimationsModule,
-        HttpClientModule
-    ],
-    providers: [
-        httpInterceptorProviders
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        CoreModule
     ],
     bootstrap: [
         AppComponent
