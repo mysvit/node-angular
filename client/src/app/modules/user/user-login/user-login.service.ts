@@ -11,7 +11,9 @@ import { map, Observable } from 'rxjs'
 })
 export class UserLoginService {
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient
+    ) {
     }
 
     login(user: LoginModel): Observable<void> {

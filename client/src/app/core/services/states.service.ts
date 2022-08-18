@@ -14,7 +14,10 @@ export class StatesService {
     userProfileShort?: UserProfileShort
     private auth: Subject<boolean> = new Subject()
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient
+    ) {
+        console.info('StatesService created')
     }
 
     get profileMenuIcon() {

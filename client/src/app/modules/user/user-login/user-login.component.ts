@@ -7,6 +7,7 @@ import { LoginModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@static/form'
 import { FieldValidators } from '@static/validators'
+import { switchMap } from 'rxjs'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
 
@@ -35,18 +36,16 @@ export class UserLoginComponent extends ProcessForm {
         if (this.model.formGroup.touched && this.model.formGroup.valid) {
             this.snackBar.dismiss()
             this.execute(
-                this.userLogin.login(
-                    <LoginModel>{
-                        email: this.model.email.value,
-                        password: this.model.password.value
-                    })
+                this.userLogin.login(<LoginModel>{email: this.model.email.value, password: this.model.password.value})
+                    .pipe(
+                        switchMap(() => this.states.getUserProfileShort())
+                    )
             )
         }
     }
 
     override processCompleted() {
         super.processCompleted()
-        this.states.getUserProfileShort().subscribe()
         this.router.navigate([ClientPath.one_level_back]).finally()
     }
 
