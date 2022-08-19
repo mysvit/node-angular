@@ -1,4 +1,4 @@
-import { UserProfileShort, UserSecurityInfo, UserSignup } from '@dto'
+import { UserProfileShortModel, UserSecurityInfoModel, UserSignupModel } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import { randomUUID } from 'crypto'
@@ -7,12 +7,12 @@ import { UserDb } from './user-db'
 
 const expect = chai.expect
 
-describe('DbUser', () => {
+describe('UserDb', () => {
 
     const dbUser = new UserDb(environment)
-    const userSignup = new UserSignup({user_id: randomUUID(), username: 'username', email: 'user@email.com', password_hash: 'hash', password_salt: 'salt'})
-    const userProfileShort = <UserProfileShort>{user_id: userSignup.user_id, username: userSignup.username, email: userSignup.email}
-    const userSecurityInfo = <UserSecurityInfo>{user_id: userSignup.user_id, password_hash: 'hash', password_salt: 'salt'}
+    const userSignup = new UserSignupModel({user_id: randomUUID(), username: 'username', email: 'user@email.com', password_hash: 'hash', password_salt: 'salt'})
+    const userProfileShort = <UserProfileShortModel>{user_id: userSignup.user_id, username: userSignup.username, email: userSignup.email}
+    const userSecurityInfo = <UserSecurityInfoModel>{user_id: userSignup.user_id, password_hash: 'hash', password_salt: 'salt'}
 
     before(() => {
     })

@@ -1,4 +1,4 @@
-import { LoginModel, SignupModel, TokenModel, UserProfileShort, UserSignup } from '@dto'
+import { LoginModel, SignupModel, TokenModel, UserProfileShortModel, UserSignupModel } from '@dto'
 import { environment } from '@env'
 import { ErrorApi500, ErrorsMsg, PasswordHash, ValueHelper } from '@shared'
 import { randomUUID } from 'crypto'
@@ -14,29 +14,29 @@ export class UserCore extends Core {
         if (ValueHelper.isEmpty(model.username) || ValueHelper.isEmpty(model.email) || ValueHelper.isEmpty(model.password)) {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
         }
-        if (await this.dbUser.isEmailExist(model.email)) {
+        if (await this.userDb.isEmailExist(model.email)) {
             throw new ErrorApi500(ErrorsMsg.EmailRegistered)
         }
-        if (await this.dbUser.isNameExist(model.username)) {
+        if (await this.userDb.isNameExist(model.username)) {
             throw new ErrorApi500(ErrorsMsg.UserRegistered)
         }
         const id = randomUUID()
         const saltedHash = PasswordHash.createSaltedHash(model.password)
-        const user = new UserSignup(<UserSignup>{
+        const user = new UserSignupModel(<UserSignupModel>{
             user_id: id,
             username: model.username,
             email: model.email,
             password_hash: saltedHash.passwordHash,
             password_salt: saltedHash.passwordSalt
         })
-        return this.dbUser.signup(user)
+        return this.userDb.signup(user)
     }
 
     async login(model: LoginModel): Promise<TokenModel> {
         if (ValueHelper.isEmpty(model.email) || ValueHelper.isEmpty(model.password)) {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
         }
-        const user = await this.dbUser.getSecurityInfo(model.email)
+        const user = await this.userDb.getSecurityInfo(model.email)
         if (ValueHelper.isEmpty(user)) {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
@@ -48,9 +48,9 @@ export class UserCore extends Core {
         return <TokenModel>{user_id: user.user_id, token: token}
     }
 
-    async getProfileShort(query): Promise<UserProfileShort> {
+    async getProfileShort(query): Promise<UserProfileShortModel> {
         ParamValidation.validateId(query?.user_id)
-        return await this.dbUser.getProfileShort(query?.user_id)
+        return await this.userDb.getProfileShort(query?.user_id)
     }
 
 }

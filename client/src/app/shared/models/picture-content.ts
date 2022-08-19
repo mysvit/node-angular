@@ -4,5 +4,5 @@ export interface PictureContent {
     readonly size: number
     readonly height: number
     readonly width: number
-    readonly content: string
+    readonly content: Blob
 }

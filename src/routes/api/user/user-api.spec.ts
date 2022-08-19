@@ -15,7 +15,7 @@ chai.use(chaiHttp)
 chai.use(chaiSpies)
 
 // test route path and called method
-describe('ApiUser', () => {
+describe('UserApi', () => {
 
     const agent = chai.request.agent(app())
 
@@ -41,32 +41,32 @@ describe('ApiUser', () => {
         expect(spy).to.have.been.called()
     })
 
-    it('GET ' + ApiPath.auth, async () => {
+    it('GET ' + ApiPath.user_auth, async () => {
         const token = sign({user_id: 'user_test_uuid'}, environment.token_key, {expiresIn: '60s'})
         const auth = await agent
-            .get(ApiPath.auth)
+            .get(ApiPath.user_auth)
             .query({user_id: 'uuid'})
             .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
         expect(auth).to.have.status(StatusCodes.OK)
     })
 
-    it('GET ' + ApiPath.auth + ' BAD TOKEN', async () => {
+    it('GET ' + ApiPath.user_auth + ' BAD TOKEN', async () => {
         const token = sign({user_id: 'bad id bad token'}, environment.token_key, {expiresIn: '60s'})
         const auth = await agent
-            .get(ApiPath.auth)
+            .get(ApiPath.user_auth)
             .query({user_id: 'uuid'})
             .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
         expect(auth).to.have.status(StatusCodes.UNAUTHORIZED)
     })
 
-    it('GET ' + ApiPath.auth + ' NOT USER OR TOKEN', async () => {
+    it('GET ' + ApiPath.user_auth + ' NOT USER OR TOKEN', async () => {
         let auth = await agent
-            .get(ApiPath.auth)
+            .get(ApiPath.user_auth)
             .query({user_id: 'uuid'})
             .set({'user_id': 'user_test_uuid'})
         expect(auth).to.have.status(StatusCodes.FORBIDDEN)
         auth = await agent
-            .get(ApiPath.auth)
+            .get(ApiPath.user_auth)
             .query({user_id: 'uuid'})
             .set({'authorization': 'Bearer ..token..'})
         expect(auth).to.have.status(StatusCodes.FORBIDDEN)

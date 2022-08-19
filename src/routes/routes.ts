@@ -1,4 +1,5 @@
 import * as express from 'express'
+import { pictureRouter } from './api/picture'
 import { userAuth, userBase, userProf } from './api/user'
 import { ErrorHandler } from './errors'
 import { Middleware } from './middleware'
@@ -14,6 +15,11 @@ routes.use(Middleware.verifyToken)
 routes.use('/', userAuth)
 // user profile
 routes.use('/', userProf)
+
+// user Auth
+routes.use('/', pictureRouter)
+
+
 // 404 for authenticated path
 routes.use(ErrorHandler.api404)
 

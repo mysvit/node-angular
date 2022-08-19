@@ -14,13 +14,13 @@ describe('CoreUser', () => {
     const coreUser = new UserCore(<Environment>{db: {}})
 
     beforeEach(() => {
-        chai.spy.on(coreUser.dbUser, 'isEmailExist', async (email: string) => {
+        chai.spy.on(coreUser.userDb, 'isEmailExist', async (email: string) => {
             return email === 'exist'
         })
-        chai.spy.on(coreUser.dbUser, 'isNameExist', async (username: string) => {
+        chai.spy.on(coreUser.userDb, 'isNameExist', async (username: string) => {
             return username === 'exist'
         })
-        chai.spy.on(coreUser.dbUser, 'signup', () => true)
+        chai.spy.on(coreUser.userDb, 'signup', () => true)
     })
 
     afterEach(() => {

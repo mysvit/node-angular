@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable, Optional, SkipSelf } from '@angular/core'
-import { UserProfileShort } from '@dto'
+import { UserProfileShortModel } from '@dto'
 import { environment } from '@env'
 import { ApiPath, Params } from '@shared-lib/constants'
 import { Storage } from '@shared/storage'
@@ -11,7 +11,7 @@ import { map, Observable, Subject } from 'rxjs'
 })
 export class StatesService {
 
-    userProfileShort?: UserProfileShort
+    userProfileShort?: UserProfileShortModel
     private auth: Subject<boolean> = new Subject()
 
     constructor(
@@ -33,7 +33,7 @@ export class StatesService {
 
     getUserProfileShort(): Observable<void> {
         const options = {params: new HttpParams().set(Params.user_id, Storage.user_id)}
-        return this.http.get<UserProfileShort>(environment.apiEndPoint + ApiPath.user_get_profile_short, options)
+        return this.http.get<UserProfileShortModel>(environment.apiEndPoint + ApiPath.user_get_profile_short, options)
             .pipe(
                 map((data) => {
                         this.userProfileShort = data

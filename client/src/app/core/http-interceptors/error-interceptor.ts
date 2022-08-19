@@ -39,7 +39,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                                 break
                         }
                         // for check authentication doesn't show snackBar
-                        if (error?.url?.indexOf(ApiPath.auth) >= 0) {
+                        if (error?.url?.indexOf(ApiPath.user_auth) >= 0) {
                             return throwError(() => new Error('User is not authenticated.'))
                         }
 

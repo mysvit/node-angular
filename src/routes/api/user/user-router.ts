@@ -19,7 +19,7 @@ userBase.post(ApiPath.user_login, ErrorHandler.apiCatch(UserApi.login))
 
 // api/user/auth
 // check if token not expired
-userAuth.get(ApiPath.auth, ErrorHandler.apiCatch(UserApi.isAuth))
+userAuth.get(ApiPath.user_auth, ErrorHandler.apiCatch(UserApi.isAuth))
 
 // api/user/getProfile?[query]
 // userId: uuid

@@ -1,4 +1,4 @@
-export interface SaltedHash {
+export interface SaltedHashModel {
     passwordSalt: string
     passwordHash: string
 }

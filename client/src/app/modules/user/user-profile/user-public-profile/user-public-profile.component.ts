@@ -4,6 +4,7 @@ import { MessageType } from '@shared/enum'
 import { PictureHelper } from '@shared/helper'
 import { UploadHelper } from '@shared/helper/upload-helper'
 import { StatesService } from '@core/services/states.service'
+import { UserPublicProfileService } from './user-public-profile.service'
 
 @Component({
     selector: 'app-user-public-profile',
@@ -17,7 +18,8 @@ export class UserPublicProfileComponent implements OnInit {
     constructor(
         private renderer: Renderer2,
         private snackBar: SnackBarService,
-        public states: StatesService) {
+        public states: StatesService,
+        public userPublicProfile: UserPublicProfileService) {
     }
 
     ngOnInit(): void {
@@ -32,10 +34,12 @@ export class UserPublicProfileComponent implements OnInit {
     }
 
     uploadPictureCommand() {
+        this.snackBar.dismiss()
         UploadHelper.uploadFileClick(this.renderer)
             .then(files => UploadHelper.uploadFileReader(files[0]))
             .then(file => PictureHelper.resizePicture(file, 40, 40))
-            .then(picture => this.imgSrc = picture.content)
+            .then(pictureModel => this.userPublicProfile.pictureAdd(pictureModel).subscribe())
+            // .then(picture => this.imgSrc = picture.content)
             .catch(error => {
                 this.snackBar.show(error.message, MessageType.Error)
             })

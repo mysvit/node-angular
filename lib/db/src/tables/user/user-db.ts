@@ -1,16 +1,16 @@
-import { UserProfileShort, UserSecurityInfo, UserSignup } from '@dto'
+import { UserProfileShortModel, UserSecurityInfoModel, UserSignupModel } from '@dto'
 import { Db } from '../db'
 
 export class UserDb extends Db {
 
-    async signup(userSignup: UserSignup): Promise<any> {
+    async signup(userSignup: UserSignupModel): Promise<any> {
         return await this.dbExecute(
             `INSERT INTO user (user_id, username, email, password_hash, password_salt) 
                 VALUES (?, ?, ?, ?, ?)`,
             userSignup.signupArr)
     }
 
-    async getProfileShort(user_id: string): Promise<UserProfileShort> {
+    async getProfileShort(user_id: string): Promise<UserProfileShortModel> {
         return await this.dbQuery(
             `SELECT 
                     user_id, 
@@ -24,7 +24,7 @@ export class UserDb extends Db {
             .then(data => data ? data[0] : undefined)
     }
 
-    async getSecurityInfo(email: string): Promise<UserSecurityInfo> {
+    async getSecurityInfo(email: string): Promise<UserSecurityInfoModel> {
         return await this.dbQuery(
             `SELECT 
                     user_id, 

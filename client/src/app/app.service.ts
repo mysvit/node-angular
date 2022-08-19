@@ -18,7 +18,7 @@ export class AppService {
     }
 
     isAuth() {
-        return this.http.get(environment.apiEndPoint + ApiPath.auth)
+        return this.http.get(environment.apiEndPoint + ApiPath.user_auth)
             .pipe(
                 switchMap(() => this.states.getUserProfileShort()),
                 catchError((error) => {

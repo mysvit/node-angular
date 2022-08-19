@@ -1,4 +1,4 @@
-export class UserSignup {
+export class UserSignupModel {
 
     user_id: string
     username: string
