@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `picture`
+--
+
+DROP TABLE IF EXISTS `picture`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `picture` (
+  `picture_id` varchar(36) NOT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `ext` varchar(5) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `height` smallint(6) DEFAULT NULL,
+  `width` smallint(6) DEFAULT NULL,
+  `content` blob DEFAULT NULL,
+  PRIMARY KEY (`picture_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `picture`
+--
+
+LOCK TABLES `picture` WRITE;
+/*!40000 ALTER TABLE `picture` DISABLE KEYS */;
+/*!40000 ALTER TABLE `picture` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -24,13 +52,21 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `user_id` varchar(36) NOT NULL,
-  `username` varchar(20) NOT NULL,
+  `is_del` smallint(6) NOT NULL DEFAULT 0,
+  `nickname` varchar(20) NOT NULL,
   `email` varchar(30) NOT NULL,
+  `signup_date` datetime NOT NULL,
+  `modify_date` datetime DEFAULT NULL,
+  `login_date` datetime DEFAULT NULL,
+  `is_confirmed` smallint(6) NOT NULL DEFAULT 0,
+  `confirm_code` varchar(5) DEFAULT NULL,
+  `pre_confirmed_hash` varchar(150) DEFAULT NULL,
   `password_hash` varchar(150) NOT NULL,
-  `password_salt` varchar(50) DEFAULT NULL,
-  `user_session_exp` datetime DEFAULT NULL,
-  `is_del` smallint(6) DEFAULT 0,
-  PRIMARY KEY (`user_id`)
+  `password_salt` varchar(50) NOT NULL,
+  `avatar_id` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `picture_ctr` (`avatar_id`),
+  CONSTRAINT `picture_ctr` FOREIGN KEY (`avatar_id`) REFERENCES `picture` (`picture_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,8 +76,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES
-('e9c9bf9f-2d1b-4587-8c06-d0ee4223c5bf','qq1','q@q.qq','df95b8322a109b53310341833bdfb36488b42c8f90ae5d4d7bf1fe816ccf2e5e255888b6ceff9d644ab9aed4a3ba19053dd9ec5ff419f4ec2999288dc0aade64','36804ac73ecc30f274f8067efcdb66a9',NULL,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +88,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-11 12:59:05
+-- Dump completed on 2022-08-23 20:48:10
