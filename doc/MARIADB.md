@@ -3,8 +3,10 @@
 <!-- toc -->
 
 - [Commands](#commands)
-  - [connection](#connection)
-  - [backup](#backup)
+  - [Connection](#connection)
+  - [Insert](#insert)
+  - [Foreign Keys](#foreign-keys)
+  - [Backup](#backup)
 - [Notes](#notes)
 
 
@@ -27,6 +29,31 @@ FROM information_schema.processlist
 ``` sql
 INSERT INTO table (column1, column2) VALUES ('value1', 'value2');
 ```
+
+### Foreign Keys
+``` sql
+CREATE TABLE table1 (
+    table1_id INT,
+    table2_ref_id INT,
+    PRIMARY KEY (table1_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE table2 (
+    table2_id INT,
+    content BLOB,
+    PRIMARY KEY (table2_id)
+) ENGINE=InnoDB;
+
+ALTER TABLE table1
+ADD CONSTRAINT constraine_name FOREIGN KEY (table2_ref_id)
+    REFERENCES table2 (table2_id)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT;
+    
+ALTER TABLE table
+DROP CONSTRAINT fk_constraint_name;
+```
+
 
 ### Backup
 Export schema and data

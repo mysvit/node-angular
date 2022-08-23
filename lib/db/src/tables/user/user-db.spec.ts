@@ -1,8 +1,8 @@
-import { UserProfileShortModel, UserSecurityInfoModel, UserSignupModel } from '@dto'
+import { DateDb, UserTbl } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import { randomUUID } from 'crypto'
-import { after, before } from 'mocha'
+import { afterEach, beforeEach } from 'mocha'
 import { UserDb } from './user-db'
 
 const expect = chai.expect
@@ -10,57 +10,112 @@ const expect = chai.expect
 describe('UserDb', () => {
 
     const dbUser = new UserDb(environment)
-    const userSignup = new UserSignupModel({user_id: randomUUID(), username: 'username', email: 'user@email.com', password_hash: 'hash', password_salt: 'salt'})
-    const userProfileShort = <UserProfileShortModel>{user_id: userSignup.user_id, username: userSignup.username, email: userSignup.email}
-    const userSecurityInfo = <UserSecurityInfoModel>{user_id: userSignup.user_id, password_hash: 'hash', password_salt: 'salt'}
+    const userTbl = <UserTbl>{
+        user_id: randomUUID(),
+        signup_date: new DateDb().value,
+        email: 'user@email.com',
+        password_hash: 'hash',
+        password_salt: 'salt',
+        nickname: 'nickname',
+        confirm_code: '12345',
+        is_del: 0,
+        is_confirmed: 0,
+        modify_date: null,
+        login_date: null,
+        avatar_id: null,
+        pre_confirmed_hash: null
+    }
 
-    before(() => {
-    })
+    const userTblUpd = <UserTbl>{
+        user_id: userTbl.user_id,
+        signup_date: new DateDb().value,
+        email: 'user@email.comU',
+        password_hash: 'hashU',
+        password_salt: 'saltU',
+        nickname: 'nicknameU',
+        confirm_code: '12340',
+        is_del: 1,
+        is_confirmed: 1,
+        modify_date: new DateDb().value,
+        login_date: new DateDb().value,
+        avatar_id: 'qwe',
+        pre_confirmed_hash: 'hashPre'
+    }
 
-    // clear test data
-    after(async () => {
+    async function clearTable() {
         const conn = await dbUser.getConnection
         try {
-            await conn.execute('DELETE FROM user WHERE username = ?', userSignup.username)
+            await conn.execute('DELETE FROM user WHERE email = ?', userTbl.email)
+            await conn.execute('DELETE FROM user WHERE email = ?', userTblUpd.email)
         } finally {
             if (conn) await conn.release()
         }
+    }
+
+    beforeEach(() => clearTable())
+    afterEach(async () => clearTable())
+
+    it('insert', async () => {
+        const signup = await dbUser.insert(userTbl)
+        expect(signup).to.be.eq(1)
     })
 
-    it('signup', async () => {
-        const signup = await dbUser.signup(userSignup)
-        expect(signup.affectedRows).to.be.eq(1)
+    it('select', async () => {
+        await dbUser.insert(userTbl)
+        const select = await dbUser.select(
+            userTbl,
+            <UserTbl>{user_id: userTbl.user_id})
+        expect(select).to.deep.eq(userTbl)
     })
 
-    it('getProfileShort', async () => {
-        const user = await dbUser.getProfileShort(userSignup.user_id)
-        expect(user).to.deep.eq(userProfileShort)
+    it('update', async () => {
+        await dbUser.insert(userTbl)
+        await dbUser.update(
+            userTblUpd,
+            <UserTbl>{user_id: userTblUpd.user_id})
+        const select = await dbUser.select(
+            userTblUpd,
+            <UserTbl>{user_id: userTblUpd.user_id})
+        expect(select).to.deep.eq(userTblUpd)
     })
 
-    it('getSecurityInfo', async () => {
-        const user = await dbUser.getSecurityInfo(userSignup.email)
-        expect(user).to.deep.eq(userSecurityInfo)
-    })
-
-    it('isEmailExist', async () => {
-        const res = await dbUser.isEmailExist(userSignup.email)
-        expect(res).to.be.true
-    })
-
-    it('isEmailExist Not', async () => {
-        const res = await dbUser.isEmailExist('some@email.em')
-        expect(res).to.be.false
-    })
-
-    it('isUserExist', async () => {
-        const res = await dbUser.isNameExist(userSignup.username)
-        expect(res).to.be.true
-    })
-
-    it('isUserExist Not', async () => {
-        const res = await dbUser.isNameExist('someuser')
-        expect(res).to.be.false
-    })
+    // it('getSecurityInfo', async () => {
+    //     await dbUser.signup(userSignup)
+    //     const user = await dbUser.getSecurityInfo(userSignup.email)
+    //     const userSecurityInfo = <UserSecurityInfoModel>{
+    //         user_id: userSignup.user_id,
+    //         password_hash: 'hash',
+    //         password_salt: 'salt',
+    //         is_confirmed: 0
+    //     }
+    //     expect(user).to.deep.eq(userSecurityInfo)
+    // })
+    //
+    // it('isEmailExist (exist) is_confirmed=(true, false)', async () => {
+    //     await dbUser.signup(userSignup)
+    //     let res = await dbUser.isEmailExist(userSignup.email)
+    //     expect(res).to.be.true
+    //     await dbUser.confirmUser(userSignup.user_id)
+    //     res = await dbUser.isEmailExist(userSignup.email)
+    //     expect(res).to.be.true
+    // })
+    //
+    // it('isEmailExist (not exist) is_confirmed=(true, false)', async () => {
+    //     await dbUser.signup(userSignup)
+    //     let res = await dbUser.isEmailExist('other@email.em')
+    //     expect(res).to.be.false
+    //     await dbUser.confirmUser(userSignup.user_id)
+    //     res = await dbUser.isEmailExist('other@email.em')
+    //     expect(res).to.be.false
+    // })
+    //
+    // it('isUserConfirmed', async () => {
+    //     await dbUser.signup(userSignup)
+    //     let res = await dbUser.verifyConfirmCode(userSignup.user_id, '1111')
+    //     expect(res).to.be.false
+    //     res = await dbUser.verifyConfirmCode(userSignup.user_id, userSignup.confirm_code)
+    //     expect(res).to.be.true
+    // })
 
     // it('update', async () => {
     //     const res = await dbUser.update(userSignup)

@@ -1,10 +1,10 @@
-import { PictureTbl } from '@dto'
+import { PictureModel } from '@dto'
 import { FileHelper } from '@shared-lib/helpers'
 import { FileContent } from '@shared/models/file-content'
 
 export namespace PictureHelper {
 
-    export async function resizePicture(file: FileContent, width: number, height: number): Promise<PictureTbl> {
+    export async function resizePicture(file: FileContent, width: number, height: number): Promise<PictureModel> {
         return new Promise((resolve, reject) => {
             const img = new Image()
             img.src = file.content
@@ -16,20 +16,18 @@ export namespace PictureHelper {
                 const ctx = tmpCanvas.getContext('2d') || new CanvasRenderingContext2D()
                 ctx.drawImage(img, 0, 0, width, height)
 
-                // const data = ctx?.canvas.toDataURL('image/png')
-                canvasToBlob(ctx)
-                    .then((blob) =>
-                        resolve(
-                            <PictureTbl>{
-                                name: FileHelper.getFileName(file.name),
-                                ext: 'png',
-                                size: file.size,
-                                height: height,
-                                width: width,
-                                content: blob
-                            }
-                        )
-                    )
+                const data = ctx.canvas.toDataURL('image/png')
+
+                resolve(
+                    <PictureModel>{
+                        name: FileHelper.getFileName(file.name),
+                        ext: 'png',
+                        size: file.size,
+                        height: height,
+                        width: width,
+                        contentBase64: data
+                    }
+                )
             }
             img.onerror = error => {
                 console.error(error)
@@ -38,10 +36,5 @@ export namespace PictureHelper {
         })
     }
 
-    async function canvasToBlob(ctx: CanvasRenderingContext2D) {
-        return new Promise((resolve) => {
-            ctx?.canvas.toBlob(resolve, 'image/png')
-        })
-    }
 
 }

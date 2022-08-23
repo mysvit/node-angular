@@ -1,8 +1,8 @@
-export interface PictureContent {
+export interface PictureModel {
     readonly name: string
     readonly ext: string
     readonly size: number
     readonly height: number
     readonly width: number
-    readonly content: Blob
+    readonly contentBase64: string
 }

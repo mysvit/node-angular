@@ -1,77 +1,67 @@
-import { UserProfileShortModel, UserSecurityInfoModel, UserSignupModel } from '@dto'
-import { Db } from '../db'
+import { UserTbl } from '@dto'
+import { Db } from '../../engine/db'
 
 export class UserDb extends Db {
 
-    async signup(userSignup: UserSignupModel): Promise<any> {
+    table = 'user'
+
+    async insert(obj: UserTbl): Promise<number> {
+        const insert = this.insertBuilder(this.table, obj)
+        return await this.dbExecute(insert.sql, insert.values)
+            .then(data => data.affectedRows)
+    }
+
+    async select(obj: UserTbl, whereObj: UserTbl): Promise<UserTbl> {
+        const select = this.selectBuilder(obj, this.table, whereObj)
+        return await this.dbQuery(select.sql, select.values)
+            .then(data => data ? data[0] : undefined)
+    }
+
+    async update(obj: UserTbl, whereObj: UserTbl): Promise<number> {
+        const update = this.updateBuilder(this.table, obj, whereObj)
+        return await this.dbExecute(update.sql, update.values)
+            .then(data => data.affectedRows)
+    }
+
+    async isEmailExist(email: string): Promise<number> {
+        return await this.dbQuery(
+            `SELECT 
+                    COUNT(*) as cnt 
+                FROM 
+                    user 
+                WHERE
+                    is_del = 0
+                    AND email = ?`,
+            [email])
+            .then(data => data['0'].cnt)
+    }
+
+    async verifyConfirmCode(email: string, confirm_code: string): Promise<number> {
+        return await this.dbQuery(
+            `SELECT 
+                    COUNT(*) as cnt FROM user 
+                WHERE
+                    is_del = 0
+                    AND email = ?
+                    AND confirm_code = ?`,
+            [email, confirm_code])
+            .then(data => data['0'].cnt)
+    }
+
+    async confirmUser(user_id: string): Promise<number> {
         return await this.dbExecute(
-            `INSERT INTO user (user_id, username, email, password_hash, password_salt) 
-                VALUES (?, ?, ?, ?, ?)`,
-            userSignup.signupArr)
-    }
-
-    async getProfileShort(user_id: string): Promise<UserProfileShortModel> {
-        return await this.dbQuery(
-            `SELECT 
-                    user_id, 
-                    username, 
-                    email
-                FROM 
-                    user 
-                WHERE 
+            `UPDATE 
+                    user
+                SET
+                    is_confirmed = 1,
+                    confirm_code = NULL
+                WHERE
                     user_id = ?`,
-            user_id)
-            .then(data => data ? data[0] : undefined)
+            [user_id])
+            .then(data => data.affectedRows)
     }
 
-    async getSecurityInfo(email: string): Promise<UserSecurityInfoModel> {
-        return await this.dbQuery(
-            `SELECT 
-                    user_id, 
-                    password_hash,
-                    password_salt 
-                FROM 
-                    user 
-                WHERE 
-                    is_del = 0
-                    AND email = ?`,
-            [email])
-            .then(data => data ? data[0] : undefined)
-    }
 
-    async isEmailExist(email: string): Promise<boolean> {
-        return await this.dbQuery(
-            `SELECT COUNT(*) as cnt FROM user 
-                WHERE
-                    is_del = 0
-                    AND email = ?`,
-            [email])
-            .then(data => data['0'].cnt > 0)
-    }
-
-    async isNameExist(username: string): Promise<boolean> {
-        return await this.dbQuery(
-            `SELECT COUNT(*) as cnt FROM user 
-                WHERE
-                    is_del = 0
-                    AND username = ?`,
-            [username])
-            .then(data => data['0'].cnt > 0)
-    }
-
-    // async update(user: User): Promise<boolean> {
-    //     return await this.dbExecute(
-    //         `UPDATE user
-    //             SET
-    //                 user_name=?,
-    //                 user_email=?,
-    //                 user_hash=?
-    //             WHERE
-    //                 userId = ?`,
-    //         user.updateArr)
-    //         .then(data => data.affectedRows === 1)
-    // }
-    //
     // async delete(userId: string): Promise<boolean> {
     //     return await this.dbExecute(
     //         `UPDATE user

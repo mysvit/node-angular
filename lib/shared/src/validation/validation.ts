@@ -20,4 +20,9 @@ export namespace Validation {
         return (/^(?=[a-zA-Z0-9._]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/).test(username)
     }
 
+    // nickname
+    export function isNicknameValid(nickname: string) {
+        return (/^(?=[a-zA-Z0-9._ ]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/).test(nickname)
+    }
+
 }

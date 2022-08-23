@@ -10,7 +10,7 @@
         <button mat-mini-fab color="white" [matMenuTriggerFor]="menu" class="sl-menu-gravatar">{{states.profileMenuIcon}}</button>
         <mat-menu #menu="matMenu">
             <ng-template matMenuContent>
-                <div class="sl-menu-title">Signed in as <b>{{states.userProfileShort?.username}}</b></div>
+                <div class="sl-menu-title">Signed in as <b>{{states.userProfileShort?.nickname}}</b></div>
                 <hr/>
                 <button mat-menu-item (click)="profileClick()">
                     <mat-icon>account_circle</mat-icon>

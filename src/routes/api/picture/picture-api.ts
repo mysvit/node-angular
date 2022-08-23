@@ -14,4 +14,10 @@ export class PictureApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async get(req: Request, res: Response) {
+        const result = await pictureCore.get(req.params?.picture_id)
+        res.header('Cross-Origin-Resource-Policy', 'cross-origin')
+        res.send(result.content)
+    }
+
 }

@@ -13,7 +13,7 @@ import { UserPublicProfileService } from './user-public-profile.service'
 })
 export class UserPublicProfileComponent implements OnInit {
 
-    imgSrc: any
+    imgSrc = 'http://localhost:3000/api/picture/get/c5c5f13a-84cc-479f-9b34-d1e911641d2c'
 
     constructor(
         private renderer: Renderer2,
@@ -30,7 +30,7 @@ export class UserPublicProfileComponent implements OnInit {
     }
 
     clearPictureCommand() {
-        this.imgSrc = undefined
+        // this.imgSrc = undefined
     }
 
     uploadPictureCommand() {

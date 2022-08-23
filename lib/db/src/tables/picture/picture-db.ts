@@ -1,5 +1,5 @@
 import { PictureTbl } from '@dto'
-import { Db } from '../db'
+import { Db } from '../../engine/db'
 
 export class PictureDb extends Db {
 

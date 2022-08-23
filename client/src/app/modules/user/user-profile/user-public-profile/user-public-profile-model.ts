@@ -3,18 +3,18 @@ import { FieldValidators } from '@shared/validators'
 
 export class UserPublicProfileModel {
 
-    username: FormControl = new FormControl(undefined, [
-        FieldValidators.required('You must enter an username.'),
-        FieldValidators.username('Username should contain minimum three characters, letters and numbers with doth or underscore.')
+    nickname: FormControl = new FormControl(undefined, [
+        FieldValidators.required('You must enter an name.'),
+        FieldValidators.nickname('Name should contain minimum three characters, letters and numbers with doth or underscore.')
     ])
 
     avatar: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an username.'),
-        FieldValidators.username('Username should contain minimum three characters, letters and numbers with doth or underscore.')
+        FieldValidators.nickname('Username should contain minimum three characters, letters and numbers with doth or underscore.')
     ])
 
     formGroup: FormGroup = new FormGroup({
-            username: this.username,
+            nickname: this.nickname,
             avatar: this.avatar
         }
     )

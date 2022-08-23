@@ -7,9 +7,9 @@ export class UserSignupModel {
         FieldValidators.required('You must enter an email.'),
         FieldValidators.email('Not a valid email.')
     ])
-    username: FormControl = new FormControl(undefined, [
-        FieldValidators.required('You must enter an username.'),
-        FieldValidators.username('Username should contain minimum three characters, letters and numbers with doth or underscore.')
+    nickname: FormControl = new FormControl(undefined, [
+        FieldValidators.required('You must enter an name.'),
+        FieldValidators.nickname('Name should contain minimum three characters, letters and numbers with doth, space or underscore.')
     ])
     password: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter a password.'),
@@ -21,7 +21,7 @@ export class UserSignupModel {
 
     formGroup: FormGroup = new FormGroup({
             email: this.email,
-            username: this.username,
+            nickname: this.nickname,
             password: this.password,
             confirm: this.confirm
         }

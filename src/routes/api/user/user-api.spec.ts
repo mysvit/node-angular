@@ -32,6 +32,15 @@ describe('UserApi', () => {
         expect(spy).to.have.been.called()
     })
 
+    it('PUT ' + ApiPath.confirm_user, async () => {
+        const spy = chai.spy.on(userCore, 'confirmEmail',
+            (user_id, confirm_code) => user_id === 'uuid-uuid-uuid' && confirm_code === '12345')
+        await agent
+            .put(ApiPath.confirm_user.replace(':user_id', 'uuid-uuid-uuid').replace('confirm_code', '12345'))
+            .send({})
+        expect(spy).to.eq(true)
+    })
+
     it('POST ' + ApiPath.user_login, async () => {
         const spy = chai.spy.on(userCore, 'login', () => true)
         await agent

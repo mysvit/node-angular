@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { pictureRouter } from './api/picture'
+import { pictureRouter, pictureUrlRouter } from './api/picture'
 import { userAuth, userBase, userProf } from './api/user'
 import { ErrorHandler } from './errors'
 import { Middleware } from './middleware'
@@ -8,6 +8,9 @@ export const routes = express.Router()
 
 // Api
 routes.use('/', userBase)
+
+// picture url
+routes.use('/', pictureUrlRouter)
 
 // Authenticated
 routes.use(Middleware.verifyToken)

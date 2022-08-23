@@ -38,9 +38,9 @@ export namespace FieldValidators {
         }
     }
 
-    export function username(errorMessage: string): ValidatorFn {
+    export function nickname(errorMessage: string): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
-            return Validation.isUsernameValid(control.value) ? null : {
+            return Validation.isNicknameValid(control.value) ? null : {
                 email: {
                     valid: false,
                     errorMessage: errorMessage

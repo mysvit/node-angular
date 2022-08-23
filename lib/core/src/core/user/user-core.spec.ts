@@ -1,4 +1,4 @@
-import { SignupModel } from '@dto'
+import { UserSignupModel } from '@dto'
 import { Environment } from '@env'
 import { ErrorApi500, ErrorsMsg } from '@shared'
 import chai from 'chai'
@@ -17,8 +17,8 @@ describe('CoreUser', () => {
         chai.spy.on(coreUser.userDb, 'isEmailExist', async (email: string) => {
             return email === 'exist'
         })
-        chai.spy.on(coreUser.userDb, 'isNameExist', async (username: string) => {
-            return username === 'exist'
+        chai.spy.on(coreUser.userDb, 'isNickNameExist', async (nickname: string) => {
+            return nickname === 'exist'
         })
         chai.spy.on(coreUser.userDb, 'signup', () => true)
     })
@@ -27,36 +27,38 @@ describe('CoreUser', () => {
         chai.spy.restore(UserCore)
     })
 
+
+
     it('signup - not exist', async () => {
-        const res = await coreUser.signup(<SignupModel>{
-            username: 'not exist', email: 'not exist', password: 'pass'
+        const res = await coreUser.signup(<UserSignupModel>{
+            nickname: 'not exist', email: 'not exist', password: 'pass'
         })
         expect(res).to.be.true
     })
 
     it('signup - email exist', async () => {
         try {
-            await coreUser.signup(<SignupModel>{
-                username: 'not exist', email: 'exist', password: 'pass'
+            await coreUser.signup(<UserSignupModel>{
+                nickname: 'not exist', email: 'exist', password: 'pass'
             })
-        } catch (err) {
-            const er = new ErrorApi500(ErrorsMsg.EmailRegistered)
-            expect(err.isOperational).to.be.eq(er.isOperational)
-            expect(err.statusCode).to.be.eq(er.statusCode)
-            expect(err.message).to.be.eq(er.message)
+        } catch (error) {
+            const errorMessage = new ErrorApi500(ErrorsMsg.EmailRegistered)
+            expect(error.isOperational).to.be.eq(errorMessage.isOperational)
+            expect(error.statusCode).to.be.eq(errorMessage.statusCode)
+            expect(error.message).to.be.eq(errorMessage.message)
         }
     })
 
-    it('signup - user exist', async () => {
+    it('signup - nickname exist', async () => {
         try {
-            await coreUser.signup(<SignupModel>{
-                username: 'exist', email: 'not exist', password: 'pass'
+            await coreUser.signup(<UserSignupModel>{
+                nickname: 'exist', email: 'not exist', password: 'pass'
             })
-        } catch (err) {
-            const er = new ErrorApi500(ErrorsMsg.UserRegistered)
-            expect(err.isOperational).to.be.eq(er.isOperational)
-            expect(err.statusCode).to.be.eq(er.statusCode)
-            expect(err.message).to.be.eq(er.message)
+        } catch (error) {
+            const errorMessage = new ErrorApi500(ErrorsMsg.UserRegistered)
+            expect(error.isOperational).to.be.eq(errorMessage.isOperational)
+            expect(error.statusCode).to.be.eq(errorMessage.statusCode)
+            expect(error.message).to.be.eq(errorMessage.message)
         }
     })
 

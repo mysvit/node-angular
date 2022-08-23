@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
+import { SnackBarService } from '@core/services/snack-bar.service'
 import { SignupModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
@@ -20,7 +21,8 @@ export class UserSignupComponent extends ProcessForm {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private userSignup: UserSignupService
+        private userSignup: UserSignupService,
+        private snackBar: SnackBarService
     ) {
         super()
     }
@@ -32,7 +34,7 @@ export class UserSignupComponent extends ProcessForm {
                 this.userSignup.signup(
                     <SignupModel>{
                         email: this.model.email.value,
-                        username: this.model.username.value,
+                        nickname: this.model.nickname.value,
                         password: this.model.password.value
                     })
             )
@@ -41,7 +43,12 @@ export class UserSignupComponent extends ProcessForm {
 
     override processCompleted() {
         super.processCompleted()
-        this.router.navigate([ClientPath.forgot_password], {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}).finally()
+        this.snackBar.dismiss()
+        this.router
+            .navigate([ClientPath.completed],
+                {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}
+            )
+            .finally()
     }
 
 }

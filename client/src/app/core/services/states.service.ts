@@ -24,7 +24,7 @@ export class StatesService {
     }
 
     get profileMenuIcon(): string {
-        return this.userProfileShort?.username?.substr(0, 1).toUpperCase() || ''
+        return this.userProfileShort?.nickname?.substr(0, 1).toUpperCase() || ''
     }
 
     isAuth(): Subject<boolean> {
@@ -37,7 +37,7 @@ export class StatesService {
             .pipe(
                 map((data) => {
                         this.userProfileShort = data
-                        Storage.username = data.username
+                        Storage.username = data.nickname
                         this.isAuth().next(true)
                     }
                 )

@@ -1,5 +1,5 @@
 export interface UserProfileShortModel {
     user_id: string
-    username: string
+    nickname: string
     email: string
 }
