@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms'
 import { FieldValidators } from '@shared/validators'
 
-export class UserSignupModel {
+export class UserSignupFormModel {
 
     email: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an email.'),

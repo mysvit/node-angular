@@ -1,24 +1,25 @@
 import { UserTbl } from '@dto'
 import { Db } from '../../engine/db'
+import { SqlBuilder } from '../../engine/sql-builder'
 
 export class UserDb extends Db {
 
     table = 'user'
 
     async insert(obj: UserTbl): Promise<number> {
-        const insert = this.insertBuilder(this.table, obj)
+        const insert = SqlBuilder.insertBuilder(this.table, obj)
         return await this.dbExecute(insert.sql, insert.values)
             .then(data => data.affectedRows)
     }
 
     async select(obj: UserTbl, whereObj: UserTbl): Promise<UserTbl> {
-        const select = this.selectBuilder(obj, this.table, whereObj)
+        const select = SqlBuilder.selectBuilder(this.table, obj, whereObj)
         return await this.dbQuery(select.sql, select.values)
             .then(data => data ? data[0] : undefined)
     }
 
     async update(obj: UserTbl, whereObj: UserTbl): Promise<number> {
-        const update = this.updateBuilder(this.table, obj, whereObj)
+        const update = SqlBuilder.updateBuilder(this.table, obj, whereObj)
         return await this.dbExecute(update.sql, update.values)
             .then(data => data.affectedRows)
     }

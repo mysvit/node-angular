@@ -1,9 +1,7 @@
-import { UserSignupModel } from '@dto'
-import { Environment } from '@env'
-import { ErrorApi500, ErrorsMsg } from '@shared'
+import { AuthModel, LoginModel, UserSignupModel } from '@dto'
+import { environment } from '@env'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
-import { afterEach, beforeEach } from 'mocha'
 import { UserCore } from './user-core'
 
 const expect = chai.expect
@@ -11,55 +9,39 @@ chai.use(chaiSpies)
 
 describe('CoreUser', () => {
 
-    const coreUser = new UserCore(<Environment>{db: {}})
-
-    beforeEach(() => {
-        chai.spy.on(coreUser.userDb, 'isEmailExist', async (email: string) => {
-            return email === 'exist'
-        })
-        chai.spy.on(coreUser.userDb, 'isNickNameExist', async (nickname: string) => {
-            return nickname === 'exist'
-        })
-        chai.spy.on(coreUser.userDb, 'signup', () => true)
-    })
+    const coreUser = new UserCore(environment)
 
     afterEach(() => {
-        chai.spy.restore(UserCore)
+        chai.spy.restore(coreUser)
     })
 
+    it('signup', async () => {
+        chai.spy.on(coreUser, 'isEmailExist', () => false)
+        chai.spy.on(coreUser.userDb, 'insert', () => 1)
+        const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'not exist', password: 'pass'})
+        expect(res).to.be.eq(1)
+    })
 
-
-    it('signup - not exist', async () => {
-        const res = await coreUser.signup(<UserSignupModel>{
-            nickname: 'not exist', email: 'not exist', password: 'pass'
+    it('login need_confirm', async () => {
+        chai.spy.on(coreUser, 'loginAllFieldRequired', () => true)
+        chai.spy.on(coreUser, 'getUserIfExist', () => true)
+        chai.spy.on(coreUser, 'needConfirmation', () => {
+            return <AuthModel>{user_id: 'id', need_confirm: 1}
         })
-        expect(res).to.be.true
+        // confirmation required
+        const login = await coreUser.login(<LoginModel>{email: 'name@email.com', password: 'pass'})
+        expect(login).to.deep.eq(<AuthModel>{user_id: 'id', need_confirm: 1})
     })
 
-    it('signup - email exist', async () => {
-        try {
-            await coreUser.signup(<UserSignupModel>{
-                nickname: 'not exist', email: 'exist', password: 'pass'
-            })
-        } catch (error) {
-            const errorMessage = new ErrorApi500(ErrorsMsg.EmailRegistered)
-            expect(error.isOperational).to.be.eq(errorMessage.isOperational)
-            expect(error.statusCode).to.be.eq(errorMessage.statusCode)
-            expect(error.message).to.be.eq(errorMessage.message)
-        }
-    })
-
-    it('signup - nickname exist', async () => {
-        try {
-            await coreUser.signup(<UserSignupModel>{
-                nickname: 'exist', email: 'not exist', password: 'pass'
-            })
-        } catch (error) {
-            const errorMessage = new ErrorApi500(ErrorsMsg.UserRegistered)
-            expect(error.isOperational).to.be.eq(errorMessage.isOperational)
-            expect(error.statusCode).to.be.eq(errorMessage.statusCode)
-            expect(error.message).to.be.eq(errorMessage.message)
-        }
+    it('login return token', async () => {
+        chai.spy.on(coreUser, 'loginAllFieldRequired', () => true)
+        chai.spy.on(coreUser, 'getUserIfExist', () => true)
+        chai.spy.on(coreUser, 'needConfirmation', () => undefined)
+        chai.spy.on(coreUser, 'getTokenIfVerified', () => {
+            return <AuthModel>{user_id: 'id', token: 'token'}
+        })
+        const login = await coreUser.login(<LoginModel>{email: 'name@email.com', password: 'pass'})
+        expect(login).to.deep.eq(<AuthModel>{user_id: 'id', token: 'token'})
     })
 
 })

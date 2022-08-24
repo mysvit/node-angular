@@ -1,11 +1,11 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
-import { SignupModel } from '@dto'
+import { UserSignupModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
 import { FieldValidators } from '@shared/validators'
-import { UserSignupModel } from './user-signup.model'
+import { UserSignupFormModel } from './user-signup.model'
 import { UserSignupService } from './user-signup.service'
 
 @Component({
@@ -16,7 +16,7 @@ import { UserSignupService } from './user-signup.service'
 export class UserSignupComponent extends ProcessForm {
 
     FieldValidators = FieldValidators
-    model = new UserSignupModel()
+    model = new UserSignupFormModel()
 
     constructor(
         private router: Router,
@@ -32,7 +32,7 @@ export class UserSignupComponent extends ProcessForm {
         if (this.model.formGroup.touched && this.model.formGroup.valid) {
             this.execute(
                 this.userSignup.signup(
-                    <SignupModel>{
+                    <UserSignupModel>{
                         email: this.model.email.value,
                         nickname: this.model.nickname.value,
                         password: this.model.password.value

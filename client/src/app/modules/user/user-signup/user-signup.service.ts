@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { SignupModel } from '@dto'
+import { UserSignupModel } from '@dto'
 import { environment } from '@env'
 import { ApiPath } from '@shared-lib/constants'
 
@@ -12,7 +12,7 @@ export class UserSignupService {
     constructor(private http: HttpClient) {
     }
 
-    signup(user: SignupModel) {
+    signup(user: UserSignupModel) {
         return this.http.post(environment.apiEndPoint + ApiPath.user_signup, user)
     }
 

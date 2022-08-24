@@ -38,7 +38,7 @@ describe('UserDb', () => {
         is_confirmed: 1,
         modify_date: new DateDb().value,
         login_date: new DateDb().value,
-        avatar_id: 'qwe',
+        avatar_id: null,
         pre_confirmed_hash: 'hashPre'
     }
 
@@ -52,24 +52,22 @@ describe('UserDb', () => {
         }
     }
 
-    beforeEach(() => clearTable())
+    beforeEach(async () => dbUser.insert(userTbl))
     afterEach(async () => clearTable())
 
     it('insert', async () => {
+        await clearTable()
         const signup = await dbUser.insert(userTbl)
         expect(signup).to.be.eq(1)
     })
 
     it('select', async () => {
-        await dbUser.insert(userTbl)
-        const select = await dbUser.select(
-            userTbl,
-            <UserTbl>{user_id: userTbl.user_id})
+        const select = await dbUser.select(userTbl, <UserTbl>{user_id: userTbl.user_id})
         expect(select).to.deep.eq(userTbl)
     })
 
+    //TODO - add test for foreign key avatar_id
     it('update', async () => {
-        await dbUser.insert(userTbl)
         await dbUser.update(
             userTblUpd,
             <UserTbl>{user_id: userTblUpd.user_id})
