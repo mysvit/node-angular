@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { AuthModel, LoginModel } from '@dto'
+import { AuthModel, LoginModel, VerifyModel } from '@dto'
 import { environment } from '@env'
 import { ApiPath } from '@shared-lib/constants'
-import { Storage } from '@shared/storage'
-import { map, Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 
 @Injectable({
     providedIn: 'root'
@@ -16,14 +15,13 @@ export class UserLoginService {
     ) {
     }
 
-    login(user: LoginModel): Observable<void> {
-        return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.user_login, user)
-            .pipe(
-                map((data: AuthModel) => {
-                    Storage.user_id = data.user_id
-                    Storage.token = `Bearer ${data.token}`
-                })
-            )
+    login(model: LoginModel): Observable<AuthModel> {
+        return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.user_login, model)
+    }
+
+    confirm(user_id: string, verification_code: string): Observable<AuthModel> {
+        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.user_verify.replace(':user_id', user_id),
+            <VerifyModel>{verification_code: verification_code})
     }
 
 }

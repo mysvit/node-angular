@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+.sl-confirm-form {
+    flex: 1;
+    max-width: 340px;
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        padding-top: 80px;
+    }
+}

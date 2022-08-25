@@ -19,13 +19,13 @@ export class UserApi {
         res.status(StatusCodes.OK).send()
     }
 
+    static async verify(req: Request, res: Response) {
+        const result = await userCore.verify(req.params?.user_id, req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
+
     // static async getProfileShort(req: Request, res: Response) {
     //     const result = await userCore.getProfileShort(req.params?.user_id)
-    //     res.status(StatusCodes.OK).json(result)
-    // }
-    //
-    // static async confirmUser(req: Request, res: Response) {
-    //     const result = await userCore.confirmUser(req.params?.user_id, req.params?.confirm_code)
     //     res.status(StatusCodes.OK).json(result)
     // }
 

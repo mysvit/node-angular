@@ -1,20 +1,20 @@
 <div class="sl-login-form">
     <h1>Sign in!</h1>
 
-<!--    <app-warn-message *ngIf="errorMessage" [warnMessage]="errorMessage"></app-warn-message>-->
     <div class="sl-h-20"></div>
 
-    <form [formGroup]="model.formGroup" (submit)="loginClick()">
+    <form [formGroup]="loginModel.formGroup">
         <fieldset class="sl-fieldset" [disabled]="disableForm">
             <mat-form-field class="sl-field-fill" appearance="fill">
                 <mat-label>Email address</mat-label>
-                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="model.email" placeholder="Ex. myemail@domain.com or my-username">
-                <mat-error *ngIf="model.email.invalid">{{FieldValidators.errorMessage(model.email)}}</mat-error>
+                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="loginModel.email"
+                       placeholder="Ex. myemail@domain.com or my-username">
+                <mat-error *ngIf="loginModel.email.invalid">{{FieldValidators.errorMessage(loginModel.email)}}</mat-error>
             </mat-form-field>
             <mat-form-field class="sl-field-fill" appearance="fill">
                 <mat-label>Password</mat-label>
-                <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="model.password">
-                <mat-error *ngIf="model.password.invalid">{{FieldValidators.errorMessage(model.password)}}</mat-error>
+                <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="loginModel.password">
+                <mat-error *ngIf="loginModel.password.invalid">{{FieldValidators.errorMessage(loginModel.password)}}</mat-error>
             </mat-form-field>
 
             <div class="sl-h-20"></div>

@@ -71,4 +71,15 @@ export namespace FieldValidators {
         }
     }
 
+    export function verificationCodeFormat(errorMessage: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            return Validation.isVerificationCodeValid(control.value) ? null : {
+                verificationCode: {
+                    valid: false,
+                    errorMessage: errorMessage
+                }
+            }
+        }
+    }
+
 }

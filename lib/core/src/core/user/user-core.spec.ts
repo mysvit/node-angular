@@ -1,4 +1,4 @@
-import { AuthModel, LoginModel, UserSignupModel } from '@dto'
+import { LoginModel, UserSignupModel } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
@@ -22,26 +22,22 @@ describe('CoreUser', () => {
         expect(res).to.be.eq(1)
     })
 
-    it('login need_confirm', async () => {
+    it('login need confirm', async () => {
         chai.spy.on(coreUser, 'loginAllFieldRequired', () => true)
         chai.spy.on(coreUser, 'getUserIfExist', () => true)
-        chai.spy.on(coreUser, 'needConfirmation', () => {
-            return <AuthModel>{user_id: 'id', need_confirm: 1}
-        })
+        chai.spy.on(coreUser, 'checkIfNeedConfirmation', () => 'ok')
         // confirmation required
         const login = await coreUser.login(<LoginModel>{email: 'name@email.com', password: 'pass'})
-        expect(login).to.deep.eq(<AuthModel>{user_id: 'id', need_confirm: 1})
+        expect(login).to.be.eq('ok')
     })
 
     it('login return token', async () => {
         chai.spy.on(coreUser, 'loginAllFieldRequired', () => true)
         chai.spy.on(coreUser, 'getUserIfExist', () => true)
-        chai.spy.on(coreUser, 'needConfirmation', () => undefined)
-        chai.spy.on(coreUser, 'getTokenIfVerified', () => {
-            return <AuthModel>{user_id: 'id', token: 'token'}
-        })
+        chai.spy.on(coreUser, 'checkIfNeedConfirmation', () => undefined)
+        chai.spy.on(coreUser, 'getTokenIfPassOk', () => 'ok')
         const login = await coreUser.login(<LoginModel>{email: 'name@email.com', password: 'pass'})
-        expect(login).to.deep.eq(<AuthModel>{user_id: 'id', token: 'token'})
+        expect(login).to.be.eq('ok')
     })
 
 })

@@ -1,0 +1,23 @@
+<div class="sl-confirm-form">
+    <h1>Verify account</h1>
+
+    <div class="sl-h-20"></div>
+
+    <form [formGroup]="verifyModel.formGroup">
+        <fieldset class="sl-fieldset" [disabled]="disableForm">
+            <mat-form-field class="sl-field-fill" appearance="fill">
+                <mat-label>Verification code</mat-label>
+                <input matInput #verifyCode [formControl]="verifyModel.verification_code" maxlength="5" placeholder="Ex. 12345">
+                <mat-hint align="end">{{verifyCode.value.length}} / 5</mat-hint>
+                <mat-error *ngIf="verifyModel.verification_code.invalid">{{FieldValidators.errorMessage(verifyModel.verification_code)}}</mat-error>
+            </mat-form-field>
+
+            <div class="sl-h-20"></div>
+            <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Verify" (click)="verifyClick()">
+                <mat-icon>check</mat-icon>
+                <span>Verify</span>
+            </button>
+        </fieldset>
+    </form>
+
+</div>

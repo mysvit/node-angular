@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { UserLoginRoutingModule } from './user-login-routing.module'
 import { UserLoginComponent } from './user-login.component'
+import { UserVerificationComponent } from './user-verification/user-verification.component'
 
 
 @NgModule({
     declarations: [
-        UserLoginComponent
+        UserLoginComponent,
+        UserVerificationComponent
     ],
     imports: [
         CommonModule,

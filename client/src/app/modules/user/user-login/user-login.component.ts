@@ -1,13 +1,15 @@
 import { Location } from '@angular/common'
 import { Component } from '@angular/core'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
-import { LoginModel } from '@dto'
+import { AuthModel, AuthType, LoginModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
+import { StringHelper } from '@shared-lib/helpers'
 import { ProcessForm } from '@shared/form'
+import { Storage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { switchMap } from 'rxjs'
+import { map } from 'rxjs'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
 
@@ -18,11 +20,13 @@ import { UserLoginService } from './user-login.service'
 })
 export class UserLoginComponent extends ProcessForm {
 
+
     FieldValidators = FieldValidators
-    model = new UserLoginModel()
+    loginModel = new UserLoginModel()
 
     constructor(
         private router: Router,
+        private route: ActivatedRoute,
         private location: Location,
         private userLogin: UserLoginService,
         private states: StatesService,
@@ -32,29 +36,33 @@ export class UserLoginComponent extends ProcessForm {
     }
 
     loginClick() {
-        this.model.formGroup.markAllAsTouched()
-        if (this.model.formGroup.touched && this.model.formGroup.valid) {
+        this.loginModel.formGroup.markAllAsTouched()
+        if (this.loginModel.formGroup.touched && this.loginModel.formGroup.valid) {
             this.snackBar.dismiss()
             this.execute(
-                this.userLogin.login(<LoginModel>{email: this.model.email.value, password: this.model.password.value})
+                this.userLogin.login(<LoginModel>{email: this.loginModel.email.value, password: this.loginModel.password.value})
                     .pipe(
-                        switchMap(() => this.states.getUserProfileShort())
+                        map((data: AuthModel) => {
+                            Storage.user_id = data.user_id
+                            if (data.authType === AuthType.NeedVerification) {
+                                this.router.navigate([StringHelper.removeSlash(ClientPath.verify)], {relativeTo: this.route}).finally()
+                            } else {
+                                Storage.token = `Bearer ${data.token}`
+                                this.states.getUserProfileShort()
+                                this.router.navigate([ClientPath.one_level_back]).finally()
+                            }
+                        })
                     )
             )
         }
     }
 
-    override processCompleted() {
-        super.processCompleted()
-        this.router.navigate([ClientPath.one_level_back]).finally()
+    forgotPasswordClick() {
+        this.router.navigate([ClientPath.forgot_password]).finally()
     }
 
     signupClick() {
         this.router.navigate([ClientPath.signup]).finally()
-    }
-
-    forgotPasswordClick() {
-        this.router.navigate([ClientPath.forgot_password]).finally()
     }
 
 }

@@ -9,4 +9,6 @@ export class ErrorsMsg {
     static TokenRequired = 'A token is required for authentication.'
     static InvalidToken = 'Invalid Token'
     static CentralizedError = 'Centralized error handling:'
+    static VerificationCodeWrongFormat = 'Verification code has wrong format'
+    static VerificationCodeWrong = 'Verification code is wrong'
 }

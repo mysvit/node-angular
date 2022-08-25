@@ -8,18 +8,15 @@ describe('ParamValidation', () => {
 
     it('validateId valid', () => {
         const goodUUID = randomUUID()
-        try {
-            ParamValidation.validateId(goodUUID)
-            expect(true).to.be.true
-        } catch (error) {
-            expect(error.message).to.be.empty
-        }
+        ParamValidation.validateId(goodUUID)
+        expect(true).to.be.true
     })
 
     it('validateId NOT valid', () => {
         const badUUID = 'abra kadabra'
         try {
             ParamValidation.validateId(badUUID)
+            expect(true).to.be.false
         } catch (error) {
             expect(error.statusCode).to.eq(StatusCodes.INTERNAL_SERVER_ERROR)
             expect(error.message).to.eq(StringHelper.format(ErrorsMsg.IdHasInvalidUuid, badUUID))
@@ -28,23 +25,35 @@ describe('ParamValidation', () => {
 
     it('allFieldRequired valid', () => {
         const obj = {user: 'user', password: 'pass'}
-        try {
-            ParamValidation.allFieldRequired(obj)
-            expect(true).to.be.true
-        } catch (error) {
-            expect(error.statusCode).to.eq(StatusCodes.INTERNAL_SERVER_ERROR)
-            expect(error.message).to.eq(ErrorsMsg.AllFieldsRequired)
-        }
+        ParamValidation.allFieldRequired(obj)
+        expect(true).to.be.true
     })
 
     it('allFieldRequired NOT valid', () => {
         const obj = {user: 'user', password: ''}
         try {
             ParamValidation.allFieldRequired(obj)
-            expect(true).to.be.true
+            expect(true).to.be.false
         } catch (error) {
             expect(error.statusCode).to.eq(StatusCodes.INTERNAL_SERVER_ERROR)
             expect(error.message).to.eq(ErrorsMsg.AllFieldsRequired)
+        }
+    })
+
+    it('isVerificationCodeValid valid', () => {
+        const code = '12345'
+        ParamValidation.validateVerificationCodeFormat(code)
+        expect(true).to.be.true
+    })
+
+    it('isVerificationCodeValid NOT valid', () => {
+        try {
+            const code = '1234H'
+            ParamValidation.validateVerificationCodeFormat(code)
+            expect(true).to.be.false
+        } catch (error) {
+            expect(error.statusCode).to.eq(StatusCodes.INTERNAL_SERVER_ERROR)
+            expect(error.message).to.eq(ErrorsMsg.VerificationCodeWrongFormat)
         }
     })
 

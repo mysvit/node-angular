@@ -1,4 +1,4 @@
-import { ErrorApi500, ErrorsMsg, StringHelper, Validation, ValueHelper } from '@shared'
+import { ErrorApi500, ErrorsMsg, StringHelper, Validation } from '@shared'
 
 export namespace ParamValidation {
 
@@ -11,11 +11,15 @@ export namespace ParamValidation {
 
     // check if all property not empty
     export function allFieldRequired(obj: Object) {
-        const result = Object.getOwnPropertyNames(obj)
-            .map(fieldName => ValueHelper.isEmpty(obj[fieldName]))
-            .findIndex(value => value)
-        if (result >= 0) {
+        if (!Validation.isAllPropertyHaveValues(obj)) {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
+        }
+    }
+
+    // check if this is uuid
+    export function validateVerificationCodeFormat(verification_code: string) {
+        if (!Validation.isVerificationCodeValid(verification_code)) {
+            throw new ErrorApi500(ErrorsMsg.VerificationCodeWrongFormat)
         }
     }
 

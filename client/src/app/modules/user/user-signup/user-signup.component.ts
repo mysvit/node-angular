@@ -46,7 +46,10 @@ export class UserSignupComponent extends ProcessForm {
         this.snackBar.dismiss()
         this.router
             .navigate([ClientPath.completed],
-                {relativeTo: this.route, state: {message: 'Check your email to confirm your account.'}}
+                {
+                    relativeTo: this.route,
+                    state: {message: 'You have successful signup and you can login. <br> Check your email to get confirmation code.'}
+                }
             )
             .finally()
     }

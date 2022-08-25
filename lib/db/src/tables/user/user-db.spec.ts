@@ -17,13 +17,13 @@ describe('UserDb', () => {
         password_hash: 'hash',
         password_salt: 'salt',
         nickname: 'nickname',
-        confirm_code: '12345',
+        verification_code: '12345',
         is_del: 0,
-        is_confirmed: 0,
+        is_verified: 0,
         modify_date: null,
         login_date: null,
         avatar_id: null,
-        pre_confirmed_hash: null
+        pre_verified_hash: null
     }
 
     const userTblUpd = <UserTbl>{
@@ -33,13 +33,13 @@ describe('UserDb', () => {
         password_hash: 'hashU',
         password_salt: 'saltU',
         nickname: 'nicknameU',
-        confirm_code: '12340',
+        verification_code: '12340',
         is_del: 1,
-        is_confirmed: 1,
+        is_verified: 1,
         modify_date: new DateDb().value,
         login_date: new DateDb().value,
         avatar_id: null,
-        pre_confirmed_hash: 'hashPre'
+        pre_verified_hash: 'hashPre'
     }
 
     async function clearTable() {
