@@ -21,10 +21,10 @@
             <h3>Profile picture</h3>
 
             <ng-template [ngIf]="this.imgSrc" [ngIfElse]="gravatar">
-                <img class="sl-gravatar" src="{{imgSrc}}">
+                <img class="sl-gravatar" src="{{imgSrc}}" alt="User Avatar">
             </ng-template>
             <ng-template #gravatar>
-                <div class="sl-gravatar">{{states.profileMenuIcon}}</div>
+                <div class="sl-gravatar">{{gravatar}}</div>
             </ng-template>
 
             <div class="sl-h-20"></div>

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
     }
 
     userClick() {
-        // this.home.getUserProfileShort(Storage.userId).subscribe(data => console.debug(data))
+        // this.home.getUserProfile(Storage.userId).subscribe(data => console.debug(data))
     }
 
 }

@@ -1,4 +1,4 @@
-import { AuthModel, AuthType, DateDb, LoginModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
+import { AuthModel, AuthType, DateDb, LoginModel, UserProfileModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
 import { environment } from '@env'
 import { ErrorApi500, ErrorsMsg, MathHelper, PasswordHash, ValueHelper } from '@shared'
 import { randomUUID } from 'crypto'
@@ -59,7 +59,14 @@ export class UserCore extends Core {
 
     private getUserIfExist = async (model: LoginModel): Promise<UserTbl> => {
         const userTbl = await this.userDb.select(
-            <UserTbl>{user_id: undefined, password_salt: undefined, is_verified: undefined},
+            <UserTbl>{
+                user_id: '',
+                nickname: '',
+                avatar_id: '',
+                password_hash: '',
+                password_salt: '',
+                is_verified: 0
+            },
             <UserTbl>{email: model.email, is_del: 0}
         )
         if (ValueHelper.isEmpty(userTbl)) {
@@ -87,7 +94,13 @@ export class UserCore extends Core {
         }
         // create token by sign
         const token = sign({user_id: userTbl.user_id}, environment.token_key, {expiresIn: '2h'})
-        return <AuthModel>{user_id: userTbl.user_id, token: token, authType: AuthType.Authenticated}
+        return <AuthModel>{
+            user_id: userTbl.user_id,
+            nickname: userTbl.nickname,
+            avatar_id: userTbl.avatar_id,
+            token: token,
+            authType: AuthType.Authenticated
+        }
     }
 
 
@@ -120,28 +133,38 @@ export class UserCore extends Core {
     }
     private getTokenAfterVerification = async (user_id: string): Promise<AuthModel> => {
         // get previously login generated hash
-        const result = await this.userDb.select(
-            <UserTbl>{pre_verified_hash: '', password_hash: ''},
+        const userTbl = await this.userDb.select(
+            <UserTbl>{nickname: '', avatar_id: '', pre_verified_hash: '', password_hash: ''},
             <UserTbl>{is_del: 0, user_id: user_id}
         )
         // create token by sign if password verified
-        if (result.pre_verified_hash === result.password_hash) {
+        if (userTbl.pre_verified_hash === userTbl.password_hash) {
             const token = sign({user_id: user_id}, environment.token_key, {expiresIn: '2h'})
-            return <AuthModel>{user_id: user_id, token: token, authType: AuthType.Authenticated}
+            return <AuthModel>{
+                user_id: user_id,
+                nickname: userTbl.nickname,
+                avatar_id: userTbl.avatar_id,
+                token: token,
+                authType: AuthType.Authenticated
+            }
         } else {
-            return <AuthModel>{user_id: user_id, authType: AuthType.VerifiedButNotAuth}
+            return <AuthModel>{
+                user_id: user_id,
+                authType: AuthType.VerifiedButNotAuth
+            }
         }
     }
 
+    /**
+     * get user profile
+     * @param user_id
+     */
+    async getUserProfile(user_id: string): Promise<UserProfileModel> {
+        ParamValidation.validateId(user_id)
+        return this.userDb.select(
+            <UserTbl>{user_id: '', nickname: '', email: '', avatar_id: ''},
+            <UserTbl>{is_del: 0, user_id: user_id}
+        )
+    }
+
 }
-
-
-// async getProfileShort(user_id: string): Promise<UserProfileShortModel> {
-//     ParamValidation.validateId(user_id)
-//     const userTbl = await this.userDb.get(user_id)
-//     return <UserProfileShortModel>{
-//         user_id: userTbl.user_id,
-//         nickname: userTbl.nickname,
-//         email: userTbl.email
-//     }
-// }

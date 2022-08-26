@@ -46,18 +46,23 @@ export class UserVerificationComponent extends ProcessForm {
                 this.userLogin.confirm(Storage.user_id, this.verifyModel.verification_code.value)
                     .pipe(
                         map((data: AuthModel) => {
-                            if (data.authType === AuthType.Authenticated) {
-                                Storage.token = `Bearer ${data.token}`
-                                this.states.getUserProfileShort()
-                                this.router.navigate([ClientPath.one_level_back]).finally(() =>
-                                    this.snackBar.show('Verification ok. You logged in to your account.', MessageType.Success)
-                                )
+                            switch (data.authType) {
+                                case AuthType.Authenticated:
+                                    Storage.token = `Bearer ${data.token}`
+                                    Storage.nickname = data.nickname
+                                    Storage.avatar_id = data.avatar_id
+                                    this.states.isAuth().next(true)
+                                    this.router.navigate([ClientPath.one_level_back]).finally(() =>
+                                        this.snackBar.show('Verification ok. You logged in to your account.', MessageType.Success)
+                                    )
+                                    break
+                                case AuthType.VerifiedButNotAuth:
+                                    this.router.navigate([ClientPath.login]).finally(() =>
+                                        this.snackBar.show('Verification ok. Login to your account.', MessageType.Success)
+                                    )
+                                    break
                             }
-                            if (data.authType === AuthType.VerifiedButNotAuth) {
-                                this.router.navigate([ClientPath.login]).finally(() =>
-                                    this.snackBar.show('Verification ok. Login to your account.', MessageType.Success)
-                                )
-                            }
+                            return data.authType === AuthType.Authenticated
                         })
                     )
             )

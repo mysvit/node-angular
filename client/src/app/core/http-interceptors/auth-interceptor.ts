@@ -1,6 +1,6 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable, Optional, SkipSelf } from '@angular/core'
-import { Params } from '@shared-lib/constants'
+import { ApiParams } from '@shared-lib/constants'
 import { Storage } from '@shared/storage'
 
 @Injectable()
@@ -19,8 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
         const authReq = req
             .clone({
                 setHeaders: {
-                    [Params.authorization]: Storage.token,
-                    [Params.user_id]: Storage.user_id
+                    [ApiParams.authorization]: Storage.token,
+                    [ApiParams.user_id]: Storage.user_id
                 }
             })
 

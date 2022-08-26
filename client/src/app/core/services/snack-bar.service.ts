@@ -10,13 +10,13 @@ export class SnackBarService {
     constructor(private matSnackBar: MatSnackBar) {
     }
 
-    show(message: string, messageType: MessageType) {
+    show(message: string, messageType: MessageType, duration?: number) {
         switch (messageType) {
             case MessageType.Info:
                 this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-info'})
                 break
             case MessageType.Success:
-                this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-success'})
+                this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-success', duration: duration})
                 break
             case MessageType.Warn:
                 this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-warn'})

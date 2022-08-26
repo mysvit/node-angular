@@ -14,8 +14,8 @@ export const userProf = express.Router()
 userBase.post(ApiPath.user_signup, ErrorHandler.apiCatch(UserApi.signup))
 
 // api/user/user_verify/:user_id
-// [form]
 // user_id: uuid
+// [form]
 // confirm_code: 12345
 userBase.put(ApiPath.user_verify, ErrorHandler.apiCatch(UserApi.verify))
 
@@ -28,6 +28,6 @@ userBase.post(ApiPath.user_login, ErrorHandler.apiCatch(UserApi.login))
 // check if token not expired, middleware do a job
 userAuth.get(ApiPath.user_auth, ErrorHandler.apiCatch(UserApi.isAuth))
 
-// api/user/get_profile_short/:user_id
+// api/user/get_profile/:user_id
 // user_id: uuid
-// userProf.get(ApiPath.user_get_profile_short, ErrorHandler.apiCatch(UserApi.getProfileShort))
+userProf.get(ApiPath.user_get_profile, ErrorHandler.apiCatch(UserApi.getUserProfile))

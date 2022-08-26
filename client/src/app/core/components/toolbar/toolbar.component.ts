@@ -12,6 +12,9 @@ import { StatesService } from '../../services/states.service'
 export class ToolbarComponent implements OnDestroy {
 
     isAuth: boolean = false
+    nickname?: string
+    gravatar?: string
+    avatar?: string
 
     constructor(
         private router: Router,
@@ -19,6 +22,11 @@ export class ToolbarComponent implements OnDestroy {
     ) {
         this.states.isAuth().subscribe(data => {
             this.isAuth = data
+            if (this.isAuth) {
+                this.avatar = Storage.avatar_id
+                this.gravatar = Storage.nickname.substring(0, 1).toUpperCase()
+                this.nickname = Storage.nickname
+            }
         })
     }
 

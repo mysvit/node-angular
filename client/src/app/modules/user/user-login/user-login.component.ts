@@ -44,12 +44,17 @@ export class UserLoginComponent extends ProcessForm {
                     .pipe(
                         map((data: AuthModel) => {
                             Storage.user_id = data.user_id
-                            if (data.authType === AuthType.NeedVerification) {
-                                this.router.navigate([StringHelper.removeSlash(ClientPath.verify)], {relativeTo: this.route}).finally()
-                            } else {
-                                Storage.token = `Bearer ${data.token}`
-                                this.states.getUserProfileShort()
-                                this.router.navigate([ClientPath.one_level_back]).finally()
+                            switch (data.authType) {
+                                case AuthType.Authenticated:
+                                    Storage.token = `Bearer ${data.token}`
+                                    Storage.nickname = data.nickname
+                                    Storage.avatar_id = data.avatar_id
+                                    this.states.isAuth().next(true)
+                                    this.router.navigate([ClientPath.one_level_back]).finally()
+                                    break
+                                case AuthType.NeedVerification:
+                                    this.router.navigate([StringHelper.removeSlash(ClientPath.verify)], {relativeTo: this.route}).finally()
+                                    break
                             }
                         })
                     )

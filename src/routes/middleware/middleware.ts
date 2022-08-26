@@ -1,5 +1,5 @@
 import { environment } from '@env'
-import { ErrorsMsg, Params, ValueHelper } from '@shared'
+import { ErrorsMsg, ApiParams, ValueHelper } from '@shared'
 import { randomBytes } from 'crypto'
 import { NextFunction, Request, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
@@ -10,8 +10,8 @@ const {verify} = jwt
 export namespace Middleware {
 
     export function verifyToken(req: Request, res: Response, next: NextFunction) {
-        const user_id = req.headers[Params.user_id]
-        const token = (<string>(req.headers[Params.authorization] ?? '')).replace('Bearer ', '')
+        const user_id = req.headers[ApiParams.user_id]
+        const token = (<string>(req.headers[ApiParams.authorization] ?? '')).replace('Bearer ', '')
         if (ValueHelper.isEmpty(token) || ValueHelper.isEmpty(user_id)) {
             return res.status(StatusCodes.FORBIDDEN).send({message: ErrorsMsg.TokenRequired})
         }

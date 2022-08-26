@@ -4,7 +4,7 @@ import { StatesService } from '@core/services/states.service'
 import { environment } from '@env'
 import { ApiPath } from '@shared-lib/constants'
 import { Storage } from '@shared/storage'
-import { catchError, switchMap, throwError } from 'rxjs'
+import { catchError, map, throwError } from 'rxjs'
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class AppService {
     isAuth() {
         return this.http.get(environment.apiEndPoint + ApiPath.user_auth)
             .pipe(
-                switchMap(() => this.states.getUserProfileShort()),
+                map(() => this.states.isAuth().next(true)),
                 catchError((error) => {
                     this.states.isAuth().next(false)
                     Storage.clear()
