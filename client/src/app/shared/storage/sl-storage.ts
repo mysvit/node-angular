@@ -1,6 +1,6 @@
 import { ApiParams } from '@shared-lib/constants'
 
-export class Storage {
+export class SlStorage {
 
     static get user_id() {
         return localStorage.getItem(ApiParams.user_id) ?? ''
@@ -8,6 +8,14 @@ export class Storage {
 
     static set user_id(value: string) {
         localStorage.setItem(ApiParams.user_id, value)
+    }
+
+    static get is_auth() {
+        return localStorage.getItem(ApiParams.is_auth) ?? ''
+    }
+
+    static set is_auth(value: string) {
+        localStorage.setItem(ApiParams.is_auth, value)
     }
 
     static get token() {

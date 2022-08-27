@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { UserProfileModel } from '@dto'
-import { Subject } from 'rxjs'
+import { SlStorage } from '@shared/storage'
+import { BehaviorSubject, Subject } from 'rxjs'
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,8 @@ import { Subject } from 'rxjs'
 export class StatesService {
 
     userProfileShort?: UserProfileModel
-    private auth: Subject<boolean> = new Subject()
+    private auth: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(Number.parseInt(SlStorage.is_auth) === 1)
+    public postAuthRedirectUrl?: string
 
     constructor(
         private http: HttpClient,

@@ -3,6 +3,7 @@ export namespace ApiParams {
     export const _picture_id = ':picture_id'
 
     export const user_id = 'user_id'
+    export const is_auth = 'is_auth'
     export const avatar_id = 'avatar_id'
     export const nickname = 'nickname'
     export const token = 'token'

@@ -162,7 +162,7 @@ export class UserCore extends Core {
     async getUserProfile(user_id: string): Promise<UserProfileModel> {
         ParamValidation.validateId(user_id)
         return this.userDb.select(
-            <UserTbl>{user_id: '', nickname: '', email: '', avatar_id: ''},
+            <UserTbl>{user_id: '', nickname: '', avatar_id: '', email: ''},
             <UserTbl>{is_del: 0, user_id: user_id}
         )
     }

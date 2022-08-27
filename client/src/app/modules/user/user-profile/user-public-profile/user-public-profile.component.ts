@@ -1,10 +1,14 @@
 import { Component, OnInit, Renderer2 } from '@angular/core'
 import { SnackBarService } from '@core/services/snack-bar.service'
+import { StatesService } from '@core/services/states.service'
 import { MessageType } from '@shared/enum'
+import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { UploadHelper } from '@shared/helper/upload-helper'
-import { StatesService } from '@core/services/states.service'
-import { Storage } from '@shared/storage'
+import { SlStorage } from '@shared/storage'
+import { FieldValidators } from '@shared/validators'
+import { map } from 'rxjs'
+import { UserPublicProfileModel } from './user-public-profile-model'
 import { UserPublicProfileService } from './user-public-profile.service'
 
 @Component({
@@ -12,19 +16,32 @@ import { UserPublicProfileService } from './user-public-profile.service'
     templateUrl: './user-public-profile.component.html',
     styleUrls: ['./user-public-profile.component.scss']
 })
-export class UserPublicProfileComponent implements OnInit {
+export class UserPublicProfileComponent extends ProcessForm implements OnInit {
 
     imgSrc = 'http://localhost:3000/api/picture/get/e9494ab0-7d7b-4c95-9858-b80e78304f1a'
-    gravatar = Storage.nickname.substring(0, 1).toUpperCase()
+    gravatar = SlStorage.nickname.substring(0, 1).toUpperCase()
+    FieldValidators = FieldValidators
+    userPublicProfileModel = new UserPublicProfileModel()
 
     constructor(
         private renderer: Renderer2,
         private snackBar: SnackBarService,
-        public states: StatesService,
-        public userPublicProfile: UserPublicProfileService) {
+        private states: StatesService,
+        private userPublicProfile: UserPublicProfileService) {
+        super()
     }
 
     ngOnInit(): void {
+        this.loadData()
+    }
+
+    loadData() {
+        this.execute(
+            this.userPublicProfile.getUserProfile()
+                .pipe(
+                    map((data) => this.userPublicProfileModel.formGroup.patchValue(data))
+                )
+        )
     }
 
     updateProfileClick() {

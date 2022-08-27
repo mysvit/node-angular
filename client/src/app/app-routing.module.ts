@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { CompletedPageComponent } from '@core/pages/completed-page/completed-page.component'
 import { NotFoundPageComponent } from '@core/pages/not-found-page/not-found-page.component'
+import { AuthGuard } from '@core/services/auth.guard'
 import { ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
 
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
     },
     {
         path: StringHelper.removeSlash(ClientPath.user_profile),
+        canLoad: [AuthGuard],
         loadChildren: () => import('./modules/user/user-profile/user-profile.module').then(m => m.UserProfileModule)
     },
     {

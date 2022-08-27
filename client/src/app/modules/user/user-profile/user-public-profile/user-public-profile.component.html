@@ -2,10 +2,9 @@
 
     <div class="sl-col">
         <mat-form-field appearance="fill">
-            <mat-label>Username</mat-label>
-            <input type="text" matInput>
-            <!--    [formControl]="model.username"-->
-            <!--    <mat-error *ngIf="model.username.invalid">{{FieldValidators.errorMessage(model.username)}}</mat-error>-->
+            <mat-label>Name</mat-label>
+            <input type="text" matInput [formControl]="userPublicProfileModel.nickname">
+            <mat-error *ngIf="userPublicProfileModel.nickname.invalid">{{FieldValidators.errorMessage(userPublicProfileModel.nickname)}}</mat-error>
         </mat-form-field>
         <div class="sl-flex-spacer"></div>
         <div>

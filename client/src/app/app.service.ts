@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { StatesService } from '@core/services/states.service'
 import { environment } from '@env'
 import { ApiPath } from '@shared-lib/constants'
-import { Storage } from '@shared/storage'
+import { SlStorage } from '@shared/storage'
 import { catchError, map, throwError } from 'rxjs'
 
 @Injectable({
@@ -23,7 +23,7 @@ export class AppService {
                 map(() => this.states.isAuth().next(true)),
                 catchError((error) => {
                     this.states.isAuth().next(false)
-                    Storage.clear()
+                    SlStorage.clear()
                     return throwError(() => new Error(error))
                 })
             )

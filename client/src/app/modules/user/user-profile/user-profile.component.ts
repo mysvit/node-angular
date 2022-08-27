@@ -1,26 +1,29 @@
 import { Component, OnInit } from '@angular/core'
 import { ProcessForm } from '@shared/form'
 import { FieldValidators } from '@shared/validators'
+import { UserProfileService } from './user-profile.service'
 import { UserPublicProfileModel } from './user-public-profile/user-public-profile-model'
 
 @Component({
     selector: 'app-user-profile',
     templateUrl: './user-profile.component.html',
-    styleUrls: ['./user-profile.component.scss']
+    styleUrls: ['./user-profile.component.scss'],
+    providers: [UserProfileService]
 })
 export class UserProfileComponent extends ProcessForm implements OnInit {
 
     FieldValidators = FieldValidators
     model = new UserPublicProfileModel()
 
-    constructor() {
+    constructor(private userProfile: UserProfileService) {
         super()
     }
 
     ngOnInit(): void {
+        // this.execute(this.userProfile.getUserProfile())
     }
 
-    saveClick() {
+    updateProfileClick() {
     }
 
 }
