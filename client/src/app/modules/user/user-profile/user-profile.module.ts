@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
 import { MatMenuModule } from '@angular/material/menu'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { UserEmailsComponent } from './user-emails/user-emails.component'
 import { UserPasswordComponent } from './user-password/user-password.component'
 import { UserProfileRoutingModule } from './user-profile-routing.module'
@@ -32,7 +33,8 @@ import { UserPublicProfileComponent } from './user-public-profile/user-public-pr
         MatListModule,
         MatExpansionModule,
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
+        MatProgressSpinnerModule
     ]
 })
 export class UserProfileModule {

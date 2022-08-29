@@ -1,3 +1,7 @@
+<div class="sl-process" *ngIf="processState === ProcessStates.EXECUTING">
+    <mat-spinner></mat-spinner>
+</div>
+
 <div class="sl-form">
 
     <div class="sl-col">
@@ -14,13 +18,12 @@
         </div>
     </div>
 
-
     <div class="sl-col">
         <div class="sl-profile-picture">
             <h3>Profile picture</h3>
 
-            <ng-template [ngIf]="this.imgSrc" [ngIfElse]="gravatar">
-                <img class="sl-gravatar" src="{{imgSrc}}" alt="User Avatar">
+            <ng-template [ngIf]="imgSrc" [ngIfElse]="gravatar">
+                <img class="sl-gravatar" src="{{imgSrc}}">
             </ng-template>
             <ng-template #gravatar>
                 <div class="sl-gravatar">{{gravatar}}</div>

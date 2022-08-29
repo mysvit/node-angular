@@ -4,7 +4,6 @@ import { StatesService } from '@core/services/states.service'
 import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
-import { UploadHelper } from '@shared/helper/upload-helper'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
 import { map } from 'rxjs'
@@ -54,14 +53,15 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
 
     uploadPictureCommand() {
         this.snackBar.dismiss()
-        UploadHelper.uploadFileClick(this.renderer)
-            .then(files => UploadHelper.uploadFileReader(files[0]))
-            .then(file => PictureHelper.resizePicture(file, 40, 40))
-            .then(pictureModel => this.userPublicProfile.pictureAdd(pictureModel).subscribe())
-            // .then(picture => this.imgSrc = picture.content)
-            .catch(error => {
-                this.snackBar.show(error.message, MessageType.Error)
-            })
+        this.imgSrc = PictureHelper.createImageFromLetter('O', 128, 128)
+        // UploadHelper.uploadFileClick(this.renderer)
+        //     .then(files => UploadHelper.uploadFileReader(files[0]))
+        //     .then(file => PictureHelper.resizePicture(file, 128, 128))
+        //     .then(pictureModel => this.userPublicProfile.pictureAdd(pictureModel).subscribe())
+        //     // .then(picture => this.imgSrc = picture.content)
+        //     .catch(error => {
+        //         this.snackBar.show(error.message, MessageType.Error)
+        //     })
     }
 
 }

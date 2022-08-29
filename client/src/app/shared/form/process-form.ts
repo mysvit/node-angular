@@ -3,6 +3,7 @@ import { Observable, Subject, takeUntil } from 'rxjs'
 
 export class ProcessForm {
 
+    ProcessStates = ProcessStates
     cancel$: Subject<boolean> = new Subject<boolean>()
     processState: ProcessStates = ProcessStates.INITIAL
     executingMessage?: string
