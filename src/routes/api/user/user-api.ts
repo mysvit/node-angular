@@ -24,6 +24,11 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async resend(req: Request, res: Response) {
+        const result = await userCore.resend(req.params?.user_id)
+        res.status(StatusCodes.OK).json(result)
+    }
+
     static async getUserProfile(req: Request, res: Response) {
         const result = await userCore.getUserProfile(req.params?.user_id)
         res.status(StatusCodes.OK).json(result)

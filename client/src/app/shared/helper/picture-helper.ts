@@ -21,7 +21,6 @@ export namespace PictureHelper {
                     <PictureModel>{
                         name: FileHelper.getFileName(file.name),
                         ext: 'png',
-                        size: file.size,
                         height: height,
                         width: width,
                         contentBase64: data
@@ -44,12 +43,11 @@ export namespace PictureHelper {
         colorDeg = colorDeg && MathHelper.getRandomInt(0, 360)
 
         // background
-        context.fillStyle = getRandomColor(colorDeg, 50, MathHelper.getRandomInt(60, 80))
+        context.fillStyle = getRandomColor(colorDeg, 90, MathHelper.getRandomInt(45, 85)) + '50'
         context.fillRect(0, 0, width, height)
 
         // color
-        context.fillStyle = getRandomColor(colorDeg, 100, MathHelper.getRandomInt(20, 50))
-        console.debug(context.fillStyle)
+        context.fillStyle = getRandomColor(colorDeg, 100, MathHelper.getRandomInt(25, 60))
         context.textBaseline = 'middle'
         context.textAlign = 'center'
         context.font = `bold ${height / 1.5}px Roboto`

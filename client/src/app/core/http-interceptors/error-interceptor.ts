@@ -1,8 +1,10 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { SnackBarService } from '@core/services/snack-bar.service'
-import { ApiPath } from '@shared-lib/constants'
+import { StatesService } from '@core/services/states.service'
+import { ApiParams, ApiPath } from '@shared-lib/constants'
 import { MessageType } from '@shared/enum'
+import { SlStorage } from '@shared/storage'
 import { StatusCodes } from 'http-status-codes'
 import { catchError, throwError } from 'rxjs'
 
@@ -10,6 +12,7 @@ import { catchError, throwError } from 'rxjs'
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
+        private states: StatesService,
         private snackBar: SnackBarService,
         @Optional() @SkipSelf() error: ErrorInterceptor
     ) {
@@ -36,6 +39,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                             case StatusCodes.UNAUTHORIZED:
                             case StatusCodes.FORBIDDEN:
                                 message = 'User is not authenticated.'
+                                this.states.isAuth().next(false)
+                                SlStorage.remove(ApiParams.token)
                                 break
                         }
                         // for check authentication doesn't show snackBar

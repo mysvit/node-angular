@@ -11,5 +11,5 @@
   "env": {
     "NODE_ENV": "dev"
   },
-  "ext": "js"
+  "ext": "js, ts"
 }

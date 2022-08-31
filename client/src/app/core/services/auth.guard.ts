@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
                 map(auth => {
                     if (!auth) {
                         // Store the attempted URL for redirecting
-                        this.states.postAuthRedirectUrl = url
+                        this.states.redirectUrl = url
                         // Navigate to the login page
                         this.router.navigate([StringHelper.removeSlash(ClientPath.login)]).finally()
                     }

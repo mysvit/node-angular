@@ -1,0 +1,11 @@
+@import "mixins";
+
+.sl-fieldset {
+    @include sl-fieldset(auto, 1, 1);
+    padding: 20px;
+}
+
+.sl-row {
+    @include sl-row(2);
+    gap: 10px;
+}

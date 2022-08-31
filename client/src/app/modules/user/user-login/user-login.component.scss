@@ -1,26 +1,14 @@
+@import "../../../../styles/mixins";
+
 :host {
-    display: flex;
-    justify-content: center;
+    @include sl-form-host;
 }
 
-.sl-login-form {
-    flex: 1;
-    max-width: 340px;
-
-    h1 {
-        display: flex;
-        justify-content: center;
-        padding-top: 80px;
-    }
+.sl-fieldset {
+    @include sl-fieldset(300px, 1, auto-fill);
 }
 
-.sl-login-group {
-    border: var(--borger-group) 1px solid;
-    border-radius: 4px;
-    padding: 20px;
+.sl-row {
+    justify-content: space-between;
+    padding: 10px;
 }
-
-.sl-field-fill span {
-    margin-left: 10px;
-}
-

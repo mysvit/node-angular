@@ -1,10 +1,11 @@
 import { Location } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { LoginModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
+import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
 import { UserLoginModel } from './user-login-model'
 import { UserLoginService } from './user-login.service'
@@ -14,7 +15,7 @@ import { UserLoginService } from './user-login.service'
     templateUrl: './user-login.component.html',
     styleUrls: ['./user-login.component.scss']
 })
-export class UserLoginComponent extends ProcessForm {
+export class UserLoginComponent extends ProcessForm implements OnInit {
 
     FieldValidators = FieldValidators
     loginModel = new UserLoginModel()
@@ -27,6 +28,10 @@ export class UserLoginComponent extends ProcessForm {
         private snackBar: SnackBarService
     ) {
         super()
+    }
+
+    ngOnInit() {
+        this.loginModel.email.setValue(SlStorage.email)
     }
 
     loginClick() {

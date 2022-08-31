@@ -11,7 +11,7 @@ export class StatesService {
 
     userProfileShort?: UserProfileModel
     private auth: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(Number.parseInt(SlStorage.is_auth) === 1)
-    public postAuthRedirectUrl?: string
+    public redirectUrl?: string
 
     constructor(
         private http: HttpClient,

@@ -13,11 +13,15 @@ export const userProf = express.Router()
 // user: User
 userBase.post(ApiPath.user_signup, ErrorHandler.apiCatch(UserApi.signup))
 
-// api/user/user_verify/:user_id
+// api/user/verify/:user_id
 // user_id: uuid
 // [form]
 // confirm_code: 12345
 userBase.put(ApiPath.user_verify, ErrorHandler.apiCatch(UserApi.verify))
+
+// api/user/resend/:user_id
+// user_id: uuid
+userBase.put(ApiPath.user_resend, ErrorHandler.apiCatch(UserApi.resend))
 
 // api/user/login
 // [form]

@@ -1,25 +1,47 @@
 import { PictureModel, PictureTbl } from '@dto'
+import { FileHelper } from '@shared'
 import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
 
 export class PictureCore extends Core {
 
-    async add(pictureModel: PictureModel): Promise<boolean> {
-        const pictureTbl = new PictureTbl(pictureModel)
-        pictureTbl.picture_id = randomUUID()
-        const index = pictureModel.contentBase64.indexOf('base64,')
-        pictureTbl.content = Buffer.from(pictureModel.contentBase64.substring(index + 7), 'base64')
+    public static pictureTblFromModel(model: PictureModel): PictureTbl {
+        return <PictureTbl>{
+            picture_id: model.picture_id || randomUUID(),
+            name: model.name,
+            ext: model.ext,
+            height: model.height,
+            width: model.width,
+            content: FileHelper.base64ToBuffer(model.contentBase64)
+        }
+    }
+
+
+    async create(pictureModel: PictureModel): Promise<number> {
+        const pictureTbl = PictureCore.pictureTblFromModel(pictureModel)
         return this.pictureDb.insert(pictureTbl)
     }
 
-    async update(pictureTbl: PictureTbl): Promise<boolean> {
-        pictureTbl = new PictureTbl(pictureTbl)
-        return this.pictureDb.update(pictureTbl)
+    async read(picture_id: string): Promise<PictureTbl> {
+        ParamValidation.validateId(picture_id)
+        return this.pictureDb.select(
+            <PictureTbl>{content: undefined},
+            <PictureTbl>{picture_id: picture_id}
+        )
     }
 
-    async get(picture_id: string): Promise<PictureTbl> {
-        ParamValidation.validateId(picture_id)
-        return this.pictureDb.select(picture_id)
+    async update(pictureModel: PictureModel): Promise<number> {
+        const pictureTbl = PictureCore.pictureTblFromModel(pictureModel)
+        return this.pictureDb.update(
+            pictureTbl,
+            <PictureTbl>{picture_id: pictureTbl.picture_id}
+        )
     }
+
+    async delete(picture_id: string): Promise<number> {
+        ParamValidation.validateId(picture_id)
+        return this.pictureDb.delete(picture_id)
+    }
+
 }

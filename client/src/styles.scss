@@ -1,6 +1,8 @@
 @import "styles/themes";
+@import "styles/default-mixings";
 @import "styles/shared";
 @import "styles/tags";
+@import "styles/components";
 
 html, body {
     height: 100vh;

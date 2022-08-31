@@ -1,15 +1,13 @@
+@import "../../../../../styles/mixins";
+
 :host {
-    display: flex;
-    justify-content: center;
+    @include sl-form-host;
 }
 
-.sl-confirm-form {
-    flex: 1;
-    max-width: 340px;
+.sl-fieldset {
+    @include sl-fieldset(auto, 1, auto-fill);
+}
 
-    h1 {
-        display: flex;
-        justify-content: center;
-        padding-top: 80px;
-    }
+.sl-row {
+    align-items: center;
 }

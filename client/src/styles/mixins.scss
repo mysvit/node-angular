@@ -1,0 +1,62 @@
+//@mixin row($type) {
+//    display: flex;
+//    flex-direction: row;
+//    border: {
+//        left: black 1px solid;
+//        bottom: black 1px solid;
+//    }
+//    @if $type == 'content' {
+//        background-color: azure;
+//        &:hover {
+//            background-color: deepskyblue;
+//        }
+//    } @else {
+//        font-weight: bold;
+//        @if $type == 'header' {
+//            background-color: cornflowerblue;
+//        } @else {
+//            background-color: darkgrey;
+//        }
+//
+
+// form
+@mixin sl-form-host() {
+    height: 100%;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, minmax(0, max-content));
+    justify-content: center;
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        padding-top: 80px;
+    }
+}
+
+@mixin sl-fieldset($width, $col, $row) {
+    width: $width;
+
+    display: grid;
+    grid-template-columns: repeat($col, 1fr);
+    grid-template-rows: repeat($row, minmax(0, max-content));
+    grid-gap: 1em;
+
+    border: var(--c-borger-fieldset) 1px solid;
+    border-radius: 4px;
+
+    &:disabled {
+        cursor: wait;
+    }
+}
+
+@mixin sl-row($col) {
+    display: grid;
+    grid-template-columns: repeat($col, minmax(0, max-content));
+}
+
+.sl-col-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 10px;
+}

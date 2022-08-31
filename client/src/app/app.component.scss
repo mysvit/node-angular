@@ -1,10 +1,9 @@
 :host {
-    display: flex;
-    flex-direction: column;
     height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
 .sl-nav-container {
-    flex: 1;
     overflow-y: auto;
 }

@@ -1,0 +1,8 @@
+.sl-link-button {
+    text-decoration: underline;
+    color: var(--c-link-button);
+
+    &:hover {
+        cursor: pointer;
+    }
+}

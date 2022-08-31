@@ -53,7 +53,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
 
     uploadPictureCommand() {
         this.snackBar.dismiss()
-        this.imgSrc = PictureHelper.createImageFromLetter('O', 128, 128)
+        this.imgSrc = PictureHelper.createImageFromLetter('S', 56, 56)
         // UploadHelper.uploadFileClick(this.renderer)
         //     .then(files => UploadHelper.uploadFileReader(files[0]))
         //     .then(file => PictureHelper.resizePicture(file, 128, 128))

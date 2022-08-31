@@ -1,14 +1,29 @@
 import { AuthModel, AuthType, DateDb, LoginModel, UserProfileModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
 import { environment } from '@env'
-import { ErrorApi500, ErrorsMsg, MathHelper, PasswordHash, ValueHelper } from '@shared'
+import { EmailHelper, ErrorApi500, ErrorsMsg, PasswordHash, ValueHelper, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
+import { PictureCore } from '../picture/picture-core'
 
 const {sign} = jwt
 
 export class UserCore extends Core {
+
+    public static userTblFromModel(model: UserSignupModel, picture_id?: string): UserTbl {
+        const saltedHash = PasswordHash.createSaltedHash(model.password)
+        return <UserTbl>{
+            user_id: randomUUID(),
+            email: model.email,
+            nickname: model.nickname,
+            signup_date: new DateDb().value,
+            password_hash: saltedHash.passwordHash,
+            password_salt: saltedHash.passwordSalt,
+            verification_code: VerificationCode.generate(),
+            avatar_id: picture_id
+        }
+    }
 
     /**
      * signup user
@@ -18,7 +33,9 @@ export class UserCore extends Core {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
-        const userTbl = this.createSignupModel(model)
+        const pictureTbl = PictureCore.pictureTblFromModel(model.avatar)
+        await this.pictureDb.insert(pictureTbl)
+        const userTbl = UserCore.userTblFromModel(model, pictureTbl.picture_id)
         return this.userDb.insert(userTbl)
     }
 
@@ -28,19 +45,6 @@ export class UserCore extends Core {
             <UserTbl>{is_del: 0, email: email})
         if (!!result) {
             throw new ErrorApi500(ErrorsMsg.EmailRegistered)
-        }
-    }
-    private createSignupModel = (model: UserSignupModel): UserTbl => {
-        const saltedHash = PasswordHash.createSaltedHash(model.password)
-        const verification_code = MathHelper.getRandomInt(10000, 99999)
-        return <UserTbl>{
-            user_id: randomUUID(),
-            email: model.email,
-            nickname: model.nickname,
-            signup_date: new DateDb().value,
-            password_hash: saltedHash.passwordHash,
-            password_salt: saltedHash.passwordSalt,
-            verification_code: verification_code
         }
     }
 
@@ -61,6 +65,7 @@ export class UserCore extends Core {
         const userTbl = await this.userDb.select(
             <UserTbl>{
                 user_id: '',
+                email: '',
                 nickname: '',
                 avatar_id: '',
                 password_hash: '',
@@ -81,7 +86,7 @@ export class UserCore extends Core {
             await this.userDb.update(
                 <UserTbl>{pre_verified_hash: verifiedHash.passwordHash},
                 <UserTbl>{user_id: userTbl.user_id, is_del: 0})
-            return <AuthModel>{user_id: userTbl.user_id, authType: AuthType.NeedVerification}
+            return <AuthModel>{user_id: userTbl.user_id, email: userTbl.email, authType: AuthType.NeedVerification}
         } else {
             return undefined
         }
@@ -96,6 +101,7 @@ export class UserCore extends Core {
         const token = sign({user_id: userTbl.user_id}, environment.token_key, {expiresIn: '2h'})
         return <AuthModel>{
             user_id: userTbl.user_id,
+            email: userTbl.email,
             nickname: userTbl.nickname,
             avatar_id: userTbl.avatar_id,
             token: token,
@@ -142,6 +148,7 @@ export class UserCore extends Core {
             const token = sign({user_id: user_id}, environment.token_key, {expiresIn: '2h'})
             return <AuthModel>{
                 user_id: user_id,
+                email: userTbl.email,
                 nickname: userTbl.nickname,
                 avatar_id: userTbl.avatar_id,
                 token: token,
@@ -150,9 +157,26 @@ export class UserCore extends Core {
         } else {
             return <AuthModel>{
                 user_id: user_id,
+                email: userTbl.email,
                 authType: AuthType.VerifiedButNotAuth
             }
         }
+    }
+
+    /**
+     * resend verification code
+     * @param user_id
+     */
+    async resend(user_id: string) {
+        ParamValidation.validateId(user_id)
+        const userTbl = await this.userDb.select(
+            <UserTbl>{email: ''},
+            <UserTbl>{is_del: 0, user_id: user_id})
+        const verification_code = VerificationCode.generate()
+        await this.userDb.update(
+            <UserTbl>{verification_code: verification_code},
+            <UserTbl>{user_id: user_id, is_del: 0})
+        return EmailHelper.send(userTbl.email, 'Verification code', `Your verification code is - ${verification_code}`)
     }
 
     /**

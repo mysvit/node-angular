@@ -1,9 +1,10 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
-import { UserSignupModel } from '@dto'
+import { PictureModel, UserSignupModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
+import { PictureHelper } from '@shared/helper'
 import { FieldValidators } from '@shared/validators'
 import { UserSignupFormModel } from './user-signup.model'
 import { UserSignupService } from './user-signup.service'
@@ -30,12 +31,20 @@ export class UserSignupComponent extends ProcessForm {
     registerClick() {
         this.model.formGroup.markAllAsTouched()
         if (this.model.formGroup.touched && this.model.formGroup.valid) {
+            const avatarChar = this.model.nickname.value.trim().substring(0, 1).toUpperCase()
             this.execute(
                 this.userSignup.signup(
                     <UserSignupModel>{
                         email: this.model.email.value,
                         nickname: this.model.nickname.value,
-                        password: this.model.password.value
+                        password: this.model.password.value,
+                        avatar: <PictureModel>{
+                            name: avatarChar,
+                            ext: 'png',
+                            height: 56,
+                            width: 56,
+                            contentBase64: PictureHelper.createImageFromLetter(avatarChar, 56, 56)
+                        }
                     })
             )
         }
@@ -48,7 +57,7 @@ export class UserSignupComponent extends ProcessForm {
             .navigate([ClientPath.completed],
                 {
                     relativeTo: this.route,
-                    state: {message: 'You have successful signup and you can login. <br> Check your email to get confirmation code.'}
+                    state: {message: 'You have successful signup and you can log in. <br> Check your email to get verification code.'}
                 }
             )
             .finally()

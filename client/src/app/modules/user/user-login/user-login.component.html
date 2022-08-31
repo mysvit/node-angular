@@ -1,40 +1,36 @@
-<div class="sl-login-form">
-    <h1>Sign in!</h1>
+<h1>Sign in!</h1>
 
-    <div class="sl-h-20"></div>
+<form [formGroup]="loginModel.formGroup">
+    <fieldset class="sl-fieldset" [disabled]="disableForm">
 
-    <form [formGroup]="loginModel.formGroup">
-        <fieldset class="sl-fieldset" [disabled]="disableForm">
-            <mat-form-field class="sl-field-fill" appearance="fill">
-                <mat-label>Email address</mat-label>
-                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="loginModel.email"
-                       placeholder="Ex. myemail@domain.com or my-username">
-                <mat-error *ngIf="loginModel.email.invalid">{{FieldValidators.errorMessage(loginModel.email)}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="sl-field-fill" appearance="fill">
-                <mat-label>Password</mat-label>
-                <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="loginModel.password">
-                <mat-error *ngIf="loginModel.password.invalid">{{FieldValidators.errorMessage(loginModel.password)}}</mat-error>
-            </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Email address</mat-label>
+            <input name="login-email" autocomplete="email" type="email" matInput [formControl]="loginModel.email"
+                   placeholder="Ex. email@domain.com">
+            <mat-error *ngIf="loginModel.email.invalid">{{FieldValidators.errorMessage(loginModel.email)}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="loginModel.password">
+            <mat-error *ngIf="loginModel.password.invalid">{{FieldValidators.errorMessage(loginModel.password)}}</mat-error>
+        </mat-form-field>
 
-            <div class="sl-h-20"></div>
-            <button mat-flat-button color="primary" class="sl-field-fill" aria-label="Sign in" (click)="loginClick()">
-                <mat-icon>login</mat-icon>
-                <span>Sign in</span>
-            </button>
+        <button mat-flat-button color="primary" aria-label="Sign in" (click)="loginClick()">
+            <mat-icon>login</mat-icon>
+            <span>Sign in</span>
+        </button>
+        <div class="sl-link-button" (click)="forgotPasswordClick()">
+            <span>Forgot password?</span>
+        </div>
 
-            <div class="sl-h-20"></div>
-            <a class="sl-a-button" (click)="forgotPasswordClick()">
-                <span>Forgot password?</span>
-            </a>
-        </fieldset>
-    </form>
+    </fieldset>
+</form>
 
-    <div class="sl-h-20"></div>
-    <div class="sl-row-center-sb">
-        <span>Don't have account?</span>
-        <a class="sl-a-button" (click)="signupClick()">
-            <span>Create an account</span>
-        </a>
+<div class="sl-row">
+
+    <span>Don't have account?</span>
+    <div class="sl-link-button" (click)="signupClick()">
+        <span>Create an account</span>
     </div>
+
 </div>

@@ -1,15 +1,9 @@
+@import "../../../../styles/mixins";
+
 :host {
-    display: flex;
-    justify-content: center;
+    @include sl-form-host;
 }
 
-.sl-signup-form {
-    flex: 1;
-    max-width: 340px;
-
-    h1 {
-        display: flex;
-        justify-content: center;
-        padding-top: 50px;
-    }
+.sl-fieldset {
+    @include sl-fieldset(400px, 1, auto-fill);
 }

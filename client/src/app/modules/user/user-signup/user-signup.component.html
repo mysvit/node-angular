@@ -1,39 +1,36 @@
-<div class="sl-signup-form">
-    <h1>Sign up!</h1>
-    <form [formGroup]="model.formGroup" (submit)="registerClick()">
-        <fieldset class="sl-fieldset" [disabled]="disableForm">
-            <mat-form-field class="sl-field-fill" appearance="fill">
-                <mat-label>Email address</mat-label>
-                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="model.email" placeholder="Ex. myemail@domain.com">
-                <mat-error *ngIf="model.email.invalid">{{FieldValidators.errorMessage(model.email)}}</mat-error>
+<h1>Sign up!</h1>
+
+<form [formGroup]="model.formGroup" (submit)="registerClick()">
+    <fieldset class="sl-fieldset" [disabled]="disableForm">
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email address</mat-label>
+            <input name="login-email" autocomplete="email" type="email" matInput [formControl]="model.email" placeholder="Ex. email@domain.com">
+            <mat-error *ngIf="model.email.invalid">{{FieldValidators.errorMessage(model.email)}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input type="text" matInput [formControl]="model.nickname">
+            <mat-error *ngIf="model.nickname.invalid">{{FieldValidators.errorMessage(model.nickname)}}</mat-error>
+        </mat-form-field>
+
+        <div class="sl-row">
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="model.password">
+                <mat-error *ngIf="model.password.invalid">{{FieldValidators.errorMessage(model.password)}}</mat-error>
             </mat-form-field>
-
-            <div class="sl-h-20"></div>
-            <mat-form-field class="sl-field-fill" appearance="fill">
-                <mat-label>Name</mat-label>
-                <input type="text" matInput [formControl]="model.nickname">
-                <mat-error *ngIf="model.nickname.invalid">{{FieldValidators.errorMessage(model.nickname)}}</mat-error>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirm</mat-label>
+                <input name="confirm-password" autocomplete="confirm-password" type="password" matInput [formControl]="model.confirm">
+                <mat-error *ngIf="model.confirm.invalid">{{FieldValidators.errorMessage(model.confirm)}}</mat-error>
             </mat-form-field>
+        </div>
 
-            <div class="sl-h-20"></div>
-            <div class="sl-row-center-sb">
-                <mat-form-field class="sl-w-48p" appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="model.password">
-                    <mat-error *ngIf="model.password.invalid">{{FieldValidators.errorMessage(model.password)}}</mat-error>
-                </mat-form-field>
-                <mat-form-field class="sl-w-48p" appearance="fill">
-                    <mat-label>Confirm</mat-label>
-                    <input name="confirm-password" autocomplete="confirm-password" type="password" matInput [formControl]="model.confirm">
-                    <mat-error *ngIf="model.confirm.invalid">{{FieldValidators.errorMessage(model.confirm)}}</mat-error>
-                </mat-form-field>
-            </div>
+        <button type='submit' mat-flat-button color="primary" class="sl-field-fill" aria-label="Register">
+            <span>Register</span>
+        </button>
 
-            <div class="sl-h-20"></div>
-
-            <button type='submit' mat-flat-button color="primary" class="sl-field-fill" aria-label="Register">
-                <span>Register</span>
-            </button>
-        </fieldset>
-    </form>
-</div>
+    </fieldset>
+</form>

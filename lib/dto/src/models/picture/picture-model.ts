@@ -1,8 +1,8 @@
 export interface PictureModel {
-    readonly name: string
-    readonly ext: string
-    readonly size: number
-    readonly height: number
-    readonly width: number
-    readonly contentBase64: string
+    picture_id: string
+    name: string
+    ext: string
+    height: number
+    width: number
+    contentBase64: string
 }

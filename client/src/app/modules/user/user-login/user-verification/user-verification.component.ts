@@ -43,4 +43,8 @@ export class UserVerificationComponent extends ProcessForm {
         }
     }
 
+    resendClick() {
+        this.execute(this.userLogin.resend(SlStorage.user_id))
+    }
+
 }

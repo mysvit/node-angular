@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core'
 import { Router } from '@angular/router'
-import { ClientPath } from '@shared-lib/constants'
+import { ApiParams, ClientPath } from '@shared-lib/constants'
 import { SlStorage } from '@shared/storage'
 import { StatesService } from '../../services/states.service'
 
@@ -43,7 +43,7 @@ export class ToolbarComponent implements OnDestroy {
     }
 
     signOutClick() {
-        SlStorage.clear()
+        SlStorage.remove(ApiParams.token)
         this.states.isAuth().next(false)
         this.router.navigate([ClientPath.root]).finally()
     }

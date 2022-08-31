@@ -12,4 +12,9 @@ export namespace FileHelper {
         return groups[2] || ''
     }
 
+    export function base64ToBuffer(context:string) {
+        const index = context.indexOf('base64,')
+        return Buffer.from(context.substring(index + 7), 'base64')
+    }
+
 }

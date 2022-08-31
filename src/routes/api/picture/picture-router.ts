@@ -8,12 +8,12 @@ export const pictureUrlRouter = express.Router()
 export const pictureRouter = express.Router()
 
 // api/picture/get/:picture_id
-pictureUrlRouter.get(ApiPath.picture_get, ErrorHandler.apiCatch(PictureApi.get))
+pictureUrlRouter.get(ApiPath.picture_get, ErrorHandler.apiCatch(PictureApi.read))
 
 // api/picture/add
 // [form]
 // picture: Picture
-pictureRouter.post(ApiPath.picture_add, ErrorHandler.apiCatch(PictureApi.add))
+pictureRouter.post(ApiPath.picture_add, ErrorHandler.apiCatch(PictureApi.create))
 // api/picture/update
 // [form]
 // picture: Picture
