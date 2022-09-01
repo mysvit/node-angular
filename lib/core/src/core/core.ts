@@ -3,10 +3,10 @@ import { Environment } from '@env'
 
 export class Core {
 
-    userDb = new UserDb(this.environment)
-    pictureDb = new PictureDb(this.environment)
+    userDb = new UserDb(this.env)
+    pictureDb = new PictureDb(this.env)
 
-    constructor(public environment: Environment) {
+    constructor(public env: Environment) {
     }
 
 }

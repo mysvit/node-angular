@@ -1,5 +1,5 @@
 import { AuthModel, AuthType, LoginModel, UserProfileModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
-import { EmailHelper, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
+import { EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -15,14 +15,15 @@ export class UserCore extends Core {
      * signup user
      * @param model
      */
-    async signup(model: UserSignupModel): Promise<number> {
+    async signup(model: UserSignupModel): Promise<void> {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
         const pictureTbl = this.pictureDto.pictureTblFromModel(model.avatar)
         await this.pictureDb.insert(pictureTbl)
         const userTbl = this.userDto.userTblFromModel(model, pictureTbl.picture_id)
-        return this.userDb.insert(userTbl)
+        await this.userDb.insert(userTbl)
+        await this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }
 
     private isEmailExist = async (email: string): Promise<void> => {
@@ -32,6 +33,12 @@ export class UserCore extends Core {
         if (!!result) {
             throw new ErrorApi500(ErrorsMsg.EmailRegistered)
         }
+    }
+
+    private sendVerificationCode = async (to: string, verification_code: string): Promise<boolean> => {
+        const mailer = new EmailSender(this.env)
+        return mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verification_code}`)
+            .catch(() => false)
     }
 
     /**
@@ -84,7 +91,7 @@ export class UserCore extends Core {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
         // create token by sign
-        const token = sign({user_id: userTbl.user_id}, this.environment.token_key, {expiresIn: '2h'})
+        const token = sign({user_id: userTbl.user_id}, this.env.token_key, {expiresIn: '2h'})
         return <AuthModel>{
             user_id: userTbl.user_id,
             email: userTbl.email,
@@ -131,7 +138,7 @@ export class UserCore extends Core {
         )
         // create token by sign if password verified
         if (userTbl.pre_verified_hash === userTbl.password_hash) {
-            const token = sign({user_id: user_id}, this.environment.token_key, {expiresIn: '2h'})
+            const token = sign({user_id: user_id}, this.env.token_key, {expiresIn: '2h'})
             return <AuthModel>{
                 user_id: user_id,
                 email: userTbl.email,
@@ -162,7 +169,7 @@ export class UserCore extends Core {
         await this.userDb.update(
             <UserTbl>{verification_code: verification_code},
             <UserTbl>{user_id: user_id, is_del: 0})
-        return EmailHelper.send(userTbl.email, 'Verification code', `Your verification code is - ${verification_code}`)
+        return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }
 
     /**
