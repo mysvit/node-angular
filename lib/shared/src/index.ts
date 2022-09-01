@@ -1,5 +1,6 @@
 export * from './constants'
 export * from './crypt'
+export * from './dto'
 export * from './errors'
 export * from './helpers'
 export * from './logger'

@@ -1,29 +1,15 @@
-import { AuthModel, AuthType, DateDb, LoginModel, UserProfileModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
-import { environment } from '@env'
-import { EmailHelper, ErrorApi500, ErrorsMsg, PasswordHash, ValueHelper, VerificationCode } from '@shared'
-import { randomUUID } from 'crypto'
+import { AuthModel, AuthType, LoginModel, UserProfileModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
+import { EmailHelper, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
-import { PictureCore } from '../picture/picture-core'
 
 const {sign} = jwt
 
 export class UserCore extends Core {
 
-    public static userTblFromModel(model: UserSignupModel, picture_id?: string): UserTbl {
-        const saltedHash = PasswordHash.createSaltedHash(model.password)
-        return <UserTbl>{
-            user_id: randomUUID(),
-            email: model.email,
-            nickname: model.nickname,
-            signup_date: new DateDb().value,
-            password_hash: saltedHash.passwordHash,
-            password_salt: saltedHash.passwordSalt,
-            verification_code: VerificationCode.generate(),
-            avatar_id: picture_id
-        }
-    }
+    public userDto = new UserDto()
+    public pictureDto = new PictureDto()
 
     /**
      * signup user
@@ -33,9 +19,9 @@ export class UserCore extends Core {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
-        const pictureTbl = PictureCore.pictureTblFromModel(model.avatar)
+        const pictureTbl = this.pictureDto.pictureTblFromModel(model.avatar)
         await this.pictureDb.insert(pictureTbl)
-        const userTbl = UserCore.userTblFromModel(model, pictureTbl.picture_id)
+        const userTbl = this.userDto.userTblFromModel(model, pictureTbl.picture_id)
         return this.userDb.insert(userTbl)
     }
 
@@ -98,7 +84,7 @@ export class UserCore extends Core {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
         // create token by sign
-        const token = sign({user_id: userTbl.user_id}, environment.token_key, {expiresIn: '2h'})
+        const token = sign({user_id: userTbl.user_id}, this.environment.token_key, {expiresIn: '2h'})
         return <AuthModel>{
             user_id: userTbl.user_id,
             email: userTbl.email,
@@ -145,7 +131,7 @@ export class UserCore extends Core {
         )
         // create token by sign if password verified
         if (userTbl.pre_verified_hash === userTbl.password_hash) {
-            const token = sign({user_id: user_id}, environment.token_key, {expiresIn: '2h'})
+            const token = sign({user_id: user_id}, this.environment.token_key, {expiresIn: '2h'})
             return <AuthModel>{
                 user_id: user_id,
                 email: userTbl.email,

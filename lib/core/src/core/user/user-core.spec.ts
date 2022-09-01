@@ -1,4 +1,4 @@
-import { LoginModel, UserSignupModel } from '@dto'
+import { LoginModel, PictureTbl, UserSignupModel, UserTbl } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
@@ -17,8 +17,11 @@ describe('CoreUser', () => {
 
     it('signup', async () => {
         chai.spy.on(coreUser, 'isEmailExist', () => false)
+        chai.spy.on(coreUser.pictureDto, 'pictureTblFromModel', () => <PictureTbl>{})
+        chai.spy.on(coreUser.pictureDb, 'insert', () => 1)
+        chai.spy.on(coreUser.userDto, 'userTblFromModel', () => <UserTbl>{})
         chai.spy.on(coreUser.userDb, 'insert', () => 1)
-        const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'not exist', password: 'pass'})
+        const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'not exist', password: 'pass', avatar: {picture_id: 'id'}})
         expect(res).to.be.eq(1)
     })
 

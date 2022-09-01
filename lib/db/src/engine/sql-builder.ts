@@ -21,6 +21,12 @@ export namespace SqlBuilder {
         return <BuilderResult>{sql: sql, values: values}
     }
 
+    export function deleteBuilder(table, whereObj) {
+        const sql = `DELETE FROM ${table} WHERE ${getWhere(whereObj)}`
+        const values = getValues(whereObj)
+        return <BuilderResult>{sql: sql, values: values}
+    }
+
 }
 
 

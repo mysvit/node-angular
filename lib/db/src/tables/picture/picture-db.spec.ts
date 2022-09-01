@@ -1,7 +1,7 @@
 import { PictureTbl } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
-import { after, before } from 'mocha'
+import { afterEach, beforeEach } from 'mocha'
 import { PictureDb } from './picture-db'
 
 const expect = chai.expect
@@ -13,31 +13,23 @@ describe('PictureDb', () => {
         picture_id: 'ce12ddca-1f9f-11ed-861d-0242ac120002',
         name: 'avatar',
         ext: 'png',
-        size: 1024,
         height: 40,
         width: 50,
         content: Buffer.from('0', 'hex')
     }
 
-    before(() => {
-    })
-
     // clear test data
-    after(async () => {
-        const conn = await pictureDb.getConnection
-        try {
-            await conn.execute('DELETE FROM picture WHERE picture_id = ?', pictureTbl.picture_id)
-        } finally {
-            if (conn) await conn.release()
-        }
-    })
+    beforeEach(async () => await pictureDb.delete({picture_id: pictureTbl.picture_id}))
+    afterEach(async () => await pictureDb.delete({picture_id: pictureTbl.picture_id}))
+
 
     it('insert', async () => {
         const res = await pictureDb.insert(pictureTbl)
-        expect(res).to.be.eq(true)
+        expect(res).to.be.eq(1)
     })
 
     it('update & select', async () => {
+        await pictureDb.insert(pictureTbl)
         pictureTbl.name += 'u'
         pictureTbl.ext += 'u'
         pictureTbl.height += 10
@@ -47,7 +39,7 @@ describe('PictureDb', () => {
             pictureTbl,
             <PictureTbl>{picture_id: pictureTbl.picture_id}
         )
-        expect(res).to.be.true
+        expect(res).to.be.eq(1)
         const select = await pictureDb.select(
             pictureTbl,
             <PictureTbl>{picture_id: pictureTbl.picture_id}
@@ -56,8 +48,9 @@ describe('PictureDb', () => {
     })
 
     it('delete', async () => {
-        const res = await pictureDb.delete(pictureTbl.picture_id)
-        expect(res).to.be.true
+        await pictureDb.insert(pictureTbl)
+        const res = await pictureDb.delete({picture_id: pictureTbl.picture_id})
+        expect(res).to.be.eq(1)
     })
 
 })

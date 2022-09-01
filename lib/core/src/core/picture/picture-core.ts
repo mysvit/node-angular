@@ -1,25 +1,14 @@
 import { PictureModel, PictureTbl } from '@dto'
-import { FileHelper } from '@shared'
-import { randomUUID } from 'crypto'
+import { PictureDto } from '@shared'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
 
 export class PictureCore extends Core {
 
-    public static pictureTblFromModel(model: PictureModel): PictureTbl {
-        return <PictureTbl>{
-            picture_id: model.picture_id || randomUUID(),
-            name: model.name,
-            ext: model.ext,
-            height: model.height,
-            width: model.width,
-            content: FileHelper.base64ToBuffer(model.contentBase64)
-        }
-    }
-
+    public pictureDto = new PictureDto()
 
     async create(pictureModel: PictureModel): Promise<number> {
-        const pictureTbl = PictureCore.pictureTblFromModel(pictureModel)
+        const pictureTbl = this.pictureDto.pictureTblFromModel(pictureModel)
         return this.pictureDb.insert(pictureTbl)
     }
 
@@ -32,7 +21,7 @@ export class PictureCore extends Core {
     }
 
     async update(pictureModel: PictureModel): Promise<number> {
-        const pictureTbl = PictureCore.pictureTblFromModel(pictureModel)
+        const pictureTbl = this.pictureDto.pictureTblFromModel(pictureModel)
         return this.pictureDb.update(
             pictureTbl,
             <PictureTbl>{picture_id: pictureTbl.picture_id}
