@@ -8,14 +8,14 @@ describe('ParamValidation', () => {
 
     it('validateId valid', () => {
         const goodUUID = randomUUID()
-        ParamValidation.validateId(goodUUID)
+        ParamValidation.validateUuId(goodUUID)
         expect(true).to.be.true
     })
 
     it('validateId NOT valid', () => {
         const badUUID = 'abra kadabra'
         try {
-            ParamValidation.validateId(badUUID)
+            ParamValidation.validateUuId(badUUID)
             expect(true).to.be.false
         } catch (error) {
             expect(error.statusCode).to.eq(StatusCodes.INTERNAL_SERVER_ERROR)

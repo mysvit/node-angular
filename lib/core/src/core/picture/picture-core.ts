@@ -12,11 +12,11 @@ export class PictureCore extends Core {
         return this.pictureDb.insert(pictureTbl)
     }
 
-    async read(picture_id: string): Promise<PictureTbl> {
-        ParamValidation.validateId(picture_id)
+    async read(pictureId: string): Promise<PictureTbl> {
+        ParamValidation.validateUuId(pictureId)
         return this.pictureDb.select(
             <PictureTbl>{content: undefined},
-            <PictureTbl>{picture_id: picture_id}
+            <PictureTbl>{picture_id: pictureId}
         )
     }
 
@@ -28,9 +28,9 @@ export class PictureCore extends Core {
         )
     }
 
-    async delete(picture_id: string): Promise<number> {
-        ParamValidation.validateId(picture_id)
-        return this.pictureDb.delete(picture_id)
+    async delete(pictureId: string): Promise<number> {
+        ParamValidation.validateUuId(pictureId)
+        return this.pictureDb.delete(pictureId)
     }
 
 }

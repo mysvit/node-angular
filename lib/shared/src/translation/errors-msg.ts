@@ -11,4 +11,5 @@ export class ErrorsMsg {
     static CentralizedError = 'Centralized error handling:'
     static VerificationCodeWrongFormat = 'Verification code has wrong format'
     static VerificationCodeWrong = 'Verification code is wrong'
+    static EmailWrongFormat = 'Email has wrong format'
 }

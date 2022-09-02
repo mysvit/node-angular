@@ -12,4 +12,5 @@ export interface UserTbl {
     password_hash: string
     password_salt: string
     avatar_id: string
+    reset_pass_code: string
 }

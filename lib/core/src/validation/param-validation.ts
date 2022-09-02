@@ -3,7 +3,7 @@ import { ErrorApi500, ErrorsMsg, StringHelper, Validation } from '@shared'
 export namespace ParamValidation {
 
     // check if this is uuid
-    export function validateId(uuID: string) {
+    export function validateUuId(uuID: string) {
         if (!Validation.isUUIDValid(uuID)) {
             throw new ErrorApi500(StringHelper.format(ErrorsMsg.IdHasInvalidUuid, uuID))
         }
@@ -17,9 +17,16 @@ export namespace ParamValidation {
     }
 
     // check if this is uuid
-    export function validateVerificationCodeFormat(verification_code: string) {
-        if (!Validation.isVerificationCodeValid(verification_code)) {
+    export function validateVerificationCodeFormat(verificationCode: string) {
+        if (!Validation.isVerificationCodeValid(verificationCode)) {
             throw new ErrorApi500(ErrorsMsg.VerificationCodeWrongFormat)
+        }
+    }
+
+    // check if this is uuid
+    export function validateEmail(email: string) {
+        if (!Validation.isEmailValid(email)) {
+            throw new ErrorApi500(ErrorsMsg.EmailWrongFormat)
         }
     }
 

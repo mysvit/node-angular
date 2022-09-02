@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
-import { AuthModel, AuthType, LoginModel, VerifyModel } from '@dto'
+import { AuthModel, AuthType, LoginModel, ResetPassModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
 import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
@@ -28,7 +28,7 @@ export class UserLoginService {
         return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.user_login, model)
             .pipe(
                 map((data: AuthModel) => {
-                    SlStorage.user_id = data.user_id
+                    SlStorage.user_id = data.userId
                     SlStorage.email = data.email
                     switch (data.authType) {
                         case AuthType.Authenticated:
@@ -43,9 +43,9 @@ export class UserLoginService {
 
     }
 
-    verify(user_id: string, verification_code: string): Observable<void> {
-        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.user_verify.replace(':user_id', user_id),
-            <VerifyModel>{verification_code: verification_code})
+    verifyCode(userId: string, verificationCode: string): Observable<void> {
+        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.user_verify_code.replace(':user_id', userId),
+            <VerifyCodeModel>{verificationCode: verificationCode})
             .pipe(
                 map((data: AuthModel) => {
                     switch (data.authType) {
@@ -63,8 +63,18 @@ export class UserLoginService {
             )
     }
 
-    resend(user_id: string): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_resend.replace(ApiParams._user_id, user_id), {})
+    resendCode(userId: string): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_resend_code.replace(ApiParams._user_id, userId), {})
+    }
+
+    resetPass(email: string): Observable<boolean> {
+        return this.http.post<boolean>(environment.apiEndPoint + ApiPath.user_reset_pass,
+            <ResetPassModel>{
+                userId: SlStorage.user_id,
+                password: '123',
+                resetPassCode: '123-aa-sss'
+            }
+        )
     }
 
     private userAuthenticated(data: AuthModel) {
@@ -72,7 +82,7 @@ export class UserLoginService {
         SlStorage.token = `Bearer ${data.token}`
         SlStorage.email = data.email
         SlStorage.nickname = data.nickname
-        SlStorage.avatar_id = data.avatar_id
+        SlStorage.avatar_id = data.avatarId
         this.states.isAuth().next(true)
         this.router.navigate([this.states.redirectUrl ?? ClientPath.one_level_back]).finally()
     }

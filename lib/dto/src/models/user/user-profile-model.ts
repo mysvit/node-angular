@@ -1,6 +1,6 @@
 export interface UserProfileModel {
-    user_id: string
+    userId: string
     nickname: string
     email: string
-    avatar_id: string
+    avatarId: string
 }

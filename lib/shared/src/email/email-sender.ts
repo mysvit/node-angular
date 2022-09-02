@@ -1,9 +1,10 @@
 import { EmailConnection, Environment } from '@env'
 import * as nodemailer from 'nodemailer'
+import { Logger } from '../logger'
 
 export class EmailSender {
 
-    constructor(private env: Environment) {
+    constructor(private env: Environment, private logger: Logger) {
     }
 
     public async sendEmail(
@@ -40,12 +41,14 @@ export class EmailSender {
         })
 
         if (!this.env.production) {
-            console.log("Message sent: %s", info.messageId)
+            this.logger.info('Message sent: %s', info.messageId)
             // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
             // Preview only available when sending through an Ethereal account
-            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
+            this.logger.info('Preview URL: %s', nodemailer.getTestMessageUrl(info))
             // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
             return info
+        } else {
+            this.logger.info('Message sent:', info)
         }
         return !!info
     }

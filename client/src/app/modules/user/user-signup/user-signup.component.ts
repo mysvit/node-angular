@@ -21,7 +21,7 @@ export class UserSignupComponent extends ProcessForm {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
         private userSignup: UserSignupService,
         private snackBar: SnackBarService
     ) {
@@ -56,7 +56,7 @@ export class UserSignupComponent extends ProcessForm {
         this.router
             .navigate([ClientPath.completed],
                 {
-                    relativeTo: this.route,
+                    relativeTo: this.activatedRoute,
                     state: {message: 'You have successful signup and you can log in. <br> Check your email to get verification code.'}
                 }
             )

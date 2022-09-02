@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { LoginModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
+import { StringHelper } from '@shared-lib/helpers'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -22,7 +23,7 @@ export class UserLoginComponent extends ProcessForm implements OnInit {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
         private location: Location,
         private userLogin: UserLoginService,
         private snackBar: SnackBarService
@@ -42,13 +43,13 @@ export class UserLoginComponent extends ProcessForm implements OnInit {
                 this.userLogin.login(<LoginModel>{
                     email: this.loginModel.email.value,
                     password: this.loginModel.password.value
-                }, this.route)
+                }, this.activatedRoute)
             )
         }
     }
 
     forgotPasswordClick() {
-        this.router.navigate([ClientPath.forgot_password]).finally()
+        this.router.navigate([StringHelper.removeSlash(ClientPath.forgot_password)], {relativeTo: this.activatedRoute}).finally()
     }
 
     signupClick() {

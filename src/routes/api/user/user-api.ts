@@ -19,13 +19,18 @@ export class UserApi {
         res.status(StatusCodes.OK).send()
     }
 
-    static async verify(req: Request, res: Response) {
-        const result = await userCore.verify(req.params?.user_id, req.body)
+    static async verifyCode(req: Request, res: Response) {
+        const result = await userCore.verifyCode(req.params?.user_id, req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async resend(req: Request, res: Response) {
-        const result = await userCore.resend(req.params?.user_id)
+    static async resendCode(req: Request, res: Response) {
+        const result = await userCore.resendCode(req.params?.user_id)
+        res.status(StatusCodes.OK).json(result)
+    }
+
+    static async resetPass(req: Request, res: Response) {
+        const result = await userCore.resetPass(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 

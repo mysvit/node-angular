@@ -1,4 +1,4 @@
-import { AuthModel, AuthType, LoginModel, UserProfileModel, UserSignupModel, UserTbl, VerifyModel } from '@dto'
+import { AuthModel, AuthType, ForgotPassModel, LoginModel, ResetPassModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
 import { EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
@@ -35,9 +35,9 @@ export class UserCore extends Core {
         }
     }
 
-    private sendVerificationCode = async (to: string, verification_code: string): Promise<boolean> => {
-        const mailer = new EmailSender(this.env)
-        return mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verification_code}`)
+    private sendVerificationCode = async (to: string, verificationCode: string): Promise<boolean> => {
+        const mailer = new EmailSender(this.env, this.logger)
+        return mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
             .catch(() => false)
     }
 
@@ -79,7 +79,7 @@ export class UserCore extends Core {
             await this.userDb.update(
                 <UserTbl>{pre_verified_hash: verifiedHash.passwordHash},
                 <UserTbl>{user_id: userTbl.user_id, is_del: 0})
-            return <AuthModel>{user_id: userTbl.user_id, email: userTbl.email, authType: AuthType.NeedVerification}
+            return <AuthModel>{userId: userTbl.user_id, email: userTbl.email, authType: AuthType.NeedVerification}
         } else {
             return undefined
         }
@@ -93,10 +93,10 @@ export class UserCore extends Core {
         // create token by sign
         const token = sign({user_id: userTbl.user_id}, this.env.token_key, {expiresIn: '2h'})
         return <AuthModel>{
-            user_id: userTbl.user_id,
+            userId: userTbl.user_id,
             email: userTbl.email,
             nickname: userTbl.nickname,
-            avatar_id: userTbl.avatar_id,
+            avatarId: userTbl.avatar_id,
             token: token,
             authType: AuthType.Authenticated
         }
@@ -105,51 +105,51 @@ export class UserCore extends Core {
 
     /**
      * confirm code
-     * @param user_id
+     * @param userId
      * @param verifyModel
      */
-    async verify(user_id: string, verifyModel: VerifyModel): Promise<AuthModel> {
-        ParamValidation.validateId(user_id)
-        ParamValidation.validateVerificationCodeFormat(verifyModel.verification_code)
-        await this.verifyCode(user_id, verifyModel.verification_code)
-        await this.markUserVerified(user_id)
-        return this.getTokenAfterVerification(user_id)
+    async verifyCode(userId: string, verifyModel: VerifyCodeModel): Promise<AuthModel> {
+        ParamValidation.validateUuId(userId)
+        ParamValidation.validateVerificationCodeFormat(verifyModel.verificationCode)
+        await this.verifyCodeInDb(userId, verifyModel.verificationCode)
+        await this.markUserVerified(userId)
+        return this.getTokenAfterVerification(userId)
     }
 
-    private verifyCode = async (user_id: string, verification_code: string): Promise<void> => {
+    private verifyCodeInDb = async (userId: string, verificationCode: string): Promise<void> => {
         const result = await this.userDb.select(
             <UserTbl>{user_id: ''},
-            <UserTbl>{is_del: 0, user_id: user_id, verification_code: verification_code})
+            <UserTbl>{is_del: 0, user_id: userId, verification_code: verificationCode})
         if (ValueHelper.isEmpty(result)) {
             throw new ErrorApi500(ErrorsMsg.VerificationCodeWrong)
         }
     }
-    private markUserVerified = async (user_id: string) => {
+    private markUserVerified = async (userId: string) => {
         return this.userDb.update(
             <UserTbl>{is_verified: 1, verification_code: null},
-            <UserTbl>{user_id: user_id, is_del: 0}
+            <UserTbl>{user_id: userId, is_del: 0}
         )
     }
-    private getTokenAfterVerification = async (user_id: string): Promise<AuthModel> => {
+    private getTokenAfterVerification = async (userId: string): Promise<AuthModel> => {
         // get previously login generated hash
         const userTbl = await this.userDb.select(
             <UserTbl>{nickname: '', avatar_id: '', pre_verified_hash: '', password_hash: ''},
-            <UserTbl>{is_del: 0, user_id: user_id}
+            <UserTbl>{is_del: 0, user_id: userId}
         )
         // create token by sign if password verified
         if (userTbl.pre_verified_hash === userTbl.password_hash) {
-            const token = sign({user_id: user_id}, this.env.token_key, {expiresIn: '2h'})
+            const token = sign({user_id: userId}, this.env.token_key, {expiresIn: '2h'})
             return <AuthModel>{
-                user_id: user_id,
+                userId: userId,
                 email: userTbl.email,
                 nickname: userTbl.nickname,
-                avatar_id: userTbl.avatar_id,
+                avatarId: userTbl.avatar_id,
                 token: token,
                 authType: AuthType.Authenticated
             }
         } else {
             return <AuthModel>{
-                user_id: user_id,
+                userId: userId,
                 email: userTbl.email,
                 authType: AuthType.VerifiedButNotAuth
             }
@@ -158,29 +158,62 @@ export class UserCore extends Core {
 
     /**
      * resend verification code
-     * @param user_id
+     * @param userId
      */
-    async resend(user_id: string) {
-        ParamValidation.validateId(user_id)
+    async resendCode(userId: string) {
+        ParamValidation.validateUuId(userId)
         const userTbl = await this.userDb.select(
             <UserTbl>{email: ''},
-            <UserTbl>{is_del: 0, user_id: user_id})
+            <UserTbl>{is_del: 0, user_id: userId})
         const verification_code = VerificationCode.generate()
         await this.userDb.update(
             <UserTbl>{verification_code: verification_code},
-            <UserTbl>{user_id: user_id, is_del: 0})
+            <UserTbl>{user_id: userId, is_del: 0})
         return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }
 
     /**
-     * get user profile
-     * @param user_id
+     * reset password
+     * @param forgotPassModel
      */
-    async getUserProfile(user_id: string): Promise<UserProfileModel> {
-        ParamValidation.validateId(user_id)
+    async forgotPass(forgotPassModel: ForgotPassModel) {
+        ParamValidation.validateEmail(forgotPassModel.email)
+        const userTbl = await this.userDb.select(
+            <UserTbl>{user_id: ''},
+            <UserTbl>{is_del: 0, email: forgotPassModel.email}
+        )
+
+        // send reset password link
+        const mailer = new EmailSender(this.env, this.logger)
+        return mailer.sendEmail(forgotPassModel.email, 'Reset password!', `Your verification code is - ${''}`)
+            .catch(() => false)
+    }
+
+    /**
+     * reset password
+     * @param resetPassModel
+     */
+    async resetPass(resetPassModel: ResetPassModel) {
+        ParamValidation.validateUuId(resetPassModel.userId)
+        ParamValidation.validateUuId(resetPassModel.resetPassCode)
+        const saltedHash = PasswordHash.createSaltedHash(resetPassModel.password)
+
+        const userTbl = await this.userDb.update(
+            <UserTbl>{password_hash: saltedHash.passwordHash},
+            <UserTbl>{is_del: 0, user_id: resetPassModel.userId, reset_pass_code: resetPassModel.resetPassCode}
+        )
+        // send reset password link
+    }
+
+    /**
+     * get user profile
+     * @param userId
+     */
+    async getUserProfile(userId: string): Promise<UserTbl> {
+        ParamValidation.validateUuId(userId)
         return this.userDb.select(
             <UserTbl>{user_id: '', nickname: '', avatar_id: '', email: ''},
-            <UserTbl>{is_del: 0, user_id: user_id}
+            <UserTbl>{is_del: 0, user_id: userId}
         )
     }
 

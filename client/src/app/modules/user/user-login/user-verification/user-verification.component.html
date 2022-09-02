@@ -6,9 +6,9 @@
         <div class="sl-row">
             <mat-form-field class="w-150" appearance="fill">
                 <mat-label>Verification code</mat-label>
-                <input matInput #verifyCode [formControl]="verifyModel.verification_code" maxlength="5" placeholder="Ex. 12345">
+                <input matInput #verifyCode [formControl]="verifyModel.verificationCode" maxlength="5" placeholder="Ex. 12345">
                 <mat-hint align="end">{{verifyCode.value.length}} / 5</mat-hint>
-                <mat-error *ngIf="verifyModel.verification_code.invalid">{{FieldValidators.errorMessage(verifyModel.verification_code)}}</mat-error>
+                <mat-error *ngIf="verifyModel.verificationCode.invalid">{{FieldValidators.errorMessage(verifyModel.verificationCode)}}</mat-error>
             </mat-form-field>
 
             <button mat-flat-button color="primary" aria-label="Verify" (click)="verifyClick()">

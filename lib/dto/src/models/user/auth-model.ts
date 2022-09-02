@@ -1,10 +1,10 @@
 import { AuthType } from '../../enum'
 
 export interface AuthModel {
-    user_id: string
+    userId: string
     email: string
     nickname: string
-    avatar_id: string
+    avatarId: string
     token: string
     authType: AuthType
 }

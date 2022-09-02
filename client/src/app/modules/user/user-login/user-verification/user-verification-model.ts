@@ -5,13 +5,13 @@ import { FieldValidators } from '@shared/validators'
 
 export class UserVerificationModel {
 
-    verification_code: FormControl = new FormControl(undefined, [
+    verificationCode: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter a verification code.'),
         FieldValidators.verificationCodeFormat(ErrorsMsg.VerificationCodeWrongFormat)
     ])
 
     formGroup: FormGroup = new FormGroup({
-            verify_code: this.verification_code
+            verificationCode: this.verificationCode
         }
     )
 

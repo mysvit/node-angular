@@ -1,6 +1,6 @@
 export interface UserSecurityInfoModel {
-    user_id: string
-    password_hash: string
-    password_salt: string
-    is_verified: number
+    userId: string
+    passwordHash: string
+    passwordHalt: string
+    isVerified: number
 }

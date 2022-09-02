@@ -6,7 +6,7 @@ export class PictureDto {
 
     public pictureTblFromModel(model: PictureModel): PictureTbl {
         return <PictureTbl>{
-            picture_id: model.picture_id || randomUUID(),
+            picture_id: model.pictureId || randomUUID(),
             name: model.name,
             ext: model.ext,
             height: model.height,

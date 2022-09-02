@@ -1,5 +1,5 @@
 export interface PictureModel {
-    picture_id: string
+    pictureId: string
     name: string
     ext: string
     height: number

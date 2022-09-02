@@ -1,4 +1,3 @@
-import { Location } from '@angular/common'
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
@@ -22,7 +21,6 @@ export class UserVerificationComponent extends ProcessForm {
 
     constructor(
         private router: Router,
-        private location: Location,
         private userLogin: UserLoginService,
         private snackBar: SnackBarService
     ) {
@@ -38,13 +36,13 @@ export class UserVerificationComponent extends ProcessForm {
         if (this.verifyModel.formGroup.touched && this.verifyModel.formGroup.valid) {
             this.snackBar.dismiss()
             this.execute(
-                this.userLogin.verify(SlStorage.user_id, this.verifyModel.verification_code.value)
+                this.userLogin.verifyCode(SlStorage.user_id, this.verifyModel.verificationCode.value)
             )
         }
     }
 
     resendClick() {
-        this.execute(this.userLogin.resend(SlStorage.user_id))
+        this.execute(this.userLogin.resendCode(SlStorage.user_id))
     }
 
 }
