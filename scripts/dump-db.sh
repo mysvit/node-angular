@@ -17,3 +17,5 @@ elif [ $1 = "docker" ]; then
   # docker dump
   docker exec server-host bash -c "mariadb-dump --verbose -h 0.0.0.0 -u root -proot $DBNAME > /docker-entrypoint-initdb.d/$DBNAME-schema-data.sql"
 fi
+
+chmod 777 $(pwd)/db/$DBNAME-schema-data.sql
