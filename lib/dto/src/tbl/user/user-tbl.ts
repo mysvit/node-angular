@@ -12,5 +12,9 @@ export interface UserTbl {
     password_hash: string
     password_salt: string
     avatar_id: string
+    forgot_pass_count: number
+    forgot_pass_date: Date
+    reset_pass_count: number
+    reset_pass_date: Date
     reset_pass_code: string
 }

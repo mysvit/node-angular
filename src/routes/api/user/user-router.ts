@@ -23,9 +23,14 @@ userBase.put(ApiPath.user_verify_code, ErrorHandler.apiCatch(UserApi.verifyCode)
 // user_id: uuid
 userBase.put(ApiPath.user_resend_code, ErrorHandler.apiCatch(UserApi.resendCode))
 
+// api/user/forgot-pass
+// [form]
+// model: ForgotPassModel
+userBase.post(ApiPath.user_forgot_pass, ErrorHandler.apiCatch(UserApi.forgotPass))
+
 // api/user/reset-pass
 // [form]
-// email: string
+// model: ResetPassModel
 userBase.post(ApiPath.user_reset_pass, ErrorHandler.apiCatch(UserApi.resetPass))
 
 // api/user/login

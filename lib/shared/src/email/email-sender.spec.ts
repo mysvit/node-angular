@@ -8,7 +8,7 @@ describe('EmailSender', () => {
     it('sendEmail', async () => {
         const emailSender = new EmailSender(environment, new Logger(environment))
         const sender = await emailSender.sendEmail('test@email.com', 'test', 'Hello word')
-        expect(sender.envelope.to).to.deep.eq(['test@email.com'])
+        expect(sender).to.be.eq(1)
     })
 
 })

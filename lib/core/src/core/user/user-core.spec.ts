@@ -19,9 +19,9 @@ describe('CoreUser', () => {
         chai.spy.on(coreUser, 'isEmailExist', () => false)
         chai.spy.on(coreUser.pictureDto, 'pictureTblFromModel', () => <PictureTbl>{})
         chai.spy.on(coreUser.pictureDb, 'insert', () => 1)
-        chai.spy.on(coreUser.userDto, 'userTblFromModel', () => <UserTbl>{})
+        chai.spy.on(coreUser.userDto, 'userTblFromModel', () => <UserTbl>{email: 'my@email.com', verification_code: '12345'})
         chai.spy.on(coreUser.userDb, 'insert', () => 1)
-        const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'not exist', password: 'pass', avatar: {pictureId: 'id'}})
+        const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'my@email.com', password: 'pass', avatar: {pictureId: 'id'}})
         expect(res).to.be.eq(1)
     })
 

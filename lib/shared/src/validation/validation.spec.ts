@@ -7,8 +7,12 @@ const expect = chai.expect
 describe('Validation', () => {
 
     it('isUUIDValid valid', () => {
-        const user_id = randomUUID()
-        expect(Validation.isUUIDValid(user_id)).to.be.true
+        const uuid = randomUUID()
+        expect(Validation.isUUIDValid(uuid)).to.be.true
+    })
+    it('isUUIDValid NOT valid', () => {
+        const uuid = randomUUID().replace(/-/g, '')
+        expect(Validation.isUUIDValid(uuid, false)).to.be.true
     })
     it('isUUIDValid not valid', () => {
         expect(Validation.isUUIDValid('bad uuid')).to.be.false

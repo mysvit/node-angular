@@ -3,8 +3,8 @@ import { ErrorApi500, ErrorsMsg, StringHelper, Validation } from '@shared'
 export namespace ParamValidation {
 
     // check if this is uuid
-    export function validateUuId(uuID: string) {
-        if (!Validation.isUUIDValid(uuID)) {
+    export function validateUuId(uuID: string, withDash = true) {
+        if (!Validation.isUUIDValid(uuID, withDash)) {
             throw new ErrorApi500(StringHelper.format(ErrorsMsg.IdHasInvalidUuid, uuID))
         }
     }

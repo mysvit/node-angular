@@ -1,5 +1,5 @@
 export interface ResetPassModel {
-    userId: string
+    email: string
     resetPassCode: string
     password: string
 }

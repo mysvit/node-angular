@@ -8,6 +8,7 @@ export namespace ApiPath {
     export const user_auth = api + user + '/auth'
     export const user_verify_code = api + user + '/verify-code/:user_id'
     export const user_resend_code = api + user + '/resend-code/:user_id'
+    export const user_forgot_pass = api + user + '/forgot-pass'
     export const user_reset_pass = api + user + '/reset-pass'
     export const user_get_profile = api + user + '/get_profile/:user_id'
 

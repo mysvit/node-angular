@@ -29,6 +29,11 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async forgotPass(req: Request, res: Response) {
+        const result = await userCore.forgotPass(req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
+
     static async resetPass(req: Request, res: Response) {
         const result = await userCore.resetPass(req.body)
         res.status(StatusCodes.OK).json(result)

@@ -12,7 +12,7 @@ export class EmailSender {
         subject: string,
         text: string,
         html?: string
-    ) {
+    ): Promise<number> {
         let emailConnection: EmailConnection = this.env.email
         if (!this.env.production) {
             // Generate test SMTP service account from ethereal.email
@@ -32,7 +32,7 @@ export class EmailSender {
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport(emailConnection)
         // send mail with defined transport object
-        let info = await transporter.sendMail({
+        const info = await transporter.sendMail({
             from: emailConnection.auth.user, // sender address
             to: to, // list of receivers
             subject: subject, // Subject line
@@ -40,17 +40,15 @@ export class EmailSender {
             html: html // html body
         })
 
+        this.logger.info('Message sent:', info)
         if (!this.env.production) {
             this.logger.info('Message sent: %s', info.messageId)
             // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
             // Preview only available when sending through an Ethereal account
             this.logger.info('Preview URL: %s', nodemailer.getTestMessageUrl(info))
             // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-            return info
-        } else {
-            this.logger.info('Message sent:', info)
         }
-        return !!info
+        return 1
     }
 
 }

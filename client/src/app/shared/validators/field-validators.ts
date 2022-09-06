@@ -82,4 +82,15 @@ export namespace FieldValidators {
         }
     }
 
+    export function resetCodeFormat(errorMessage: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            return Validation.isUUIDValid(control.value, false) ? null : {
+                resetCode: {
+                    valid: false,
+                    errorMessage: errorMessage
+                }
+            }
+        }
+    }
+
 }

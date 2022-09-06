@@ -5,6 +5,7 @@ import { ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component'
 import { UserLoginComponent } from './user-login.component'
+import { UserResetPasswordComponent } from './user-reset-password/user-reset-password.component'
 import { UserVerificationComponent } from './user-verification/user-verification.component'
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
     {
         path: StringHelper.removeSlash(ClientPath.forgot_password),
         component: UserForgotPasswordComponent
+    },
+    {
+        path: StringHelper.removeSlash(ClientPath.reset_password),
+        component: UserResetPasswordComponent
     }
 ]
 

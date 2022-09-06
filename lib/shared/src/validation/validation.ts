@@ -3,8 +3,9 @@ import { ValueHelper } from '../helpers'
 export namespace Validation {
 
     // check if this is uuid
-    export function isUUIDValid(uuid): boolean {
-        return (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i).test(uuid)
+    export function isUUIDValid(uuid: string, withDash: boolean = true): boolean {
+        return withDash ? (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i).test(uuid)
+            : (/^[0-9a-f]{8}[0-9a-f]{4}[0-5][0-9a-f]{3}[089ab][0-9a-f]{3}[0-9a-f]{12}$/i).test(uuid)
     }
 
     // Minimum eight characters, at least one letter and one number:

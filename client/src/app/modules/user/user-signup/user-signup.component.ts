@@ -5,6 +5,7 @@ import { PictureModel, UserSignupModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
+import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
 import { UserSignupFormModel } from './user-signup.model'
 import { UserSignupService } from './user-signup.service'
@@ -60,7 +61,9 @@ export class UserSignupComponent extends ProcessForm {
                     state: {message: 'You have successful signup and you can log in. <br> Check your email to get verification code.'}
                 }
             )
-            .finally()
+            .finally(
+                SlStorage.email = this.model.email.value
+            )
     }
 
 }

@@ -7,14 +7,16 @@ import { MatInputModule } from '@angular/material/input'
 import { UserLoginRoutingModule } from './user-login-routing.module'
 import { UserLoginComponent } from './user-login.component'
 import { UserVerificationComponent } from './user-verification/user-verification.component';
-import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component'
+import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component';
+import { UserResetPasswordComponent } from './user-reset-password/user-reset-password.component'
 
 
 @NgModule({
     declarations: [
         UserLoginComponent,
         UserVerificationComponent,
-        UserForgotPasswordComponent
+        UserForgotPasswordComponent,
+        UserResetPasswordComponent
     ],
     imports: [
         CommonModule,

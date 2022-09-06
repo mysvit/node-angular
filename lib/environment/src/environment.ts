@@ -6,7 +6,7 @@ export interface DbConnection {
     connectionLimit: number
 }
 
-export interface MailAuth {
+export interface EmailAuth {
     user: string
     pass: string
 }
@@ -15,7 +15,7 @@ export interface EmailConnection {
     host: string
     port: number
     secure: boolean // true for 465, false for other ports
-    auth: MailAuth
+    auth: EmailAuth
 }
 
 export interface Environment {
@@ -51,7 +51,7 @@ export const environment: Environment = {
         host: 'production smtp server',
         port: 993,
         secure: false,
-        auth: <MailAuth>{
+        auth: <EmailAuth>{
             user: 'server-cli@production.srv',
             pass: 'TestEmailPass'
         }

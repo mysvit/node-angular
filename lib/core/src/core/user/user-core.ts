@@ -1,5 +1,6 @@
-import { AuthModel, AuthType, ForgotPassModel, LoginModel, ResetPassModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
-import { EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
+import { AuthModel, AuthType, DateDb, ForgotPassModel, LoginModel, ResetPassModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
+import { DateHelper, EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
+import { randomUUID } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -15,7 +16,7 @@ export class UserCore extends Core {
      * signup user
      * @param model
      */
-    async signup(model: UserSignupModel): Promise<void> {
+    async signup(model: UserSignupModel): Promise<number> {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
@@ -23,7 +24,7 @@ export class UserCore extends Core {
         await this.pictureDb.insert(pictureTbl)
         const userTbl = this.userDto.userTblFromModel(model, pictureTbl.picture_id)
         await this.userDb.insert(userTbl)
-        await this.sendVerificationCode(userTbl.email, userTbl.verification_code)
+        return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }
 
     private isEmailExist = async (email: string): Promise<void> => {
@@ -35,10 +36,10 @@ export class UserCore extends Core {
         }
     }
 
-    private sendVerificationCode = async (to: string, verificationCode: string): Promise<boolean> => {
+    private sendVerificationCode = async (to: string, verificationCode: string): Promise<number> => {
         const mailer = new EmailSender(this.env, this.logger)
         return mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
-            .catch(() => false)
+            .catch(() => 0)
     }
 
     /**
@@ -133,7 +134,7 @@ export class UserCore extends Core {
     private getTokenAfterVerification = async (userId: string): Promise<AuthModel> => {
         // get previously login generated hash
         const userTbl = await this.userDb.select(
-            <UserTbl>{nickname: '', avatar_id: '', pre_verified_hash: '', password_hash: ''},
+            <UserTbl>{email: '', nickname: '', avatar_id: '', pre_verified_hash: '', password_hash: ''},
             <UserTbl>{is_del: 0, user_id: userId}
         )
         // create token by sign if password verified
@@ -173,36 +174,84 @@ export class UserCore extends Core {
     }
 
     /**
-     * reset password
+     * forgot password
      * @param forgotPassModel
      */
-    async forgotPass(forgotPassModel: ForgotPassModel) {
+    async forgotPass(forgotPassModel: ForgotPassModel): Promise<number> {
         ParamValidation.validateEmail(forgotPassModel.email)
-        const userTbl = await this.userDb.select(
-            <UserTbl>{user_id: ''},
-            <UserTbl>{is_del: 0, email: forgotPassModel.email}
-        )
+
+        const resetPassCode = randomUUID().replace(/-/g, '')
+        await this.limitForgotCall(forgotPassModel.email, resetPassCode)
 
         // send reset password link
         const mailer = new EmailSender(this.env, this.logger)
-        return mailer.sendEmail(forgotPassModel.email, 'Reset password!', `Your verification code is - ${''}`)
-            .catch(() => false)
+        return mailer.sendEmail(forgotPassModel.email, 'Reset password!', `Reset password code is: ${resetPassCode}`)
+            .catch(() => 0)
+    }
+
+    private limitForgotCall = async (email: string, resetPassCode: string) => {
+        const userTbl = await this.userDb.select(
+            <UserTbl>{user_id: '', forgot_pass_count: undefined, forgot_pass_date: undefined},
+            <UserTbl>{is_del: 0, email: email}
+        )
+        if (ValueHelper.isEmpty(userTbl.forgot_pass_date) || DateHelper.addDays(userTbl.forgot_pass_date, 1) < new Date()) {
+            const forgotPassDate = new DateDb().value
+            await this.userDb.update(
+                <UserTbl>{reset_pass_code: resetPassCode, forgot_pass_count: 1, forgot_pass_date: forgotPassDate},
+                <UserTbl>{is_del: 0, user_id: userTbl.user_id}
+            )
+        } else if (DateHelper.addDays(userTbl.forgot_pass_date, 1) > new Date() && userTbl.forgot_pass_count < 6) {
+            const forgotPassCount = userTbl.forgot_pass_count + 1
+            await this.userDb.update(
+                <UserTbl>{reset_pass_code: resetPassCode, forgot_pass_count: forgotPassCount},
+                <UserTbl>{is_del: 0, user_id: userTbl.user_id}
+            )
+        } else {
+            throw new ErrorApi500(ErrorsMsg.TooManyTimeResetPassword)
+        }
     }
 
     /**
      * reset password
      * @param resetPassModel
      */
-    async resetPass(resetPassModel: ResetPassModel) {
-        ParamValidation.validateUuId(resetPassModel.userId)
-        ParamValidation.validateUuId(resetPassModel.resetPassCode)
-        const saltedHash = PasswordHash.createSaltedHash(resetPassModel.password)
+    async resetPass(resetPassModel: ResetPassModel): Promise<number> {
+        ParamValidation.allFieldRequired(resetPassModel)
+        ParamValidation.validateEmail(resetPassModel.email)
+        ParamValidation.validateUuId(resetPassModel.resetPassCode, false)
 
-        const userTbl = await this.userDb.update(
-            <UserTbl>{password_hash: saltedHash.passwordHash},
-            <UserTbl>{is_del: 0, user_id: resetPassModel.userId, reset_pass_code: resetPassModel.resetPassCode}
+        await this.limitResetCall(resetPassModel.email)
+
+        const saltedHash = PasswordHash.createSaltedHash(resetPassModel.password)
+        return this.userDb.update(
+            <UserTbl>{password_hash: saltedHash.passwordHash, password_salt: saltedHash.passwordSalt},
+            <UserTbl>{is_del: 0, email: resetPassModel.email, reset_pass_code: resetPassModel.resetPassCode}
         )
-        // send reset password link
+    }
+
+    private limitResetCall = async (email: string) => {
+        const userTbl = await this.userDb.select(
+            <UserTbl>{user_id: undefined, reset_pass_count: undefined, reset_pass_date: undefined},
+            <UserTbl>{is_del: 0, email: email}
+        )
+
+        if (ValueHelper.isEmpty(userTbl.reset_pass_date) ||
+            DateHelper.addMinutes(userTbl.reset_pass_date, 15) < new Date()
+        ) {
+            const resetPassDate = new DateDb().value
+            await this.userDb.update(
+                <UserTbl>{reset_pass_count: 1, reset_pass_date: resetPassDate},
+                <UserTbl>{is_del: 0, user_id: userTbl.user_id}
+            )
+        } else if (DateHelper.addMinutes(userTbl.reset_pass_date, 15) > new Date() && userTbl.reset_pass_count < 6) {
+            const resetPassCount = userTbl.reset_pass_count + 1
+            await this.userDb.update(
+                <UserTbl>{reset_pass_count: resetPassCount},
+                <UserTbl>{is_del: 0, user_id: userTbl.user_id}
+            )
+        } else {
+            throw new ErrorApi500(ErrorsMsg.TooManyTimeEnterCode)
+        }
     }
 
     /**

@@ -2,6 +2,8 @@ import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { ClientPath } from '@shared-lib/constants'
+import { StringHelper } from '@shared-lib/helpers'
+import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -17,6 +19,7 @@ export class UserForgotPasswordComponent extends ProcessForm {
 
     FieldValidators = FieldValidators
     forgotModel = new UserForgotPasswordModel()
+    parenUrl: string = ''
 
     constructor(
         private router: Router,
@@ -35,21 +38,17 @@ export class UserForgotPasswordComponent extends ProcessForm {
         if (this.forgotModel.formGroup.touched && this.forgotModel.formGroup.valid) {
             this.snackBar.dismiss()
             this.execute(
-                this.userLogin.resetPass(this.forgotModel.email.value)
+                this.userLogin.forgotPass(this.forgotModel.email.value)
             )
         }
     }
 
     override processCompleted() {
         super.processCompleted()
-        this.snackBar.dismiss()
-        this.router
-            .navigate([ClientPath.completed],
-                {
-                    state: {message: 'Check your email and click on reset password link.'}
-                }
+        this.router.navigate([StringHelper.removeSlash(ClientPath.login), StringHelper.removeSlash(ClientPath.reset_password)])
+            .finally(() =>
+                this.snackBar.show('Check your email to get reset password code.', MessageType.Success, 5000)
             )
-            .finally()
     }
 
 }
