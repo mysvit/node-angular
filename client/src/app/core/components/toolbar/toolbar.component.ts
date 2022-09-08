@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core'
 import { Router } from '@angular/router'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
+import { PictureHelper } from '@shared/helper/picture-helper'
 import { SlStorage } from '@shared/storage'
 import { StatesService } from '../../services/states.service'
 
@@ -13,7 +14,6 @@ export class ToolbarComponent implements OnDestroy {
 
     isAuth: boolean = false
     nickname?: string
-    gravatar?: string
     avatar?: string
 
     constructor(
@@ -23,8 +23,7 @@ export class ToolbarComponent implements OnDestroy {
         this.states.isAuth().subscribe(data => {
             this.isAuth = data
             if (this.isAuth) {
-                this.avatar = SlStorage.avatar_id
-                this.gravatar = SlStorage.nickname.substring(0, 1).toUpperCase()
+                this.avatar = PictureHelper.getPictureUrl(SlStorage.avatar_id)
                 this.nickname = SlStorage.nickname
             }
         })

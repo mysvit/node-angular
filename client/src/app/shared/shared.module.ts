@@ -9,7 +9,7 @@ import { SpinnerDirective } from '@shared/directives/spinner.directive'
 import { EmailFieldComponent } from './components/fields/email-field/email-field.component'
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component'
 import { SpinnerComponent } from './components/spinner/spinner.component'
-import { PicturePipe } from './pipes/picture.pipe'
+import { PictureUrlPipe } from './pipes/picture.pipe'
 
 const components = [
     EmailFieldComponent,
@@ -18,7 +18,7 @@ const components = [
 ]
 
 const pipes = [
-    PicturePipe
+    PictureUrlPipe
 ]
 
 const directives = [

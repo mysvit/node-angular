@@ -1,3 +1,9 @@
+@import "../../../../styles/mixins";
+
+.sl-avatar-picture {
+    @include sl-avatar(40px)
+}
+
 .sl-sign-in-button {
     border-color: #ffffff;
 
@@ -11,12 +17,7 @@
     }
 }
 
-.sl-menu-gravatar {
-    font-size: 24px;
-    font-weight: bold;
-    color: crimson
-}
-
 .sl-menu-title {
     padding: 8px 16px;
 }
+
