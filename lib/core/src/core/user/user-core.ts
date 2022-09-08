@@ -85,12 +85,15 @@ export class UserCore extends Core {
             return undefined
         }
     }
-    private getTokenIfPassOk = (model: SignInModel, userTbl: UserTbl): AuthModel => {
+    private getTokenIfPassOk = async (model: SignInModel, userTbl: UserTbl): Promise<AuthModel> => {
         const verifiedHash = PasswordHash.createSaltedHash(model.password, userTbl.password_salt)
         // if confirmed check password
         if (verifiedHash.passwordHash !== userTbl.password_hash) {
             throw new ErrorApi500(ErrorsMsg.IncorrectEmailOrPassword)
         }
+        await this.userDb.update(
+            <UserTbl>{sign_in_date: new DateDb().value},
+            <UserTbl>{user_id: userTbl.user_id, is_del: 0})
         // create token by sign
         const token = sign({user_id: userTbl.user_id}, this.env.token_key, {expiresIn: '2h'})
         return <AuthModel>{
@@ -139,6 +142,9 @@ export class UserCore extends Core {
         )
         // create token by sign if password verified
         if (userTbl.pre_verified_hash === userTbl.password_hash) {
+            await this.userDb.update(
+                <UserTbl>{sign_in_date: new DateDb().value},
+                <UserTbl>{user_id: userTbl.user_id, is_del: 0})
             const token = sign({user_id: userId}, this.env.token_key, {expiresIn: '2h'})
             return <AuthModel>{
                 userId: userId,
