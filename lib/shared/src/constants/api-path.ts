@@ -4,7 +4,7 @@ export namespace ApiPath {
     const picture = '/picture'
 
     export const user_signup = api + user + '/signup'
-    export const user_login = api + user + '/login'
+    export const user_sign_in = api + user + '/sign-in'
     export const user_auth = api + user + '/auth'
     export const user_verify_code = api + user + '/verify-code/:user_id'
     export const user_resend_code = api + user + '/resend-code/:user_id'

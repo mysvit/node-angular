@@ -1,4 +1,4 @@
-import { LoginModel, PictureTbl, UserSignupModel, UserTbl } from '@dto'
+import { PictureTbl, SignInModel, UserSignupModel, UserTbl } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
@@ -25,21 +25,21 @@ describe('CoreUser', () => {
         expect(res).to.be.eq(1)
     })
 
-    it('login need confirm', async () => {
+    it('sign_in need confirm', async () => {
         chai.spy.on(coreUser, 'loginAllFieldRequired', () => true)
         chai.spy.on(coreUser, 'getUserIfExist', () => true)
         chai.spy.on(coreUser, 'checkIfNeedConfirmation', () => 'ok')
         // confirmation required
-        const login = await coreUser.login(<LoginModel>{email: 'name@email.com', password: 'pass'})
+        const login = await coreUser.signIn(<SignInModel>{email: 'name@email.com', password: 'pass'})
         expect(login).to.be.eq('ok')
     })
 
-    it('login return token', async () => {
+    it('sign_in return token', async () => {
         chai.spy.on(coreUser, 'loginAllFieldRequired', () => true)
         chai.spy.on(coreUser, 'getUserIfExist', () => true)
         chai.spy.on(coreUser, 'checkIfNeedConfirmation', () => undefined)
         chai.spy.on(coreUser, 'getTokenIfPassOk', () => 'ok')
-        const login = await coreUser.login(<LoginModel>{email: 'name@email.com', password: 'pass'})
+        const login = await coreUser.signIn(<SignInModel>{email: 'name@email.com', password: 'pass'})
         expect(login).to.be.eq('ok')
     })
 

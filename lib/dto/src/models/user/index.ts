@@ -1,4 +1,4 @@
-export * from './login-model'
+export * from './sign-in-model'
 export * from './salted-hash-model'
 export * from './user-signup-model'
 export * from './auth-model'

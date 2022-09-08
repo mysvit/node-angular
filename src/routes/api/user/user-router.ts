@@ -33,10 +33,10 @@ userBase.post(ApiPath.user_forgot_pass, ErrorHandler.apiCatch(UserApi.forgotPass
 // model: ResetPassModel
 userBase.post(ApiPath.user_reset_pass, ErrorHandler.apiCatch(UserApi.resetPass))
 
-// api/user/login
+// api/user/sign-in
 // [form]
-// model: LoginModel
-userBase.post(ApiPath.user_login, ErrorHandler.apiCatch(UserApi.login))
+// model: SignInModel
+userBase.post(ApiPath.user_sign_in, ErrorHandler.apiCatch(UserApi.signIn))
 
 // api/user/auth
 // check if token not expired, middleware do a job

@@ -7,7 +7,7 @@ import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { UserLoginService } from '../user-login.service'
+import { UserSignInService } from '../user-sign-in.service'
 import { UserForgotPasswordModel } from './user-forgot-password-model'
 
 @Component({
@@ -23,7 +23,7 @@ export class UserForgotPasswordComponent extends ProcessForm {
 
     constructor(
         private router: Router,
-        private userLogin: UserLoginService,
+        private userSignIn: UserSignInService,
         private snackBar: SnackBarService
     ) {
         super()
@@ -38,14 +38,14 @@ export class UserForgotPasswordComponent extends ProcessForm {
         if (this.forgotModel.formGroup.touched && this.forgotModel.formGroup.valid) {
             this.snackBar.dismiss()
             this.execute(
-                this.userLogin.forgotPass(this.forgotModel.email.value)
+                this.userSignIn.forgotPass(this.forgotModel.email.value)
             )
         }
     }
 
     override processCompleted() {
         super.processCompleted()
-        this.router.navigate([StringHelper.removeSlash(ClientPath.login), StringHelper.removeSlash(ClientPath.reset_password)])
+        this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in), StringHelper.removeSlash(ClientPath.reset_password)])
             .finally(() =>
                 this.snackBar.show('Check your email to get reset password code.', MessageType.Success, 5000)
             )

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { SnackBarComponent } from '@shared/components/snack-bar/snack-bar.component'
 import { MessageType } from '@shared/enum'
 
 @Injectable({
@@ -7,22 +8,24 @@ import { MessageType } from '@shared/enum'
 })
 export class SnackBarService {
 
-    constructor(private matSnackBar: MatSnackBar) {
+    constructor(
+        private matSnackBar: MatSnackBar
+    ) {
     }
 
     show(message: string, messageType: MessageType, duration?: number) {
         switch (messageType) {
             case MessageType.Info:
-                this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-info'})
+                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-info', duration: duration})
                 break
             case MessageType.Success:
-                this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-success', duration: duration})
+                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-success', duration: duration})
                 break
             case MessageType.Warn:
-                this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-warn'})
+                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-warn', duration: duration})
                 break
             case MessageType.Error:
-                this.matSnackBar.open(message, 'X', {panelClass: 'sl-snack-bar-error'})
+                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-error', duration: duration})
                 break
         }
     }

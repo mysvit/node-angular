@@ -41,10 +41,10 @@ describe('UserApi', () => {
     //     expect(spy).to.eq(true)
     // })
 
-    it('POST ' + ApiPath.user_login, async () => {
-        const spy = chai.spy.on(userCore, 'login', () => true)
+    it('POST ' + ApiPath.user_sign_in, async () => {
+        const spy = chai.spy.on(userCore, 'signIn', () => true)
         await agent
-            .post(ApiPath.user_login)
+            .post(ApiPath.user_sign_in)
             .type('form')
             .send({})
         expect(spy).to.have.been.called()

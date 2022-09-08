@@ -15,27 +15,27 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     canLoad(route: Route): Observable<boolean> {
         const url = `/${route.path}`
-        return this.checkLogin(url)
+        return this.checkSignIn(url)
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         const url: string = state.url
-        return this.checkLogin(url)
+        return this.checkSignIn(url)
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.canActivate(route, state)
     }
 
-    checkLogin(url: string): Observable<boolean> {
+    checkSignIn(url: string): Observable<boolean> {
         return this.states.isAuth()
             .pipe(
                 map(auth => {
                     if (!auth) {
                         // Store the attempted URL for redirecting
                         this.states.redirectUrl = url
-                        // Navigate to the login page
-                        this.router.navigate([StringHelper.removeSlash(ClientPath.login)]).finally()
+                        // Navigate to the sign-in page
+                        this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in)]).finally()
                     }
                     return auth
                 })

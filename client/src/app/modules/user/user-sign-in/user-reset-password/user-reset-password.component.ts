@@ -7,7 +7,7 @@ import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { UserLoginService } from '../user-login.service'
+import { UserSignInService } from '../user-sign-in.service'
 import { UserResetPasswordModel } from './user-reset-password-model'
 
 @Component({
@@ -23,7 +23,7 @@ export class UserResetPasswordComponent extends ProcessForm implements OnInit {
 
     constructor(
         private router: Router,
-        private userLogin: UserLoginService,
+        private userSignIn: UserSignInService,
         private snackBar: SnackBarService
     ) {
         super()
@@ -37,7 +37,7 @@ export class UserResetPasswordComponent extends ProcessForm implements OnInit {
         if (this.resetModel.formGroup.touched && this.resetModel.formGroup.valid) {
             this.snackBar.dismiss()
             this.execute(
-                this.userLogin.resetPass(<ResetPassModel>{
+                this.userSignIn.resetPass(<ResetPassModel>{
                     email: this.email,
                     resetPassCode: this.resetModel.resetCode.value,
                     password: this.resetModel.password.value
@@ -48,8 +48,8 @@ export class UserResetPasswordComponent extends ProcessForm implements OnInit {
 
     override processCompleted() {
         super.processCompleted()
-        this.router.navigate([ClientPath.login]).finally(() =>
-            this.snackBar.show('New password set up. Try to log in.', MessageType.Success, 5000))
+        this.router.navigate([ClientPath.sign_in]).finally(() =>
+            this.snackBar.show('New password set up. Try to log in.', MessageType.Success, 10000))
     }
 
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
-import { AuthModel, AuthType, ForgotPassModel, LoginModel, ResetPassModel, VerifyCodeModel } from '@dto'
+import { AuthModel, AuthType, ForgotPassModel, ResetPassModel, SignInModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
 import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
@@ -14,7 +14,7 @@ import { map, Observable } from 'rxjs'
 @Injectable({
     providedIn: 'root'
 })
-export class UserLoginService {
+export class UserSignInService {
 
     constructor(
         private http: HttpClient,
@@ -24,8 +24,8 @@ export class UserLoginService {
     ) {
     }
 
-    login(model: LoginModel, activatedRoute: ActivatedRoute): Observable<void> {
-        return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.user_login, model)
+    signIn(model: SignInModel, activatedRoute: ActivatedRoute): Observable<void> {
+        return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.user_sign_in, model)
             .pipe(
                 map((data: AuthModel) => {
                     SlStorage.user_id = data.userId
@@ -50,12 +50,12 @@ export class UserLoginService {
                     switch (data.authType) {
                         case AuthType.Authenticated:
                             this.userAuthenticated(data).finally(() =>
-                                this.snackBar.show('Verification ok. You logged in to your account.', MessageType.Success, 5000)
+                                this.snackBar.show('Verification ok. You signed in in to your account.', MessageType.Success, 5000)
                             )
                             break
                         case AuthType.VerifiedButNotAuth:
-                            this.router.navigate([ClientPath.login]).finally(() =>
-                                this.snackBar.show('Verification ok. Login to your account.', MessageType.Success, 5000)
+                            this.router.navigate([ClientPath.sign_in]).finally(() =>
+                                this.snackBar.show('Verification ok. Sign in to your account.', MessageType.Success, 5000)
                             )
                             break
                     }

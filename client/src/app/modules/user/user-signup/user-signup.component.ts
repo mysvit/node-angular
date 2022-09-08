@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { PictureModel, UserSignupModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
+import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { SlStorage } from '@shared/storage'
@@ -27,6 +28,7 @@ export class UserSignupComponent extends ProcessForm {
         private snackBar: SnackBarService
     ) {
         super()
+        this.snackBar.dismiss()
     }
 
     registerClick() {
@@ -54,16 +56,12 @@ export class UserSignupComponent extends ProcessForm {
     override processCompleted() {
         super.processCompleted()
         this.snackBar.dismiss()
-        this.router
-            .navigate([ClientPath.completed],
-                {
-                    relativeTo: this.activatedRoute,
-                    state: {message: 'You have successful signup and you can log in. <br> Check your email to get verification code.'}
-                }
-            )
-            .finally(
+        this.router.navigate([ClientPath.sign_in]).finally(() => {
+                this.snackBar.show('You have successful signup.<br/>Now you can sign in to your account.<br/>Check your email to get verification code.',
+                    MessageType.Success)
                 SlStorage.email = this.model.email.value
-            )
+            }
+        )
     }
 
 }

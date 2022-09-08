@@ -29,7 +29,7 @@ export class UserIdGuard implements CanActivate, CanActivateChild, CanLoad {
     checkUserId(url: string): boolean {
         if (ValueHelper.isEmpty(SlStorage.user_id)) {
             this.states.redirectUrl = url
-            this.router.navigate([StringHelper.removeSlash(ClientPath.login)]).finally()
+            this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in)]).finally()
             return false
         } else {
             return true

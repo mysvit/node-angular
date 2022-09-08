@@ -4,14 +4,14 @@ import { UserIdGuard } from '@core/services/user-id.guard'
 import { ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component'
-import { UserLoginComponent } from './user-login.component'
 import { UserResetPasswordComponent } from './user-reset-password/user-reset-password.component'
+import { UserSignInComponent } from './user-sign-in.component'
 import { UserVerificationComponent } from './user-verification/user-verification.component'
 
 const routes: Routes = [
     {
         path: '',
-        component: UserLoginComponent
+        component: UserSignInComponent
     },
     {
         path: StringHelper.removeSlash(ClientPath.verify),
@@ -32,5 +32,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class UserLoginRoutingModule {
+export class UserSignInRoutingModule {
 }

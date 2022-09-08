@@ -10,8 +10,8 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async login(req: Request, res: Response) {
-        const result = await userCore.login(req.body)
+    static async signIn(req: Request, res: Response) {
+        const result = await userCore.signIn(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 

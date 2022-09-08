@@ -6,7 +6,7 @@
 
     <span class="sl-flex-spacer"></span>
 
-    <ng-template [ngIf]="isAuth" [ngIfElse]="login">
+    <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
         <button mat-mini-fab color="white" [matMenuTriggerFor]="menu" class="sl-menu-gravatar">{{gravatar}}</button>
         <mat-menu #menu="matMenu">
             <ng-template matMenuContent>
@@ -25,8 +25,8 @@
         </mat-menu>
     </ng-template>
 
-    <ng-template #login>
-        <a mat-stroked-button class="sl-sign-in-button" (click)="loginClick()">
+    <ng-template #signIn>
+        <a mat-stroked-button class="sl-sign-in-button" (click)="signInClick()">
             <mat-icon>login</mat-icon>
             <span>Sign in</span>
         </a>

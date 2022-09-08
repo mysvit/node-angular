@@ -18,7 +18,7 @@ export class ToolbarComponent implements OnDestroy {
 
     constructor(
         private router: Router,
-        public states: StatesService
+        private states: StatesService
     ) {
         this.states.isAuth().subscribe(data => {
             this.isAuth = data
@@ -38,8 +38,8 @@ export class ToolbarComponent implements OnDestroy {
         this.router.navigate([ClientPath.home]).finally()
     }
 
-    loginClick() {
-        this.router.navigate([ClientPath.login]).finally()
+    signInClick() {
+        this.router.navigate([ClientPath.sign_in]).finally()
     }
 
     profileClick() {

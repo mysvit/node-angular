@@ -1,4 +1,4 @@
-import { AuthModel, AuthType, DateDb, ForgotPassModel, LoginModel, ResetPassModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
+import { AuthModel, AuthType, DateDb, ForgotPassModel, ResetPassModel, SignInModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
 import { DateHelper, EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import jwt from 'jsonwebtoken'
@@ -43,11 +43,11 @@ export class UserCore extends Core {
     }
 
     /**
-     * login user
+     * sign_in user
      * @param model
      */
-    async login(model: LoginModel): Promise<AuthModel> {
-        model = new LoginModel(model)
+    async signIn(model: SignInModel): Promise<AuthModel> {
+        model = new SignInModel(model)
         ParamValidation.allFieldRequired(model)
         const userTbl: UserTbl = await this.getUserIfExist(model)
         const needConfirm: AuthModel = await this.checkIfNeedConfirmation(model, userTbl)
@@ -55,7 +55,7 @@ export class UserCore extends Core {
         return this.getTokenIfPassOk(model, userTbl)
     }
 
-    private getUserIfExist = async (model: LoginModel): Promise<UserTbl> => {
+    private getUserIfExist = async (model: SignInModel): Promise<UserTbl> => {
         const userTbl = await this.userDb.select(
             <UserTbl>{
                 user_id: '',
@@ -73,7 +73,7 @@ export class UserCore extends Core {
         }
         return userTbl
     }
-    private checkIfNeedConfirmation = async (model: LoginModel, userTbl: UserTbl): Promise<AuthModel> => {
+    private checkIfNeedConfirmation = async (model: SignInModel, userTbl: UserTbl): Promise<AuthModel> => {
         // if not confirmed & update pre_confirmed_hash and ask for confirmation
         const verifiedHash = PasswordHash.createSaltedHash(model.password, userTbl.password_salt)
         if (userTbl.is_verified == 0) {
@@ -85,7 +85,7 @@ export class UserCore extends Core {
             return undefined
         }
     }
-    private getTokenIfPassOk = (model: LoginModel, userTbl: UserTbl): AuthModel => {
+    private getTokenIfPassOk = (model: SignInModel, userTbl: UserTbl): AuthModel => {
         const verifiedHash = PasswordHash.createSaltedHash(model.password, userTbl.password_salt)
         // if confirmed check password
         if (verifiedHash.passwordHash !== userTbl.password_hash) {
@@ -132,7 +132,7 @@ export class UserCore extends Core {
         )
     }
     private getTokenAfterVerification = async (userId: string): Promise<AuthModel> => {
-        // get previously login generated hash
+        // get previously sign_in generated hash
         const userTbl = await this.userDb.select(
             <UserTbl>{email: '', nickname: '', avatar_id: '', pre_verified_hash: '', password_hash: ''},
             <UserTbl>{is_del: 0, user_id: userId}
@@ -170,7 +170,7 @@ export class UserCore extends Core {
         await this.userDb.update(
             <UserTbl>{verification_code: verification_code},
             <UserTbl>{user_id: userId, is_del: 0})
-        return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
+        return this.sendVerificationCode(userTbl.email, verification_code)
     }
 
     /**

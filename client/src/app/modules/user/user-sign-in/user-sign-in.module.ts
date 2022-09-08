@@ -6,15 +6,15 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { SharedModule } from '@shared/shared.module'
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component'
-import { UserLoginRoutingModule } from './user-login-routing.module'
-import { UserLoginComponent } from './user-login.component'
 import { UserResetPasswordComponent } from './user-reset-password/user-reset-password.component'
+import { UserSignInRoutingModule } from './user-sign-in-routing.module'
+import { UserSignInComponent } from './user-sign-in.component'
 import { UserVerificationComponent } from './user-verification/user-verification.component'
 
 
 @NgModule({
     declarations: [
-        UserLoginComponent,
+        UserSignInComponent,
         UserVerificationComponent,
         UserForgotPasswordComponent,
         UserResetPasswordComponent
@@ -26,9 +26,9 @@ import { UserVerificationComponent } from './user-verification/user-verification
         MatButtonModule,
         MatIconModule,
         MatInputModule,
-        UserLoginRoutingModule,
+        UserSignInRoutingModule,
         SharedModule
     ]
 })
-export class UserLoginModule {
+export class UserSignInModule {
 }

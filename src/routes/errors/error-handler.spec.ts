@@ -26,13 +26,13 @@ describe('ErrorHandler', () => {
         expect(res.body.message).to.equal(StringHelper.format(ErrorsMsg.RouteNotFound, nonExistentRoute))
     })
 
-    it('Centralized error handling: apiHandler' + ApiPath.user_login, async () => {
+    it('Centralized error handling: apiHandler' + ApiPath.user_sign_in, async () => {
         chai.spy.on(userCore, 'login', () => {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
         })
         chai.spy.on(logger, 'error', () => true)
         const res = await agent
-            .post(ApiPath.user_login)
+            .post(ApiPath.user_sign_in)
             .type('form')
             .send({})
         expect(res).to.have.status(StatusCodes.INTERNAL_SERVER_ERROR)

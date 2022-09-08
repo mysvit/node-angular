@@ -17,8 +17,8 @@ const appRoutes: Routes = [
         component: CompletedPageComponent
     },
     {
-        path: StringHelper.removeSlash(ClientPath.login),
-        loadChildren: () => import('./modules/user/user-login/user-login.module').then(m => m.UserLoginModule)
+        path: StringHelper.removeSlash(ClientPath.sign_in),
+        loadChildren: () => import('./modules/user/user-sign-in/user-sign-in.module').then(m => m.UserSignInModule)
     },
     {
         path: StringHelper.removeSlash(ClientPath.signup),

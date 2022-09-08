@@ -21,7 +21,7 @@ describe('UserDb', () => {
         is_del: 0,
         is_verified: 0,
         modify_date: null,
-        login_date: null,
+        sign_in_date: null,
         avatar_id: null,
         pre_verified_hash: null
     }
@@ -37,7 +37,7 @@ describe('UserDb', () => {
         is_del: 1,
         is_verified: 1,
         modify_date: new DateDb().value,
-        login_date: new DateDb().value,
+        sign_in_date: new DateDb().value,
         avatar_id: null,
         pre_verified_hash: 'hashPre'
     }

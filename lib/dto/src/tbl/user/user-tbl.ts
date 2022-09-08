@@ -5,7 +5,7 @@ export interface UserTbl {
     email: string
     signup_date: Date
     modify_date: Date
-    login_date: Date
+    sign_in_date: Date
     is_verified: number
     verification_code: string
     pre_verified_hash: string
