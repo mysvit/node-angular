@@ -1,4 +1,6 @@
 import { PictureModel } from '@dto'
+import { environment } from '@env'
+import { ApiParams, ApiPath } from '@shared-lib/constants'
 import { FileHelper, MathHelper } from '@shared-lib/helpers'
 import { FileContent } from '@shared/models/file-content'
 
@@ -34,7 +36,7 @@ export namespace PictureHelper {
         })
     }
 
-    export function createImageFromLetter(letter: string, width: number, height: number, colorDeg?: number) {
+    export function createImageFromLetter(letter: string, height: number, width: number, colorDeg?: number) {
         const canvas = document.createElement('canvas')
         const context = canvas.getContext('2d') || new CanvasRenderingContext2D()
         canvas.width = width
@@ -75,6 +77,10 @@ export namespace PictureHelper {
             return Math.round(255 * color).toString(16).padStart(2, '0')   // convert to Hex and prefix "0" if needed
         }
         return `#${f(0)}${f(8)}${f(4)}`
+    }
+
+    export function getPictureUrl(picture_id: string): string {
+        return environment.apiEndPoint + ApiPath.picture_get.replace(ApiParams._picture_id, picture_id)
     }
 
 }

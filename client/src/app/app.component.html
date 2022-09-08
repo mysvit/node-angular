@@ -1,5 +1,7 @@
-<app-toolbar></app-toolbar>
+<ng-template [onTop]="false" [appSpinner]="!completedForm">
+    <app-toolbar></app-toolbar>
 
-<div class="sl-nav-container">
-    <router-outlet></router-outlet>
-</div>
+    <div class="sl-nav-container">
+        <router-outlet></router-outlet>
+    </div>
+</ng-template>

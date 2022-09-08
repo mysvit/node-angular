@@ -43,7 +43,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                                 SlStorage.remove(ApiParams.token)
                                 break
                         }
-                        // for check authentication doesn't show snackBar
+                        // for authentication api doesn't show snackBar
                         if (error?.url?.indexOf(ApiPath.user_auth) >= 0) {
                             return throwError(() => new Error('User is not authenticated.'))
                         }

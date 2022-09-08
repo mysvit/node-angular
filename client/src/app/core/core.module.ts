@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { httpInterceptorProviders } from '@core/http-interceptors'
 import { StatesService } from '@core/services/states.service'
@@ -41,7 +41,8 @@ const singletonServices = [
         MatIconModule,
         MatToolbarModule,
         MatFormFieldModule,
-        MatMenuModule
+        MatMenuModule,
+        MatSnackBarModule
     ],
     providers: [
         MatSnackBar,

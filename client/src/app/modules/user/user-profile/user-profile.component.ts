@@ -15,12 +15,15 @@ export class UserProfileComponent extends ProcessForm implements OnInit {
     FieldValidators = FieldValidators
     model = new UserPublicProfileModel()
 
-    constructor(private userProfile: UserProfileService) {
+    constructor() {
         super()
     }
 
     ngOnInit(): void {
-        // this.execute(this.userProfile.getUserProfile())
+        this.loadData()
+    }
+
+    loadData() {
     }
 
     updateProfileClick() {

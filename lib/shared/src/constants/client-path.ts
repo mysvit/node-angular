@@ -1,6 +1,7 @@
 export namespace ClientPath {
     export const one_level_back = '..'
     export const root = '/'
+    export const home = '/home'
     export const login = '/login'
     export const verify = '/verify'
     export const signup = '/signup'

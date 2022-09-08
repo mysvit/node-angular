@@ -1,14 +1,10 @@
-<div class="sl-process" *ngIf="processState === ProcessStates.EXECUTING">
-    <mat-spinner></mat-spinner>
-</div>
-
 <div class="sl-form">
 
     <div class="sl-col">
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input type="text" matInput [formControl]="userPublicProfileModel.nickname">
-            <mat-error *ngIf="userPublicProfileModel.nickname.invalid">{{FieldValidators.errorMessage(userPublicProfileModel.nickname)}}</mat-error>
+            <input type="text" matInput [formControl]="formModel.nickname">
+            <mat-error *ngIf="formModel.nickname.invalid">{{FieldValidators.errorMessage(formModel.nickname)}}</mat-error>
         </mat-form-field>
         <div class="sl-flex-spacer"></div>
         <div>
@@ -22,12 +18,7 @@
         <div class="sl-profile-picture">
             <h3>Profile picture</h3>
 
-            <ng-template [ngIf]="imgSrc" [ngIfElse]="gravatar">
-                <img class="sl-gravatar" src="{{imgSrc}}">
-            </ng-template>
-            <ng-template #gravatar>
-                <div class="sl-gravatar">{{gravatar}}</div>
-            </ng-template>
+            <img class="sl-avatar-picture" alt="User avatar" src="{{formModel.avatar_id.value | slPictureUrl}}">
 
             <div class="sl-h-20"></div>
 
@@ -40,9 +31,9 @@
                     <mat-icon>add_photo_alternate</mat-icon>
                     <span>Upload picture</span>
                 </button>
-                <button mat-menu-item *ngIf="this.imgSrc" (click)="clearPictureCommand()">
-                    <mat-icon>delete</mat-icon>
-                    <span>Clear picture</span>
+                <button mat-menu-item (click)="createGravatarCommand()">
+                    <mat-icon>hdr_auto</mat-icon>
+                    <span>Revert to  Gravatar</span>
                 </button>
             </mat-menu>
         </div>

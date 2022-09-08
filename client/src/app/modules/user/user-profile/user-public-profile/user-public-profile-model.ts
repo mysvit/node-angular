@@ -8,14 +8,14 @@ export class UserPublicProfileModel {
         FieldValidators.nickname('Name should contain minimum three characters, letters and numbers with doth or underscore.')
     ])
 
-    avatar: FormControl = new FormControl(undefined, [
+    avatar_id: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an username.'),
         FieldValidators.nickname('Username should contain minimum three characters, letters and numbers with doth or underscore.')
     ])
 
     formGroup: FormGroup = new FormGroup({
             nickname: this.nickname,
-            avatar: this.avatar
+            avatar_id: this.avatar_id
         }
     )
 

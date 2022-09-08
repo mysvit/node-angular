@@ -9,10 +9,12 @@ import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { SharedModule } from '@shared/shared.module'
 import { UserEmailsComponent } from './user-emails/user-emails.component'
 import { UserPasswordComponent } from './user-password/user-password.component'
 import { UserProfileRoutingModule } from './user-profile-routing.module'
 import { UserProfileComponent } from './user-profile.component'
+import { UserProfileService } from './user-profile.service'
 import { UserPublicProfileComponent } from './user-public-profile/user-public-profile.component'
 
 
@@ -25,6 +27,7 @@ import { UserPublicProfileComponent } from './user-public-profile/user-public-pr
     ],
     imports: [
         CommonModule,
+        SharedModule,
         UserProfileRoutingModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -35,6 +38,9 @@ import { UserPublicProfileComponent } from './user-public-profile/user-public-pr
         MatIconModule,
         MatMenuModule,
         MatProgressSpinnerModule
+    ],
+    providers: [
+        UserProfileService
     ]
 })
 export class UserProfileModule {

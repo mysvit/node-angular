@@ -4,18 +4,18 @@ import { pictureCore } from '../../ref/core'
 
 export class PictureApi {
 
-    static async create(req: Request, res: Response) {
-        const result = await pictureCore.create(req.body)
+    static async add(req: Request, res: Response) {
+        const result = await pictureCore.add(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async update(req: Request, res: Response) {
-        const result = await pictureCore.update(req.body)
+    static async upd(req: Request, res: Response) {
+        const result = await pictureCore.upd(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async read(req: Request, res: Response) {
-        const result = await pictureCore.read(req.params?.picture_id)
+    static async get(req: Request, res: Response) {
+        const result = await pictureCore.get(req.params?.picture_id)
         res.header('Cross-Origin-Resource-Policy', 'cross-origin')
         res.send(result.content)
     }

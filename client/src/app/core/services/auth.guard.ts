@@ -13,6 +13,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     constructor(private states: StatesService, private router: Router) {
     }
 
+    canLoad(route: Route): Observable<boolean> {
+        const url = `/${route.path}`
+        return this.checkLogin(url)
+    }
+
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         const url: string = state.url
         return this.checkLogin(url)
@@ -20,11 +25,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.canActivate(route, state)
-    }
-
-    canLoad(route: Route): Observable<boolean> {
-        const url = `/${route.path}`
-        return this.checkLogin(url)
     }
 
     checkLogin(url: string): Observable<boolean> {

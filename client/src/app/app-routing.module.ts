@@ -8,7 +8,7 @@ import { StringHelper } from '@shared-lib/helpers'
 
 const appRoutes: Routes = [
     {
-        path: '',
+        path: 'home',
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
         pathMatch: 'full'
     },
@@ -28,6 +28,11 @@ const appRoutes: Routes = [
         path: StringHelper.removeSlash(ClientPath.user_profile),
         canLoad: [AuthGuard],
         loadChildren: () => import('./modules/user/user-profile/user-profile.module').then(m => m.UserProfileModule)
+    },
+    {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
     },
     {
         path: '**', component: NotFoundPageComponent

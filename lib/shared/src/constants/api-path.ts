@@ -14,5 +14,5 @@ export namespace ApiPath {
 
     export const picture_get = api + picture + '/get/:picture_id'
     export const picture_add = api + picture + '/add'
-    export const picture_update = api + picture + '/update'
+    export const picture_upd = api + picture + '/upd'
 }

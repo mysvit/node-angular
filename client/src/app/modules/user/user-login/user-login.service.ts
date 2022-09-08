@@ -40,7 +40,6 @@ export class UserLoginService {
                     }
                 })
             )
-
     }
 
     verifyCode(userId: string, verificationCode: string): Observable<void> {

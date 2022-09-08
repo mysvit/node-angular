@@ -10,8 +10,15 @@ export class ProcessForm {
     completedMessage?: string
     errorMessage?: string
 
+    constructor() {
+    }
+
     get disableForm() {
         return this.processState === ProcessStates.EXECUTING
+    }
+
+    get completedForm() {
+        return this.processState === ProcessStates.COMPLETED
     }
 
     protected execute(observable: Observable<Object | void>, singleProcess = true): void {

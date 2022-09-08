@@ -31,7 +31,11 @@ export class ToolbarComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.states.isAuth().unsubscribe()
+        this.states.isAuth().complete()
+    }
+
+    homeClick() {
+        this.router.navigate([ClientPath.home]).finally()
     }
 
     loginClick() {

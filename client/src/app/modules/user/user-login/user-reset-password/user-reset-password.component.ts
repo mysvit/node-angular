@@ -3,7 +3,6 @@ import { Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { ResetPassModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
@@ -49,7 +48,7 @@ export class UserResetPasswordComponent extends ProcessForm implements OnInit {
 
     override processCompleted() {
         super.processCompleted()
-        this.router.navigate([StringHelper.removeSlash(ClientPath.login)]).finally(() =>
+        this.router.navigate([ClientPath.login]).finally(() =>
             this.snackBar.show('New password set up. Try to log in.', MessageType.Success, 5000))
     }
 
