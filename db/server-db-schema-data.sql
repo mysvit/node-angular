@@ -47,7 +47,7 @@ CREATE TABLE `user` (
   `email` varchar(30) NOT NULL,
   `signup_date` datetime NOT NULL,
   `modify_date` datetime DEFAULT NULL,
-  `login_date` datetime DEFAULT NULL,
+  `sign_in_date` datetime DEFAULT NULL,
   `is_verified` smallint(6) NOT NULL DEFAULT 0,
   `verification_code` varchar(5) DEFAULT NULL,
   `pre_verified_hash` varchar(150) DEFAULT NULL,
@@ -73,4 +73,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-06  7:59:08
+-- Dump completed on 2022-09-09 18:03:24
