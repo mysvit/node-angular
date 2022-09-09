@@ -1,42 +1,44 @@
-<div class="sl-form">
+<ng-template [appSpinner]="disableForm">
+    <div class="sl-form">
 
-    <div class="sl-col">
-        <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input type="text" matInput [formControl]="formModel.nickname">
-            <mat-error *ngIf="formModel.nickname.invalid">{{FieldValidators.errorMessage(formModel.nickname)}}</mat-error>
-        </mat-form-field>
-        <div class="sl-flex-spacer"></div>
-        <div>
-            <button mat-flat-button color="primary" aria-label="Update profile" (click)="updateProfileClick()">
-                <span>Update profile</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="sl-col">
-        <div class="sl-profile-picture">
-            <h3>Profile picture</h3>
-
-            <img class="sl-avatar-picture" alt="User avatar" src="{{formModel.avatar_id.value | slPictureUrl}}">
-
-            <div class="sl-h-20"></div>
-
-            <button mat-raised-button [matMenuTriggerFor]="menuImage">
-                <mat-icon>edit</mat-icon>
-                Edit picture
-            </button>
-            <mat-menu #menuImage="matMenu">
-                <button mat-menu-item (click)="uploadPictureCommand()">
-                    <mat-icon>add_photo_alternate</mat-icon>
-                    <span>Upload picture</span>
+        <div class="sl-col">
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input type="text" matInput [formControl]="formModel.nickname">
+                <mat-error *ngIf="formModel.nickname.invalid">{{FieldValidators.errorMessage(formModel.nickname)}}</mat-error>
+            </mat-form-field>
+            <div class="sl-flex-spacer"></div>
+            <div>
+                <button mat-flat-button color="primary" aria-label="Update profile" (click)="updateProfileClick()">
+                    <span>Update profile</span>
                 </button>
-                <button mat-menu-item (click)="createGravatarCommand()">
-                    <mat-icon>hdr_auto</mat-icon>
-                    <span>Revert to  Gravatar</span>
-                </button>
-            </mat-menu>
+            </div>
         </div>
-    </div>
 
-</div>
+        <div class="sl-col">
+            <div class="sl-profile-picture">
+                <h3>Profile picture</h3>
+
+                <img class="sl-avatar-picture" alt="User avatar" src="{{formModel.avatarId.value | slPictureUrl}}">
+
+                <div class="sl-h-20"></div>
+
+                <button mat-raised-button [matMenuTriggerFor]="menuImage">
+                    <mat-icon>edit</mat-icon>
+                    Edit picture
+                </button>
+                <mat-menu #menuImage="matMenu">
+                    <button mat-menu-item (click)="uploadPictureCommand()">
+                        <mat-icon>add_photo_alternate</mat-icon>
+                        <span>Upload picture</span>
+                    </button>
+                    <button mat-menu-item (click)="generateGravatarCommand()">
+                        <mat-icon>hdr_auto</mat-icon>
+                        <span>Generate gravatar</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

@@ -7,7 +7,7 @@
     <span class="sl-flex-spacer"></span>
 
     <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
-        <img class="sl-avatar-picture" alt="User avatar" src="{{avatar}}" [matMenuTriggerFor]="menu">
+        <img class="sl-avatar-picture" alt="User avatar" src="{{avatarUrl}}" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu">
             <ng-template matMenuContent>
                 <div class="sl-menu-title">Signed in as <b>{{nickname}}</b></div>

@@ -1,9 +1,22 @@
-import { AuthModel, AuthType, DateDb, ForgotPassModel, ResetPassModel, SignInModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
+import {
+    AuthModel,
+    AuthType,
+    DateDb,
+    ForgotPassModel,
+    PictureModel,
+    ResetPassModel,
+    SignInModel,
+    UserProfileModel,
+    UserSignupModel,
+    UserTbl,
+    VerifyCodeModel
+} from '@dto'
 import { DateHelper, EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
+import { PictureCore } from '../picture/picture-core'
 
 const {sign} = jwt
 
@@ -11,6 +24,7 @@ export class UserCore extends Core {
 
     public userDto = new UserDto()
     public pictureDto = new PictureDto()
+    private pictureCore = new PictureCore(this.env)
 
     /**
      * signup user
@@ -264,12 +278,42 @@ export class UserCore extends Core {
      * get user profile
      * @param userId
      */
-    async getUserProfile(userId: string): Promise<UserTbl> {
+    async getUserProfile(userId: string): Promise<UserProfileModel> {
         ParamValidation.validateUuId(userId)
-        return this.userDb.select(
-            <UserTbl>{user_id: '', nickname: '', avatar_id: '', email: ''},
+        const userTbl = await this.userDb.select(
+            <UserTbl>{user_id: '', nickname: '', email: '', avatar_id: ''},
             <UserTbl>{is_del: 0, user_id: userId}
         )
+        return <UserProfileModel>{
+            userId: userTbl.user_id,
+            nickname: userTbl.nickname,
+            email: userTbl.email,
+            avatarId: userTbl.avatar_id
+        }
+    }
+
+    /**
+     * update user profile picture
+     * @param userId
+     * @param pictureModel
+     */
+    async updateProfilePicture(userId: string, pictureModel: PictureModel): Promise<string> {
+        ParamValidation.validateUuId(userId)
+        const userTbl = await this.userDb.select(
+            <UserTbl>{avatar_id: ''},
+            <UserTbl>{is_del: 0, user_id: userId}
+        )
+        pictureModel.pictureId = randomUUID()
+        const picAdd = await this.pictureCore.add(pictureModel)
+        const picUpd = await this.userDb.update(
+            <UserTbl>{avatar_id: pictureModel.pictureId},
+            <UserTbl>{user_id: userId}
+        )
+        const picDel = await this.pictureCore.del(userTbl.avatar_id)
+        if (!picAdd || !picUpd || !picDel) {
+            throw new ErrorApi500(ErrorsMsg.ErrorUpdateProfilePicture)
+        }
+        return pictureModel.pictureId
     }
 
 }

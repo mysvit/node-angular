@@ -30,7 +30,7 @@ export class PictureCore extends Core {
 
     async del(pictureId: string): Promise<number> {
         ParamValidation.validateUuId(pictureId)
-        return this.pictureDb.delete(pictureId)
+        return this.pictureDb.delete({picture_id: pictureId})
     }
 
 }

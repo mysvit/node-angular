@@ -44,4 +44,9 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async updateProfilePicture(req: Request, res: Response) {
+        const result = await userCore.updateProfilePicture(req.params?.user_id, req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
+
 }

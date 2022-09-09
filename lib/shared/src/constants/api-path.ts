@@ -11,6 +11,7 @@ export namespace ApiPath {
     export const user_forgot_pass = api + user + '/forgot-pass'
     export const user_reset_pass = api + user + '/reset-pass'
     export const user_get_profile = api + user + '/get_profile/:user_id'
+    export const user_upd_profile_picture = api + user + '/upd_profile_picture/:user_id'
 
     export const picture_get = api + picture + '/get/:picture_id'
     export const picture_add = api + picture + '/add'

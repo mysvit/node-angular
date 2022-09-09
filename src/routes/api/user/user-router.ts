@@ -45,3 +45,7 @@ userAuth.get(ApiPath.user_auth, ErrorHandler.apiCatch(UserApi.isAuth))
 // api/user/get_profile/:user_id
 // user_id: uuid
 userProf.get(ApiPath.user_get_profile, ErrorHandler.apiCatch(UserApi.getUserProfile))
+
+// api/user/upd_profile_picture/:user_id
+// user_id: uuid
+userProf.put(ApiPath.user_upd_profile_picture, ErrorHandler.apiCatch(UserApi.updateProfilePicture))

@@ -43,9 +43,13 @@
 @mixin sl-avatar($size) {
     border-radius: 50%;
     box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
-    height: $size;
-    width: $size;
+    min-height: $size;
+    min-width: $size;
+    max-height: $size;
+    max-width: $size;
     background-color: #FFFFFF;
+    line-height: $size;
+    text-align: center;
 
     &:hover {
         cursor: pointer;

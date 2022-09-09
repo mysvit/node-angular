@@ -1,36 +1,31 @@
-import { Component, OnDestroy } from '@angular/core'
+import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
-import { PictureHelper } from '@shared/helper/picture-helper'
+import { PictureHelper } from '@shared/helper'
 import { SlStorage } from '@shared/storage'
-import { StatesService } from '../../services/states.service'
 
 @Component({
     selector: 'app-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent implements OnDestroy {
+export class ToolbarComponent {
 
-    isAuth: boolean = false
-    nickname?: string
-    avatar?: string
-
-    constructor(
-        private router: Router,
-        private states: StatesService
-    ) {
-        this.states.isAuth().subscribe(data => {
-            this.isAuth = data
-            if (this.isAuth) {
-                this.avatar = PictureHelper.getPictureUrl(SlStorage.avatar_id)
-                this.nickname = SlStorage.nickname
-            }
-        })
+    get isAuth(): boolean {
+        return SlStorage.is_auth === '1'
     }
 
-    ngOnDestroy() {
-        this.states.isAuth().complete()
+    get avatarUrl(): string {
+        return PictureHelper.getPictureUrl(SlStorage.avatar_id)
+    }
+
+    get nickname(): string {
+        return SlStorage.nickname
+    }
+
+    constructor(
+        private router: Router
+    ) {
     }
 
     homeClick() {
@@ -47,7 +42,7 @@ export class ToolbarComponent implements OnDestroy {
 
     signOutClick() {
         SlStorage.remove(ApiParams.token)
-        this.states.isAuth().next(false)
+        SlStorage.is_auth = '0'
         this.router.navigate([ClientPath.root]).finally()
     }
 

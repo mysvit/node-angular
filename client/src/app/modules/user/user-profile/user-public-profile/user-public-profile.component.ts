@@ -6,8 +6,9 @@ import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { UploadHelper } from '@shared/helper/upload-helper'
+import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { finalize, map } from 'rxjs'
+import { map } from 'rxjs'
 import { UserProfileService } from '../user-profile.service'
 import { UserPublicProfileModel } from './user-public-profile-model'
 import { UserPublicProfileService } from './user-public-profile.service'
@@ -44,23 +45,22 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
     }
 
     updateProfileClick() {
-        // this.processLayer(this.renderer)
-        this.snackBar.show('Test message', MessageType.Info)
     }
 
-    createGravatarCommand() {
+    generateGravatarCommand() {
         this.snackBar.dismiss()
         const pictureModel = <PictureModel>{
-            name: this.formModel.nickname.value.substring(0, 1),
+            name: this.formModel.nickname.value.substring(0, 1).toUpperCase(),
             height: 56,
             width: 56,
             ext: 'png'
         }
         pictureModel.contentBase64 = PictureHelper.createImageFromLetter(pictureModel.name, pictureModel.height, pictureModel.width)
+        this.formModel.avatarId.setValue('')
         this.execute(
-            this.userPublicProfile.pictureUpdate(pictureModel)
+            this.userPublicProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
                 .pipe(
-                    finalize(() => this.snackBar.show('Picture profile uploaded successfully', MessageType.Info))
+                    map(pictureId => this.updateAvatar(pictureId))
                 )
         )
     }
@@ -70,9 +70,21 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
         UploadHelper.uploadFileClick(this.renderer)
             .then(files => UploadHelper.uploadFileReader(files[0]))
             .then(file => PictureHelper.resizePicture(file, 128, 128))
-            .then(pictureModel => this.userPublicProfile.pictureUpdate(pictureModel))
+            .then(pictureModel => {
+                this.execute(
+                    this.userPublicProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
+                        .pipe(
+                            map(pictureId => this.updateAvatar(pictureId))
+                        )
+                )
+            })
             .catch(error => this.snackBar.show(error.message, MessageType.Error))
-            .then(() => this.snackBar.show('Picture profile uploaded successfully', MessageType.Info))
+    }
+
+    private updateAvatar(pictureId: string) {
+        this.formModel.avatarId.setValue(pictureId)
+        SlStorage.avatar_id = pictureId
+        this.snackBar.show('Picture profile uploaded successfully', MessageType.Success, 5000)
     }
 
 }
