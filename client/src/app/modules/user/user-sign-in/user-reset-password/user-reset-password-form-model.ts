@@ -1,15 +1,12 @@
 import { FormControl, FormGroup } from '@angular/forms'
+import { BaseFormModel } from '@shared/models/base-form-model'
 import { FieldValidators } from '@shared/validators'
 
-export class UserSignupFormModel {
+export class UserResetPasswordFormModel extends BaseFormModel {
 
-    email: FormControl = new FormControl(undefined, [
-        FieldValidators.required('You must enter an email.'),
-        FieldValidators.email('Not a valid email.')
-    ])
-    nickname: FormControl = new FormControl(undefined, [
-        FieldValidators.required('You must enter an name.'),
-        FieldValidators.nickname('Name should contain minimum three characters, letters and numbers with doth, space or underscore.')
+    resetCode: FormControl = new FormControl(undefined, [
+        FieldValidators.required('You must enter an reset code.'),
+        FieldValidators.resetCodeFormat('Not a valid code.')
     ])
     password: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter a password.'),
@@ -19,9 +16,8 @@ export class UserSignupFormModel {
         FieldValidators.match(this.password, 'Those password did not match.')
     ])
 
-    formGroup: FormGroup = new FormGroup({
-            email: this.email,
-            nickname: this.nickname,
+    override formGroup: FormGroup = new FormGroup({
+            resetCode: this.resetCode,
             password: this.password,
             confirm: this.confirm
         }

@@ -1,14 +1,12 @@
-import { Component } from '@angular/core'
+import { Component, Injector } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SnackBarService } from '@core/services/snack-bar.service'
 import { PictureModel, UserSignupModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
-import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { UserSignupFormModel } from './user-signup.model'
+import { UserSignupFormModel } from './user-signup.form-model'
 import { UserSignupService } from './user-signup.service'
 
 @Component({
@@ -19,49 +17,44 @@ import { UserSignupService } from './user-signup.service'
 export class UserSignupComponent extends ProcessForm {
 
     FieldValidators = FieldValidators
-    model = new UserSignupFormModel()
+    formModel = new UserSignupFormModel()
 
     constructor(
+        injector: Injector,
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private userSignup: UserSignupService,
-        private snackBar: SnackBarService
+        private userSignup: UserSignupService
     ) {
-        super()
-        this.snackBar.dismiss()
+        super(injector)
+        this.snackBar?.dismiss()
     }
 
     registerClick() {
-        this.model.formGroup.markAllAsTouched()
-        if (this.model.formGroup.touched && this.model.formGroup.valid) {
-            const avatarChar = this.model.nickname.value.trim().substring(0, 1).toUpperCase()
-            this.execute(
-                this.userSignup.signup(
-                    <UserSignupModel>{
-                        email: this.model.email.value,
-                        nickname: this.model.nickname.value,
-                        password: this.model.password.value,
-                        avatar: <PictureModel>{
-                            name: avatarChar,
-                            ext: 'png',
-                            height: 56,
-                            width: 56,
-                            contentBase64: PictureHelper.createImageFromLetter(avatarChar, 56, 56)
-                        }
-                    })
-            )
-        }
+        if (!this.formModel.isFieldValid()) return
+
+        const avatarChar = this.formModel.nickname.value.trim().substring(0, 1).toUpperCase()
+        this.execute(
+            this.userSignup.signup(
+                <UserSignupModel>{
+                    email: this.formModel.email.value,
+                    nickname: this.formModel.nickname.value,
+                    password: this.formModel.password.value,
+                    avatar: <PictureModel>{
+                        name: avatarChar,
+                        ext: 'png',
+                        height: 56,
+                        width: 56,
+                        contentBase64: PictureHelper.createImageFromLetter(avatarChar, 56, 56)
+                    }
+                }),
+            {completedMessage: 'You have successful signup.<br/>Now you can sign in to your account.<br/>Check your email to get verification code.'}
+        )
     }
 
-    override processCompleted() {
-        super.processCompleted()
-        this.snackBar.dismiss()
-        this.router.navigate([ClientPath.sign_in]).finally(() => {
-                this.snackBar.show('You have successful signup.<br/>Now you can sign in to your account.<br/>Check your email to get verification code.',
-                    MessageType.Success)
-                SlStorage.email = this.model.email.value
-            }
-        )
+    override processCompleted(message?: any) {
+        super.processCompleted(message)
+        SlStorage.email = this.formModel.email.value
+        this.router.navigate([ClientPath.sign_in]).finally()
     }
 
 }

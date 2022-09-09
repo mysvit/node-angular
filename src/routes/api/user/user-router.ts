@@ -42,10 +42,14 @@ userBase.post(ApiPath.user_sign_in, ErrorHandler.apiCatch(UserApi.signIn))
 // check if token not expired, middleware do a job
 userAuth.get(ApiPath.user_auth, ErrorHandler.apiCatch(UserApi.isAuth))
 
-// api/user/get_profile/:user_id
+// api/user/get-profile/:user_id
 // user_id: uuid
 userProf.get(ApiPath.user_get_profile, ErrorHandler.apiCatch(UserApi.getUserProfile))
 
-// api/user/upd_profile_picture/:user_id
+// api/user/upd-profile-picture/:user_id
 // user_id: uuid
 userProf.put(ApiPath.user_upd_profile_picture, ErrorHandler.apiCatch(UserApi.updateProfilePicture))
+
+// api/user/user-upd-public-profile/:user_id
+// user_id: uuid
+userProf.put(ApiPath.user_upd_public_profile, ErrorHandler.apiCatch(UserApi.updatePublicProfile))

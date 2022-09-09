@@ -1,7 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms'
+import { BaseFormModel } from '@shared/models/base-form-model'
 import { FieldValidators } from '@shared/validators'
 
-export class UserPublicProfileModel {
+export class UserPublicProfileFormModel extends BaseFormModel {
 
     nickname: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an name.'),
@@ -10,7 +11,7 @@ export class UserPublicProfileModel {
 
     avatarId: FormControl = new FormControl('')
 
-    formGroup: FormGroup = new FormGroup({
+    override formGroup: FormGroup = new FormGroup({
             nickname: this.nickname,
             avatarId: this.avatarId
         }

@@ -1,7 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms'
+import { BaseFormModel } from '@shared/models/base-form-model'
 import { FieldValidators } from '@shared/validators'
 
-export class UserSignInModel {
+export class UserSignInFormModel extends BaseFormModel {
 
     email: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter an username.')
@@ -10,7 +11,7 @@ export class UserSignInModel {
         FieldValidators.required('You must enter a password.')
     ])
 
-    formGroup: FormGroup = new FormGroup({
+    override formGroup: FormGroup = new FormGroup({
             email: this.email,
             password: this.password
         }

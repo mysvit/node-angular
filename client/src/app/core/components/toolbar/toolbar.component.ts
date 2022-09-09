@@ -12,7 +12,7 @@ import { SlStorage } from '@shared/storage'
 export class ToolbarComponent {
 
     get isAuth(): boolean {
-        return SlStorage.is_auth === '1'
+        return SlStorage.isAuth
     }
 
     get avatarUrl(): string {
@@ -42,7 +42,7 @@ export class ToolbarComponent {
 
     signOutClick() {
         SlStorage.remove(ApiParams.token)
-        SlStorage.is_auth = '0'
+        SlStorage.isAuth = false
         this.router.navigate([ClientPath.root]).finally()
     }
 

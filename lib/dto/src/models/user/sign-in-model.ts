@@ -1,5 +1,4 @@
 export class SignInModel {
-
     email: string
     password: string
 
@@ -7,5 +6,4 @@ export class SignInModel {
         this.email = obj?.email?.trim()
         this.password = obj?.password?.trim()
     }
-
 }

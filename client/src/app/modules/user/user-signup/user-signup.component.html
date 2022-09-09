@@ -1,30 +1,30 @@
 <h1>Sign up!</h1>
 
-<form [formGroup]="model.formGroup" (submit)="registerClick()">
+<form [formGroup]="formModel.formGroup" (submit)="registerClick()">
     <fieldset class="sl-fieldset" [disabled]="disableForm">
 
         <mat-form-field appearance="fill">
             <mat-label>Email address</mat-label>
-            <input name="login-email" autocomplete="email" type="email" matInput [formControl]="model.email" placeholder="Ex. email@domain.com">
-            <mat-error *ngIf="model.email.invalid">{{FieldValidators.errorMessage(model.email)}}</mat-error>
+            <input name="login-email" autocomplete="email" type="email" matInput [formControl]="formModel.email" placeholder="Ex. email@domain.com">
+            <mat-error *ngIf="formModel.email.invalid">{{FieldValidators.errorMessage(formModel.email)}}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input type="text" matInput [formControl]="model.nickname">
-            <mat-error *ngIf="model.nickname.invalid">{{FieldValidators.errorMessage(model.nickname)}}</mat-error>
+            <input type="text" matInput [formControl]="formModel.nickname">
+            <mat-error *ngIf="formModel.nickname.invalid">{{FieldValidators.errorMessage(formModel.nickname)}}</mat-error>
         </mat-form-field>
 
         <div class="sl-row">
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="model.password">
-                <mat-error *ngIf="model.password.invalid">{{FieldValidators.errorMessage(model.password)}}</mat-error>
+                <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="formModel.password">
+                <mat-error *ngIf="formModel.password.invalid">{{FieldValidators.errorMessage(formModel.password)}}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Confirm</mat-label>
-                <input name="confirm-password" autocomplete="confirm-password" type="password" matInput [formControl]="model.confirm">
-                <mat-error *ngIf="model.confirm.invalid">{{FieldValidators.errorMessage(model.confirm)}}</mat-error>
+                <input name="confirm-password" autocomplete="confirm-password" type="password" matInput [formControl]="formModel.confirm">
+                <mat-error *ngIf="formModel.confirm.invalid">{{FieldValidators.errorMessage(formModel.confirm)}}</mat-error>
             </mat-form-field>
         </div>
 

@@ -7,6 +7,7 @@ import {
     ResetPassModel,
     SignInModel,
     UserProfileModel,
+    UserPublicProfileModel,
     UserSignupModel,
     UserTbl,
     VerifyCodeModel
@@ -314,6 +315,19 @@ export class UserCore extends Core {
             throw new ErrorApi500(ErrorsMsg.ErrorUpdateProfilePicture)
         }
         return pictureModel.pictureId
+    }
+
+    /**
+     * update user public profile
+     * @param userId
+     * @param userPublicProfileModel
+     */
+    async updatePublicProfile(userId: string, userPublicProfileModel: UserPublicProfileModel): Promise<number> {
+        ParamValidation.validateUuId(userId)
+        return this.userDb.update(
+            <UserTbl>{nickname: userPublicProfileModel.nickname},
+            <UserTbl>{is_del: 0, user_id: userId}
+        )
     }
 
 }

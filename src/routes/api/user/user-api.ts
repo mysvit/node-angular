@@ -49,4 +49,9 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async updatePublicProfile(req: Request, res: Response) {
+        const result = await userCore.updatePublicProfile(req.params?.user_id, req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
+
 }

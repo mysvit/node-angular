@@ -80,12 +80,11 @@ export class UserSignInService {
     }
 
     private userAuthenticated(data: AuthModel): Promise<boolean> {
-        SlStorage.is_auth = '1'
+        SlStorage.isAuth = true
         SlStorage.token = `Bearer ${data.token}`
         SlStorage.email = data.email
         SlStorage.nickname = data.nickname
         SlStorage.avatar_id = data.avatarId
-        this.states.isAuth().next(true)
         return this.router.navigate([this.states.redirectUrl ?? ClientPath.one_level_back])
     }
 

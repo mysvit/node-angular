@@ -12,5 +12,4 @@ export class UserSignupModel {
         this.password = obj?.password?.trim()
         this.avatar = obj?.avatar
     }
-
 }

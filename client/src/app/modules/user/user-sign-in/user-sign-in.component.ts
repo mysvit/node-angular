@@ -1,14 +1,13 @@
 import { Location } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, Injector, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SnackBarService } from '@core/services/snack-bar.service'
 import { SignInModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { UserSignInModel } from './user-sign-in-model'
+import { UserSignInFormModel } from './user-sign-in-form-model'
 import { UserSignInService } from './user-sign-in.service'
 
 @Component({
@@ -19,16 +18,16 @@ import { UserSignInService } from './user-sign-in.service'
 export class UserSignInComponent extends ProcessForm implements OnInit {
 
     FieldValidators = FieldValidators
-    formModel = new UserSignInModel()
+    formModel = new UserSignInFormModel()
 
     constructor(
+        injector: Injector,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private location: Location,
-        private userSignIn: UserSignInService,
-        private snackBar: SnackBarService
+        private userSignIn: UserSignInService
     ) {
-        super()
+        super(injector)
     }
 
     ngOnInit() {
@@ -36,9 +35,7 @@ export class UserSignInComponent extends ProcessForm implements OnInit {
     }
 
     signInClick() {
-        this.formModel.formGroup.markAllAsTouched()
-        if (this.formModel.formGroup.touched && this.formModel.formGroup.valid) {
-            this.snackBar.dismiss()
+        if (this.formModel.isFieldValid()) {
             this.execute(
                 this.userSignIn.signIn(<SignInModel>{
                     email: this.formModel.email.value,

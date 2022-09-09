@@ -1,55 +1,48 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Injector } from '@angular/core'
 import { Router } from '@angular/router'
-import { SnackBarService } from '@core/services/snack-bar.service'
 import { ResetPassModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
-import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
 import { UserSignInService } from '../user-sign-in.service'
-import { UserResetPasswordModel } from './user-reset-password-model'
+import { UserResetPasswordFormModel } from './user-reset-password-form-model'
 
 @Component({
     selector: 'app-user-reset-password',
     templateUrl: './user-reset-password.component.html',
     styleUrls: ['./user-reset-password.component.scss']
 })
-export class UserResetPasswordComponent extends ProcessForm implements OnInit {
+export class UserResetPasswordComponent extends ProcessForm {
 
     FieldValidators = FieldValidators
-    resetModel = new UserResetPasswordModel()
+    formModel = new UserResetPasswordFormModel()
     email = SlStorage.email
 
     constructor(
+        injector: Injector,
         private router: Router,
-        private userSignIn: UserSignInService,
-        private snackBar: SnackBarService
+        private userSignIn: UserSignInService
     ) {
-        super()
-    }
-
-    ngOnInit(): void {
+        super(injector)
     }
 
     resetPasswordClick() {
-        this.resetModel.formGroup.markAllAsTouched()
-        if (this.resetModel.formGroup.touched && this.resetModel.formGroup.valid) {
-            this.snackBar.dismiss()
+        if (this.formModel.isFieldValid()) {
             this.execute(
                 this.userSignIn.resetPass(<ResetPassModel>{
                     email: this.email,
-                    resetPassCode: this.resetModel.resetCode.value,
-                    password: this.resetModel.password.value
-                })
+                    resetPassCode: this.formModel.resetCode.value,
+                    password: this.formModel.password.value
+                }),
+                {completedMessage: 'New password set up. Try to log in.'}
             )
         }
     }
 
-    override processCompleted() {
-        super.processCompleted()
-        this.router.navigate([ClientPath.sign_in]).finally(() =>
-            this.snackBar.show('New password set up. Try to log in.', MessageType.Success, 10000))
+    override processCompleted(message?: any) {
+        super.processCompleted(message)
+        this.router.navigate([ClientPath.sign_in]).finally()
     }
 
 }

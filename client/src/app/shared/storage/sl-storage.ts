@@ -2,12 +2,12 @@ import { ApiParams } from '@shared-lib/constants'
 
 export class SlStorage {
 
-    static get is_auth() {
-        return localStorage.getItem(ApiParams.is_auth) ?? ''
+    static get isAuth(): boolean {
+        return localStorage.getItem(ApiParams.is_auth) === '1'
     }
 
-    static set is_auth(value: string) {
-        localStorage.setItem(ApiParams.is_auth, value)
+    static set isAuth(value: boolean) {
+        localStorage.setItem(ApiParams.is_auth, value ? '1' : '0')
     }
 
     static get token() {

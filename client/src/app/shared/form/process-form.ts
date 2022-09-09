@@ -1,4 +1,7 @@
-import { ProcessStates } from '@shared/enum'
+import { Injector } from '@angular/core'
+import { SnackBarService } from '@core/services/snack-bar.service'
+import { MessageType, ProcessStates } from '@shared/enum'
+import { ProcessOption } from '@shared/form/process-option'
 import { Observable, Subject, takeUntil } from 'rxjs'
 
 export class ProcessForm {
@@ -6,11 +9,11 @@ export class ProcessForm {
     ProcessStates = ProcessStates
     cancel$: Subject<boolean> = new Subject<boolean>()
     processState: ProcessStates = ProcessStates.INITIAL
-    executingMessage?: string
-    completedMessage?: string
-    errorMessage?: string
 
-    constructor() {
+    public snackBar?: SnackBarService
+
+    constructor(injector: Injector) {
+        this.snackBar = injector.get<SnackBarService>(SnackBarService)
     }
 
     get disableForm() {
@@ -21,10 +24,10 @@ export class ProcessForm {
         return this.processState === ProcessStates.COMPLETED
     }
 
-    protected execute(observable: Observable<Object | void>, singleProcess = true): void {
+    protected execute(observable: Observable<Object | void>, option?: ProcessOption): void {
         this.resetMessages()
         this.processExecuting()
-        if (singleProcess) {
+        if (option?.multipleProcess) {
             this.cancelProcess()
         }
         observable
@@ -32,7 +35,7 @@ export class ProcessForm {
                 takeUntil(this.cancel$)
             )
             .subscribe({
-                complete: () => this.processCompleted(),
+                complete: () => this.processCompleted(option?.completedMessage),
                 error: (error) => this.processError(error)
             })
     }
@@ -41,25 +44,22 @@ export class ProcessForm {
         this.cancel$.next(true)
     }
 
-    protected processExecuting(message?: string) {
+    protected processExecuting() {
         this.processState = ProcessStates.EXECUTING
-        this.executingMessage = message
     }
 
-    protected processCompleted(message?: string) {
+    protected processCompleted(message?: any) {
         this.processState = ProcessStates.COMPLETED
-        this.completedMessage = message
+        if (message) this.snackBar?.show(message, MessageType.Success, 3000)
     }
 
     protected processError(message?: any) {
         this.processState = ProcessStates.ERROR
-        this.errorMessage = message
+        if (message) this.snackBar?.show(message, MessageType.Error, 6000)
     }
 
-    private resetMessages() {
-        this.executingMessage = undefined
-        this.completedMessage = undefined
-        this.errorMessage = undefined
+    protected resetMessages() {
+        this.snackBar?.dismiss()
     }
 
 }

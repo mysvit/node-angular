@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Injector, OnInit } from '@angular/core'
 import { ProcessForm } from '@shared/form'
 import { AppService } from './app.service'
 
@@ -10,9 +10,10 @@ import { AppService } from './app.service'
 export class AppComponent extends ProcessForm implements OnInit {
 
     constructor(
+        injector: Injector,
         private app: AppService
     ) {
-        super()
+        super(injector)
     }
 
     ngOnInit() {
