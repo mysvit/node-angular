@@ -1,10 +1,14 @@
 @import "../../../../../styles/mixins";
 
-.sl-profile-picture {
-    height: 285px;
-    width: 200px;
+.sl-fieldset {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
-.sl-avatar-picture {
+.sl-col {
+    align-content: space-between;
+}
+
+.sl-avatar {
     @include sl-avatar(180px)
 }

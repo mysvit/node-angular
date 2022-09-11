@@ -1,10 +1,10 @@
 <h1>Verify account</h1>
 
 <form [formGroup]="formModel.formGroup">
-    <fieldset class="sl-fieldset" [disabled]="disableForm">
+    <fieldset class="g-fieldset" [disabled]="disableForm">
 
-        <div class="sl-row">
-            <mat-form-field class="w-150" appearance="fill">
+        <div class="g-col">
+            <mat-form-field appearance="fill">
                 <mat-label>Verification code</mat-label>
                 <input matInput #verifyCode [formControl]="formModel.verificationCode" maxlength="5" placeholder="Ex. 12345">
                 <mat-hint align="end">{{verifyCode.value.length}} / 5</mat-hint>
@@ -13,13 +13,13 @@
 
             <button mat-flat-button color="primary" aria-label="Verify" (click)="verifyClick()">
                 <mat-icon>check</mat-icon>
-                <span class="pl-10">Verify</span>
+                <span>Verify</span>
             </button>
         </div>
 
-        <button mat-flat-button color="primary" class="w-100p" aria-label="Resend" (click)="resendClick()">
+        <button mat-flat-button color="primary" aria-label="Resend" (click)="resendClick()">
             <mat-icon>mail</mat-icon>
-            <span class="pl-10">Resend code</span>
+            <span>Resend code</span>
         </button>
 
     </fieldset>

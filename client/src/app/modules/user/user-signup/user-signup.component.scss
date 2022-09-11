@@ -1,9 +1,14 @@
 @import "../../../../styles/mixins";
 
 :host {
-    @include sl-form-host;
+    @include g-container-rows;
 }
 
-.sl-fieldset {
-    @include sl-fieldset(350px, 1, auto-fill);
+h1 {
+    text-align: center;
+    padding-top: 80px;
+}
+
+.g-fieldset {
+    @include g-fieldset(auto, 350px, 1, auto-fill);
 }

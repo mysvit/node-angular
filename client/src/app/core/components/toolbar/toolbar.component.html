@@ -1,13 +1,11 @@
 <mat-toolbar color="primary">
 
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="homeClick()">
+    <button mat-icon-button aria-label="Go to home" (click)="homeClick()">
         <mat-icon>menu</mat-icon>
     </button>
 
-    <span class="sl-flex-spacer"></span>
-
     <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
-        <img class="sl-avatar-picture" alt="User avatar" src="{{avatarUrl}}" [matMenuTriggerFor]="menu">
+        <img class="sl-avatar" alt="User avatar" src="{{avatarUrl}}" [matMenuTriggerFor]="menu">
         <mat-menu #menu="matMenu">
             <ng-template matMenuContent>
                 <div class="sl-menu-title">Signed in as <b>{{nickname}}</b></div>

@@ -1,47 +1,50 @@
-<mat-accordion class="sl-user-profile" multi>
+<ng-template [appSpinner]="disableForm">
 
-    <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <mat-icon>account_circle</mat-icon>
-                Public profile
-            </mat-panel-title>
-        </mat-expansion-panel-header>
+    <mat-accordion class="sl-user-profile" multi>
 
-        <ng-template matExpansionPanelContent>
-            <hr/>
-            <app-user-public-profile></app-user-public-profile>
-        </ng-template>
-    </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>account_circle</mat-icon>
+                    Public profile
+                </mat-panel-title>
+            </mat-expansion-panel-header>
 
-    <hr/>
+            <ng-template matExpansionPanelContent>
+                <app-user-public-profile></app-user-public-profile>
+            </ng-template>
+        </mat-expansion-panel>
 
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <mat-icon>email</mat-icon>
-                Email
-            </mat-panel-title>
-        </mat-expansion-panel-header>
+        <hr/>
 
-        <ng-template matExpansionPanelContent>
-            <app-user-emails></app-user-emails>
-        </ng-template>
-    </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>email</mat-icon>
+                    Email
+                </mat-panel-title>
+            </mat-expansion-panel-header>
 
-    <hr/>
+            <ng-template matExpansionPanelContent>
+                <app-user-emails></app-user-emails>
+            </ng-template>
+        </mat-expansion-panel>
 
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <mat-icon>password</mat-icon>
-                Password
-            </mat-panel-title>
-        </mat-expansion-panel-header>
+        <hr/>
 
-        <ng-template matExpansionPanelContent>
-            <app-user-password></app-user-password>
-        </ng-template>
-    </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>password</mat-icon>
+                    Password
+                </mat-panel-title>
+            </mat-expansion-panel-header>
 
-</mat-accordion>
+            <ng-template matExpansionPanelContent>
+                <app-user-password></app-user-password>
+            </ng-template>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+</ng-template>

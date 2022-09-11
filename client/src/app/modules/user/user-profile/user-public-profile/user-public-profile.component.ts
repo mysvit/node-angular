@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, Renderer2 } from '@angular/core'
+import { Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { StatesService } from '@core/services/states.service'
 import { PictureModel, UserPublicProfileModel } from '@dto'
 import { MessageType } from '@shared/enum'
@@ -10,14 +10,13 @@ import { FieldValidators } from '@shared/validators'
 import { map } from 'rxjs'
 import { UserProfileService } from '../user-profile.service'
 import { UserPublicProfileFormModel } from './user-public-profile.form-model'
-import { UserPublicProfileService } from './user-public-profile.service'
 
 @Component({
     selector: 'app-user-public-profile',
     templateUrl: './user-public-profile.component.html',
     styleUrls: ['./user-public-profile.component.scss']
 })
-export class UserPublicProfileComponent extends ProcessForm implements OnInit {
+export class UserPublicProfileComponent extends ProcessForm implements OnInit, OnDestroy {
 
     FieldValidators = FieldValidators
     formModel = new UserPublicProfileFormModel()
@@ -26,25 +25,23 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
         injector: Injector,
         private renderer: Renderer2,
         private states: StatesService,
-        private userPublicProfile: UserPublicProfileService,
         private userProfile: UserProfileService
     ) {
         super(injector)
     }
 
     ngOnInit(): void {
-        this.execute(
-            this.userProfile.getUserProfile()
-                .pipe(
-                    map(data => this.formModel.formGroup.patchValue(data))
-                )
-        )
+        this.userProfile.userProfileModel.subscribe((data) => this.formModel.formGroup.patchValue(data))
+    }
+
+    ngOnDestroy(): void {
+        this.userProfile.userProfileModel.complete()
     }
 
     updateProfileClick() {
         if (!this.formModel.isFieldValid()) return
         this.execute(
-            this.userPublicProfile.updUserPublicProfile(SlStorage.user_id, <UserPublicProfileModel>{nickname: this.formModel.nickname.value}),
+            this.userProfile.updUserPublicProfile(SlStorage.user_id, <UserPublicProfileModel>{nickname: this.formModel.nickname.value}),
             {completedMessage: 'User profile updated.'}
         )
     }
@@ -59,7 +56,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
         pictureModel.contentBase64 = PictureHelper.createImageFromLetter(pictureModel.name, pictureModel.height, pictureModel.width)
         this.formModel.avatarId.setValue('')
         this.execute(
-            this.userPublicProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
+            this.userProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
                 .pipe(
                     map(pictureId => this.updateAvatar(pictureId))
                 ),
@@ -73,7 +70,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit {
             .then(file => PictureHelper.resizePicture(file, 128, 128))
             .then(pictureModel => {
                 this.execute(
-                    this.userPublicProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
+                    this.userProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
                         .pipe(
                             map(pictureId => this.updateAvatar(pictureId))
                         ),

@@ -1,6 +1,6 @@
 @import "../../../../styles/mixins";
 
-.sl-avatar-picture {
+.sl-avatar {
     @include sl-avatar(40px)
 }
 
@@ -10,10 +10,6 @@
     &:hover {
         border-color: #D3D3D3;
         color: #D3D3D3;
-    }
-
-    span {
-        margin-left: 10px;
     }
 }
 

@@ -1,7 +1,7 @@
 <h1>Sign up!</h1>
 
 <form [formGroup]="formModel.formGroup" (submit)="registerClick()">
-    <fieldset class="sl-fieldset" [disabled]="disableForm">
+    <fieldset class="g-fieldset" [disabled]="disableForm">
 
         <mat-form-field appearance="fill">
             <mat-label>Email address</mat-label>
@@ -15,7 +15,7 @@
             <mat-error *ngIf="formModel.nickname.invalid">{{FieldValidators.errorMessage(formModel.nickname)}}</mat-error>
         </mat-form-field>
 
-        <div class="sl-row">
+        <div class="g-col">
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
                 <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="formModel.password">
@@ -28,7 +28,7 @@
             </mat-form-field>
         </div>
 
-        <button type='submit' mat-flat-button color="primary" class="sl-field-fill" aria-label="Register">
+        <button type='submit' mat-flat-button color="primary" aria-label="Register">
             <span>Register</span>
         </button>
 

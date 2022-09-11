@@ -137,16 +137,17 @@ export class UserCore extends Core {
 
     private verifyCodeInDb = async (userId: string, verificationCode: string): Promise<void> => {
         const result = await this.userDb.select(
-            <UserTbl>{user_id: ''},
-            <UserTbl>{is_del: 0, user_id: userId, verification_code: verificationCode})
-        if (ValueHelper.isEmpty(result)) {
-            throw new ErrorApi500(ErrorsMsg.VerificationCodeWrong)
+            <UserTbl>{user_id: '', is_verified: 0, verification_code: ''},
+            <UserTbl>{is_del: 0, user_id: userId})
+        if (result.is_verified || result.verification_code === verificationCode) {
+            return
         }
+        throw new ErrorApi500(ErrorsMsg.VerificationCodeWrong)
     }
     private markUserVerified = async (userId: string) => {
         return this.userDb.update(
             <UserTbl>{is_verified: 1, verification_code: null},
-            <UserTbl>{user_id: userId, is_del: 0}
+            <UserTbl>{is_del: 0, user_id: userId}
         )
     }
     private getTokenAfterVerification = async (userId: string): Promise<AuthModel> => {
@@ -158,8 +159,8 @@ export class UserCore extends Core {
         // create token by sign if password verified
         if (userTbl.pre_verified_hash === userTbl.password_hash) {
             await this.userDb.update(
-                <UserTbl>{sign_in_date: new DateDb().value},
-                <UserTbl>{user_id: userTbl.user_id, is_del: 0})
+                <UserTbl>{sign_in_date: new DateDb().value, pre_verified_hash: null},
+                <UserTbl>{is_del: 0, user_id: userId})
             const token = sign({user_id: userId}, this.env.token_key, {expiresIn: '2h'})
             return <AuthModel>{
                 userId: userId,

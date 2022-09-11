@@ -1,5 +1,14 @@
 @import "mixins";
 
+.g-fieldset {
+    @include g-fieldset;
+}
+
+.g-col {
+    @include g-col;
+}
+
+
 .sl-fieldset {
     @include sl-fieldset(auto, 1, 1);
     padding: 20px;
@@ -8,4 +17,30 @@
 .sl-row {
     @include sl-row(2);
     gap: 10px;
+}
+
+.sl-col {
+    @include sl-col(auto-fill);
+    grid-gap: 1em;
+}
+
+.sl-avatar {
+    @include sl-avatar(32px)
+}
+
+// snack bar
+.sl-snack-bar-info {
+    @include sl-snack-bar(--c-info, --c-info-background, --c-info-border);
+}
+
+.sl-snack-bar-success {
+    @include sl-snack-bar(--c-success, --c-success-background, --c-success-border);
+}
+
+.sl-snack-bar-warn {
+    @include sl-snack-bar(--c-warn, --c-warn-background, --c-warn-border);
+}
+
+.sl-snack-bar-error {
+    @include sl-snack-bar(--c-error, --c-error-background, --c-error-border);
 }

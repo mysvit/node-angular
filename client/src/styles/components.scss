@@ -2,7 +2,19 @@
     text-decoration: underline;
     color: var(--c-link-button);
 
+    &.left {
+        float: left;
+    }
+
+    &.disabled {
+        pointer-events: none;
+        cursor: default;
+        text-decoration: none;
+        color: gray;
+    }
+
     &:hover {
         cursor: pointer;
     }
 }
+

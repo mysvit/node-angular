@@ -50,7 +50,7 @@ export class ProcessForm {
 
     protected processCompleted(message?: any) {
         this.processState = ProcessStates.COMPLETED
-        if (message) this.snackBar?.show(message, MessageType.Success, 3000)
+        if (message) this.snackBar?.show(message, MessageType.Success, 4000)
     }
 
     protected processError(message?: any) {

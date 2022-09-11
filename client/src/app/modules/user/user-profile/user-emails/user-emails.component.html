@@ -1,3 +1,27 @@
-<p>user-emails works!</p>
+<ng-template [appSpinner]="disableForm">
+    <div class="sl-form">
 
-<h1>1111111111111</h1>
+        <div class="sl-col">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Email address</mat-label>
+                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="formModel.email" placeholder="Ex. email@domain.com">
+                <mat-error *ngIf="formModel.email.invalid">{{FieldValidators.errorMessage(formModel.email)}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirm email address</mat-label>
+                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="formModel.email" placeholder="Ex. email@domain.com">
+                <mat-error *ngIf="formModel.email.invalid">{{FieldValidators.errorMessage(formModel.email)}}</mat-error>
+            </mat-form-field>
+
+            <div class="sl-flex-spacer"></div>
+
+            <div>
+                <button mat-flat-button color="primary" aria-label="Update profile" (click)="updateEmailClick()">
+                    <span>Update profile</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

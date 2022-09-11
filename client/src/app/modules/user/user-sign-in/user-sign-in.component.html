@@ -1,7 +1,7 @@
 <h1>Sign in!</h1>
 
 <form [formGroup]="formModel.formGroup">
-    <fieldset class="sl-fieldset" [disabled]="disableForm">
+    <fieldset class="g-fieldset" [disabled]="disableForm">
 
         <mat-form-field appearance="fill">
             <mat-label>Email address</mat-label>
@@ -9,28 +9,32 @@
                    placeholder="Ex. email@domain.com">
             <mat-error *ngIf="formModel.email.invalid">{{FieldValidators.errorMessage(formModel.email)}}</mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
             <input name="login-password" autocomplete="current-password" type="password" matInput [formControl]="formModel.password">
             <mat-error *ngIf="formModel.password.invalid">{{FieldValidators.errorMessage(formModel.password)}}</mat-error>
         </mat-form-field>
 
-        <button mat-flat-button color="primary" aria-label="Sign in" (click)="signInClick()">
+        <button mat-flat-button color="primary" [disabled]="disableForm" aria-label="Sign in" (click)="signInClick()">
             <mat-icon>login</mat-icon>
             <span>Sign in</span>
         </button>
-        <div class="sl-link-button" (click)="forgotPasswordClick()">
-            <span>Forgot password?</span>
+
+        <div>
+            <a class="sl-link-button left" [ngClass]="{'disabled': disableForm}" (click)="forgotPasswordClick()">
+                Forgot password?
+            </a>
         </div>
 
     </fieldset>
 </form>
 
-<div class="sl-row">
+<div class="g-col">
 
     <span>Don't have account?</span>
-    <div class="sl-link-button" (click)="signupClick()">
-        <span>Create an account</span>
-    </div>
+    <a class="sl-link-button left" [ngClass]="{'disabled': disableForm}" (click)="signupClick()">
+        Create an account
+    </a>
 
 </div>
