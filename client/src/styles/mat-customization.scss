@@ -19,6 +19,8 @@
 
 // expansion panel
 // space between icon and caption
-.mat-expansion-panel-header-title .mat-icon {
-    margin-right: 10px;
+.mat-expansion-panel-header-title {
+    span {
+        padding-left: 10px;
+    }
 }
