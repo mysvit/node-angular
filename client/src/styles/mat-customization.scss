@@ -1,9 +1,24 @@
+// button
+// space between icon and caption
 .mat-button-wrapper {
     span {
         margin-left: 10px;
     }
 }
 
+// wait cursor for disabled button
+.mat-flat-button.mat-button-disabled.mat-button-disabled {
+    cursor: wait;
+}
+
+// toolbar
+// space between menu and profile icon
 .mat-toolbar-single-row {
     justify-content: space-between;
+}
+
+// expansion panel
+// space between icon and caption
+.mat-expansion-panel-header-title .mat-icon {
+    margin-right: 10px;
 }

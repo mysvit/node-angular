@@ -5,6 +5,7 @@ import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
+import { map } from 'rxjs'
 import { UserSignInService } from '../user-sign-in.service'
 import { UserResetPasswordFormModel } from './user-reset-password-form-model'
 
@@ -27,6 +28,13 @@ export class UserResetPasswordComponent extends ProcessForm {
         super(injector)
     }
 
+    forgotClick() {
+        this.execute(
+            this.userSignIn.forgotPass(this.email),
+            {completedMessage: 'Check your email to get reset password code.'}
+        )
+    }
+
     resetPasswordClick() {
         if (this.formModel.isFieldValid()) {
             this.execute(
@@ -34,15 +42,13 @@ export class UserResetPasswordComponent extends ProcessForm {
                     email: this.email,
                     resetPassCode: this.formModel.resetCode.value,
                     password: this.formModel.password.value
-                }),
+                })
+                    .pipe(
+                        map(() => this.router.navigate([ClientPath.sign_in]).finally())
+                    ),
                 {completedMessage: 'New password set up. Try to log in.'}
             )
         }
-    }
-
-    override processCompleted(message?: any) {
-        super.processCompleted(message)
-        this.router.navigate([ClientPath.sign_in]).finally()
     }
 
 }

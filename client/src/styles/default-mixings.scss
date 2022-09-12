@@ -8,6 +8,10 @@
     @include g-col;
 }
 
+.g-row {
+    @include g-row;
+}
+
 
 .sl-fieldset {
     @include sl-fieldset(auto, 1, 1);

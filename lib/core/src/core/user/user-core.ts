@@ -31,7 +31,7 @@ export class UserCore extends Core {
      * signup user
      * @param model
      */
-    async signup(model: UserSignupModel): Promise<number> {
+    async signup(model: UserSignupModel): Promise<void> {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
@@ -51,10 +51,12 @@ export class UserCore extends Core {
         }
     }
 
-    private sendVerificationCode = async (to: string, verificationCode: string): Promise<number> => {
+    private sendVerificationCode = async (to: string, verificationCode: string): Promise<void> => {
         const mailer = new EmailSender(this.env, this.logger)
-        return mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
-            .catch(() => 0)
+        const result = await mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
+        if (result === 0) {
+            throw new ErrorApi500(ErrorsMsg.ErrorSendEmail)
+        }
     }
 
     /**
@@ -180,7 +182,7 @@ export class UserCore extends Core {
     }
 
     /**
-     * resend verification code
+     * send verification code
      * @param userId
      */
     async resendCode(userId: string) {
@@ -199,7 +201,7 @@ export class UserCore extends Core {
      * forgot password
      * @param forgotPassModel
      */
-    async forgotPass(forgotPassModel: ForgotPassModel): Promise<number> {
+    async forgotPass(forgotPassModel: ForgotPassModel): Promise<void> {
         ParamValidation.validateEmail(forgotPassModel.email)
 
         const resetPassCode = randomUUID().replace(/-/g, '')
@@ -207,8 +209,10 @@ export class UserCore extends Core {
 
         // send reset password link
         const mailer = new EmailSender(this.env, this.logger)
-        return mailer.sendEmail(forgotPassModel.email, 'Reset password!', `Reset password code is: ${resetPassCode}`)
-            .catch(() => 0)
+        const result = await mailer.sendEmail(forgotPassModel.email, 'Reset password!', `Reset password code is: ${resetPassCode}`)
+        if (result === 0) {
+            throw new ErrorApi500(ErrorsMsg.ErrorSendEmail)
+        }
     }
 
     private limitForgotCall = async (email: string, resetPassCode: string) => {

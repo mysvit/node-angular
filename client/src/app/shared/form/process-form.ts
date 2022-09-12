@@ -55,7 +55,7 @@ export class ProcessForm {
 
     protected processError(message?: any) {
         this.processState = ProcessStates.ERROR
-        if (message) this.snackBar?.show(message, MessageType.Error, 6000)
+        if (message) this.snackBar?.show(message, MessageType.Error)
     }
 
     protected resetMessages() {

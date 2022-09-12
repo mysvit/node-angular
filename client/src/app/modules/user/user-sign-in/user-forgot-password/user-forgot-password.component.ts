@@ -44,4 +44,11 @@ export class UserForgotPasswordComponent extends ProcessForm {
         this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in), StringHelper.removeSlash(ClientPath.reset_password)]).finally()
     }
 
+    resetPasswordClick() {
+        if (this.formModel.isFieldValid()) {
+            SlStorage.email = this.formModel.email.value
+            this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in), StringHelper.removeSlash(ClientPath.reset_password)]).finally()
+        }
+    }
+
 }
