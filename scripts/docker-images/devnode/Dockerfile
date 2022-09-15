@@ -1,6 +1,6 @@
 FROM ubuntu:jammy
 
-ENV NODE_VERSION 16.15.1
+ENV NODE_VERSION 16.17.0
 
 RUN set -ex
 RUN apt-get update
