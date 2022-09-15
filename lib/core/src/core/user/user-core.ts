@@ -1,23 +1,9 @@
-import {
-    AuthModel,
-    AuthType,
-    DateDb,
-    ForgotPassModel,
-    PictureModel,
-    ResetPassModel,
-    SignInModel,
-    UserProfileModel,
-    UserPublicProfileModel,
-    UserSignupModel,
-    UserTbl,
-    VerifyCodeModel
-} from '@dto'
+import { AuthModel, AuthType, DateDb, EmailModel, ResetPassModel, SignInModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
 import { DateHelper, EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
-import { PictureCore } from '../picture/picture-core'
 
 const {sign} = jwt
 
@@ -25,7 +11,6 @@ export class UserCore extends Core {
 
     public userDto = new UserDto()
     public pictureDto = new PictureDto()
-    private pictureCore = new PictureCore(this.env)
 
     /**
      * signup user
@@ -55,12 +40,12 @@ export class UserCore extends Core {
         const mailer = new EmailSender(this.env, this.logger)
         const result = await mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
         if (result === 0) {
-            throw new ErrorApi500(ErrorsMsg.ErrorSendEmail)
+            throw new ErrorApi500(ErrorsMsg.SendEmail)
         }
     }
 
     /**
-     * sign_in user
+     * signIn user
      * @param model
      */
     async signIn(model: SignInModel): Promise<AuthModel> {
@@ -199,19 +184,19 @@ export class UserCore extends Core {
 
     /**
      * forgot password
-     * @param forgotPassModel
+     * @param emailModel
      */
-    async forgotPass(forgotPassModel: ForgotPassModel): Promise<void> {
-        ParamValidation.validateEmail(forgotPassModel.email)
+    async forgotPass(emailModel: EmailModel): Promise<void> {
+        ParamValidation.validateEmail(emailModel.email)
 
         const resetPassCode = randomUUID().replace(/-/g, '')
-        await this.limitForgotCall(forgotPassModel.email, resetPassCode)
+        await this.limitForgotCall(emailModel.email, resetPassCode)
 
         // send reset password link
         const mailer = new EmailSender(this.env, this.logger)
-        const result = await mailer.sendEmail(forgotPassModel.email, 'Reset password!', `Reset password code is: ${resetPassCode}`)
+        const result = await mailer.sendEmail(emailModel.email, 'Reset password!', `Reset password code is: ${resetPassCode}`)
         if (result === 0) {
-            throw new ErrorApi500(ErrorsMsg.ErrorSendEmail)
+            throw new ErrorApi500(ErrorsMsg.SendEmail)
         }
     }
 
@@ -278,61 +263,6 @@ export class UserCore extends Core {
         } else {
             throw new ErrorApi500(ErrorsMsg.TooManyTimeEnterCode)
         }
-    }
-
-    /**
-     * get user profile
-     * @param userId
-     */
-    async getUserProfile(userId: string): Promise<UserProfileModel> {
-        ParamValidation.validateUuId(userId)
-        const userTbl = await this.userDb.select(
-            <UserTbl>{user_id: '', nickname: '', email: '', avatar_id: ''},
-            <UserTbl>{is_del: 0, user_id: userId}
-        )
-        return <UserProfileModel>{
-            userId: userTbl.user_id,
-            nickname: userTbl.nickname,
-            email: userTbl.email,
-            avatarId: userTbl.avatar_id
-        }
-    }
-
-    /**
-     * update user profile picture
-     * @param userId
-     * @param pictureModel
-     */
-    async updateProfilePicture(userId: string, pictureModel: PictureModel): Promise<string> {
-        ParamValidation.validateUuId(userId)
-        const userTbl = await this.userDb.select(
-            <UserTbl>{avatar_id: ''},
-            <UserTbl>{is_del: 0, user_id: userId}
-        )
-        pictureModel.pictureId = randomUUID()
-        const picAdd = await this.pictureCore.add(pictureModel)
-        const picUpd = await this.userDb.update(
-            <UserTbl>{avatar_id: pictureModel.pictureId},
-            <UserTbl>{user_id: userId}
-        )
-        const picDel = await this.pictureCore.del(userTbl.avatar_id)
-        if (!picAdd || !picUpd || !picDel) {
-            throw new ErrorApi500(ErrorsMsg.ErrorUpdateProfilePicture)
-        }
-        return pictureModel.pictureId
-    }
-
-    /**
-     * update user public profile
-     * @param userId
-     * @param userPublicProfileModel
-     */
-    async updatePublicProfile(userId: string, userPublicProfileModel: UserPublicProfileModel): Promise<number> {
-        ParamValidation.validateUuId(userId)
-        return this.userDb.update(
-            <UserTbl>{nickname: userPublicProfileModel.nickname},
-            <UserTbl>{is_del: 0, user_id: userId}
-        )
     }
 
 }

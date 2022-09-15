@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { PictureModel, UserProfileModel, UserPublicProfileModel } from '@dto'
+import { EmailModel, PictureModel, UserProfileModel, UserPublicProfileModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
 import { ApiParams, ApiPath } from '@shared-lib/constants'
 import { SlStorage } from '@shared/storage'
@@ -30,7 +30,15 @@ export class UserProfileService {
     }
 
     updUserProfilePicture(userId: string, pictureModel: PictureModel): Observable<string> {
-        return this.http.put<string>(environment.apiEndPoint + ApiPath.user_upd_profile_picture.replace(ApiParams._user_id, userId), pictureModel)
+        return this.http.put<string>(environment.apiEndPoint + ApiPath.user_upd_picture_profile.replace(ApiParams._user_id, userId), pictureModel)
+    }
+
+    modifyEmail(userId: string, emailModel: EmailModel): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_modify_email.replace(ApiParams._user_id, userId), emailModel)
+    }
+
+    verifyNewEmail(userId: string, verifyCodeModel: VerifyCodeModel): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_verify_new_email.replace(ApiParams._user_id, userId), verifyCodeModel)
     }
 
 }

@@ -1,0 +1,67 @@
+<ng-container [ngSwitch]="emailState">
+
+    <ng-container *ngSwitchCase="EmailState.CurrentEmail">
+        <form [formGroup]="currentEmailFormModel.formGroup" class="g-row">
+            <h3>Current email: <b>{{currentEmailFormModel.email.value}}</b></h3>
+            <div>
+                <button mat-flat-button color="primary" aria-label="Change email" (click)="newEmailClick()">
+                    <span>Change email</span>
+                </button>
+            </div>
+        </form>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="EmailState.NewEmail">
+        <ng-template [appSpinner]="disableForm">
+            <form [formGroup]="newEmailFormModel.formGroup" class="g-row">
+                <h3>Change email</h3>
+                <mat-form-field appearance="fill">
+                    <mat-label>Email address</mat-label>
+                    <input name="login-email" autocomplete="email" type="email" matInput [formControl]="newEmailFormModel.newEmail"
+                           placeholder="Ex. email@domain.com">
+                    <mat-error *ngIf="newEmailFormModel.newEmail.invalid">{{FieldValidators.errorMessage(newEmailFormModel.newEmail)}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Confirm email address</mat-label>
+                    <input name="login-email" autocomplete="email" type="email" matInput [formControl]="newEmailFormModel.confirmEmail"
+                           placeholder="Ex. email@domain.com">
+                    <mat-error *ngIf="newEmailFormModel.confirmEmail.invalid">{{FieldValidators.errorMessage(newEmailFormModel.confirmEmail)}}</mat-error>
+                </mat-form-field>
+
+                <div class="g-col">
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Cancel" (click)="homeClick()">
+                        <span>Cancel</span>
+                    </button>
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Modify email" (click)="modifyEmailClick()">
+                        <span>Modify email</span>
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="EmailState.VerifyCode">
+        <ng-template [appSpinner]="disableForm">
+            <form [formGroup]="verifyFormModel.formGroup" class="g-row">
+                <h3>Verification code</h3>
+                <mat-form-field appearance="fill">
+                    <mat-label>Verification code</mat-label>
+                    <input matInput #verifyCode [formControl]="verifyFormModel.verificationCode" maxlength="5" placeholder="Ex. 12345">
+                    <mat-hint align="end">{{verifyCode.value.length}} / 5</mat-hint>
+                    <mat-error *ngIf="verifyFormModel.verificationCode.invalid">{{FieldValidators.errorMessage(verifyFormModel.verificationCode)}}</mat-error>
+                </mat-form-field>
+
+                <div class="g-col">
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Cancel" (click)="homeClick()">
+                        <span>Cancel</span>
+                    </button>
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Verify" (click)="verifyEmailClick()">
+                        <mat-icon>check</mat-icon>
+                        <span>Verify</span>
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+    </ng-container>
+
+</ng-container>

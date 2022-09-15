@@ -32,15 +32,6 @@ describe('UserApi', () => {
         expect(spy).to.have.been.called()
     })
 
-    // it('PUT ' + ApiPath.confirm_user, async () => {
-    //     const spy = chai.spy.on(userCore, 'confirmEmail',
-    //         (user_id, confirm_code) => user_id === 'uuid-uuid-uuid' && confirm_code === '12345')
-    //     await agent
-    //         .put(ApiPath.confirm_user.replace(':user_id', 'uuid-uuid-uuid').replace(':confirm_code', '12345'))
-    //         .send({})
-    //     expect(spy).to.eq(true)
-    // })
-
     it('POST ' + ApiPath.user_sign_in, async () => {
         const spy = chai.spy.on(userCore, 'signIn', () => true)
         await agent
@@ -80,15 +71,5 @@ describe('UserApi', () => {
             .set({'authorization': 'Bearer ..token..'})
         expect(auth).to.have.status(StatusCodes.FORBIDDEN)
     })
-
-    // it('GET ' + ApiPath.user_get_profile_short, async () => {
-    //     const spy = chai.spy.on(userCore, 'getProfileShort', () => true)
-    //     const token = sign({user_id: 'user_test_uuid'}, environment.token_key, {expiresIn: '60s'})
-    //     await agent
-    //         .get(ApiPath.user_get_profile_short)
-    //         .query({user_id: 'uuid'})
-    //         .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
-    //     expect(spy).to.have.been.called()
-    // })
 
 })

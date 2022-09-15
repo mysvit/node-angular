@@ -1,2 +1,2 @@
-export * from './user/user-core'
-export * from './picture/picture-core'
+export * from './user'
+export * from './picture'

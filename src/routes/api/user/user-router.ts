@@ -6,7 +6,6 @@ import { UserApi } from './user-api'
 // Router
 export const userBase = express.Router()
 export const userAuth = express.Router()
-export const userProf = express.Router()
 
 // api/user/signup
 // [form]
@@ -25,7 +24,7 @@ userBase.put(ApiPath.user_resend_code, ErrorHandler.apiCatch(UserApi.resendCode)
 
 // api/user/forgot-pass
 // [form]
-// model: ForgotPassModel
+// model: EmailModel
 userBase.post(ApiPath.user_forgot_pass, ErrorHandler.apiCatch(UserApi.forgotPass))
 
 // api/user/reset-pass
@@ -41,15 +40,3 @@ userBase.post(ApiPath.user_sign_in, ErrorHandler.apiCatch(UserApi.signIn))
 // api/user/auth
 // check if token not expired, middleware do a job
 userAuth.get(ApiPath.user_auth, ErrorHandler.apiCatch(UserApi.isAuth))
-
-// api/user/get-profile/:user_id
-// user_id: uuid
-userProf.get(ApiPath.user_get_profile, ErrorHandler.apiCatch(UserApi.getUserProfile))
-
-// api/user/upd-profile-picture/:user_id
-// user_id: uuid
-userProf.put(ApiPath.user_upd_profile_picture, ErrorHandler.apiCatch(UserApi.updateProfilePicture))
-
-// api/user/user-upd-public-profile/:user_id
-// user_id: uuid
-userProf.put(ApiPath.user_upd_public_profile, ErrorHandler.apiCatch(UserApi.updatePublicProfile))

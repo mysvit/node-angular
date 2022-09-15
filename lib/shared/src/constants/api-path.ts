@@ -12,7 +12,9 @@ export namespace ApiPath {
     export const user_reset_pass = api + user + '/reset-pass'
     export const user_get_profile = api + user + '/get-profile/:user_id'
     export const user_upd_public_profile = api + user + '/upd-public-profile/:user_id'
-    export const user_upd_profile_picture = api + user + '/upd-profile-picture/:user_id'
+    export const user_upd_picture_profile = api + user + '/upd-picture-profile/:user_id'
+    export const user_modify_email = api + user + '/modify-email/:user_id'
+    export const user_verify_new_email = api + user + '/verify-new-email/:user_id'
 
     export const picture_get = api + picture + '/get/:picture_id'
     export const picture_add = api + picture + '/add'

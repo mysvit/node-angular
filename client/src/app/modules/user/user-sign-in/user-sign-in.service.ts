@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
-import { AuthModel, AuthType, ForgotPassModel, ResetPassModel, SignInModel, VerifyCodeModel } from '@dto'
+import { AuthModel, AuthType, EmailModel, ResetPassModel, SignInModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
 import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
@@ -69,7 +69,7 @@ export class UserSignInService {
 
     forgotPass(email: string): Observable<number> {
         return this.http.post<number>(environment.apiEndPoint + ApiPath.user_forgot_pass,
-            <ForgotPassModel>{
+            <EmailModel>{
                 email: email
             }
         )

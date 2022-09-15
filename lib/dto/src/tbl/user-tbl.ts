@@ -17,4 +17,6 @@ export interface UserTbl {
     reset_pass_count: number
     reset_pass_date: Date
     reset_pass_code: string
+    new_email: string
+    new_email_verification_code: string
 }

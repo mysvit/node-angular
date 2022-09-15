@@ -13,6 +13,11 @@ export class EmailSender {
         text: string,
         html?: string
     ): Promise<number> {
+        // if ethereal doesn't work
+        if (!this.env.production) {
+            this.logger.debug(`email to: [${to}] subject [${subject}] body: [${text}]`)
+            return 1
+        }
         let emailConnection: EmailConnection = this.env.email
         if (!this.env.production) {
             // Generate test SMTP service account from ethereal.email
@@ -25,6 +30,8 @@ export class EmailSender {
                 host: 'smtp.ethereal.email',
                 port: 587,
                 secure: false, // true for 465, false for other ports
+                connectionTimeout: 15000,
+                greetingTimeout: 10000,
                 auth: {
                     user: testAccount?.user, // generated ethereal user
                     pass: testAccount?.pass // generated ethereal password

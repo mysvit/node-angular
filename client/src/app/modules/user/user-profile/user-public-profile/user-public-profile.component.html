@@ -1,5 +1,5 @@
 <ng-template [appSpinner]="disableForm">
-    <div class="g-container">
+    <form class="g-container" [formGroup]="formModel.formGroup">
 
         <div class="g-row">
             <mat-form-field appearance="fill">
@@ -37,5 +37,5 @@
             </div>
         </div>
 
-    </div>
+    </form>
 </ng-template>

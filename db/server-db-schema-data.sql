@@ -16,6 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `log_type`
+--
+
+DROP TABLE IF EXISTS `log_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log_type` (
+  `log_type_id` int(11) NOT NULL,
+  `log_type_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`log_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `log_type`
+--
+
+LOCK TABLES `log_type` WRITE;
+/*!40000 ALTER TABLE `log_type` DISABLE KEYS */;
+INSERT INTO `log_type` VALUES
+(1,'User change email');
+/*!40000 ALTER TABLE `log_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `picture`
 --
 
@@ -59,10 +84,31 @@ CREATE TABLE `user` (
   `reset_pass_count` smallint(6) DEFAULT NULL,
   `reset_pass_date` datetime DEFAULT NULL,
   `reset_pass_code` varchar(32) DEFAULT NULL,
+  `new_email` varchar(30) DEFAULT NULL,
+  `new_email_verification_code` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `picture_ctr` (`avatar_id`),
   CONSTRAINT `picture_ctr` FOREIGN KEY (`avatar_id`) REFERENCES `picture` (`picture_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `user_log`
+--
+
+DROP TABLE IF EXISTS `user_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_log` (
+  `user_log_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(36) DEFAULT NULL,
+  `write_date` datetime DEFAULT current_timestamp(),
+  `host_ip` varchar(46) DEFAULT NULL,
+  `log_type_id` int(11) DEFAULT NULL,
+  `log_desc` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`user_log_id`),
+  KEY `constraine_name` (`log_type_id`),
+  CONSTRAINT `constraine_name` FOREIGN KEY (`log_type_id`) REFERENCES `log_type` (`log_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -73,4 +119,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-09 18:03:24
+-- Dump completed on 2022-09-15 11:38:28

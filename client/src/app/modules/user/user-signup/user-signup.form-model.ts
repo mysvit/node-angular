@@ -17,6 +17,7 @@ export class UserSignupFormModel extends BaseFormModel {
         FieldValidators.password('Password should contain minimum eight characters, at least one letter and one number.')
     ])
     confirm: FormControl = new FormControl(undefined, [
+        FieldValidators.required('You must enter a password.'),
         FieldValidators.match(this.password, 'Those password did not match.')
     ])
 

@@ -10,7 +10,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SharedModule } from '@shared/shared.module'
-import { UserEmailsComponent } from './user-emails/user-emails.component'
+import { UserEmailComponent } from './user-email/user-email.component'
 import { UserPasswordComponent } from './user-password/user-password.component'
 import { UserProfileRoutingModule } from './user-profile-routing.module'
 import { UserProfileComponent } from './user-profile.component'
@@ -22,7 +22,7 @@ import { UserPublicProfileComponent } from './user-public-profile/user-public-pr
     declarations: [
         UserProfileComponent,
         UserPasswordComponent,
-        UserEmailsComponent,
+        UserEmailComponent,
         UserPublicProfileComponent
     ],
     imports: [

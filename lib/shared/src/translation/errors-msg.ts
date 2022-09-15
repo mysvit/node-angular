@@ -14,6 +14,7 @@ export class ErrorsMsg {
     static EmailWrongFormat = 'Email has wrong format'
     static TooManyTimeResetPassword = 'Too many time try to reset password, try tomorrow'
     static TooManyTimeEnterCode = 'Too many time enter wrong code, try for 15 minutes'
-    static ErrorUpdateProfilePicture = 'Update profile picture'
-    static ErrorSendEmail = 'Send email'
+    static UpdateProfilePicture = 'Update profile picture'
+    static SendEmail = 'Send email'
+    static UserNotExist: string = 'User with this ID does not exist'
 }

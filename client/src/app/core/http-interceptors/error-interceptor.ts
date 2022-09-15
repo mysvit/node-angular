@@ -1,7 +1,9 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable, Optional, SkipSelf } from '@angular/core'
+import { Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
-import { ApiParams, ApiPath } from '@shared-lib/constants'
+import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
+import { StringHelper } from '@shared-lib/helpers'
 import { MessageType } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
 import { StatusCodes } from 'http-status-codes'
@@ -12,6 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
         private snackBar: SnackBarService,
+        private router: Router,
         @Optional() @SkipSelf() error: ErrorInterceptor
     ) {
         if (error) {
@@ -39,6 +42,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                                 message = 'User is not authenticated.'
                                 SlStorage.isAuth = false
                                 SlStorage.remove(ApiParams.token)
+                                // Navigate to the sign-in page
+                                this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in)]).finally()
                                 break
                         }
                         // for authentication api doesn't show snackBar

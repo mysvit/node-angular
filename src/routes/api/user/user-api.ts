@@ -39,19 +39,4 @@ export class UserApi {
         res.status(StatusCodes.OK).json(result)
     }
 
-    static async getUserProfile(req: Request, res: Response) {
-        const result = await userCore.getUserProfile(req.params?.user_id)
-        res.status(StatusCodes.OK).json(result)
-    }
-
-    static async updateProfilePicture(req: Request, res: Response) {
-        const result = await userCore.updateProfilePicture(req.params?.user_id, req.body)
-        res.status(StatusCodes.OK).json(result)
-    }
-
-    static async updatePublicProfile(req: Request, res: Response) {
-        const result = await userCore.updatePublicProfile(req.params?.user_id, req.body)
-        res.status(StatusCodes.OK).json(result)
-    }
-
 }

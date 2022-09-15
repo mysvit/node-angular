@@ -15,6 +15,8 @@ export interface EmailConnection {
     host: string
     port: number
     secure: boolean // true for 465, false for other ports
+    connectionTimeout: number,
+    greetingTimeout: number,
     auth: EmailAuth
 }
 
@@ -39,7 +41,7 @@ export const environment: Environment = {
             ? 3000
             : 80,
 
-    db: {
+    db: <DbConnection>{
         host: isTest || isDev ? 'server-host' : 'prod-host',
         database: isTest || isDev ? 'server-db' : 'prod-db',
         user: 'root',
@@ -47,10 +49,12 @@ export const environment: Environment = {
         connectionLimit: 5
     },
 
-    email: {
+    email: <EmailConnection>{
         host: 'production smtp server',
         port: 993,
         secure: false,
+        connectionTimeout: 15000,
+        greetingTimeout: 10000,
         auth: <EmailAuth>{
             user: 'server-cli@production.srv',
             pass: 'TestEmailPass'
