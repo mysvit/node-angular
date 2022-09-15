@@ -15,6 +15,7 @@ export namespace ApiPath {
     export const user_upd_picture_profile = api + user + '/upd-picture-profile/:user_id'
     export const user_modify_email = api + user + '/modify-email/:user_id'
     export const user_verify_new_email = api + user + '/verify-new-email/:user_id'
+    export const user_change_password = api + user + '/change-password/:user_id'
 
     export const picture_get = api + picture + '/get/:picture_id'
     export const picture_add = api + picture + '/add'

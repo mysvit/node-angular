@@ -30,4 +30,9 @@ export class UserProfileApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async changePassword(req: Request, res: Response) {
+        const result = await userProfileCore.changePassword(req.socket.remoteAddress, req.params?.user_id, req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
+
 }

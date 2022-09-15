@@ -36,7 +36,8 @@ CREATE TABLE `log_type` (
 LOCK TABLES `log_type` WRITE;
 /*!40000 ALTER TABLE `log_type` DISABLE KEYS */;
 INSERT INTO `log_type` VALUES
-(1,'User change email');
+(1,'User change email'),
+(2,'User change password');
 /*!40000 ALTER TABLE `log_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,11 +105,13 @@ CREATE TABLE `user_log` (
   `write_date` datetime DEFAULT current_timestamp(),
   `host_ip` varchar(46) DEFAULT NULL,
   `log_type_id` int(11) DEFAULT NULL,
-  `log_desc` varchar(200) DEFAULT NULL,
+  `log_desc` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`user_log_id`),
-  KEY `constraine_name` (`log_type_id`),
-  CONSTRAINT `constraine_name` FOREIGN KEY (`log_type_id`) REFERENCES `log_type` (`log_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  KEY `log_type_ref` (`log_type_id`),
+  KEY `user_ref` (`user_id`),
+  CONSTRAINT `log_type_ref` FOREIGN KEY (`log_type_id`) REFERENCES `log_type` (`log_type_id`),
+  CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -119,4 +122,4 @@ CREATE TABLE `user_log` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-15 11:38:28
+-- Dump completed on 2022-09-15 15:17:49

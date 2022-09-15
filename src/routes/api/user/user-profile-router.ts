@@ -25,3 +25,7 @@ userProf.put(ApiPath.user_modify_email, ErrorHandler.apiCatch(UserProfileApi.mod
 // api/user/verify-new-email/:user_id
 // user_id: uuid
 userProf.put(ApiPath.user_verify_new_email, ErrorHandler.apiCatch(UserProfileApi.verifyNewEmail))
+
+// api/user/change-password/:user_id
+// user_id: uuid
+userProf.put(ApiPath.user_change_password, ErrorHandler.apiCatch(UserProfileApi.changePassword))

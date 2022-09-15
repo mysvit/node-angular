@@ -1,5 +1,5 @@
-import { EmailModel, LogType, PictureModel, UserLogTbl, UserProfileModel, UserPublicProfileModel, UserTbl, VerifyCodeModel } from '@dto'
-import { EmailSender, ErrorApi500, ErrorsMsg, PictureDto, UserDto, VerificationCode } from '@shared'
+import { ChangePassModel, EmailModel, LogType, PictureModel, UserLogTbl, UserProfileModel, UserPublicProfileModel, UserTbl, VerifyCodeModel } from '@dto'
+import { EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -122,6 +122,39 @@ export class UserProfileCore extends Core {
         })
         return this.userDb.update(
             <UserTbl>{email: userTbl.new_email, new_email: null, new_email_verification_code: null},
+            <UserTbl>{is_del: 0, user_id: userId}
+        )
+    }
+
+    /**
+     * verify code for new email
+     * @param remoteAddress
+     * @param userId
+     * @param changePassModel
+     */
+    async changePassword(remoteAddress: string, userId: string, changePassModel: ChangePassModel) {
+        ParamValidation.validateUuId(userId)
+        const userTbl = await this.userDb.select(
+            <UserTbl>{password_hash: '', password_salt: ''},
+            <UserTbl>{is_del: 0, user_id: userId}
+        )
+        if (!userTbl) {
+            throw new ErrorApi500(ErrorsMsg.UserNotExist)
+        }
+        const verifiedHash = PasswordHash.createSaltedHash(changePassModel.currentPass, userTbl.password_salt)
+        // check current password
+        if (verifiedHash.passwordHash !== userTbl.password_hash) {
+            throw new ErrorApi500(ErrorsMsg.WrongCurrentPassword)
+        }
+        const saltedHash = PasswordHash.createSaltedHash(changePassModel.newPass)
+        await this.userLogDb.insert(<UserLogTbl>{
+            user_id: userId,
+            host_ip: remoteAddress,
+            log_type_id: LogType.userChangePass,
+            log_desc: `old pass hash: ${userTbl.password_hash}, new pass hash: ${saltedHash.passwordHash}`
+        })
+        return this.userDb.update(
+            <UserTbl>{password_hash: saltedHash.passwordHash, password_salt: saltedHash.passwordSalt},
             <UserTbl>{is_del: 0, user_id: userId}
         )
     }

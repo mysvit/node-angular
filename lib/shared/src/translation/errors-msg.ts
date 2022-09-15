@@ -17,4 +17,5 @@ export class ErrorsMsg {
     static UpdateProfilePicture = 'Update profile picture'
     static SendEmail = 'Send email'
     static UserNotExist: string = 'User with this ID does not exist'
+    static WrongCurrentPassword = 'Wrong current password'
 }
