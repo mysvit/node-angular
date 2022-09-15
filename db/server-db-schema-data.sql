@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `log_type`
+-- Table structure for table `log_types`
 --
 
-DROP TABLE IF EXISTS `log_type`;
+DROP TABLE IF EXISTS `log_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `log_type` (
+CREATE TABLE `log_types` (
   `log_type_id` int(11) NOT NULL,
   `log_type_name` varchar(100) NOT NULL,
   PRIMARY KEY (`log_type_id`)
@@ -30,25 +30,25 @@ CREATE TABLE `log_type` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `log_type`
+-- Dumping data for table `log_types`
 --
 
-LOCK TABLES `log_type` WRITE;
-/*!40000 ALTER TABLE `log_type` DISABLE KEYS */;
-INSERT INTO `log_type` VALUES
+LOCK TABLES `log_types` WRITE;
+/*!40000 ALTER TABLE `log_types` DISABLE KEYS */;
+INSERT INTO `log_types` VALUES
 (1,'User change email'),
 (2,'User change password');
-/*!40000 ALTER TABLE `log_type` ENABLE KEYS */;
+/*!40000 ALTER TABLE `log_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `picture`
+-- Table structure for table `pictures`
 --
 
-DROP TABLE IF EXISTS `picture`;
+DROP TABLE IF EXISTS `pictures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `picture` (
+CREATE TABLE `pictures` (
   `picture_id` varchar(36) NOT NULL,
   `name` varchar(30) DEFAULT NULL,
   `ext` varchar(5) DEFAULT NULL,
@@ -60,13 +60,53 @@ CREATE TABLE `picture` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `user`
+-- Dumping data for table `pictures`
 --
 
-DROP TABLE IF EXISTS `user`;
+LOCK TABLES `pictures` WRITE;
+/*!40000 ALTER TABLE `pictures` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pictures` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_logs`
+--
+
+DROP TABLE IF EXISTS `user_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `user_logs` (
+  `user_log_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(36) DEFAULT NULL,
+  `write_date` datetime DEFAULT current_timestamp(),
+  `host_ip` varchar(46) DEFAULT NULL,
+  `log_type_id` int(11) DEFAULT NULL,
+  `log_desc` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`user_log_id`),
+  KEY `log_type_ref` (`log_type_id`),
+  KEY `user_ref` (`user_id`),
+  CONSTRAINT `log_type_ref` FOREIGN KEY (`log_type_id`) REFERENCES `log_types` (`log_type_id`),
+  CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_logs`
+--
+
+LOCK TABLES `user_logs` WRITE;
+/*!40000 ALTER TABLE `user_logs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
   `user_id` varchar(36) NOT NULL,
   `is_del` smallint(6) NOT NULL DEFAULT 0,
   `nickname` varchar(20) NOT NULL,
@@ -89,30 +129,19 @@ CREATE TABLE `user` (
   `new_email_verification_code` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `picture_ctr` (`avatar_id`),
-  CONSTRAINT `picture_ctr` FOREIGN KEY (`avatar_id`) REFERENCES `picture` (`picture_id`)
+  CONSTRAINT `picture_ctr` FOREIGN KEY (`avatar_id`) REFERENCES `pictures` (`picture_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Table structure for table `user_log`
---
-
-DROP TABLE IF EXISTS `user_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_log` (
-  `user_log_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(36) DEFAULT NULL,
-  `write_date` datetime DEFAULT current_timestamp(),
-  `host_ip` varchar(46) DEFAULT NULL,
-  `log_type_id` int(11) DEFAULT NULL,
-  `log_desc` varchar(300) DEFAULT NULL,
-  PRIMARY KEY (`user_log_id`),
-  KEY `log_type_ref` (`log_type_id`),
-  KEY `user_ref` (`user_id`),
-  CONSTRAINT `log_type_ref` FOREIGN KEY (`log_type_id`) REFERENCES `log_type` (`log_type_id`),
-  CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -122,4 +151,4 @@ CREATE TABLE `user_log` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-15 15:17:49
+-- Dump completed on 2022-09-15 15:46:41
