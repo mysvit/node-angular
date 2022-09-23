@@ -44,7 +44,7 @@ describe('UserDb', () => {
 
     async function clearTable() {
         await dbUser.delete({email: userTbl.email})
-        await dbUser.delete({email: userTbl.email})
+        await dbUser.delete({email: userTblUpd.email})
     }
 
     beforeEach(async () => dbUser.insert(userTbl))
