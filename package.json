@@ -8,9 +8,9 @@
   "license": "ISC",
   "scripts": {
     "build": "ttsc --project ./tsconfig.json",
-    "watch": "ttsc --project ./tsconfig.json --watch",
+    "watch": "nodemon --config nodemon-build.json",
 
-    "start": "nodemon",
+    "start": "nodemon --config nodemon-serv.json",
 
     "test": "NODE_ENV=test mocha",
     "test:debug": "NODE_ENV=test mocha --config .mocharc-brk.json",

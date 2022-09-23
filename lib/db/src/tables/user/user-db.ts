@@ -2,6 +2,6 @@ import { Db } from '../../engine/db'
 
 export class UserDb extends Db {
 
-    table = 'user'
+    table = 'users'
 
 }

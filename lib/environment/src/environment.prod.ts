@@ -28,33 +28,28 @@ export interface Environment {
     token_key: string
 }
 
-// NODE_ENV === 'dev'
-const isTest = process.env.NODE_ENV === 'test'
-
 export const environment: Environment = {
-    production: false,
+    production: true,
 
-    port: isTest
-        ? 3100
-        : 3000,
+    port: 80,
 
     db: <DbConnection>{
-        host: 'server-host',
-        database: 'server-db',
+        host: 'prod-host',
+        database: 'prod-db',
         user: 'root',
-        password: 'root',
+        password: 'prodPassword',
         connectionLimit: 5
     },
 
     email: <EmailConnection>{
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: 'production smtp server',
+        port: 993,
+        secure: false,
         connectionTimeout: 15000,
         greetingTimeout: 10000,
-        auth: {
-            user: 'nikolas47@ethereal.email',   // https://ethereal.email/create generated ethereal user
-            pass: '7zasGGCHfSVR9jKRbG'          // generated ethereal password
+        auth: <EmailAuth>{
+            user: 'server-cli@production.srv',
+            pass: 'TestEmailPass'
         }
     },
 
