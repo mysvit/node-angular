@@ -24,7 +24,7 @@ export class UserCore extends Core {
         await this.pictureDb.insert(pictureTbl)
         const userTbl = this.userDto.userTblFromModel(model, pictureTbl.picture_id)
         await this.userDb.insert(userTbl)
-        return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
+        await this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }
 
     private isEmailExist = async (email: string): Promise<void> => {
@@ -36,12 +36,9 @@ export class UserCore extends Core {
         }
     }
 
-    private sendVerificationCode = async (to: string, verificationCode: string): Promise<void> => {
+    private sendVerificationCode = async (to: string, verificationCode: string): Promise<number> => {
         const mailer = new EmailSender(this.env, this.logger)
-        const result = await mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
-        if (result === 0) {
-            throw new ErrorApi500(ErrorsMsg.SendSingUpVerificationCode)
-        }
+        return mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
     }
 
     /**
