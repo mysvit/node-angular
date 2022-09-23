@@ -1,7 +1,6 @@
 FROM ubuntu:jammy
 
-ENV NODE_VERSION 16.17.0
-
+ARG NODE_VERSION
 RUN set -ex
 RUN apt-get update
 RUN apt-get install -y wget
