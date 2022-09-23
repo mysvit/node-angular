@@ -1,13 +1,14 @@
 {
   "exec": "ttsc --project ./tsconfig.json",
-  "delay": 2500,
+  "delay": 2000,
   "restartable": "rs",
   "verbose": true,
   "events": {
     "exit": "echo [$(date +%H:%M:%S)]"
   },
   "watch": [
-    "./src"
+    "./src",
+    "./dist/lib"
   ],
   "env": {
     "NODE_ENV": "dev"

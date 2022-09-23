@@ -18,4 +18,5 @@ export class ErrorsMsg {
     static SendEmail = 'Send email'
     static UserNotExist: string = 'User with this ID does not exist'
     static WrongCurrentPassword = 'Wrong current password'
+    static SendSingUpVerificationCode = 'Send signup verification code'
 }

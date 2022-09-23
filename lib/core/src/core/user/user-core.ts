@@ -40,7 +40,7 @@ export class UserCore extends Core {
         const mailer = new EmailSender(this.env, this.logger)
         const result = await mailer.sendEmail(to, 'Verification code!', `Your verification code is - ${verificationCode}`)
         if (result === 0) {
-            throw new ErrorApi500(ErrorsMsg.SendEmail)
+            throw new ErrorApi500(ErrorsMsg.SendSingUpVerificationCode)
         }
     }
 

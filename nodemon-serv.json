@@ -1,6 +1,6 @@
 {
   "exec": "node --experimental-specifier-resolution=node --inspect=0.0.0.0:9229 dist/server.js",
-  "delay": 2500,
+  "delay": 500,
   "restartable": "rs",
   "verbose": true,
   "watch": [
