@@ -1,3 +1,4 @@
+import { ParamsHelper } from '@shared'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { userProfileCore } from '../../ref/core'
@@ -6,32 +7,32 @@ import { userProfileCore } from '../../ref/core'
 export class UserProfileApi {
 
     static async getUserProfile(req: Request, res: Response) {
-        const result = await userProfileCore.getUserProfile(req.params?.user_id)
+        const result = await userProfileCore.getUserProfile(ParamsHelper.getUserId(req.headers))
         res.status(StatusCodes.OK).json(result)
     }
 
     static async updateProfilePicture(req: Request, res: Response) {
-        const result = await userProfileCore.updatePictureProfile(req.params?.user_id, req.body)
+        const result = await userProfileCore.updatePictureProfile(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async updatePublicProfile(req: Request, res: Response) {
-        const result = await userProfileCore.updatePublicProfile(req.params?.user_id, req.body)
+        const result = await userProfileCore.updatePublicProfile(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async modifyEmail(req: Request, res: Response) {
-        const result = await userProfileCore.modifyEmail(req.params?.user_id, req.body)
+        const result = await userProfileCore.modifyEmail(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async verifyNewEmail(req: Request, res: Response) {
-        const result = await userProfileCore.verifyNewEmail(req.socket.remoteAddress, req.params?.user_id, req.body)
+        const result = await userProfileCore.verifyNewEmail(ParamsHelper.getUserId(req.headers), req.body, req.socket.remoteAddress)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async changePassword(req: Request, res: Response) {
-        const result = await userProfileCore.changePassword(req.socket.remoteAddress, req.params?.user_id, req.body)
+        const result = await userProfileCore.changePassword(ParamsHelper.getUserId(req.headers), req.body, req.socket.remoteAddress)
         res.status(StatusCodes.OK).json(result)
     }
 

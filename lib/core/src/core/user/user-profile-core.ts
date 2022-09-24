@@ -98,11 +98,11 @@ export class UserProfileCore extends Core {
 
     /**
      * verify code for new email
-     * @param remoteAddress
      * @param userId
      * @param verifyCodeModel
+     * @param remoteAddress
      */
-    async verifyNewEmail(remoteAddress: string, userId: string, verifyCodeModel: VerifyCodeModel) {
+    async verifyNewEmail(userId: string, verifyCodeModel: VerifyCodeModel, remoteAddress: string) {
         ParamValidation.validateUuId(userId)
         const userTbl = await this.userDb.select(
             <UserTbl>{email: '', new_email_verification_code: '', new_email: ''},
@@ -128,11 +128,11 @@ export class UserProfileCore extends Core {
 
     /**
      * verify code for new email
-     * @param remoteAddress
      * @param userId
      * @param changePassModel
+     * @param remoteAddress
      */
-    async changePassword(remoteAddress: string, userId: string, changePassModel: ChangePassModel) {
+    async changePassword(userId: string, changePassModel: ChangePassModel, remoteAddress: string) {
         ParamValidation.validateUuId(userId)
         const userTbl = await this.userDb.select(
             <UserTbl>{password_hash: '', password_salt: ''},

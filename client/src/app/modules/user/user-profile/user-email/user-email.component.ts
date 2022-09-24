@@ -47,7 +47,7 @@ export class UserEmailComponent extends ProcessForm implements OnInit, OnDestroy
     modifyEmailClick() {
         if (!this.newEmailFormModel.isFieldValid()) return
         this.execute(
-            this.userProfile.modifyEmail(SlStorage.user_id, <EmailModel>{email: this.newEmailFormModel.newEmail.value})
+            this.userProfile.modifyEmail(<EmailModel>{email: this.newEmailFormModel.newEmail.value})
                 .pipe(
                     map(() => {
                         this.snackBar?.show('Check your new email to get verification code.', MessageType.Success, 6000)
@@ -60,7 +60,7 @@ export class UserEmailComponent extends ProcessForm implements OnInit, OnDestroy
     verifyEmailClick() {
         if (!this.verifyFormModel.isFieldValid()) return
         this.execute(
-            this.userProfile.verifyNewEmail(SlStorage.user_id, <VerifyCodeModel>{verificationCode: this.verifyFormModel.verificationCode.value})
+            this.userProfile.verifyNewEmail(<VerifyCodeModel>{verificationCode: this.verifyFormModel.verificationCode.value})
                 .pipe(
                     map(() => {
                         SlStorage.isAuth = false

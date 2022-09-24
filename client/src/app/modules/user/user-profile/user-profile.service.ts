@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ChangePassModel, EmailModel, PictureModel, UserProfileModel, UserPublicProfileModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
-import { ApiParams, ApiPath } from '@shared-lib/constants'
-import { SlStorage } from '@shared/storage'
+import { ApiPath } from '@shared-lib/constants'
 import { BehaviorSubject, map, Observable } from 'rxjs'
 
 @Injectable({
@@ -19,30 +18,30 @@ export class UserProfileService {
     }
 
     getUserProfile(): Observable<void> {
-        return this.http.get<UserProfileModel>(environment.apiEndPoint + ApiPath.user_get_profile.replace(ApiParams._user_id, SlStorage.user_id))
+        return this.http.get<UserProfileModel>(environment.apiEndPoint + ApiPath.user_get_profile)
             .pipe(
                 map((data) => this.userProfileModel.next(data))
             )
     }
 
-    updUserPublicProfile(userId: string, userPublicProfileModel: UserPublicProfileModel): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_upd_public_profile.replace(ApiParams._user_id, userId), userPublicProfileModel)
+    updUserPublicProfile(userPublicProfileModel: UserPublicProfileModel): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_upd_public_profile, userPublicProfileModel)
     }
 
-    updUserProfilePicture(userId: string, pictureModel: PictureModel): Observable<string> {
-        return this.http.put<string>(environment.apiEndPoint + ApiPath.user_upd_picture_profile.replace(ApiParams._user_id, userId), pictureModel)
+    updUserProfilePicture(pictureModel: PictureModel): Observable<string> {
+        return this.http.put<string>(environment.apiEndPoint + ApiPath.user_upd_picture_profile, pictureModel)
     }
 
-    modifyEmail(userId: string, emailModel: EmailModel): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_modify_email.replace(ApiParams._user_id, userId), emailModel)
+    modifyEmail(emailModel: EmailModel): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_modify_email, emailModel)
     }
 
-    verifyNewEmail(userId: string, verifyCodeModel: VerifyCodeModel): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_verify_new_email.replace(ApiParams._user_id, userId), verifyCodeModel)
+    verifyNewEmail(verifyCodeModel: VerifyCodeModel): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_verify_new_email, verifyCodeModel)
     }
 
-    changePassword(userId: string, changePassModel: ChangePassModel): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_change_password.replace(ApiParams._user_id, userId), changePassModel)
+    changePassword(changePassModel: ChangePassModel): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_change_password, changePassModel)
     }
 
 }

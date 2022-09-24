@@ -1,3 +1,4 @@
+import { ParamsHelper } from '@shared'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { userCore } from '../../ref/core'
@@ -20,12 +21,12 @@ export class UserApi {
     }
 
     static async verifyCode(req: Request, res: Response) {
-        const result = await userCore.verifyCode(req.params?.user_id, req.body)
+        const result = await userCore.verifyCode(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async resendCode(req: Request, res: Response) {
-        const result = await userCore.resendCode(req.params?.user_id)
+        const result = await userCore.resendCode(ParamsHelper.getUserId(req.headers))
         res.status(StatusCodes.OK).json(result)
     }
 

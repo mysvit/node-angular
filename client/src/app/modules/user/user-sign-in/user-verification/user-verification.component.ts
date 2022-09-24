@@ -35,14 +35,14 @@ export class UserVerificationComponent extends ProcessForm {
         }
         if (this.formModel.isFieldValid()) {
             this.execute(
-                this.userSignIn.verifyCode(SlStorage.user_id, this.formModel.verificationCode.value)
+                this.userSignIn.verifyCode(this.formModel.verificationCode.value)
             )
         }
     }
 
     resendClick() {
         this.execute(
-            this.userSignIn.resendCode(SlStorage.user_id)
+            this.userSignIn.resendCode()
                 .pipe(
                     map((isSent) => isSent === 1
                         ? this.snackBar?.show('Check your email to get the verification code.', MessageType.Success)

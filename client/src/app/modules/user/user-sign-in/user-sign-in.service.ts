@@ -5,7 +5,7 @@ import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
 import { AuthModel, AuthType, EmailModel, ResetPassModel, SignInModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
-import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
+import { ApiPath, ClientPath } from '@shared-lib/constants'
 import { StringHelper } from '@shared-lib/helpers'
 import { MessageType } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
@@ -42,8 +42,8 @@ export class UserSignInService {
             )
     }
 
-    verifyCode(userId: string, verificationCode: string): Observable<void> {
-        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.user_verify_code.replace(':user_id', userId),
+    verifyCode(verificationCode: string): Observable<void> {
+        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.user_verify_code,
             <VerifyCodeModel>{verificationCode: verificationCode})
             .pipe(
                 map((data: AuthModel) => {
@@ -63,8 +63,8 @@ export class UserSignInService {
             )
     }
 
-    resendCode(userId: string): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_resend_code.replace(ApiParams._user_id, userId), {})
+    resendCode(): Observable<number> {
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_resend_code, {})
     }
 
     forgotPass(email: string): Observable<number> {

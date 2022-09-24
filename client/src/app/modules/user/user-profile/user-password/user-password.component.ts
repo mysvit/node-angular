@@ -31,8 +31,7 @@ export class UserPasswordComponent extends ProcessForm {
     changePasswordClick() {
         this.execute(
             this.userProfile
-                .changePassword(SlStorage.user_id,
-                    <ChangePassModel>{
+                .changePassword(<ChangePassModel>{
                         currentPass: this.userPasswordFormModel.currentPassword.value,
                         newPass: this.userPasswordFormModel.newPassword.value
                     }

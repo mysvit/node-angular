@@ -41,7 +41,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit, O
     updateProfileClick() {
         if (!this.formModel.isFieldValid()) return
         this.execute(
-            this.userProfile.updUserPublicProfile(SlStorage.user_id, <UserPublicProfileModel>{nickname: this.formModel.nickname.value}),
+            this.userProfile.updUserPublicProfile(<UserPublicProfileModel>{nickname: this.formModel.nickname.value}),
             {completedMessage: 'User profile updated.'}
         )
     }
@@ -56,7 +56,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit, O
         pictureModel.contentBase64 = PictureHelper.createImageFromLetter(pictureModel.name, pictureModel.height, pictureModel.width)
         this.formModel.avatarId.setValue('')
         this.execute(
-            this.userProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
+            this.userProfile.updUserProfilePicture(pictureModel)
                 .pipe(
                     map(pictureId => this.updateAvatar(pictureId))
                 ),
@@ -70,7 +70,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit, O
             .then(file => PictureHelper.resizePicture(file, 128, 128))
             .then(pictureModel => {
                 this.execute(
-                    this.userProfile.updUserProfilePicture(SlStorage.user_id, pictureModel)
+                    this.userProfile.updUserProfilePicture(pictureModel)
                         .pipe(
                             map(pictureId => this.updateAvatar(pictureId))
                         ),
