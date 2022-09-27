@@ -16,7 +16,7 @@ export class UserCore extends Core {
      * signup user
      * @param model
      */
-    async signup(model: UserSignupModel): Promise<void> {
+    async signup(model: UserSignupModel): Promise<number> {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
@@ -24,7 +24,7 @@ export class UserCore extends Core {
         await this.pictureDb.insert(pictureTbl)
         const userTbl = this.userDto.userTblFromModel(model, pictureTbl.picture_id)
         await this.userDb.insert(userTbl)
-        await this.sendVerificationCode(userTbl.email, userTbl.verification_code)
+        return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }
 
     private isEmailExist = async (email: string): Promise<void> => {
