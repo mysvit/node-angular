@@ -43,7 +43,7 @@
     <ng-container *ngSwitchCase="EmailState.VerifyCode">
         <ng-template [appSpinner]="disableForm">
             <form [formGroup]="verifyFormModel.formGroup" class="g-row">
-                <h3>Verification code</h3>
+                <h3>Check new email and enter verification code</h3>
                 <mat-form-field appearance="fill">
                     <mat-label>Verification code</mat-label>
                     <input matInput #verifyCode [formControl]="verifyFormModel.verificationCode" maxlength="5" placeholder="Ex. 12345">

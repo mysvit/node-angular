@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { CompletedPageComponent } from '@core/pages/completed-page/completed-page.component'
 import { NotFoundPageComponent } from '@core/pages/not-found-page/not-found-page.component'
 import { AuthGuard } from '@core/services/auth.guard'
 import { ClientPath } from '@shared-lib/constants'
@@ -11,10 +10,6 @@ const appRoutes: Routes = [
         path: 'home',
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
         pathMatch: 'full'
-    },
-    {
-        path: StringHelper.removeSlash(ClientPath.completed),
-        component: CompletedPageComponent
     },
     {
         path: StringHelper.removeSlash(ClientPath.sign_in),

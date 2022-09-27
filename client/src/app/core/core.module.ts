@@ -9,7 +9,6 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { httpInterceptorProviders } from '@core/http-interceptors'
 import { StatesService } from '@core/services/states.service'
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
-import { CompletedPageComponent } from './pages/completed-page/completed-page.component'
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component'
 
 const components = [
@@ -17,8 +16,7 @@ const components = [
 ]
 
 const pages = [
-    NotFoundPageComponent,
-    CompletedPageComponent
+    NotFoundPageComponent
 ]
 
 const singletonServices = [
