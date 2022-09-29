@@ -44,7 +44,7 @@ export class UserResetPasswordComponent extends ProcessForm {
                     password: this.formModel.password.value
                 })
                     .pipe(
-                        map(() => this.router.navigate([ClientPath.sign_in]).finally())
+                        map(() => this.router.navigate([ClientPath.slash + ClientPath.sign_in]).finally())
                     ),
                 {completedMessage: 'New password set up. Try to log in.'}
             )

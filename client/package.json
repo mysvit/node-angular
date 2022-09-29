@@ -23,7 +23,8 @@
     "@angular/router": "^14.2.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.3",
@@ -35,6 +36,7 @@
     "@angular/cli": "~14.2.3",
     "@angular/compiler-cli": "^14.2.3",
     "@types/jasmine": "~4.0.0",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "@typescript-eslint/parser": "5.29.0",
     "eslint": "^8.18.0",

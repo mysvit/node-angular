@@ -30,7 +30,7 @@ export class UserVerificationComponent extends ProcessForm {
 
     verifyClick() {
         if (ValueHelper.isEmpty(SlStorage.user_id)) {
-            this.router.navigate([ClientPath.sign_in]).finally()
+            this.router.navigate([ClientPath.slash + ClientPath.sign_in]).finally()
             return
         }
         if (this.formModel.isFieldValid()) {

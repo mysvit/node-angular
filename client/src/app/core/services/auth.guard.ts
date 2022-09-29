@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot } from '@angular/router'
 import { StatesService } from '@core/services/states.service'
 import { ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 import { SlStorage } from '@shared/storage'
 
 @Injectable({
@@ -32,7 +31,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
             // Store the attempted URL for redirecting
             this.states.redirectUrl = url
             // Navigate to the sign-in page
-            this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in)]).finally()
+            this.router.navigate([ClientPath.sign_in]).finally()
         }
         return SlStorage.isAuth
     }

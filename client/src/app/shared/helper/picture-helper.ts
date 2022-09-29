@@ -79,8 +79,8 @@ export namespace PictureHelper {
         return `#${f(0)}${f(8)}${f(4)}`
     }
 
-    export function getPictureUrl(picture_id: string): string {
-        return environment.apiEndPoint + ApiPath.picture_get.replace(ApiParams._picture_id, picture_id)
+    export function getPictureUrl(id: string): string {
+        return environment.apiEndPoint + ApiPath.picture_get.replace(ApiParams.id, id)
     }
 
 }

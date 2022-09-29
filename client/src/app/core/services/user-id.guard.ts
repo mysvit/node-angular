@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot } from '@angular/router'
 import { StatesService } from '@core/services/states.service'
 import { ClientPath } from '@shared-lib/constants'
-import { StringHelper, ValueHelper } from '@shared-lib/helpers'
+import { ValueHelper } from '@shared-lib/helpers'
 import { SlStorage } from '@shared/storage'
 
 @Injectable({
@@ -29,7 +29,7 @@ export class UserIdGuard implements CanActivate, CanActivateChild, CanLoad {
     checkUserId(url: string): boolean {
         if (ValueHelper.isEmpty(SlStorage.user_id)) {
             this.states.redirectUrl = url
-            this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in)]).finally()
+            this.router.navigate([ClientPath.sign_in]).finally()
             return false
         } else {
             return true

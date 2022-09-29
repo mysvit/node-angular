@@ -1,0 +1,22 @@
+<h1>Comment!</h1>
+
+<form [formGroup]="formModel.formGroup">
+    <fieldset class="g-fieldset" [disabled]="disableForm">
+
+        <mat-form-field appearance="fill">
+            <mat-label>Comment</mat-label>
+            <textarea matInput rows="5" [formControl]="formModel.comment"></textarea>
+            <mat-error *ngIf="formModel.comment.invalid">{{FieldValidators.errorMessage(formModel.comment)}}</mat-error>
+        </mat-form-field>
+
+        <div class="g-col">
+            <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Cancel" (click)="cancelClick()">
+                <span>Cancel</span>
+            </button>
+            <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Save" (click)="saveClick()">
+                <span>Save</span>
+            </button>
+        </div>
+
+    </fieldset>
+</form>

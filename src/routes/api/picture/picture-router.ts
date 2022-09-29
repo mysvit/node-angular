@@ -7,7 +7,7 @@ import { PictureApi } from './picture-api'
 export const pictureUrlRouter = express.Router()
 export const pictureRouter = express.Router()
 
-// api/picture/get/:picture_id
+// api/picture/get/:id
 pictureUrlRouter.get(ApiPath.picture_get, ErrorHandler.apiCatch(PictureApi.get))
 
 // api/picture/add

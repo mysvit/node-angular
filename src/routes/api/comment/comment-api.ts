@@ -1,23 +1,23 @@
+import { ParamsHelper } from '@shared'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { pictureCore } from '../../ref/core'
+import { commentCore } from '../../ref/core'
 
-export class PictureApi {
+export class CommentApi {
 
     static async add(req: Request, res: Response) {
-        const result = await pictureCore.add(req.body)
+        const result = await commentCore.add(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async upd(req: Request, res: Response) {
-        const result = await pictureCore.upd(req.body)
+        const result = await commentCore.upd(req.body)
         res.status(StatusCodes.OK).json(result)
     }
 
     static async get(req: Request, res: Response) {
-        const result = await pictureCore.get(req.params?.id)
-        res.header('Cross-Origin-Resource-Policy', 'cross-origin')
-        res.send(result.content)
+        const result = await commentCore.get(req.params?.id)
+        res.send(result)
     }
 
 }

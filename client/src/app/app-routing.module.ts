@@ -3,30 +3,28 @@ import { RouterModule, Routes } from '@angular/router'
 import { NotFoundPageComponent } from '@core/pages/not-found-page/not-found-page.component'
 import { AuthGuard } from '@core/services/auth.guard'
 import { ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 
 const appRoutes: Routes = [
     {
-        path: 'home',
-        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
-        pathMatch: 'full'
+        path: ClientPath.home,
+        loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
     },
     {
-        path: StringHelper.removeSlash(ClientPath.sign_in),
+        path: ClientPath.sign_in,
         loadChildren: () => import('./modules/user/user-sign-in/user-sign-in.module').then(m => m.UserSignInModule)
     },
     {
-        path: StringHelper.removeSlash(ClientPath.signup),
+        path: ClientPath.signup,
         loadChildren: () => import('./modules/user/user-signup/user-signup.module').then(m => m.UserSignupModule)
     },
     {
-        path: StringHelper.removeSlash(ClientPath.user_profile),
+        path: ClientPath.user_profile,
         canLoad: [AuthGuard],
         loadChildren: () => import('./modules/user/user-profile/user-profile.module').then(m => m.UserProfileModule)
     },
     {
         path: '',
-        redirectTo: '/home',
+        redirectTo: ClientPath.slash + ClientPath.home,
         pathMatch: 'full'
     },
     {
@@ -35,7 +33,9 @@ const appRoutes: Routes = [
 ]
 
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes)],
+    imports: [
+        RouterModule.forRoot(appRoutes, {enableTracing: false})
+    ],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

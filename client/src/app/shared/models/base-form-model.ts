@@ -1,7 +1,9 @@
 import { FormGroup } from '@angular/forms'
+import { FormAction } from '@shared/enum'
 
 export class BaseFormModel {
 
+    formAction: FormAction = FormAction.View
     formGroup: FormGroup = new FormGroup({})
 
     public isFieldValid() {

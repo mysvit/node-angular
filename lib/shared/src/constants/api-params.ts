@@ -1,6 +1,5 @@
 export namespace ApiParams {
-    export const _user_id = ':user_id'
-    export const _picture_id = ':picture_id'
+    export const id = ':id'
 
     export const is_auth = 'is_auth'
     export const token = 'token'

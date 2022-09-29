@@ -1,14 +1,14 @@
 import { Injector } from '@angular/core'
 import { SnackBarService } from '@core/services/snack-bar.service'
-import { MessageType, ProcessStates } from '@shared/enum'
+import { MessageType, ProcessState } from '@shared/enum'
 import { ProcessOption } from '@shared/form/process-option'
 import { Observable, Subject, takeUntil } from 'rxjs'
 
 export class ProcessForm {
 
-    ProcessStates = ProcessStates
+    ProcessStates = ProcessState
     cancel$: Subject<boolean> = new Subject<boolean>()
-    processState: ProcessStates = ProcessStates.INITIAL
+    processState: ProcessState = ProcessState.Initial
 
     public snackBar?: SnackBarService
 
@@ -17,11 +17,11 @@ export class ProcessForm {
     }
 
     get disableForm() {
-        return this.processState === ProcessStates.EXECUTING
+        return this.processState === ProcessState.Executing
     }
 
     get completedForm() {
-        return this.processState === ProcessStates.COMPLETED
+        return this.processState === ProcessState.Completed
     }
 
     protected execute(observable: Observable<Object | void>, option?: ProcessOption): void {
@@ -45,16 +45,16 @@ export class ProcessForm {
     }
 
     protected processExecuting() {
-        this.processState = ProcessStates.EXECUTING
+        this.processState = ProcessState.Executing
     }
 
     protected processCompleted(message?: any) {
-        this.processState = ProcessStates.COMPLETED
+        this.processState = ProcessState.Completed
         if (message) this.snackBar?.show(message, MessageType.Success, 4000)
     }
 
     protected processError(message?: any) {
-        this.processState = ProcessStates.ERROR
+        this.processState = ProcessState.Error
         if (message) this.snackBar?.show(message, MessageType.Error)
     }
 

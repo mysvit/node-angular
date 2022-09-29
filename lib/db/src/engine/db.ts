@@ -46,6 +46,12 @@ export class Db {
             .then(data => data ? data[0] : undefined)
     }
 
+    async list<T>(obj: T, whereObj: T): Promise<T> {
+        const sel = SqlBuilder.selectBuilder(this.table, obj, whereObj)
+        return await this.dbQuery(sel.sql, sel.values)
+            .then(data => data ? data[0] : undefined)
+    }
+
     async update<T>(obj: T, whereObj: T): Promise<number> {
         const upd = SqlBuilder.updateBuilder(this.table, obj, whereObj)
         return await this.dbExecute(upd.sql, upd.values)

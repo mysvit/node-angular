@@ -3,7 +3,6 @@ import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
 import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 import { MessageType } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
 import { StatusCodes } from 'http-status-codes'
@@ -29,6 +28,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             .pipe(
                 catchError(
                     (error) => {
+                        // for api what check auth does not show snackBar
+                        if (error?.url?.indexOf(ApiPath.user_auth) >= 0) {
+                            return throwError(() => new Error('User is not authenticated.'))
+                        }
+
                         // The backend returned an unsuccessful response code.
                         let message = error.error?.message || error.message
                         switch (error.status) {
@@ -43,12 +47,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                                 SlStorage.isAuth = false
                                 SlStorage.remove(ApiParams.token)
                                 // Navigate to the sign-in page
-                                this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in)]).finally()
+                                this.router.navigate([ClientPath.sign_in]).finally()
                                 break
-                        }
-                        // for authentication api doesn't show snackBar
-                        if (error?.url?.indexOf(ApiPath.user_auth) >= 0) {
-                            return throwError(() => new Error('User is not authenticated.'))
                         }
 
                         // show snack bar for all backend error

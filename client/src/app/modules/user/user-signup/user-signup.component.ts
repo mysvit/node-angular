@@ -54,7 +54,7 @@ export class UserSignupComponent extends ProcessForm {
     override processCompleted(message?: any) {
         super.processCompleted(message)
         SlStorage.email = this.formModel.email.value
-        this.router.navigate([ClientPath.sign_in]).finally()
+        this.router.navigate([ClientPath.slash + ClientPath.sign_in]).finally()
     }
 
 }

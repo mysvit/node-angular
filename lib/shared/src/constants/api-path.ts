@@ -2,6 +2,7 @@ export namespace ApiPath {
     const api = '/api'
     const user = '/user'
     const picture = '/picture'
+    const comment = '/comment'
 
     export const user_signup = api + user + '/signup'
     export const user_sign_in = api + user + '/sign-in'
@@ -17,7 +18,11 @@ export namespace ApiPath {
     export const user_verify_new_email = api + user + '/verify-new-email'
     export const user_change_password = api + user + '/change-password'
 
-    export const picture_get = api + picture + '/get/:picture_id'
     export const picture_add = api + picture + '/add'
     export const picture_upd = api + picture + '/upd'
+    export const picture_get = api + picture + '/get/:id'
+
+    export const comment_add = api + comment + '/add'
+    export const comment_upd = api + comment + '/upd'
+    export const comment_get = api + comment + '/get/:id'
 }

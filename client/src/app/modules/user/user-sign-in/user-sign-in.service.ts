@@ -6,7 +6,6 @@ import { StatesService } from '@core/services/states.service'
 import { AuthModel, AuthType, EmailModel, ResetPassModel, SignInModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
 import { ApiPath, ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 import { MessageType } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
 import { map, Observable } from 'rxjs'
@@ -35,7 +34,7 @@ export class UserSignInService {
                             this.userAuthenticated(data).finally()
                             break
                         case AuthType.NeedVerification:
-                            this.router.navigate([StringHelper.removeSlash(ClientPath.verify)], {relativeTo: activatedRoute}).finally()
+                            this.router.navigate([ClientPath.verify], {relativeTo: activatedRoute}).finally()
                             break
                     }
                 })
@@ -85,7 +84,7 @@ export class UserSignInService {
         SlStorage.email = data.email
         SlStorage.nickname = data.nickname
         SlStorage.avatar_id = data.avatarId
-        return this.router.navigate([this.states.redirectUrl ?? ClientPath.one_level_back])
+        return this.router.navigate([this.states.redirectUrl ?? ClientPath.slash])
     }
 
 }

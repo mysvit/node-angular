@@ -3,7 +3,6 @@ import { Component, Injector, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { SignInModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -46,11 +45,11 @@ export class UserSignInComponent extends ProcessForm implements OnInit {
     }
 
     forgotPasswordClick() {
-        this.router.navigate([StringHelper.removeSlash(ClientPath.forgot_password)], {relativeTo: this.activatedRoute}).finally()
+        this.router.navigate([ClientPath.forgot_password], {relativeTo: this.activatedRoute}).finally()
     }
 
     signupClick() {
-        this.router.navigate([ClientPath.signup]).finally()
+        this.router.navigate([ClientPath.slash + ClientPath.signup]).finally()
     }
 
 }

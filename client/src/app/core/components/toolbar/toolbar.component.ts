@@ -43,7 +43,7 @@ export class ToolbarComponent {
     signOutClick() {
         SlStorage.remove(ApiParams.token)
         SlStorage.isAuth = false
-        this.router.navigate([ClientPath.root]).finally()
+        this.router.navigate([ClientPath.slash]).finally()
     }
 
 }

@@ -1,7 +1,6 @@
 import { Component, Injector } from '@angular/core'
 import { Router } from '@angular/router'
 import { ClientPath } from '@shared-lib/constants'
-import { StringHelper } from '@shared-lib/helpers'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -41,13 +40,13 @@ export class UserForgotPasswordComponent extends ProcessForm {
 
     override processCompleted(message?: any) {
         super.processCompleted(message)
-        this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in), StringHelper.removeSlash(ClientPath.reset_password)]).finally()
+        this.router.navigate([ClientPath.sign_in, ClientPath.reset_password]).finally()
     }
 
     resetPasswordClick() {
         if (this.formModel.isFieldValid()) {
             SlStorage.email = this.formModel.email.value
-            this.router.navigate([StringHelper.removeSlash(ClientPath.sign_in), StringHelper.removeSlash(ClientPath.reset_password)]).finally()
+            this.router.navigate([ClientPath.sign_in, ClientPath.reset_password]).finally()
         }
     }
 
