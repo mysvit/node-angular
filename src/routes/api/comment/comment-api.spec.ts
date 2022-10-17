@@ -22,10 +22,10 @@ describe('CommentApi', () => {
         chai.spy.restore(commentCore)
     })
 
-    it('POST ' + ApiPath.picture_add, async () => {
-        const spy = chai.spy.on(commentCore, 'add', () => true)
+    it('POST ' + ApiPath.comment_add, async () => {
+        const spy = chai.spy.on(commentCore, 'add', () => 1)
         await agent
-            .post(ApiPath.picture_add)
+            .post(ApiPath.comment_add)
             .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
             .type('form')
             .send({})

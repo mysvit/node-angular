@@ -24,7 +24,7 @@ describe('PictureApi', () => {
     })
 
     it('POST ' + ApiPath.picture_add, async () => {
-        const spy = chai.spy.on(pictureCore, 'add', () => true)
+        const spy = chai.spy.on(pictureCore, 'add', () => 1)
         await agent
             .post(ApiPath.picture_add)
             .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})

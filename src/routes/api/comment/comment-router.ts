@@ -11,6 +11,9 @@ export const commentRouter = express.Router()
 // comment: CommentsTbl
 commentRouter.post(ApiPath.comment_add, ErrorHandler.apiCatch(CommentApi.add))
 
+// api/comment/list
+commentRouter.post(ApiPath.comment_list, ErrorHandler.apiCatch(CommentApi.list))
+
 // api/comment/upd
 // [form]
 // comment: Comment

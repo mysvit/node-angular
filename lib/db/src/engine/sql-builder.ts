@@ -1,3 +1,4 @@
+import { Select, SelectLimit, SelectOrder, SelectWhere } from '@shared'
 import { BuilderResult } from './insert-build'
 
 export namespace SqlBuilder {
@@ -15,6 +16,17 @@ export namespace SqlBuilder {
         return <BuilderResult>{sql: sql, values: whereValues}
     }
 
+    export function listBuilder(table: string, select: Select) {
+        let sql = getSelectFields(select.selectFields)
+        sql += getSelectFrom(table)
+        sql += getSelectWhere(select.selectWhere)
+        sql += getSelectOrder(select.selectOrder)
+        sql += getSelectLimit(select.selectLimit)
+        const whereValues = []
+            // getValues(select.)
+        return <BuilderResult>{sql: sql, values: whereValues}
+    }
+
     export function updateBuilder(table, obj, whereObj) {
         const sql = `UPDATE ${table} SET ${getUpdateFields(obj)} WHERE ${getWhere(whereObj)}`
         const values = getValues(obj).concat(getValues(whereObj))
@@ -29,6 +41,26 @@ export namespace SqlBuilder {
 
 }
 
+export function getSelectFields(fields: string[]) {
+    return `SELECT ${fields.join(',')}`
+}
+
+export function getSelectFrom(table: string) {
+    return ` FROM ${table}`
+}
+
+export function getSelectWhere(selectWhere: SelectWhere[]) {
+    // TODO: where build
+    return selectWhere ? ' WHERE ' + selectWhere.map(fieldName => `${fieldName}=?`).join(' AND ') : ''
+}
+
+export function getSelectOrder(selectOrder: SelectOrder[]) {
+    return selectOrder ? ' ORDER BY ' + selectOrder.map(order => `${order.field} ${order.order}`).join(' , ') : ''
+}
+
+export function getSelectLimit(selectLimit: SelectLimit) {
+    return `${selectLimit.limit} ${selectLimit.limit}`
+}
 
 export function getFields(obj) {
     return Object.getOwnPropertyNames(obj).join(',')

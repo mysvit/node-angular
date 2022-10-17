@@ -2,6 +2,7 @@ import { PictureModel, PictureTbl } from '@dto'
 import { randomUUID } from 'crypto'
 import { FileHelper } from '../helpers'
 
+//TODO move to dto
 export class PictureDto {
 
     public pictureTblFromModel(model: PictureModel): PictureTbl {

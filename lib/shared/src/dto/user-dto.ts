@@ -2,6 +2,7 @@ import { DateDb, UserSignupModel, UserTbl } from '@dto'
 import { randomUUID } from 'crypto'
 import { PasswordHash, VerificationCode } from '../crypt'
 
+//TODO move to dto
 export class UserDto {
 
     public userTblFromModel(model: UserSignupModel, picture_id?: string): UserTbl {

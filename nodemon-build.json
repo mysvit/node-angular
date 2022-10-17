@@ -1,5 +1,5 @@
 {
-  "exec": "ttsc --project ./tsconfig.json",
+  "exec": "rm -rf ./dist/routes && ttsc --project ./tsconfig.json",
   "delay": 3000,
   "restartable": "rs",
   "verbose": true,

@@ -20,4 +20,9 @@ export class CommentApi {
         res.send(result)
     }
 
+    static async list(req: Request, res: Response) {
+        const result = await commentCore.list(req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
+
 }

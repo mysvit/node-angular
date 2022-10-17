@@ -53,8 +53,8 @@ export const environment: Environment = {
         connectionTimeout: 15000,
         greetingTimeout: 10000,
         auth: {
-            user: 'nikolas47@ethereal.email',   // https://ethereal.email/create generated ethereal user
-            pass: '7zasGGCHfSVR9jKRbG'          // generated ethereal password
+            user: 'lauren.miller@ethereal.email',   // https://ethereal.email/create generated ethereal user
+            pass: 'eHjDayPw7nGeatxc3c'          // generated ethereal password
         }
     },
 
