@@ -1,5 +1,4 @@
 import chai from 'chai'
-import { CommentDb } from './comment-db'
 
 const expect = chai.expect
 

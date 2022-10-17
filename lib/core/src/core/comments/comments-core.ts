@@ -3,16 +3,16 @@ import { Select, SelectLimit } from '@shared'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
 
-export class CommentCore extends Core {
+export class CommentsCore extends Core {
 
     async add(userId: string, commentsTbl: CommentsTbl): Promise<number> {
         ParamValidation.validateUuId(userId)
         commentsTbl.user_id = userId
-        return this.commentDb.insert(commentsTbl)
+        return this.commentsDb.insert(commentsTbl)
     }
 
     async upd(commentsTbl: CommentsTbl): Promise<number> {
-        return this.commentDb.update(
+        return this.commentsDb.update(
             commentsTbl,
             <CommentsTbl>{comment_id: commentsTbl.comment_id}
         )
@@ -20,12 +20,12 @@ export class CommentCore extends Core {
 
     async del(commentId: string): Promise<number> {
         ParamValidation.validateUuId(commentId)
-        return this.commentDb.delete({comment_id: commentId})
+        return this.commentsDb.delete({comment_id: commentId})
     }
 
     async get(commentId: string): Promise<CommentsTbl> {
         ParamValidation.validateUuId(commentId)
-        return this.commentDb.select(
+        return this.commentsDb.select(
             <CommentsTbl>{
                 comment_id: undefined,
                 is_del: undefined,
@@ -41,7 +41,7 @@ export class CommentCore extends Core {
         const sel = <Select>{
             selectLimit: <SelectLimit>{limit: 5}
         }
-        return this.commentDb.list(sel)
+        return this.commentsDb.list(sel)
     }
 
 }

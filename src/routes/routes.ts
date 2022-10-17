@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { commentRouter } from './api/comment'
+import { commentsRouter } from './api/comments'
 import { pictureRouter, pictureUrlRouter } from './api/picture'
 import { userAuth, userBase, userProf } from './api/user'
 import { ErrorHandler } from './errors'
@@ -22,7 +22,7 @@ routes.use('/', userProf)
 // user Picture
 routes.use('/', pictureRouter)
 // user Comment
-routes.use('/', commentRouter)
+routes.use('/', commentsRouter)
 
 
 // 404 for authenticated path

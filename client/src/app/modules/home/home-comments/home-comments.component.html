@@ -1,7 +1,7 @@
 <p>home-comments works!</p>
 
 <div class="g-row" *ngFor="let item of commentsList">
-    {{item.write_date}} {{item.comment}} {{item.nickname}}
+    {{item.write_date}} {{item.comment}} {{item.nickname}} {{item.avatar_id}}
 </div>
 
 <button *ngIf="SlStorage.isAuth" mat-flat-button color="primary" aria-label="Add comment" (click)="addClick()">
