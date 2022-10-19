@@ -36,7 +36,7 @@ initDBinDocker() {
              -p 3306:3306 \
              -e MARIADB_DATABASE=$DBNAME \
              -e MARIADB_ROOT_PASSWORD=root \
-             --pull missing mariadb:10.9.2-jammy
+             --pull missing mariadb:10.9.3-jammy
 }
 
 if [ $1 = "local" ]; then
