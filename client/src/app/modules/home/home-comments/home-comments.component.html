@@ -1,9 +1,28 @@
-<p>home-comments works!</p>
+<h1>Testing PWA</h1>
 
-<div class="g-row" *ngFor="let item of commentsList">
-    {{item.write_date}} {{item.comment}} {{item.nickname}} {{item.avatar_id}}
+<div>
+    <button mat-flat-button color="primary" aria-label="Add comment" (click)="addClick()">
+        <span>Add comment</span>
+    </button>
 </div>
 
-<button *ngIf="SlStorage.isAuth" mat-flat-button color="primary" aria-label="Add comment" (click)="addClick()">
-    <span>Add comment</span>
-</button>
+<div class="sl-container">
+
+    <ng-container *ngFor="let item of commentsList">
+        <div class="sl-item">
+            <div>
+                <img class="sl-avatar" alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
+            </div>
+            <div class="sl-item-text">
+                <b>
+                    {{item.nickname}}
+                </b>
+                <div [innerText]="item.comment"></div>
+                <div class="g-align-right">
+                    {{item.write_date | slDateTimeYyyyMmDdHhMmSsPipe}}
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+</div>

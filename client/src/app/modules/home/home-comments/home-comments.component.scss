@@ -2,4 +2,32 @@
 
 :host {
     @include g-container-rows;
+    justify-content: unset;
+}
+
+h1 {
+    padding: 20px;
+}
+
+.sl-container {
+    @include g-container-rows;
+    justify-content: unset;
+    max-width: 800px;
+    overflow-y: auto;
+}
+
+.sl-item {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) 1fr;
+    gap: 1em;
+    margin: 0.5em 1em 0.5em 1em;
+}
+
+.sl-item-text {
+    @include g-row(3);
+    gap: 0;
+}
+
+.g-align-right {
+    color: var(--c-date-time);
 }

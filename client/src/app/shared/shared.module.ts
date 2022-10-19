@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SpinnerDirective } from '@shared/directives/spinner.directive'
+import { DateTimeYyyyMmDdHhMmSsPipe } from '@shared/pipes/date-time-yyyy-mm-dd-hh-mm-ss.pipe'
 import { EmailFieldComponent } from './components/fields/email-field/email-field.component'
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component'
 import { SpinnerComponent } from './components/spinner/spinner.component'
@@ -18,7 +19,8 @@ const components = [
 ]
 
 const pipes = [
-    PictureUrlPipe
+    PictureUrlPipe,
+    DateTimeYyyyMmDdHhMmSsPipe
 ]
 
 const directives = [
