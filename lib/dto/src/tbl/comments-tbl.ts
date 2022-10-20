@@ -4,4 +4,7 @@ export interface CommentsTbl {
     user_id: string
     write_date: Date
     comment: string
+    likes_count: number
+    dislikes_count: number
+    replies_count: number
 }

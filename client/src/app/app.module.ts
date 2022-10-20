@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
+import { MatIconRegistry } from '@angular/material/icon'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -26,4 +27,7 @@ import { AppComponent } from './app.component'
     ]
 })
 export class AppModule {
+    constructor(iconRegistry: MatIconRegistry) {
+        iconRegistry.setDefaultFontSetClass('material-icons-outlined')
+    }
 }

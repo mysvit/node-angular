@@ -8,11 +8,14 @@ export class CommentsDb extends Db {
     async list(select: Select): Promise<any> {
         const sel = `
             SELECT
+                u.nickname,
+                u.avatar_id,
                 c.comment_id,
                 c.comment,
                 c.write_date,
-                u.nickname,
-                u.avatar_id 
+                c.likes_count,
+                c.dislikes_count,
+                c.replies_count
             FROM 
                 comments c,
                 users u 

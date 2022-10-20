@@ -45,7 +45,7 @@ CREATE TABLE table2 (
 ) ENGINE=InnoDB;
 
 ALTER TABLE table1
-ADD CONSTRAINT table2_ref FOREIGN KEY (table2_ref_id)
+ADD CONSTRAINT constraint_name_ref FOREIGN KEY (table1_ref_id)
     REFERENCES table2 (table2_id)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT;

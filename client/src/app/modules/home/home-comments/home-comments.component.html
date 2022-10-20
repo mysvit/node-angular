@@ -14,12 +14,28 @@
                 <img class="sl-avatar" alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
             </div>
             <div class="sl-item-text">
-                <b>
-                    {{item.nickname}}
-                </b>
+                <div class="g-col">
+                    <b>
+                        {{item.nickname}}
+                    </b>
+                    <div class="sl-date">
+                        {{item.write_date | slDateTimeYyyyMmDdHhMmSsPipe}}
+                    </div>
+                </div>
                 <div [innerText]="item.comment"></div>
-                <div class="g-align-right">
-                    {{item.write_date | slDateTimeYyyyMmDdHhMmSsPipe}}
+                <div class="sl-item-reply">
+                    <div class="g-col mr-20">
+                        <mat-icon>thumb_up</mat-icon>
+                        <span>{{item.likes_count}}</span>
+                    </div>
+                    <div class="g-col mr-20">
+                        <mat-icon>thumb_down</mat-icon>
+                        <span>{{item.dislikes_count}}</span>
+                    </div>
+                    <div class="g-col">
+                        <mat-icon>chat</mat-icon>
+                        <span>{{item.replies_count}}</span>
+                    </div>
                 </div>
             </div>
         </div>

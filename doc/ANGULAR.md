@@ -1,17 +1,15 @@
-# MariaDB
+# Angular
 
 <!-- toc -->
 
-- [General](#general)
-  - [Update](#update)
-- [Notes](#notes)
+- [Update](#update)
+- [Material](#material)
+  - [mat-icon](#mat-icon)
 
 
 <!-- tocstop -->
 
-## General
-
-### Update
+## Update
 
 Install latest `angular cli`
 ``` bash
@@ -33,4 +31,30 @@ ng update @angular/core
 ```
 
 
-## Notes
+## Material
+
+### mat-icon
+
+Add to index.html
+```html
+<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+```
+
+Add to app.module
+
+```typescript
+export class AppModule {
+  constructor(iconRegistry: MatIconRegistry) {
+    iconRegistry.setDefaultFontSetClass('material-icons-outlined')
+  }
+}
+```
+
+Set custom font if you needed
+
+```html
+<mat-icon fontSet="material-icons-outlined">info</mat-icon>
+<mat-icon fontSet="material-icons-two-tone">info</mat-icon>
+<mat-icon fontSet="material-icons-round">info</mat-icon>
+<mat-icon fontSet="material-icons-sharp">info</mat-icon>
+```
