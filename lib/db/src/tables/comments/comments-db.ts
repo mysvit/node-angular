@@ -1,5 +1,5 @@
 import { Select } from '@shared'
-import { Db } from '../../engine/db'
+import { Db } from '../../engine'
 
 export class CommentsDb extends Db {
 
@@ -23,7 +23,13 @@ export class CommentsDb extends Db {
                 c.user_id = u.user_id
         `
         const values = []
-        return await this.dbQuery(sel, values)
+        return this.pool.query(sel, values)
+    }
+
+    async updateLikesCount(comment_id: string, is_like: number, is_dislike: number): Promise<number> {
+        const sql = `UPDATE ${this.table} SET likes_count = likes_count + ?, dislikes_count = dislikes_count + ? WHERE comment_id = ?`
+        return await this.dbExecute(sql, [is_like, is_dislike, comment_id])
+            .then(data => data.affectedRows)
     }
 
 }

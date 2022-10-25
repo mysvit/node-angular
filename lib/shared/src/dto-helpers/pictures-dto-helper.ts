@@ -2,10 +2,9 @@ import { PictureModel, PictureTbl } from '@dto'
 import { randomUUID } from 'crypto'
 import { FileHelper } from '../helpers'
 
-//TODO move to dto
-export class PictureDto {
+export namespace PicturesDtoHelper {
 
-    public pictureTblFromModel(model: PictureModel): PictureTbl {
+    export function pictureTblFromModel(model: PictureModel): PictureTbl {
         return <PictureTbl>{
             picture_id: model.pictureId || randomUUID(),
             name: model.name,

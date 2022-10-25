@@ -1,5 +1,6 @@
+import { UserDb, UserLogDb } from '@db'
 import { ChangePassModel, EmailModel, LogType, PictureModel, UserLogTbl, UserProfileModel, UserPublicProfileModel, UserTbl, VerifyCodeModel } from '@dto'
-import { EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, VerificationCode } from '@shared'
+import { EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -7,9 +8,9 @@ import { PictureCore } from '../picture'
 
 export class UserProfileCore extends Core {
 
-    public userDto = new UserDto()
-    public pictureDto = new PictureDto()
-    private pictureCore = new PictureCore(this.env)
+    private userDb = new UserDb(this.pool)
+    private userLogDb = new UserLogDb(this.pool)
+    private pictureCore = new PictureCore(this.env, this.logger, this.pool)
 
     /**
      * get user profile

@@ -1,4 +1,4 @@
-import { Db } from '../../engine/db'
+import { Db } from '../../engine'
 
 export class PictureDb extends Db {
 

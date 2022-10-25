@@ -47,4 +47,18 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
         this.router.navigate([FormAction.Add, '0'], {relativeTo: this.activatedRoute}).finally()
     }
 
+    commentLike(commentId: string) {
+        this.execute(
+            this.home.commentLike(commentId)
+        )
+    }
+
+    commentDislike() {
+
+    }
+
+    commentReply() {
+
+    }
+
 }

@@ -2,13 +2,13 @@ import { PictureTbl } from '@dto'
 import { environment } from '@env'
 import chai from 'chai'
 import { afterEach, beforeEach } from 'mocha'
+import { Db } from '../../engine'
 import { PictureDb } from './picture-db'
 
 const expect = chai.expect
 
 describe('PictureDb', () => {
 
-    const pictureDb = new PictureDb(environment)
     const pictureTbl = <PictureTbl>{
         picture_id: 'ce12ddca-1f9f-11ed-861d-0242ac120002',
         name: 'avatar',
@@ -18,17 +18,32 @@ describe('PictureDb', () => {
         content: Buffer.from('0', 'hex')
     }
 
+    const pool = Db.createPool(environment.db)
+    after(async () => {
+        await pool.end()
+    })
+
     // clear test data
-    beforeEach(async () => await pictureDb.delete({picture_id: pictureTbl.picture_id}))
-    afterEach(async () => await pictureDb.delete({picture_id: pictureTbl.picture_id}))
+    beforeEach(async () => {
+        const pictureDb = new PictureDb(pool)
+        await pictureDb.delete({picture_id: pictureTbl.picture_id})
+    })
+    afterEach(async () => {
+        const pictureDb = new PictureDb(pool)
+        await pictureDb.delete({picture_id: pictureTbl.picture_id})
+    })
 
 
     it('insert', async () => {
+        const pictureDb = new PictureDb(pool)
         const res = await pictureDb.insert(pictureTbl)
         expect(res).to.be.eq(1)
     })
 
     it('update & select', async () => {
+        const conn = await pool.getConnection()
+        const pictureDb = new PictureDb(conn)
+        await conn.beginTransaction()
         await pictureDb.insert(pictureTbl)
         pictureTbl.name += 'u'
         pictureTbl.ext += 'u'
@@ -44,10 +59,12 @@ describe('PictureDb', () => {
             pictureTbl,
             <PictureTbl>{picture_id: pictureTbl.picture_id}
         )
+        await conn.commit()
         expect(select).to.deep.eq(pictureTbl)
     })
 
     it('delete', async () => {
+        const pictureDb = new PictureDb(pool)
         await pictureDb.insert(pictureTbl)
         const res = await pictureDb.delete({picture_id: pictureTbl.picture_id})
         expect(res).to.be.eq(1)

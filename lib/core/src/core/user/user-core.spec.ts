@@ -1,5 +1,7 @@
-import { PictureTbl, SignInModel, UserSignupModel, UserTbl } from '@dto'
+import { Db } from '@db'
+import { SignInModel, UserSignupModel } from '@dto'
 import { environment } from '@env'
+import { Logger } from '@shared'
 import chai from 'chai'
 import chaiSpies from 'chai-spies'
 import { UserCore } from './user-core'
@@ -9,7 +11,7 @@ chai.use(chaiSpies)
 
 describe('CoreUser', () => {
 
-    const coreUser = new UserCore(environment)
+    const coreUser = new UserCore(environment, new Logger(environment), Db.createPool(environment.db))
 
     afterEach(() => {
         chai.spy.restore(coreUser)
@@ -17,9 +19,7 @@ describe('CoreUser', () => {
 
     it('signup', async () => {
         chai.spy.on(coreUser, 'isEmailExist', () => false)
-        chai.spy.on(coreUser.pictureDto, 'pictureTblFromModel', () => <PictureTbl>{})
         chai.spy.on(coreUser.pictureDb, 'insert', () => 1)
-        chai.spy.on(coreUser.userDto, 'userTblFromModel', () => <UserTbl>{email: 'my@email.com', verification_code: '12345'})
         chai.spy.on(coreUser.userDb, 'insert', () => 1)
         chai.spy.on(coreUser, 'sendVerificationCode', () => 1)
         const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'my@email.com', password: 'pass', avatar: {pictureId: 'id'}})

@@ -6,7 +6,7 @@ import chaiSpies from 'chai-spies'
 import jwt from 'jsonwebtoken'
 import { afterEach } from 'mocha'
 import { app } from '../../../server'
-import { pictureCore } from '../../ref/core'
+import { pictureCore } from '../../ref/db-pools-core'
 
 const {sign} = jwt
 const expect = chai.expect

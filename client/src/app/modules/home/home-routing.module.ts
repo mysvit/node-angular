@@ -16,7 +16,7 @@ const homeRoutes: Routes = [
                 component: HomeCommentsComponent
             },
             {
-                path: ClientPath.comments + ClientPath.slash + ClientPath.colon + Props.action + ClientPath.slash + ClientPath.colon + Props.id,
+                path: ClientPath.comments + '/:' + Props.action + '/:' + Props.id,
                 component: HomeCommentsFormComponent,
                 canActivate: [AuthGuard]
             },

@@ -1,17 +1,13 @@
-import { PictureDb, UserDb, UserLogDb, CommentsDb } from '@db'
 import { Environment } from '@env'
 import { Logger } from '@shared'
+import { Pool } from 'mariadb'
 
 export class Core {
 
-    userDb = new UserDb(this.env)
-    pictureDb = new PictureDb(this.env)
-    userLogDb = new UserLogDb(this.env)
-    commentsDb = new CommentsDb(this.env)
-
-    logger = new Logger(this.env)
-
-    constructor(public env: Environment) {
+    constructor(
+        public env: Environment,
+        public logger: Logger,
+        public pool: Pool) {
     }
 
 }

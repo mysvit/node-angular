@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes'
 import jwt from 'jsonwebtoken'
 import { afterEach } from 'mocha'
 import { app } from '../../../server'
-import { userCore } from '../../ref/core'
+import { userCore } from '../../ref/db-pools-core'
 
 const {sign} = jwt
 const expect = chai.expect

@@ -1,5 +1,6 @@
 import * as express from 'express'
-import { commentsRouter } from './api/comments'
+import { commentsEditRouter, commentsViewRouter } from './api/comments'
+import { commentsLikesRouter } from './api/comments-likes'
 import { pictureRouter, pictureUrlRouter } from './api/picture'
 import { userAuth, userBase, userProf } from './api/user'
 import { ErrorHandler } from './errors'
@@ -11,9 +12,13 @@ export const routes = express.Router()
 routes.use('/', userBase)
 // picture url
 routes.use('/', pictureUrlRouter)
+// // user CommentsView
+routes.use('/', commentsViewRouter)
+
 
 // Authenticated
 routes.use(Middleware.verifyToken)
+
 
 // user Auth
 routes.use('/', userAuth)
@@ -21,8 +26,10 @@ routes.use('/', userAuth)
 routes.use('/', userProf)
 // user Picture
 routes.use('/', pictureRouter)
-// user Comment
-routes.use('/', commentsRouter)
+// user CommentsEdit
+routes.use('/', commentsEditRouter)
+// user CommentsLikes
+routes.use('/', commentsLikesRouter)
 
 
 // 404 for authenticated path

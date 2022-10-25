@@ -1,5 +1,4 @@
 import { environment } from '@env'
-import { ApiPath } from '@shared'
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import chaiSpies from 'chai-spies'
@@ -13,7 +12,7 @@ chai.use(chaiHttp)
 chai.use(chaiSpies)
 
 // test route path and called method
-describe('CommentsApi', () => {
+describe('CommentsLikesApi', () => {
 
     const agent = chai.request.agent(app())
     const token = sign({user_id: 'user_test_uuid'}, environment.token_key, {expiresIn: '60s'})
@@ -22,14 +21,14 @@ describe('CommentsApi', () => {
         chai.spy.restore(commentsCore)
     })
 
-    it('POST ' + ApiPath.comments_add, async () => {
-        const spy = chai.spy.on(commentsCore, 'add', () => 1)
-        await agent
-            .post(ApiPath.comments_add)
-            .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
-            .type('form')
-            .send({})
-        expect(spy).to.have.been.called()
-    })
+    // it('POST ' + ApiPath.comment_add, async () => {
+    //     const spy = chai.spy.on(commentsCore, 'add', () => 1)
+    //     await agent
+    //         .post(ApiPath.comment_add)
+    //         .set({'user_id': 'user_test_uuid', 'authorization': 'Bearer ' + token})
+    //         .type('form')
+    //         .send({})
+    //     expect(spy).to.have.been.called()
+    // })
 
 })

@@ -17,15 +17,19 @@ export class HomeService {
     }
 
     addComments(tbl?: CommentsTbl): Observable<any> {
-        return this.http.post(environment.apiEndPoint + ApiPath.comment_add, tbl)
+        return this.http.post(environment.apiEndPoint + ApiPath.comments_add, tbl)
     }
 
     getComments(id: string) {
-        return this.http.get(environment.apiEndPoint + ApiPath.comment_get.replace(ApiParams.id, id))
+        return this.http.get(environment.apiEndPoint + ApiPath.comments_get.replace(ApiParams.id, id))
     }
 
     listComments(select: Select): Observable<Array<CommentsItem>> {
-        return this.http.post<Array<CommentsItem>>(environment.apiEndPoint + ApiPath.comment_list, select)
+        return this.http.post<Array<CommentsItem>>(environment.apiEndPoint + ApiPath.comments_list, select)
+    }
+
+    commentLike(commentId: string): Observable<Array<CommentsItem>> {
+        return this.http.post<Array<CommentsItem>>(environment.apiEndPoint + ApiPath.comments_likes_add, commentId)
     }
 
 }

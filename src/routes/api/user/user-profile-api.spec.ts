@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import chaiSpies from 'chai-spies'
 import { afterEach } from 'mocha'
-import { userProfileCore } from '../../ref/core'
+import { userProfileCore } from '../../ref/db-pools-core'
 
 chai.use(chaiHttp)
 chai.use(chaiSpies)

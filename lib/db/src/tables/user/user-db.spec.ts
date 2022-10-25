@@ -3,13 +3,13 @@ import { environment } from '@env'
 import chai from 'chai'
 import { randomUUID } from 'crypto'
 import { afterEach, beforeEach } from 'mocha'
+import { Db } from '../../engine'
 import { UserDb } from './user-db'
 
 const expect = chai.expect
 
 describe('UserDb', () => {
 
-    const dbUser = new UserDb(environment)
     const userTbl = <UserTbl>{
         user_id: randomUUID(),
         signup_date: new DateDb().value,
@@ -42,27 +42,37 @@ describe('UserDb', () => {
         pre_verified_hash: 'hashPre'
     }
 
+    const pool = Db.createPool(environment.db)
+    after(async () => {
+        await pool.end()
+    })
+
     async function clearTable() {
+        const dbUser = new UserDb(pool)
         await dbUser.delete({email: userTbl.email})
         await dbUser.delete({email: userTblUpd.email})
     }
 
-    beforeEach(async () => dbUser.insert(userTbl))
+    beforeEach(async () => clearTable())
     afterEach(async () => clearTable())
 
     it('insert', async () => {
-        await clearTable()
+        const dbUser = new UserDb(pool)
         const signup = await dbUser.insert(userTbl)
         expect(signup).to.be.eq(1)
     })
 
     it('select', async () => {
+        const dbUser = new UserDb(pool)
+        await dbUser.insert(userTbl)
         const select = await dbUser.select(userTbl, <UserTbl>{user_id: userTbl.user_id})
         expect(select).to.deep.eq(userTbl)
     })
 
     //TODO - add test for foreign key avatar_id
     it('update', async () => {
+        const dbUser = new UserDb(pool)
+        await dbUser.insert(userTbl)
         await dbUser.update(
             userTblUpd,
             <UserTbl>{user_id: userTblUpd.user_id})

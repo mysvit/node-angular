@@ -1,7 +1,7 @@
 import { ParamsHelper } from '@shared'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { userProfileCore } from '../../ref/core'
+import { userProfileCore } from '../../ref/db-pools-core'
 
 // apiUrl+/user/get
 export class UserProfileApi {

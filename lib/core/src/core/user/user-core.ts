@@ -1,5 +1,6 @@
+import { PictureDb, UserDb } from '@db'
 import { AuthModel, AuthType, DateDb, EmailModel, ResetPassModel, SignInModel, UserSignupModel, UserTbl, VerifyCodeModel } from '@dto'
-import { DateHelper, EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PictureDto, UserDto, ValueHelper, VerificationCode } from '@shared'
+import { DateHelper, EmailSender, ErrorApi500, ErrorsMsg, PasswordHash, PicturesDtoHelper, UsersDtoHelper, ValueHelper, VerificationCode } from '@shared'
 import { randomUUID } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { ParamValidation } from '../../validation'
@@ -9,8 +10,8 @@ const {sign} = jwt
 
 export class UserCore extends Core {
 
-    public userDto = new UserDto()
-    public pictureDto = new PictureDto()
+    userDb = new UserDb(this.pool)
+    pictureDb = new PictureDb(this.pool)
 
     /**
      * signup user
@@ -20,9 +21,9 @@ export class UserCore extends Core {
         model = new UserSignupModel(model)
         ParamValidation.allFieldRequired(model)
         await this.isEmailExist(model.email)
-        const pictureTbl = this.pictureDto.pictureTblFromModel(model.avatar)
+        const pictureTbl = PicturesDtoHelper.pictureTblFromModel(model.avatar)
         await this.pictureDb.insert(pictureTbl)
-        const userTbl = this.userDto.userTblFromModel(model, pictureTbl.picture_id)
+        const userTbl = UsersDtoHelper.userTblFromModel(model, pictureTbl.picture_id)
         await this.userDb.insert(userTbl)
         return this.sendVerificationCode(userTbl.email, userTbl.verification_code)
     }

@@ -20,7 +20,10 @@ export class AppService {
             .pipe(
                 map(() => SlStorage.isAuth = true),
                 // catch error interceptor
-                catchError(() => of(true))
+                catchError(() => {
+                    SlStorage.isAuth = false
+                    return of(true)
+                })
             )
     }
 

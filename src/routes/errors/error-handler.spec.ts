@@ -5,7 +5,7 @@ import chaiHttp from 'chai-http'
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jsonwebtoken'
 import { app } from '../../server'
-import { userCore } from '../ref/core'
+import { userCore } from '../ref/db-pools-core'
 import { logger } from '../ref/logger'
 
 const {sign} = jwt

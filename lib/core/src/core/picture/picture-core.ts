@@ -1,14 +1,15 @@
+import { PictureDb } from '@db'
 import { PictureModel, PictureTbl } from '@dto'
-import { PictureDto } from '@shared'
+import { PicturesDtoHelper } from '@shared'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
 
 export class PictureCore extends Core {
 
-    public pictureDto = new PictureDto()
+    private pictureDb = new PictureDb(this.pool)
 
     async add(pictureModel: PictureModel): Promise<number> {
-        const pictureTbl = this.pictureDto.pictureTblFromModel(pictureModel)
+        const pictureTbl = PicturesDtoHelper.pictureTblFromModel(pictureModel)
         return this.pictureDb.insert(pictureTbl)
     }
 
@@ -21,7 +22,7 @@ export class PictureCore extends Core {
     }
 
     async upd(pictureModel: PictureModel): Promise<number> {
-        const pictureTbl = this.pictureDto.pictureTblFromModel(pictureModel)
+        const pictureTbl = PicturesDtoHelper.pictureTblFromModel(pictureModel)
         return this.pictureDb.update(
             pictureTbl,
             <PictureTbl>{picture_id: pictureTbl.picture_id}

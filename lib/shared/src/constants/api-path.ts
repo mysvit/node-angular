@@ -2,7 +2,8 @@ export namespace ApiPath {
     const api = '/api'
     const user = '/user'
     const picture = '/picture'
-    const comment = '/comment'
+    const comments = '/comments'
+    const comments_likes = '/comments-likes'
 
     export const user_signup = api + user + '/signup'
     export const user_sign_in = api + user + '/sign-in'
@@ -22,8 +23,11 @@ export namespace ApiPath {
     export const picture_upd = api + picture + '/upd'
     export const picture_get = api + picture + '/get/:id'
 
-    export const comment_add = api + comment + '/add'
-    export const comment_upd = api + comment + '/upd'
-    export const comment_get = api + comment + '/get/:id'
-    export const comment_list = api + comment + '/list'
+    export const comments_add = api + comments + '/add'
+    export const comments_upd = api + comments + '/upd'
+    export const comments_get = api + comments + '/get/:id'
+    export const comments_list = api + comments + '/list'
+
+    export const comments_likes_add = api + comments_likes + '/add'
+    export const comments_likes_list = api + comments_likes + '/list'
 }

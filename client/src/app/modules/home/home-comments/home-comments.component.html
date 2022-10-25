@@ -25,15 +25,15 @@
                 <div [innerText]="item.comment"></div>
                 <div class="sl-item-reply">
                     <div class="g-col mr-20">
-                        <mat-icon>thumb_up</mat-icon>
+                        <mat-icon (click)="commentLike(item.comment_id)">thumb_up</mat-icon>
                         <span>{{item.likes_count}}</span>
                     </div>
                     <div class="g-col mr-20">
-                        <mat-icon>thumb_down</mat-icon>
+                        <mat-icon (click)="commentDislike()">thumb_down</mat-icon>
                         <span>{{item.dislikes_count}}</span>
                     </div>
                     <div class="g-col">
-                        <mat-icon>chat</mat-icon>
+                        <mat-icon (click)="commentReply()">chat</mat-icon>
                         <span>{{item.replies_count}}</span>
                     </div>
                 </div>

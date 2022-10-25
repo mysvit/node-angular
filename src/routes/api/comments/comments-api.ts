@@ -1,7 +1,7 @@
 import { ParamsHelper } from '@shared'
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { commentsCore } from '../../ref/core'
+import { commentsCore } from '../../ref/db-pools-core'
 
 export class CommentsApi {
 
