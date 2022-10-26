@@ -22,7 +22,9 @@ describe('CoreUser', () => {
         chai.spy.on(coreUser.pictureDb, 'insert', () => 1)
         chai.spy.on(coreUser.userDb, 'insert', () => 1)
         chai.spy.on(coreUser, 'sendVerificationCode', () => 1)
-        const res = await coreUser.signup(<UserSignupModel>{nickname: 'not exist', email: 'my@email.com', password: 'pass', avatar: {pictureId: 'id'}})
+        const res = await coreUser.signup(<UserSignupModel>{
+            nickname: 'not exist', email: 'my@email.com', password: 'pass', avatar: {pictureId: 'id', contentBase64: 'base64,FFF'}
+        })
         expect(res).to.be.eq(1)
     })
 

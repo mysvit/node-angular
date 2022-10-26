@@ -53,11 +53,11 @@ runLocalBuild() {
 
   # run build commands
   tmux select-pane -t build:0.0 && tmux send-keys -t build:0.0 "npm run watch" Enter && sleep 0.1 #env
-  tmux select-pane -t build:0.1 && tmux send-keys -t build:0.1 "npm run watch" Enter && sleep 0.1 #dto
-  tmux select-pane -t build:0.2 && tmux send-keys -t build:0.2 "npm run watch" Enter && sleep 0.1 #shared
-  tmux select-pane -t build:0.3 && tmux send-keys -t build:0.3 "npm run watch" Enter && sleep 0.1 #db
-  tmux select-pane -t build:0.4 && tmux send-keys -t build:0.4 "npm run watch" Enter && sleep 0.1 #core
-  tmux select-pane -t build:0.5 && tmux send-keys -t build:0.5 "npm run watch" Enter && sleep 1   #server build
+  tmux select-pane -t build:0.1 && tmux send-keys -t build:0.1 "npm run watch" Enter && sleep 4 #dto
+  tmux select-pane -t build:0.2 && tmux send-keys -t build:0.2 "npm run watch" Enter && sleep 4 #shared
+  tmux select-pane -t build:0.3 && tmux send-keys -t build:0.3 "npm run watch" Enter && sleep 4 #db
+  tmux select-pane -t build:0.4 && tmux send-keys -t build:0.4 "npm run watch" Enter && sleep 4 #core
+  tmux select-pane -t build:0.5 && tmux send-keys -t build:0.5 "npm run watch" Enter && sleep 4   #server build
   tmux select-pane -t build:0.6 && tmux send-keys -t build:0.6 "npm start"     Enter && sleep 0.1 #server debug
   tmux select-pane -t build:0.7 && tmux send-keys -t build:0.7 "npm start"     Enter && sleep 0.1 #angular
 }
@@ -77,11 +77,11 @@ runDockerBuild() {
 
   tmux send-keys -t build:0.0 "docker run -it --rm --name build-env    -v $(pwd):$(pwd) -w $(pwd)/lib/dto    devnode npm run watch" Enter && sleep 0.1
   tmux send-keys -t build:0.1 "docker run -it --rm --name build-dto    -v $(pwd):$(pwd) -w $(pwd)/lib/dto    devnode npm run watch" Enter && sleep 4
-  tmux send-keys -t build:0.2 "docker run -it --rm --name build-shared -v $(pwd):$(pwd) -w $(pwd)/lib/shared devnode npm run watch" Enter && sleep 1
-  tmux send-keys -t build:0.3 "docker run -it --rm --name build-db     -v $(pwd):$(pwd) -w $(pwd)/lib/db     devnode npm run watch" Enter && sleep 1
-  tmux send-keys -t build:0.4 "docker run -it --rm --name build-core   -v $(pwd):$(pwd) -w $(pwd)/lib/core   devnode npm run watch" Enter && sleep 1
-  tmux send-keys -t build:0.5 "docker run -it --rm --name build-server -v $(pwd):$(pwd) -w $(pwd)            devnode npm run watch" Enter && sleep 1
-  tmux send-keys -t build:0.6 "docker run -it --rm --name debug-server -v $(pwd):$(pwd) -w $(pwd)            --net dev-net -p 3000:3000 -p 9229:9229 devnode npm start" Enter && sleep 0.1
+  tmux send-keys -t build:0.2 "docker run -it --rm --name build-shared -v $(pwd):$(pwd) -w $(pwd)/lib/shared devnode npm run watch" Enter && sleep 4
+  tmux send-keys -t build:0.3 "docker run -it --rm --name build-db     -v $(pwd):$(pwd) -w $(pwd)/lib/db     devnode npm run watch" Enter && sleep 4
+  tmux send-keys -t build:0.4 "docker run -it --rm --name build-core   -v $(pwd):$(pwd) -w $(pwd)/lib/core   devnode npm run watch" Enter && sleep 4
+  tmux send-keys -t build:0.5 "docker run -it --rm --name build-server -v $(pwd):$(pwd) -w $(pwd)            devnode npm run watch" Enter && sleep 4
+  tmux send-keys -t build:0.6 "docker run -it --rm --name debug-server -v $(pwd):$(pwd) -w $(pwd)            --net dev-net -p 3000:3000 -p 9229:9229 devnode npm start" Enter && sleep 2
   tmux send-keys -t build:0.7 "docker run -it --rm --name debug-client -v $(pwd):$(pwd) -w $(pwd)/client     --net dev-net -p 4200:4200              devnode npm start" Enter
 }
 
