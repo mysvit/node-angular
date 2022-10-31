@@ -4,28 +4,26 @@ import { SqlBuilder } from './sql-builder'
 
 export class Db {
 
-    // pool: Pool
+    // conn: Pool
     table: string = ''
 
     static createPool(dbConfig: DbConnection) {
         return createPool(dbConfig)
     }
 
-    constructor(public pool: Connection | PoolConnection| Pool) {
+    constructor(public conn: Connection | PoolConnection | Pool) {
         // logger: {
         //     query: (msg) => logger.info(msg),
         //         error: (err) => logger.error(err),
         // }
-        // this.pool = createPool(this.environment.db)
+        // this.conn = createPool(this.environment.db)
     }
 
-    // get getConnection() {
-    //     return this.pool.getConnection()
-    // }
-
-    // endPool() {
-    //     return this.pool.end()
-    // }
+    async selectOne<T>(whereObj): Promise<T> {
+        const sel = SqlBuilder.selectOneBuilder(this.table, whereObj)
+        return this.conn.query(sel.sql, sel.values)
+            .then(data => data.length > 0 ? data[0] : undefined)
+    }
 
     async dbQuery(sql: string | QueryOptions, values?: any): Promise<any> {
         // const conn = await this.getConnection
@@ -49,25 +47,25 @@ export class Db {
 
     async insert<T>(obj: T): Promise<number> {
         const ins = SqlBuilder.insertBuilder(this.table, obj)
-        return this.pool.query(ins.sql, ins.values)
+        return this.conn.query(ins.sql, ins.values)
             .then(data => data.affectedRows)
     }
 
     async select<T>(obj: T, whereObj: T): Promise<T> {
         const sel = SqlBuilder.selectBuilder(this.table, obj, whereObj)
-        return this.pool.query(sel.sql, sel.values)
+        return this.conn.query(sel.sql, sel.values)
             .then(data => data ? data[0] : undefined)
     }
 
-    async update<T>(obj: T, whereObj: T): Promise<number> {
-        const upd = SqlBuilder.updateBuilder(this.table, obj, whereObj)
-        return this.pool.query(upd.sql, upd.values)
+    async update(updateObj: Object, whereObj: Object): Promise<number> {
+        const upd = SqlBuilder.updateBuilder(this.table, updateObj, whereObj)
+        return this.conn.query(upd.sql, upd.values)
             .then(data => data.affectedRows)
     }
 
     async delete<T>(whereObj: T): Promise<number> {
         const del = SqlBuilder.deleteBuilder(this.table, whereObj)
-        return this.pool.query(del.sql, del.values)
+        return this.conn.query(del.sql, del.values)
             .then(data => data.affectedRows)
     }
 

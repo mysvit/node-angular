@@ -28,6 +28,6 @@ import { AppComponent } from './app.component'
 })
 export class AppModule {
     constructor(iconRegistry: MatIconRegistry) {
-        iconRegistry.setDefaultFontSetClass('material-icons-outlined')
+        iconRegistry.setDefaultFontSetClass('material-symbols-outlined')
     }
 }

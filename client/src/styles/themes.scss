@@ -21,7 +21,19 @@ html {
     --c-link-button: #0000FF;
     --c-date-time: #858080;
 
-    //Form
-    --form-single-col-width: 600px
+    // Form
+    --form-single-col-width: 600px;
 
+    // Elements
+    --c-hover-icon: #D3D3D3;
+}
+
+// default class
+// add <class="fill"> for fill icons
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+
+    &.fill {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    }
 }

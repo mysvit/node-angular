@@ -1,5 +1,5 @@
 import { CommentsDb } from '@db'
-import { CommentsTbl } from '@dto'
+import { CommentsItem, CommentsTbl } from '@dto'
 import { Select, SelectLimit } from '@shared'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -40,7 +40,7 @@ export class CommentsCore extends Core {
         )
     }
 
-    async list(select: Select): Promise<CommentsTbl> {
+    async list(select: Select): Promise<Array<CommentsItem>> {
         const sel = <Select>{
             selectLimit: <SelectLimit>{limit: 5}
         }

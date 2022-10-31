@@ -8,7 +8,7 @@
 
 <div class="sl-container">
 
-    <ng-container *ngFor="let item of commentsList">
+    <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
         <div class="sl-item">
             <div>
                 <img class="sl-avatar" alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
@@ -24,21 +24,27 @@
                 </div>
                 <div [innerText]="item.comment"></div>
                 <div class="sl-item-reply">
-                    <div class="g-col mr-20">
-                        <mat-icon (click)="commentLike(item.comment_id)">thumb_up</mat-icon>
+                    <div class="sl-item-icon">
+                        <mat-icon class="sl-icon" [ngClass]="{'fill':item.like_user}"
+                                  aria-hidden="false" aria-label="I like this" (click)="commentLike(item)">
+                            thumb_up
+                        </mat-icon>
                         <span>{{item.likes_count}}</span>
                     </div>
-                    <div class="g-col mr-20">
-                        <mat-icon (click)="commentDislike()">thumb_down</mat-icon>
+                    <div class="sl-item-icon">
+                        <mat-icon class="sl-icon" [ngClass]="{'fill':item.dislike_user}"
+                                  aria-hidden="false" aria-label="I dislike this" (click)="commentDislike(item)">
+                            thumb_down
+                        </mat-icon>
                         <span>{{item.dislikes_count}}</span>
                     </div>
-                    <div class="g-col">
-                        <mat-icon (click)="commentReply()">chat</mat-icon>
+                    <div class="sl-item-icon">
+                        <mat-icon class="sl-icon" (click)="commentReply()">chat</mat-icon>
                         <span>{{item.replies_count}}</span>
                     </div>
                 </div>
             </div>
         </div>
-    </ng-container>
+    </ng-template>
 
 </div>

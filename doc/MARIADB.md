@@ -29,6 +29,11 @@ FROM information_schema.processlist
 ``` sql
 INSERT INTO table (column1, column2) VALUES ('value1', 'value2');
 ```
+### Primary key
+
+```sql
+ALTER TABLE Table1 ADD PRIMARY KEY(ID);
+```
 
 ### Foreign Keys
 ``` sql

@@ -1,7 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { CommentsItem } from '@dto'
+import { CommentsItem, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
+import { LikeDislikeCalc } from '@shared-lib/logic'
 import { FormAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
@@ -32,33 +33,65 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
     }
 
     getData() {
-        const select = <Select>{
-            selectLimit: <SelectLimit>{limit: 5}
-        }
         this.execute(
-            this.home.listComments(select)
-                .pipe(
-                    map(items => this.commentsList = items)
-                )
+            this.commentsListData()
         )
+    }
+
+    commentsListData() {
+        return this.home.commentsList(<Select>{
+            selectLimit: <SelectLimit>{limit: 5}
+        })
+            .pipe(
+                map(items => this.commentsList = items)
+            )
     }
 
     addClick() {
         this.router.navigate([FormAction.Add, '0'], {relativeTo: this.activatedRoute}).finally()
     }
 
-    commentLike(commentId: string) {
+    commentLike(item: CommentsItem) {
+        const model = <CommentsLikesModel>{
+            comment_id: item.comment_id,
+            is_like: 1,
+            is_dislike: 0
+        }
         this.execute(
-            this.home.commentLike(commentId)
+            this.home.commentLike(model)
+                .pipe(
+                    map(data => this.updateComment(item, data))
+                )
         )
     }
 
-    commentDislike() {
-
+    commentDislike(item: CommentsItem) {
+        const model = <CommentsLikesModel>{
+            comment_id: item.comment_id,
+            is_like: 0,
+            is_dislike: 1
+        }
+        this.execute(
+            this.home.commentLike(model)
+                .pipe(
+                    map(data => this.updateComment(item, data))
+                )
+        )
     }
 
     commentReply() {
 
+    }
+
+    private updateComment(item: CommentsItem, data: LikeDislikeCalc) {
+        const index = this.commentsList.findIndex(f => f.comment_id === item.comment_id)
+        this.commentsList[index] = {
+            ...item,
+            like_user: data.likeUsr,
+            dislike_user: data.dislikeUsr,
+            likes_count: item.likes_count + data.likeCount,
+            dislikes_count: item.dislikes_count + data.dislikeCount
+        }
     }
 
 }

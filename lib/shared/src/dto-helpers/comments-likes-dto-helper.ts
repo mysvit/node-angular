@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto'
 
 export namespace CommentsLikesDtoHelper {
 
-    export function commentsLikesTblFromModel(model: CommentsLikesModel, userId: string): CommentsLikesTbl {
+    export function modelToTbl(model: CommentsLikesModel, userId: string): CommentsLikesTbl {
         if (model.is_like > 1) model.is_like = 1
         if (model.is_dislike > 1) model.is_dislike = 1
         if (model.is_like < 0) model.is_like = 0

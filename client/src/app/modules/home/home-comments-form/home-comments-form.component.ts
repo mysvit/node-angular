@@ -33,7 +33,7 @@ export class HomeCommentsFormComponent extends ProcessForm implements OnInit {
                 map((params: ParamMap) => {
                     this.formModel.formAction = <FormAction>(params.get(Props.action) || FormAction.View)
                     if (this.formModel.formAction !== FormAction.Add && ValueHelper.isEmpty(params.get(Props.id))) {
-                        this.execute(this.home.getComments(params.get(Props.id) || ''))
+                        this.execute(this.home.commentGet(params.get(Props.id) || ''))
                     }
                 })
             )
@@ -50,7 +50,7 @@ export class HomeCommentsFormComponent extends ProcessForm implements OnInit {
             this.formModel.commentsTbl.comment_id = uuid4()
         }
         this.execute(
-            this.home.addComments(this.formModel.commentsTbl), {completedMessage: 'Comment added.'}
+            this.home.commentAdd(this.formModel.commentsTbl), {completedMessage: 'Comment added.'}
         )
     }
 

@@ -1,6 +1,6 @@
 {
   "exec": "ttsc --project ./tsconfig.lib.json",
-  "delay": 3000,
+  "delay": 5000,
   "restartable": "rs",
   "verbose": true,
   "events": {

@@ -3,6 +3,50 @@ import { BuilderResult } from './insert-build'
 
 export namespace SqlBuilder {
 
+    function getValues(obj) {
+        if (obj) {
+            return Object.getOwnPropertyNames(obj).map(fieldName => obj[fieldName])
+        } else {
+            return []
+        }
+    }
+
+    function whereEqBuild(whereObj) {
+        return ' WHERE ' + Object.getOwnPropertyNames(whereObj).map(fieldName => `${fieldName}=?`).join(' AND ')
+    }
+
+
+    function selectFromTbl(table: string) {
+        return 'SELECT * FROM ' + table
+    }
+
+    function updateTbl(table: string) {
+        return 'UPDATE ' + table
+    }
+
+    function setBuild(updateObj) {
+        return ' SET ' + Object.getOwnPropertyNames(updateObj).map(fieldName => `${fieldName}=?`).join(',')
+    }
+
+
+    export function selectOneBuilder(table: string, whereObj: any): BuilderResult {
+        const sql =
+            selectFromTbl(table) +
+            whereEqBuild(whereObj)
+        const values = getValues(whereObj)
+        return <BuilderResult>{sql: sql, values: values}
+    }
+
+    export function updateBuilder(table, updateObj, whereObj) {
+        const sql =
+            updateTbl(table) +
+            setBuild(updateObj) +
+            whereEqBuild(whereObj)
+        const values = getValues(updateObj).concat(getValues(whereObj))
+        return <BuilderResult>{sql: sql, values: values}
+    }
+
+
     export function insertBuilder(table, obj): BuilderResult {
         const sql = `INSERT INTO ${table} (${getFields(obj)}) VALUES (${getInsertParams(obj)})`
         const values = getValues(obj)
@@ -23,15 +67,10 @@ export namespace SqlBuilder {
         sql += getSelectOrder(select.selectOrder)
         sql += getSelectLimit(select.selectLimit)
         const whereValues = []
-            // getValues(select.)
+        // getValues(select.)
         return <BuilderResult>{sql: sql, values: whereValues}
     }
 
-    export function updateBuilder(table, obj, whereObj) {
-        const sql = `UPDATE ${table} SET ${getUpdateFields(obj)} WHERE ${getWhere(whereObj)}`
-        const values = getValues(obj).concat(getValues(whereObj))
-        return <BuilderResult>{sql: sql, values: values}
-    }
 
     export function deleteBuilder(table, whereObj) {
         const sql = `DELETE FROM ${table} WHERE ${getWhere(whereObj)}`
@@ -40,6 +79,7 @@ export namespace SqlBuilder {
     }
 
 }
+
 
 export function getSelectFields(fields: string[]) {
     return `SELECT ${fields.join(',')}`

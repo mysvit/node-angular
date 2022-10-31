@@ -8,5 +8,5 @@ import { CommentsLikesApi } from './comments-likes-api'
 export const commentsLikesRouter = express.Router()
 
 
-// api/comment/list
-commentsLikesRouter.post(ApiPath.comments_likes_list, ErrorHandler.apiCatch(CommentsLikesApi.list))
+// api/comments-likes/set
+commentsLikesRouter.post(ApiPath.comments_likes_set, ErrorHandler.apiCatch(CommentsLikesApi.set))
