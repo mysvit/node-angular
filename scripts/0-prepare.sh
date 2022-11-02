@@ -29,9 +29,9 @@ dockerImageBuild() {
   cd scripts/docker-images/devnode
 
   docker build \
-               --build-arg NODE_VERSION='16.18.0' \
+               --build-arg NODE_VERSION='16.18.3' \
                --build-arg NPM_VERSION='latest' \
-               --build-arg ANGULAR_CLI_VERSION='14.2.6' \
+               --build-arg ANGULAR_CLI_VERSION='14.2.7' \
                --build-arg PWD=$(pwd) \
                -t devnode .
 
