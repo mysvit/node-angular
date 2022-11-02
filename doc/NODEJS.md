@@ -17,11 +17,16 @@ To test the update, run
 ``` bash
 npm outdated
 ```
+globally
+```bash
+npm outdated -g --depth=0
+```
+
 To Install latest version
 ``` bash
 npm install nodemon@lates
 ```
-for global
+globally
 ```bash
 npm install npm@latest -g
 ```
