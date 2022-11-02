@@ -21,8 +21,8 @@ ng update
 
 Name                               Version                  Command to update
 --------------------------------------------------------------------------------
-@angular/cdk                       13.3.3 -> 14.0.5         ng update @angular/cdk
-@angular/cli                       14.2.5 -> 14.2.6         ng update @angular/cli
+@angular/cdk                       14.2.6 -> 14.2.7         ng update @angular/cdk
+@angular/cli                       14.2.6 -> 14.2.7         ng update @angular/cli
 @angular/core                      14.2.5 -> 14.2.6         ng update @angular/core
 ```
 Run commands what needed. For example start with core:
