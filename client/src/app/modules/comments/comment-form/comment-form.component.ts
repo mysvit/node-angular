@@ -1,30 +1,26 @@
-import { Component, Injector, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { ProcessForm } from '@shared/form'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { CommentSet } from '@dto'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
-import { HomeService } from '../home.service'
-import { HomeCommentsFormModel } from './home-comments.form-model'
+import { CommentFormModel } from './comment.form-model'
 
 @Component({
-    selector: 'app-home-comments-form',
-    templateUrl: './home-comments-form.component.html',
-    styleUrls: ['./home-comments-form.component.scss']
+    selector: 'app-comment-form',
+    templateUrl: './comment-form.component.html',
+    styleUrls: ['./comment-form.component.scss']
 })
-export class HomeCommentsFormComponent extends ProcessForm implements OnInit {
+export class CommentFormComponent implements OnInit {
 
     SlStorage = SlStorage
     FieldValidators = FieldValidators
-    formModel = new HomeCommentsFormModel()
+    formModel = new CommentFormModel()
 
-    constructor(
-        injector: Injector,
-        private router: Router,
-        private activatedRoute: ActivatedRoute,
-        private home: HomeService
-    ) {
-        super(injector)
-        this.snackBar?.dismiss()
+    @Input() model: CommentSet = <CommentSet>{}
+    @Output() onSave: EventEmitter<CommentFormModel> = new EventEmitter<CommentFormModel>()
+    @Output() onCancel: EventEmitter<boolean> = new EventEmitter<boolean>()
+
+    constructor() {
+        // this.snackBar?.dismiss()
         // this.activatedRoute.paramMap
         //     .pipe(
         //         map((params: ParamMap) => {
@@ -38,7 +34,8 @@ export class HomeCommentsFormComponent extends ProcessForm implements OnInit {
     }
 
     ngOnInit(): void {
-        this.formModel.commentValue = ''
+        this.formModel.commentValue = this.model.comment
+        this.formModel.formGroup.patchValue(this.model)
     }
 
     // onCommentChange() {
@@ -46,7 +43,8 @@ export class HomeCommentsFormComponent extends ProcessForm implements OnInit {
     // }
 
     saveClick() {
-        // if (!this.formModel.isFieldValid()) return
+        if (!this.formModel.isFieldValid()) return
+        this.onSave.emit(this.formModel)
         // this.formModel.commentsTbl = this.formModel.formGroup.getRawValue()
         // if (this.formModel.formAction === FormAction.Add) {
         //     this.formModel.commentsTbl.comment_id = uuid4()
@@ -56,12 +54,13 @@ export class HomeCommentsFormComponent extends ProcessForm implements OnInit {
         // )
     }
 
-    override processCompleted(message?: string) {
-        super.processCompleted(message)
-        // this.router.navigate([ClientPath.home, ClientPath.comments]).finally()
-    }
+    // override processCompleted(message?: string) {
+    //     super.processCompleted(message)
+    // this.router.navigate([ClientPath.home, ClientPath.comments]).finally()
+    // }
 
     cancelClick() {
+        this.onCancel.emit(true)
         // this.router.navigate([ClientPath.home, ClientPath.comments]).finally()
         // this.router.navigate([ClientPath.one_level_back], {relativeTo: this.activatedRoute}).finally()
     }

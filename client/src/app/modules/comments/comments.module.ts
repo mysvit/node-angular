@@ -6,24 +6,30 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { SharedModule } from '@shared/shared.module'
-import { HomeRoutingModule } from './home-routing.module'
-import { HomeComponent } from './home.component'
+import { CommentFormComponent } from './comment-form/comment-form.component'
+import { CommentsRoutingModule } from './comments-routing.module'
+import { CommentsComponent } from './comments/comments.component'
+import { CommentsService } from './comments/comments.service'
 
 @NgModule({
     declarations: [
-        HomeComponent
+        CommentsComponent,
+        CommentFormComponent
     ],
     imports: [
+        CommentsRoutingModule,
+        SharedModule,
         CommonModule,
-        HomeRoutingModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        SharedModule,
         MatIconModule,
         FormsModule
+    ],
+    providers: [
+        CommentsService
     ]
 })
-export class HomeModule {
+export class CommentsModule {
 }

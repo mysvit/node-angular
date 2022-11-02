@@ -3,7 +3,7 @@
 <button *ngIf="!addComment" class="sl-add-comment" mat-flat-button color="primary" aria-label="Add a comment" (click)="addClick()">
     <span>Add comment</span>
 </button>
-<app-home-comments-form *ngIf="addComment"></app-home-comments-form>
+<app-comment-form *ngIf="addComment"></app-comment-form>
 
 <div class="sl-container">
 

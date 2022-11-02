@@ -1,6 +1,7 @@
 import { CommentsDb } from '@db'
-import { CommentsItem, CommentsTbl } from '@dto'
-import { Select, SelectLimit } from '@shared'
+import { CommentSet, CommentsItem, CommentsTbl } from '@dto'
+import { CommentsDtoHelper, Select, SelectLimit } from '@shared'
+import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
 
@@ -8,9 +9,10 @@ export class CommentsCore extends Core {
 
     private commentsDb = new CommentsDb(this.pool)
 
-    async add(userId: string, commentsTbl: CommentsTbl): Promise<number> {
+    async add(userId: string, commentSet: CommentSet): Promise<number> {
         ParamValidation.validateUuId(userId)
-        commentsTbl.user_id = userId
+        commentSet.commentId = randomUUID()
+        const commentsTbl = CommentsDtoHelper.setToTbl(commentSet, userId)
         return this.commentsDb.insert(commentsTbl)
     }
 

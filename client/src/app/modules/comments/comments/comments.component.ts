@@ -1,19 +1,18 @@
 import { Component, Injector, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
 import { CommentsItem, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { map } from 'rxjs'
-import { HomeService } from '../home.service'
+import { CommentsService } from './comments.service'
 
 @Component({
-    selector: 'app-home-comments',
-    templateUrl: './home-comments.component.html',
-    styleUrls: ['./home-comments.component.scss']
+    selector: 'app-comments',
+    templateUrl: './comments.component.html',
+    styleUrls: ['./comments.component.scss']
 })
-export class HomeCommentsComponent extends ProcessForm implements OnInit {
+export class CommentsComponent extends ProcessForm implements OnInit {
 
     SlStorage = SlStorage
     commentsList: Array<CommentsItem> = []
@@ -21,9 +20,7 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
 
     constructor(
         injector: Injector,
-        private home: HomeService,
-        private router: Router,
-        private activatedRoute: ActivatedRoute
+        private comments: CommentsService
     ) {
         super(injector)
     }
@@ -39,7 +36,7 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
     }
 
     commentsListData() {
-        return this.home.commentsList(<Select>{
+        return this.comments.commentsList(<Select>{
             selectLimit: <SelectLimit>{limit: 5}
         })
             .pipe(
@@ -63,7 +60,7 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
             is_dislike: 0
         }
         this.execute(
-            this.home.commentLike(model)
+            this.comments.commentLike(model)
                 .pipe(
                     map(data => this.updateComment(item, data))
                 )
@@ -77,7 +74,7 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
             is_dislike: 1
         }
         this.execute(
-            this.home.commentLike(model)
+            this.comments.commentLike(model)
                 .pipe(
                     map(data => this.updateComment(item, data))
                 )
