@@ -9,11 +9,18 @@
 
 ## Update
 
-Install compatible version of NodeJS on local os or docker and run in root of project
+Install compatible version of NodeJS on local os or docker
+
+**Update packages**
 ``` bash
 npm update
 ```
-To test the update, run
+globally
+```bash
+npm update -g
+```
+
+**To test the update, run**
 ``` bash
 npm outdated
 ```
@@ -22,7 +29,7 @@ globally
 npm outdated -g --depth=0
 ```
 
-To Install latest version
+**To Install latest version**
 ``` bash
 npm install nodemon@lates
 ```
