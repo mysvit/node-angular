@@ -1,14 +1,16 @@
 // button
 // space between icon and caption
 .mat-button-wrapper {
-    span {
-        margin-left: 10px;
+    mat-icon {
+        margin-right: 10px;
     }
 }
 
 // wait cursor for disabled button
 .mat-flat-button.mat-button-disabled.mat-button-disabled {
-    cursor: wait;
+    &.wait {
+        cursor: wait;
+    }
 }
 
 // toolbar

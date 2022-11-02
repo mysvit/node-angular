@@ -10,6 +10,7 @@ export class HomeCommentsFormModel extends BaseFormModel {
     comment: FormControl = new FormControl(undefined, [
         FieldValidators.required('You must enter a comment.')
     ])
+    commentValue: string = ''
 
     override formGroup: FormGroup = new FormGroup({
             comment: this.comment

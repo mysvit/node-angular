@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { CommentsItem, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
-import { FormAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { map } from 'rxjs'
@@ -18,6 +17,7 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
 
     SlStorage = SlStorage
     commentsList: Array<CommentsItem> = []
+    addComment = false
 
     constructor(
         injector: Injector,
@@ -47,8 +47,13 @@ export class HomeCommentsComponent extends ProcessForm implements OnInit {
             )
     }
 
+    commentsTrackBy(index: number, item: CommentsItem) {
+        return item.comment_id
+    }
+
     addClick() {
-        this.router.navigate([FormAction.Add, '0'], {relativeTo: this.activatedRoute}).finally()
+        this.addComment = true
+        // this.router.navigate([FormAction.Add, '0'], {relativeTo: this.activatedRoute}).finally()
     }
 
     commentLike(item: CommentsItem) {

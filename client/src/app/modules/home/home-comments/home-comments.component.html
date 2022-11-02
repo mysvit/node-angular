@@ -1,10 +1,9 @@
 <h1>Testing PWA</h1>
 
-<div>
-    <button mat-flat-button color="primary" aria-label="Add comment" (click)="addClick()">
-        <span>Add comment</span>
-    </button>
-</div>
+<button *ngIf="!addComment" class="sl-add-comment" mat-flat-button color="primary" aria-label="Add a comment" (click)="addClick()">
+    <span>Add comment</span>
+</button>
+<app-home-comments-form *ngIf="addComment"></app-home-comments-form>
 
 <div class="sl-container">
 

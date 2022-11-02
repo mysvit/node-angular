@@ -18,3 +18,26 @@
     }
 }
 
+.sl-textarea-autogrow {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    resize: both;
+    min-height: 20px;
+    line-height: 20px;
+    background-color: var(--c-input-background);
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid black;
+    outline: none;
+
+    &:hover {
+        border-bottom: 2px solid black;
+    }
+}
+
+.sl-textarea-autogrow[contenteditable]:empty::before {
+    content: "Placeholder still possible";
+    color: gray;
+}
