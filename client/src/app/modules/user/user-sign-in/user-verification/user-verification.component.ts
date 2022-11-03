@@ -1,5 +1,4 @@
 import { Component, Injector } from '@angular/core'
-import { Router } from '@angular/router'
 import { ClientPath } from '@shared-lib/constants'
 import { ValueHelper } from '@shared-lib/helpers'
 import { MessageType } from '@shared/enum'
@@ -22,7 +21,6 @@ export class UserVerificationComponent extends ProcessForm {
 
     constructor(
         injector: Injector,
-        private router: Router,
         private userSignIn: UserSignInService
     ) {
         super(injector)

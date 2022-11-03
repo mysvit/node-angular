@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core'
 import { CommentSet } from '@dto'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -9,64 +9,64 @@ import { CommentFormModel } from './comment.form-model'
     templateUrl: './comment-form.component.html',
     styleUrls: ['./comment-form.component.scss']
 })
-export class CommentFormComponent implements OnInit {
+export class CommentFormComponent implements OnInit, AfterViewInit {
 
     SlStorage = SlStorage
     FieldValidators = FieldValidators
     formModel = new CommentFormModel()
+    isDisabled: boolean = false
 
-    @Input() model: CommentSet = <CommentSet>{}
+    @ViewChild('commentText') private commentText?: ElementRef
+
+    @Input() inModel: CommentSet = <CommentSet>{}
+
+    @Input() set disabled(value: boolean) {
+        this.disableForm(value)
+    }
+
+    get disabled() {
+        return this.isDisabled
+    }
+
+
     @Output() onSave: EventEmitter<CommentFormModel> = new EventEmitter<CommentFormModel>()
-    @Output() onCancel: EventEmitter<boolean> = new EventEmitter<boolean>()
+    @Output() onCancel = new EventEmitter()
 
-    constructor() {
-        // this.snackBar?.dismiss()
-        // this.activatedRoute.paramMap
-        //     .pipe(
-        //         map((params: ParamMap) => {
-        //             this.formModel.formAction = <FormAction>(params.get(Props.action) || FormAction.View)
-        //             if (this.formModel.formAction !== FormAction.Add && ValueHelper.isEmpty(params.get(Props.id))) {
-        //                 this.execute(this.home.commentGet(params.get(Props.id) || ''))
-        //             }
-        //         })
-        //     )
-        //     .subscribe()
+    constructor(private renderer: Renderer2) {
     }
 
     ngOnInit(): void {
-        this.formModel.commentValue = this.model.comment
-        this.formModel.formGroup.patchValue(this.model)
+        this.formModel.formGroup.patchValue(this.inModel)
     }
 
-    // onCommentChange() {
-    //     console.log(this.formModel.comment.value)
-    // }
+    ngAfterViewInit() {
+        this.renderer.setAttribute(this.commentText?.nativeElement, 'contenteditable', 'true')
+        this.renderer.setAttribute(this.commentText?.nativeElement, 'placeholder', 'Add a comment...')
+        this.commentText?.nativeElement.focus()
+    }
 
     saveClick() {
-        if (!this.formModel.isFieldValid()) return
+        this.disableForm(true)
+        if (!this.formModel.isFieldValid()) {
+            this.disableForm(false)
+            return
+        }
         this.onSave.emit(this.formModel)
-        // this.formModel.commentsTbl = this.formModel.formGroup.getRawValue()
-        // if (this.formModel.formAction === FormAction.Add) {
-        //     this.formModel.commentsTbl.comment_id = uuid4()
-        // }
-        // this.execute(
-        //     this.home.commentAdd(this.formModel.commentsTbl), {completedMessage: 'Comment added.'}
-        // )
     }
 
-    // override processCompleted(message?: string) {
-    //     super.processCompleted(message)
-    // this.router.navigate([ClientPath.home, ClientPath.comments]).finally()
-    // }
-
     cancelClick() {
-        this.onCancel.emit(true)
-        // this.router.navigate([ClientPath.home, ClientPath.comments]).finally()
-        // this.router.navigate([ClientPath.one_level_back], {relativeTo: this.activatedRoute}).finally()
+        this.onCancel.emit()
     }
 
     changeComment(event: any) {
         this.formModel.comment.patchValue(event?.target?.innerHTML)
+    }
+
+    private disableForm(isDisable: boolean) {
+        this.isDisabled = isDisable
+        if (this.commentText?.nativeElement) {
+            this.renderer.setAttribute(this.commentText?.nativeElement, 'contenteditable', String(!isDisable))
+        }
     }
 
 }

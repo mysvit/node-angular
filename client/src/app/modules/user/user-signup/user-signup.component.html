@@ -1,7 +1,7 @@
 <h1>Sign up!</h1>
 
 <form [formGroup]="formModel.formGroup" (submit)="registerClick()">
-    <fieldset class="g-fieldset" [disabled]="disableForm">
+    <fieldset class="g-fieldset" [disabled]="executingForm">
 
         <mat-form-field appearance="fill">
             <mat-label>Email address</mat-label>

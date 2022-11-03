@@ -1,5 +1,4 @@
 import { Component, Injector } from '@angular/core'
-import { Router } from '@angular/router'
 import { ChangePassModel } from '@dto'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
 import { MessageType } from '@shared/enum'
@@ -22,7 +21,6 @@ export class UserPasswordComponent extends ProcessForm {
 
     constructor(
         injector: Injector,
-        private router: Router,
         private userProfile: UserProfileService
     ) {
         super(injector)

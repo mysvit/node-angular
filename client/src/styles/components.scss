@@ -38,6 +38,10 @@
 }
 
 .sl-textarea-autogrow[contenteditable]:empty::before {
-    content: "Placeholder still possible";
+    content: attr(placeholder);
+    color: gray;
+}
+
+.sl-textarea-autogrow[contenteditable=false] {
     color: gray;
 }

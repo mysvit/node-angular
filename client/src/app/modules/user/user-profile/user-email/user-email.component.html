@@ -12,7 +12,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="EmailState.NewEmail">
-        <ng-template [appSpinner]="disableForm">
+        <ng-template [appSpinner]="executingForm">
             <form [formGroup]="newEmailFormModel.formGroup" class="g-row">
                 <h3>Change email</h3>
                 <mat-form-field appearance="fill">
@@ -29,10 +29,10 @@
                 </mat-form-field>
 
                 <div class="g-col">
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Cancel" (click)="homeClick()">
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Cancel" (click)="homeClick()">
                         <span>Cancel</span>
                     </button>
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Modify email" (click)="modifyEmailClick()">
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Modify email" (click)="modifyEmailClick()">
                         <span>Modify email</span>
                     </button>
                 </div>
@@ -41,7 +41,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="EmailState.VerifyCode">
-        <ng-template [appSpinner]="disableForm">
+        <ng-template [appSpinner]="executingForm">
             <form [formGroup]="verifyFormModel.formGroup" class="g-row">
                 <h3>Check new email and enter verification code</h3>
                 <mat-form-field appearance="fill">
@@ -52,10 +52,10 @@
                 </mat-form-field>
 
                 <div class="g-col">
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Cancel" (click)="homeClick()">
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Cancel" (click)="homeClick()">
                         <span>Cancel</span>
                     </button>
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': disableForm}" aria-label="Verify" (click)="verifyEmailClick()">
+                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Verify" (click)="verifyEmailClick()">
                         <mat-icon>check</mat-icon>
                         <span>Verify</span>
                     </button>

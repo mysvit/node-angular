@@ -7,7 +7,8 @@ export namespace CommentsDtoHelper {
             comment_id: model.commentId,
             parent_id: model.parentId,
             user_id: userId,
-            write_date: new DateDb().value
+            write_date: new DateDb().value,
+            comment: model.comment
         }
     }
 

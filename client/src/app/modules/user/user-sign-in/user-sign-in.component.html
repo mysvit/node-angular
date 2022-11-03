@@ -1,7 +1,7 @@
 <h1>Sign in!</h1>
 
 <form [formGroup]="formModel.formGroup">
-    <fieldset class="g-fieldset" [disabled]="disableForm">
+    <fieldset class="g-fieldset" [disabled]="executingForm">
 
         <mat-form-field appearance="fill">
             <mat-label>Email address</mat-label>
@@ -16,13 +16,13 @@
             <mat-error *ngIf="formModel.password.invalid">{{FieldValidators.errorMessage(formModel.password)}}</mat-error>
         </mat-form-field>
 
-        <button mat-flat-button color="primary" [disabled]="disableForm" aria-label="Sign in" (click)="signInClick()">
+        <button mat-flat-button color="primary" [disabled]="executingForm" aria-label="Sign in" (click)="signInClick()">
             <mat-icon>login</mat-icon>
             <span>Sign in</span>
         </button>
 
         <div>
-            <a class="sl-link-button left" [ngClass]="{'disabled': disableForm}" (click)="forgotPasswordClick()">
+            <a class="sl-link-button left" [ngClass]="{'disabled': executingForm}" (click)="forgotPasswordClick()">
                 Forgot password?
             </a>
         </div>
@@ -33,7 +33,7 @@
 <div class="g-col">
 
     <span>Don't have account?</span>
-    <a class="sl-link-button left" [ngClass]="{'disabled': disableForm}" (click)="signupClick()">
+    <a class="sl-link-button left" [ngClass]="{'disabled': executingForm}" (click)="signupClick()">
         Create an account
     </a>
 

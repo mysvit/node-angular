@@ -4,12 +4,10 @@
     overflow-y: auto;
 }
 
-h1 {
-    padding: 20px;
-}
-
-.sl-add-comment {
-    margin: 10px;
+.mat-flat-button {
+    &.margin {
+        margin: 0 1em 2em 1em;
+    }
 }
 
 .sl-container {

@@ -9,11 +9,12 @@ export class CommentsCore extends Core {
 
     private commentsDb = new CommentsDb(this.pool)
 
-    async add(userId: string, commentSet: CommentSet): Promise<number> {
+    async add(userId: string, commentSet: CommentSet): Promise<string> {
         ParamValidation.validateUuId(userId)
         commentSet.commentId = randomUUID()
         const commentsTbl = CommentsDtoHelper.setToTbl(commentSet, userId)
-        return this.commentsDb.insert(commentsTbl)
+        await this.commentsDb.insert(commentsTbl)
+        return commentSet.commentId
     }
 
     async upd(commentsTbl: CommentsTbl): Promise<number> {

@@ -1,6 +1,6 @@
 import { Location } from '@angular/common'
 import { Component, Injector, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { SignInModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
@@ -21,7 +21,6 @@ export class UserSignInComponent extends ProcessForm implements OnInit {
 
     constructor(
         injector: Injector,
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private location: Location,
         private userSignIn: UserSignInService

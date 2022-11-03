@@ -1,5 +1,4 @@
 import { Component, Injector } from '@angular/core'
-import { Router } from '@angular/router'
 import { ResetPassModel } from '@dto'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
@@ -22,7 +21,6 @@ export class UserResetPasswordComponent extends ProcessForm {
 
     constructor(
         injector: Injector,
-        private router: Router,
         private userSignIn: UserSignInService
     ) {
         super(injector)

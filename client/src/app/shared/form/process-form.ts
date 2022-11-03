@@ -1,7 +1,10 @@
 import { Injector } from '@angular/core'
+import { Router } from '@angular/router'
 import { SnackBarService } from '@core/services/snack-bar.service'
+import { ClientPath } from '@shared-lib/constants'
 import { MessageType, ProcessState } from '@shared/enum'
 import { ProcessOption } from '@shared/form/process-option'
+import { SlStorage } from '@shared/storage'
 import { Observable, Subject, takeUntil } from 'rxjs'
 
 export class ProcessForm {
@@ -11,17 +14,26 @@ export class ProcessForm {
     processState: ProcessState = ProcessState.Initial
 
     public snackBar?: SnackBarService
+    public router: Router
 
     constructor(injector: Injector) {
         this.snackBar = injector.get<SnackBarService>(SnackBarService)
+        this.router = injector.get<Router>(Router)
     }
 
-    get disableForm() {
+    get executingForm(): boolean {
         return this.processState === ProcessState.Executing
     }
 
-    get completedForm() {
+    get completedForm(): boolean {
         return this.processState === ProcessState.Completed
+    }
+
+    get isAuth(): boolean {
+        if (!SlStorage.isAuth) {
+            this.router.navigate([ClientPath.sign_in]).finally()
+        }
+        return SlStorage.isAuth
     }
 
     protected execute(observable: Observable<Object | void>, option?: ProcessOption): void {

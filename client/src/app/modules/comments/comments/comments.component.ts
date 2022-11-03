@@ -1,10 +1,11 @@
 import { Component, Injector, OnInit } from '@angular/core'
-import { CommentsItem, CommentsLikesModel } from '@dto'
+import { CommentSet, CommentsItem, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
-import { map } from 'rxjs'
+import { map, Observable, of, switchMap } from 'rxjs'
+import { CommentFormModel } from '../comment-form/comment.form-model'
 import { CommentsService } from './comments.service'
 
 @Component({
@@ -17,6 +18,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     SlStorage = SlStorage
     commentsList: Array<CommentsItem> = []
     addComment = false
+    commentSet: CommentSet = <CommentSet>{}
 
     constructor(
         injector: Injector,
@@ -26,16 +28,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getData()
-    }
-
-    getData() {
         this.execute(
             this.commentsListData()
         )
     }
 
-    commentsListData() {
+    commentsListData(): Observable<Array<CommentsItem>> {
         return this.comments.commentsList(<Select>{
             selectLimit: <SelectLimit>{limit: 5}
         })
@@ -44,16 +42,31 @@ export class CommentsComponent extends ProcessForm implements OnInit {
             )
     }
 
-    commentsTrackBy(index: number, item: CommentsItem) {
+    commentsTrackBy(index: number, item: CommentsItem): string {
         return item.comment_id
     }
 
-    addClick() {
+    addCommentClick(): void {
+        if (!this.isAuth) return
         this.addComment = true
-        // this.router.navigate([FormAction.Add, '0'], {relativeTo: this.activatedRoute}).finally()
+        this.commentSet = <CommentSet>{comment: ''}
     }
 
-    commentLike(item: CommentsItem) {
+    addCommentEvent(model: CommentFormModel): void {
+        this.execute(
+            this.comments.commentAdd(model.formGroup.getRawValue())
+                .pipe(
+                    switchMap(() => this.commentsListData()),
+                    switchMap(() => of(this.addComment = false))
+                )
+        )
+    }
+
+    cancelAddCommentEvent(): void {
+        this.addComment = false
+    }
+
+    commentLikeClick(item: CommentsItem): void {
         const model = <CommentsLikesModel>{
             comment_id: item.comment_id,
             is_like: 1,
@@ -62,12 +75,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         this.execute(
             this.comments.commentLike(model)
                 .pipe(
-                    map(data => this.updateComment(item, data))
+                    map(data => this.updateCommentItem(item, data))
                 )
         )
     }
 
-    commentDislike(item: CommentsItem) {
+    commentDislikeClick(item: CommentsItem): void {
         const model = <CommentsLikesModel>{
             comment_id: item.comment_id,
             is_like: 0,
@@ -76,16 +89,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         this.execute(
             this.comments.commentLike(model)
                 .pipe(
-                    map(data => this.updateComment(item, data))
+                    map(data => this.updateCommentItem(item, data))
                 )
         )
     }
 
-    commentReply() {
-
-    }
-
-    private updateComment(item: CommentsItem, data: LikeDislikeCalc) {
+    private updateCommentItem(item: CommentsItem, data: LikeDislikeCalc): void {
         const index = this.commentsList.findIndex(f => f.comment_id === item.comment_id)
         this.commentsList[index] = {
             ...item,
@@ -94,6 +103,10 @@ export class CommentsComponent extends ProcessForm implements OnInit {
             likes_count: item.likes_count + data.likeCount,
             dislikes_count: item.dislikes_count + data.dislikeCount
         }
+    }
+
+    commentReplyClick(): void {
+
     }
 
 }

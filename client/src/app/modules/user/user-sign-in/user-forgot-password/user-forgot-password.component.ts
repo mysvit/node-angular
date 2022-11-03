@@ -1,5 +1,4 @@
 import { Component, Injector } from '@angular/core'
-import { Router } from '@angular/router'
 import { ClientPath } from '@shared-lib/constants'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
@@ -19,7 +18,6 @@ export class UserForgotPasswordComponent extends ProcessForm {
 
     constructor(
         injector: Injector,
-        private router: Router,
         private userSignIn: UserSignInService
     ) {
         super(injector)

@@ -1,5 +1,4 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
 import { EmailModel, VerifyCodeModel } from '@dto'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
 import { MessageType } from '@shared/enum'
@@ -26,7 +25,6 @@ export class UserEmailComponent extends ProcessForm implements OnInit, OnDestroy
 
     constructor(
         injector: Injector,
-        private router: Router,
         private userProfile: UserProfileService
     ) {
         super(injector)
