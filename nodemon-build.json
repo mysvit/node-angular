@@ -7,8 +7,8 @@
     "exit": "echo [$(date +%H:%M:%S)]"
   },
   "watch": [
-    "./src",
-    "./dist/lib"
+    "./src/",
+    "./dist/lib/"
   ],
   "env": {
     "NODE_ENV": "dev"

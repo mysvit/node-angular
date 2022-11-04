@@ -1,4 +1,4 @@
-import { CommentsItem } from '@dto'
+import { CommentItem } from '@dto'
 import { Select } from '@shared'
 import { Db } from '../../engine'
 
@@ -6,7 +6,7 @@ export class CommentsDb extends Db {
 
     table = 'comments'
 
-    async list(select: Select): Promise<Array<CommentsItem>> {
+    async list(select: Select): Promise<Array<CommentItem>> {
         const sel = `
             SELECT
                 c.comment_id,
@@ -23,6 +23,8 @@ export class CommentsDb extends Db {
                 comments c
                 JOIN users u ON c.user_id = u.user_id
                 LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND c.user_id = cl.user_id
+            ORDER BY
+                c.write_date DESC
         `
         const values = []
         return this.conn.query(sel, values)

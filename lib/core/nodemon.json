@@ -1,5 +1,5 @@
 {
-  "exec": "ttsc --project ./tsconfig.lib.json",
+  "exec": "rm -rf ../../dist/lib/core && ttsc --project ./tsconfig.lib.json",
   "delay": 5000,
   "restartable": "rs",
   "verbose": true,
@@ -7,14 +7,14 @@
     "exit": "echo [$(date +%H:%M:%S)]"
   },
   "watch": [
-    "./src",
-    "../../dist/lib/environment",
-    "../../dist/lib/dto",
-    "../../dist/lib/shared",
-    "../../dist/lib/db"
+    "./src/",
+    "../../dist/lib/environment/",
+    "../../dist/lib/dto/",
+    "../../dist/lib/shared/",
+    "../../dist/lib/db/"
   ],
   "env": {
     "NODE_ENV": "dev"
   },
-  "ext": "ts, js"
+  "ext": "ts,js"
 }

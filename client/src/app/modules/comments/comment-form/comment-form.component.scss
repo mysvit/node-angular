@@ -34,6 +34,8 @@
     margin-top: 10px;
 }
 
-.sl-avatar.small {
-    @include sl-avatar(21px)
+.sl-avatar {
+    &.small {
+        @include sl-avatar(21px)
+    }
 }
