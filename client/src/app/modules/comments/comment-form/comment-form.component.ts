@@ -11,14 +11,8 @@ import { CommentFormModel } from './comment.form-model'
 })
 export class CommentFormComponent implements OnInit, AfterViewInit {
 
-    SlStorage = SlStorage
-    FieldValidators = FieldValidators
-    formModel = new CommentFormModel()
-    isDisabled: boolean = false
-
-    @ViewChild('commentText') private commentText?: ElementRef
-
-    @Input() inModel: CommentSet = <CommentSet>{}
+    @Input() smallIcon?: boolean
+    @Input() model: CommentSet = <CommentSet>{}
 
     @Input() set disabled(value: boolean) {
         this.disableForm(value)
@@ -28,15 +22,21 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
         return this.isDisabled
     }
 
-
-    @Output() onSave: EventEmitter<CommentFormModel> = new EventEmitter<CommentFormModel>()
+    @Output() onSave: EventEmitter<CommentSet> = new EventEmitter<CommentSet>()
     @Output() onCancel = new EventEmitter()
+
+    @ViewChild('commentText') private commentText?: ElementRef
+
+    SlStorage = SlStorage
+    FieldValidators = FieldValidators
+    formModel = new CommentFormModel()
+    isDisabled: boolean = false
 
     constructor(private renderer: Renderer2) {
     }
 
     ngOnInit(): void {
-        this.formModel.formGroup.patchValue(this.inModel)
+        this.formModel.formGroup.patchValue(this.model)
     }
 
     ngAfterViewInit() {
@@ -51,7 +51,7 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
             this.disableForm(false)
             return
         }
-        this.onSave.emit(this.formModel)
+        this.onSave.emit(<CommentSet>this.formModel.formGroup.getRawValue())
     }
 
     cancelClick() {

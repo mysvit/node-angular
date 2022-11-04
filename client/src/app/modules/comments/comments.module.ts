@@ -5,16 +5,19 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
+import { MatMenuModule } from '@angular/material/menu'
 import { SharedModule } from '@shared/shared.module'
 import { CommentFormComponent } from './comment-form/comment-form.component'
 import { CommentsRoutingModule } from './comments-routing.module'
 import { CommentsComponent } from './comments/comments.component'
-import { CommentsService } from './comments/comments.service'
+import { CommentsService } from './comments/comments.service';
+import { CommentItemComponent } from './comment-item/comment-item.component'
 
 @NgModule({
     declarations: [
         CommentsComponent,
-        CommentFormComponent
+        CommentFormComponent,
+        CommentItemComponent
     ],
     imports: [
         CommentsRoutingModule,
@@ -25,7 +28,8 @@ import { CommentsService } from './comments/comments.service'
         MatInputModule,
         MatButtonModule,
         MatIconModule,
-        FormsModule
+        FormsModule,
+        MatMenuModule
     ],
     providers: [
         CommentsService

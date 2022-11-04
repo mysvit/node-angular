@@ -1,52 +1,66 @@
 <h1 class="p-20">Testing PWA</h1>
 
 <div class="sl-container">
-    <button *ngIf="!addComment" class="margin" mat-flat-button color="primary" aria-label="Add a comment" (click)="addCommentClick()">
-        <span>Add comment</span>
-    </button>
-    <app-comment-form *ngIf="addComment"
-                      [disabled]="executingForm"
-                      [inModel]="commentSet"
-                      (onSave)="addCommentEvent($event)"
-                      (onCancel)="cancelAddCommentEvent()">
-    </app-comment-form>
+    <ng-container *ngTemplateOutlet="itemA"></ng-container>
 
     <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
-        <div class="sl-item">
-            <div>
-                <img class="sl-avatar" alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
-            </div>
-            <div class="sl-item-text">
-                <div class="g-col">
-                    <b>
-                        {{item.nickname}}
-                    </b>
-                    <div class="sl-date">
-                        {{item.write_date | slDateTimeYyyyMmDdHhMmSsPipe}}
-                    </div>
-                </div>
-                <div [innerText]="item.comment"></div>
-                <div class="sl-item-reply">
-                    <div class="sl-item-icon">
-                        <mat-icon class="sl-icon" [ngClass]="{'fill':item.like_user}"
-                                  aria-hidden="false" aria-label="I like this" (click)="commentLikeClick(item)">
-                            thumb_up
-                        </mat-icon>
-                        <span>{{item.likes_count}}</span>
-                    </div>
-                    <div class="sl-item-icon">
-                        <mat-icon class="sl-icon" [ngClass]="{'fill':item.dislike_user}"
-                                  aria-hidden="false" aria-label="I dislike this" (click)="commentDislikeClick(item)">
-                            thumb_down
-                        </mat-icon>
-                        <span>{{item.dislikes_count}}</span>
-                    </div>
-                    <div class="sl-item-icon">
-                        <mat-icon class="sl-icon" (click)="commentReplyClick()">chat</mat-icon>
-                    </div>
-                </div>
-            </div>
+        <ng-container *ngTemplateOutlet="itemVE; context:{ $implicit: item}"></ng-container>
+
+        <ng-container *ngTemplateOutlet="itemR; context:{ $implicit: item}"></ng-container>
+    </ng-template>
+</div>
+
+<!--Add a comment-->
+
+<ng-template #itemA>
+    <ng-template [ngIf]="addId" [ngIfElse]="addBtn">
+        <app-comment-form
+                [disabled]="executingForm"
+                [model]="commentSet"
+                (onSave)="saveCommentAddEvent($event)"
+                (onCancel)="cancelCommentAddEvent()">
+        </app-comment-form>
+    </ng-template>
+    <ng-template #addBtn>
+        <div class="sl-btn-margin">
+            <button mat-flat-button color="primary" aria-label="Add a comment" (click)="commentAddClick()">
+                <span>Add comment</span>
+            </button>
         </div>
     </ng-template>
+</ng-template>
 
-</div>
+<!--View and Edit a comment-->
+
+<ng-template #itemVE let-item>
+    <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemView">
+        <app-comment-form *ngIf="item.comment_id === editId"
+                          [disabled]="executingForm"
+                          [model]="commentSet"
+                          (onSave)="saveCommentEditEvent($event)"
+                          (onCancel)="cancelCommentEditEvent()">
+        </app-comment-form>
+    </ng-template>
+    <ng-template #itemView>
+        <app-comment-item [item]="item"
+                          (onCommentLike)="commentLikeEvent($event)"
+                          (onCommentDislike)="commentDislikeEvent($event)"
+                          (onCommentReply)="commentReplyEvent($event)"
+                          (onCommentEdit)="commentEditEvent($event)"
+                          (onCommentDelete)="commentDeleteEvent($event)">
+        </app-comment-item>
+    </ng-template>
+</ng-template>
+
+<!--Reply on comment-->
+
+<ng-template #itemR let-item>
+    <div class="ml-50" *ngIf="item.comment_id === replyId">
+        <app-comment-form [smallIcon]="true"
+                          [disabled]="executingForm"
+                          [model]="commentSet"
+                          (onSave)="saveCommentReplyEvent($event)"
+                          (onCancel)="cancelCommentReplyEvent()">
+        </app-comment-form>
+    </div>
+</ng-template>

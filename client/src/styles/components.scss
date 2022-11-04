@@ -1,3 +1,5 @@
+// custom link button
+
 .sl-link-button {
     text-decoration: underline;
     color: var(--c-link-button);
@@ -13,10 +15,28 @@
         color: gray;
     }
 
-    &:hover {
-        cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            cursor: pointer;
+        }
     }
 }
+
+// icon round button
+.sl-icon-button {
+    border-radius: 50%;
+    padding: 3px;
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            cursor: pointer;
+            background-color: var(--c-hover-icon);
+        }
+    }
+}
+
+
+// autogrow content editable element
 
 .sl-textarea-autogrow {
     display: block;
@@ -32,8 +52,10 @@
     border-bottom: 1px solid black;
     outline: none;
 
-    &:hover {
-        border-bottom: 2px solid black;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            border-bottom: 2px solid black;
+        }
     }
 }
 

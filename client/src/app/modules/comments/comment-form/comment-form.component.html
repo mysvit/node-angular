@@ -1,10 +1,10 @@
 <div class="sl-item">
 
     <div>
-        <img class="sl-avatar" alt="User avatar" src="{{SlStorage.avatar_id | slPictureUrl}}">
+        <img class="sl-avatar" [ngClass]="{'small':smallIcon}" alt="User avatar" src="{{SlStorage.avatar_id | slPictureUrl}}">
     </div>
     <div class="sl-item-text">
-        <div #commentText class="sl-textarea-autogrow" (input)="changeComment($event)">{{inModel.comment}}</div>
+        <div #commentText class="sl-textarea-autogrow" (input)="changeComment($event)">{{model.comment}}</div>
 
         <div class="sl-button-container">
             <button mat-stroked-button color="primary" aria-label="Cancel"

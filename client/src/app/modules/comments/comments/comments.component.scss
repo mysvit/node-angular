@@ -4,48 +4,10 @@
     overflow-y: auto;
 }
 
-.mat-flat-button {
-    &.margin {
-        margin: 0 1em 2em 1em;
-    }
+.sl-btn-margin {
+    margin: 0 1em 2em 1em;
 }
 
 .sl-container {
     max-width: 800px;
-}
-
-.sl-item {
-    display: grid;
-    grid-template-columns: minmax(0, max-content) 1fr;
-    gap: 1em;
-    margin: 0.5em 1em 0.5em 1em;
-}
-
-.sl-item-text {
-    @include g-row(3);
-    gap: 0;
-}
-
-.sl-item-reply {
-    @include g-col(3);
-    margin-top: 10px;
-}
-
-.sl-item-icon {
-    @include g-col;
-    align-items: center;
-}
-
-.sl-date {
-    color: var(--c-date-time);
-}
-
-.sl-icon {
-    border-radius: 50%;
-    padding: 3px;
-
-    &:hover {
-        cursor: pointer;
-        background-color: var(--c-hover-icon);
-    }
 }

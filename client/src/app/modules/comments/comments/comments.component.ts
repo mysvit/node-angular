@@ -1,11 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core'
-import { CommentSet, CommentsItem, CommentsLikesModel } from '@dto'
+import { CommentItem, CommentSet, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { ProcessForm } from '@shared/form'
-import { SlStorage } from '@shared/storage'
 import { map, Observable, of, switchMap } from 'rxjs'
-import { CommentFormModel } from '../comment-form/comment.form-model'
 import { CommentsService } from './comments.service'
 
 @Component({
@@ -15,10 +13,12 @@ import { CommentsService } from './comments.service'
 })
 export class CommentsComponent extends ProcessForm implements OnInit {
 
-    SlStorage = SlStorage
-    commentsList: Array<CommentsItem> = []
-    addComment = false
+    commentsList: Array<CommentItem> = []
     commentSet: CommentSet = <CommentSet>{}
+    addId?: boolean
+    replyId?: string
+    editId?: string
+    deleteId?: string
 
     constructor(
         injector: Injector,
@@ -33,7 +33,8 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    commentsListData(): Observable<Array<CommentsItem>> {
+
+    commentsListData(): Observable<Array<CommentItem>> {
         return this.comments.commentsList(<Select>{
             selectLimit: <SelectLimit>{limit: 5}
         })
@@ -42,31 +43,69 @@ export class CommentsComponent extends ProcessForm implements OnInit {
             )
     }
 
-    commentsTrackBy(index: number, item: CommentsItem): string {
+    commentsTrackBy(index: number, item: CommentItem): string {
         return item.comment_id
     }
 
-    addCommentClick(): void {
+
+
+    commentAddClick(): void {
         if (!this.isAuth) return
-        this.addComment = true
-        this.commentSet = <CommentSet>{comment: ''}
+        this.addId = true
+        this.commentSet = <CommentSet>{}
     }
 
-    addCommentEvent(model: CommentFormModel): void {
+    saveCommentAddEvent(commentSet: CommentSet): void {
         this.execute(
-            this.comments.commentAdd(model.formGroup.getRawValue())
+            this.comments.commentAdd(commentSet)
                 .pipe(
                     switchMap(() => this.commentsListData()),
-                    switchMap(() => of(this.addComment = false))
+                    switchMap(() => of(this.addId = false))
                 )
         )
     }
 
-    cancelAddCommentEvent(): void {
-        this.addComment = false
+    cancelCommentAddEvent(): void {
+        this.addId = false
     }
 
-    commentLikeClick(item: CommentsItem): void {
+
+
+    commentEditEvent(item: CommentItem) {
+        this.editId = item.comment_id
+    }
+
+    saveCommentEditEvent(item: CommentSet) {
+        this.editId = undefined
+    }
+
+    cancelCommentEditEvent() {
+        this.editId = undefined
+    }
+
+
+
+    commentReplyEvent(item: CommentItem) {
+        this.replyId = item.comment_id
+    }
+
+    saveCommentReplyEvent(item: CommentSet) {
+        this.replyId = undefined
+    }
+
+    cancelCommentReplyEvent() {
+        this.replyId = undefined
+    }
+
+
+
+    commentDeleteEvent(item: CommentItem) {
+
+    }
+
+
+
+    commentLikeEvent(item: CommentItem): void {
         const model = <CommentsLikesModel>{
             comment_id: item.comment_id,
             is_like: 1,
@@ -80,7 +119,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    commentDislikeClick(item: CommentsItem): void {
+    commentDislikeEvent(item: CommentItem): void {
         const model = <CommentsLikesModel>{
             comment_id: item.comment_id,
             is_like: 0,
@@ -94,7 +133,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    private updateCommentItem(item: CommentsItem, data: LikeDislikeCalc): void {
+    private updateCommentItem(item: CommentItem, data: LikeDislikeCalc): void {
         const index = this.commentsList.findIndex(f => f.comment_id === item.comment_id)
         this.commentsList[index] = {
             ...item,
@@ -105,8 +144,5 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         }
     }
 
-    commentReplyClick(): void {
-
-    }
 
 }

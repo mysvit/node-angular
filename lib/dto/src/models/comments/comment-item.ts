@@ -1,4 +1,4 @@
-export interface CommentsItem {
+export interface CommentItem {
     comment_id: string
     comment: string
     write_date: string
