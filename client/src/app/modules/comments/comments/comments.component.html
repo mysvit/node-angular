@@ -1,22 +1,24 @@
 <h1 class="p-20">Testing PWA</h1>
 
 <div class="sl-container">
-    <ng-container *ngTemplateOutlet="itemA"></ng-container>
+    <ng-container *ngTemplateOutlet="itemAdd"></ng-container>
 
     <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
-        <ng-container *ngTemplateOutlet="itemVE; context:{ $implicit: item}"></ng-container>
+        <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>
 
-        <ng-container *ngTemplateOutlet="itemR; context:{ $implicit: item}"></ng-container>
+        <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>
     </ng-template>
 </div>
 
+
 <!--Add a comment-->
 
-<ng-template #itemA>
+<ng-template #itemAdd>
     <ng-template [ngIf]="addId" [ngIfElse]="addBtn">
         <app-comment-form
+                [formAction]="FormAction.Add"
                 [disabled]="executingForm"
-                [model]="commentSet"
+                [model]="addCommentSet"
                 (onSave)="saveCommentAddEvent($event)"
                 (onCancel)="cancelCommentAddEvent()">
         </app-comment-form>
@@ -32,11 +34,12 @@
 
 <!--View and Edit a comment-->
 
-<ng-template #itemVE let-item>
+<ng-template #itemViewEdit let-item>
     <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemView">
         <app-comment-form *ngIf="item.comment_id === editId"
+                          [formAction]="FormAction.Edit"
                           [disabled]="executingForm"
-                          [model]="commentSet"
+                          [model]="editCommentSet"
                           (onSave)="saveCommentEditEvent($event)"
                           (onCancel)="cancelCommentEditEvent()">
         </app-comment-form>
@@ -54,11 +57,12 @@
 
 <!--Reply on comment-->
 
-<ng-template #itemR let-item>
+<ng-template #itemReply let-item>
     <div class="ml-50" *ngIf="item.comment_id === replyId">
         <app-comment-form [smallIcon]="true"
+                          [formAction]="FormAction.Reply"
                           [disabled]="executingForm"
-                          [model]="commentSet"
+                          [model]="replyCommentSet"
                           (onSave)="saveCommentReplyEvent($event)"
                           (onCancel)="cancelCommentReplyEvent()">
         </app-comment-form>

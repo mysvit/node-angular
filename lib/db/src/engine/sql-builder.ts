@@ -5,14 +5,17 @@ export namespace SqlBuilder {
 
     function getValues(obj) {
         if (obj) {
-            return Object.getOwnPropertyNames(obj).map(fieldName => obj[fieldName])
+            return Object.getOwnPropertyNames(obj)
+                .map(fieldName => obj[fieldName] == undefined ? null : obj[fieldName])
         } else {
             return []
         }
     }
 
     function whereEqBuild(whereObj) {
-        return ' WHERE ' + Object.getOwnPropertyNames(whereObj).map(fieldName => `${fieldName}=?`).join(' AND ')
+        return ' WHERE ' + Object.getOwnPropertyNames(whereObj)
+            .map(fieldName => `${fieldName}=?`)
+            .join(' AND ')
     }
 
 
@@ -25,7 +28,9 @@ export namespace SqlBuilder {
     }
 
     function setBuild(updateObj) {
-        return ' SET ' + Object.getOwnPropertyNames(updateObj).map(fieldName => `${fieldName}=?`).join(',')
+        return ' SET ' + Object.getOwnPropertyNames(updateObj)
+            .map(fieldName => `${fieldName}=?`)
+            .join(',')
     }
 
 

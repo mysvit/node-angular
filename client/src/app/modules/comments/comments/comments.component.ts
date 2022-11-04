@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core'
 import { CommentItem, CommentSet, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
+import { FormAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { map, Observable, of, switchMap } from 'rxjs'
 import { CommentsService } from './comments.service'
@@ -13,11 +14,14 @@ import { CommentsService } from './comments.service'
 })
 export class CommentsComponent extends ProcessForm implements OnInit {
 
+    FormAction = FormAction
     commentsList: Array<CommentItem> = []
-    commentSet: CommentSet = <CommentSet>{}
+    addCommentSet: CommentSet = <CommentSet>{}
+    editCommentSet: CommentSet = <CommentSet>{}
+    replyCommentSet: CommentSet = <CommentSet>{}
     addId?: boolean
-    replyId?: string
     editId?: string
+    replyId?: string
     deleteId?: string
 
     constructor(
@@ -48,11 +52,10 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-
     commentAddClick(): void {
         if (!this.isAuth) return
+        this.addCommentSet = <CommentSet>{}
         this.addId = true
-        this.commentSet = <CommentSet>{}
     }
 
     saveCommentAddEvent(commentSet: CommentSet): void {
@@ -70,13 +73,19 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-
     commentEditEvent(item: CommentItem) {
+        this.editCommentSet = <CommentSet>{commentId: item.comment_id, parentId: item.parent_id, comment: item.comment}
         this.editId = item.comment_id
     }
 
-    saveCommentEditEvent(item: CommentSet) {
-        this.editId = undefined
+    saveCommentEditEvent(commentSet: CommentSet) {
+        this.execute(
+            this.comments.commentUpd(commentSet)
+                .pipe(
+                    switchMap(() => this.commentsListData()),
+                    switchMap(() => of(this.editId = undefined))
+                )
+        )
     }
 
     cancelCommentEditEvent() {
@@ -84,8 +93,8 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-
     commentReplyEvent(item: CommentItem) {
+        this.replyCommentSet = <CommentSet>{commentId: item.comment_id}
         this.replyId = item.comment_id
     }
 
@@ -98,11 +107,9 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-
     commentDeleteEvent(item: CommentItem) {
 
     }
-
 
 
     commentLikeEvent(item: CommentItem): void {

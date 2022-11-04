@@ -1,6 +1,6 @@
 {
   "exec": "rm -rf ./dist/routes && ttsc --project ./tsconfig.json",
-  "delay": 5000,
+  "delay": 10000,
   "restartable": "rs",
   "verbose": true,
   "events": {

@@ -11,7 +11,7 @@
                 {{item.write_date | slDateTimeYyyyMmDdHhMmSsPipe}}
             </div>
         </div>
-        <div [innerText]="item.comment"></div>
+        <div [innerHtml]="item.comment"></div>
         <div class="sl-item-reply">
             <div class="sl-item-icon">
                 <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.like_user}"

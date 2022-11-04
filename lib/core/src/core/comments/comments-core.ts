@@ -1,5 +1,5 @@
 import { CommentsDb } from '@db'
-import { CommentSet, CommentItem, CommentsTbl } from '@dto'
+import { CommentItem, CommentSet, CommentsTbl } from '@dto'
 import { CommentsDtoHelper, Select, SelectLimit } from '@shared'
 import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
@@ -17,10 +17,12 @@ export class CommentsCore extends Core {
         return commentSet.commentId
     }
 
-    async upd(commentsTbl: CommentsTbl): Promise<number> {
+    async upd(userId: string, commentSet: CommentSet): Promise<number> {
+        ParamValidation.validateUuId(userId)
+        const commentsTbl = CommentsDtoHelper.setToTbl(commentSet, userId)
         return this.commentsDb.update(
             commentsTbl,
-            <CommentsTbl>{comment_id: commentsTbl.comment_id}
+            <CommentsTbl>{comment_id: commentsTbl.comment_id, user_id: userId}
         )
     }
 

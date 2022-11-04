@@ -11,7 +11,7 @@ export class CommentsApi {
     }
 
     static async upd(req: Request, res: Response) {
-        const result = await commentsCore.upd(req.body)
+        const result = await commentsCore.upd(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 

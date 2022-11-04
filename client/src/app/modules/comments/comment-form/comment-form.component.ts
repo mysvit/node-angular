@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core'
 import { CommentSet } from '@dto'
+import { FormAction } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
 import { CommentFormModel } from './comment.form-model'
@@ -10,6 +11,10 @@ import { CommentFormModel } from './comment.form-model'
     styleUrls: ['./comment-form.component.scss']
 })
 export class CommentFormComponent implements OnInit, AfterViewInit {
+
+    @Input() set formAction(value: FormAction) {
+        this.saveButtonLabel = this.getButtonLabel(value)
+    }
 
     @Input() smallIcon?: boolean
     @Input() model: CommentSet = <CommentSet>{}
@@ -31,8 +36,10 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
     FieldValidators = FieldValidators
     formModel = new CommentFormModel()
     isDisabled: boolean = false
+    saveButtonLabel?: string
 
     constructor(private renderer: Renderer2) {
+
     }
 
     ngOnInit(): void {
@@ -67,6 +74,16 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
         if (this.commentText?.nativeElement) {
             this.renderer.setAttribute(this.commentText?.nativeElement, 'contenteditable', String(!isDisable))
         }
+    }
+
+    private getButtonLabel(value: FormAction) {
+        switch (value) {
+            case FormAction.Add:
+                return 'Comment'
+            case FormAction.Reply:
+                return 'Reply'
+        }
+        return 'Save'
     }
 
 }

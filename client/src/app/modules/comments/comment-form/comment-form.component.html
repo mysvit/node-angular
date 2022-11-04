@@ -4,7 +4,7 @@
         <img class="sl-avatar" [ngClass]="{'small':smallIcon}" alt="User avatar" src="{{SlStorage.avatar_id | slPictureUrl}}">
     </div>
     <div class="sl-item-text">
-        <div #commentText class="sl-textarea-autogrow" (input)="changeComment($event)">{{model.comment}}</div>
+        <div #commentText class="sl-textarea-autogrow" (input)="changeComment($event)" [innerHtml]="model.comment"></div>
 
         <div class="sl-button-container">
             <button mat-stroked-button color="primary" aria-label="Cancel"
@@ -13,7 +13,7 @@
             </button>
             <button mat-flat-button color="primary" aria-label="Save"
                     [disabled]="!formModel.isFieldValid() || disabled" (click)="saveClick()">
-                <span>Save</span>
+                <span>{{saveButtonLabel}}</span>
             </button>
         </div>
     </div>
