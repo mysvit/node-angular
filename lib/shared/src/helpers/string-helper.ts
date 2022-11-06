@@ -12,4 +12,12 @@ export namespace StringHelper {
         return value.replace('/', '')
     }
 
+    export function addZero(value: string, length: number) {
+        return value
+            ? value.length < length
+                ? '0' + value
+                : value
+            : value
+    }
+
 }

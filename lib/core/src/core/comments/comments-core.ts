@@ -1,5 +1,5 @@
 import { CommentsDb } from '@db'
-import { CommentItem, CommentSet, CommentsTbl } from '@dto'
+import { CommentItem, CommentModel, CommentsTbl } from '@dto'
 import { CommentsDtoHelper, Select, SelectLimit } from '@shared'
 import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
@@ -9,26 +9,27 @@ export class CommentsCore extends Core {
 
     private commentsDb = new CommentsDb(this.pool)
 
-    async add(userId: string, commentSet: CommentSet): Promise<string> {
-        ParamValidation.validateUuId(userId)
-        commentSet.commentId = randomUUID()
-        const commentsTbl = CommentsDtoHelper.setToTbl(commentSet, userId)
+    async add(userId: string, model: CommentModel): Promise<string> {
+        model.commentId = randomUUID()
+        const commentsTbl = CommentsDtoHelper.modelToTbl(model, userId)
         await this.commentsDb.insert(commentsTbl)
-        return commentSet.commentId
+        return model.commentId
     }
 
-    async upd(userId: string, commentSet: CommentSet): Promise<number> {
-        ParamValidation.validateUuId(userId)
-        const commentsTbl = CommentsDtoHelper.setToTbl(commentSet, userId)
+    async upd(userId: string, model: CommentModel): Promise<number> {
+        const commentsTbl = CommentsDtoHelper.modelToTbl(model, userId)
         return this.commentsDb.update(
             commentsTbl,
             <CommentsTbl>{comment_id: commentsTbl.comment_id, user_id: userId}
         )
     }
 
-    async del(commentId: string): Promise<number> {
+    async del(userId: string, commentId: string): Promise<number> {
         ParamValidation.validateUuId(commentId)
-        return this.commentsDb.delete({comment_id: commentId})
+        return this.commentsDb.update(
+            <CommentsTbl>{is_del: 1},
+            <CommentsTbl>{comment_id: commentId, user_id: userId}
+        )
     }
 
     async get(commentId: string): Promise<CommentsTbl> {
@@ -38,7 +39,6 @@ export class CommentsCore extends Core {
                 comment_id: undefined,
                 is_del: undefined,
                 user_id: undefined,
-                write_date: undefined,
                 comment: undefined
             },
             <CommentsTbl>{comment_id: commentId}

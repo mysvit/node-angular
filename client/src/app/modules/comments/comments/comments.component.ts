@@ -1,8 +1,13 @@
 import { Component, Injector, OnInit } from '@angular/core'
-import { CommentItem, CommentSet, CommentsLikesModel } from '@dto'
+import { MatDialog } from '@angular/material/dialog'
+import { DialogModel } from '@core/components/dialog/dialog-model'
+import { DialogComponent } from '@core/components/dialog/dialog.component'
+import { CommentItem, CommentModel, CommentsLikesModel } from '@dto'
 import { Select, SelectLimit } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
+import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { FormAction } from '@shared/enum'
+import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
 import { map, Observable, of, switchMap } from 'rxjs'
 import { CommentsService } from './comments.service'
@@ -16,9 +21,9 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     FormAction = FormAction
     commentsList: Array<CommentItem> = []
-    addCommentSet: CommentSet = <CommentSet>{}
-    editCommentSet: CommentSet = <CommentSet>{}
-    replyCommentSet: CommentSet = <CommentSet>{}
+    addCommentModel: CommentModel = <CommentModel>{}
+    editCommentModel: CommentModel = <CommentModel>{}
+    replyCommentModel: CommentModel = <CommentModel>{}
     addId?: boolean
     editId?: string
     replyId?: string
@@ -26,6 +31,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     constructor(
         injector: Injector,
+        public dialog: MatDialog,
         private comments: CommentsService
     ) {
         super(injector)
@@ -54,13 +60,13 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     commentAddClick(): void {
         if (!this.isAuth) return
-        this.addCommentSet = <CommentSet>{}
+        this.addCommentModel = <CommentModel>{}
         this.addId = true
     }
 
-    saveCommentAddEvent(commentSet: CommentSet): void {
+    saveCommentAddEvent(model: CommentModel): void {
         this.execute(
-            this.comments.commentAdd(commentSet)
+            this.comments.commentAdd(model)
                 .pipe(
                     switchMap(() => this.commentsListData()),
                     switchMap(() => of(this.addId = false))
@@ -74,13 +80,13 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentEditEvent(item: CommentItem) {
-        this.editCommentSet = <CommentSet>{commentId: item.comment_id, parentId: item.parent_id, comment: item.comment}
+        this.editCommentModel = <CommentModel>{commentId: item.comment_id, parentId: item.parent_id, comment: item.comment}
         this.editId = item.comment_id
     }
 
-    saveCommentEditEvent(commentSet: CommentSet) {
+    saveCommentEditEvent(CommentModel: CommentModel) {
         this.execute(
-            this.comments.commentUpd(commentSet)
+            this.comments.commentUpd(CommentModel)
                 .pipe(
                     switchMap(() => this.commentsListData()),
                     switchMap(() => of(this.editId = undefined))
@@ -94,11 +100,11 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentReplyEvent(item: CommentItem) {
-        this.replyCommentSet = <CommentSet>{commentId: item.comment_id}
+        this.replyCommentModel = <CommentModel>{commentId: item.comment_id}
         this.replyId = item.comment_id
     }
 
-    saveCommentReplyEvent(item: CommentSet) {
+    saveCommentReplyEvent(model: CommentModel) {
         this.replyId = undefined
     }
 
@@ -108,7 +114,26 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentDeleteEvent(item: CommentItem) {
-
+        const dialogRef = this.dialog.open(DialogComponent, {
+            width: '350px',
+            data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
+        })
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.execute(
+                    this.comments.commentDel(item.comment_id)
+                        .pipe(
+                            switchMap((result) => {
+                                if (result) {
+                                    return this.commentsListData()
+                                } else {
+                                    return of(undefined)
+                                }
+                            })
+                        )
+                )
+            }
+        })
     }
 
 
@@ -150,6 +175,5 @@ export class CommentsComponent extends ProcessForm implements OnInit {
             dislikes_count: item.dislikes_count + data.dislikeCount
         }
     }
-
 
 }

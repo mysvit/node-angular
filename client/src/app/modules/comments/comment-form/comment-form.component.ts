@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core'
-import { CommentSet } from '@dto'
+import { CommentModel } from '@dto'
 import { FormAction } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -17,7 +17,7 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
     }
 
     @Input() smallIcon?: boolean
-    @Input() model: CommentSet = <CommentSet>{}
+    @Input() model: CommentModel = <CommentModel>{}
 
     @Input() set disabled(value: boolean) {
         this.disableForm(value)
@@ -27,7 +27,7 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
         return this.isDisabled
     }
 
-    @Output() onSave: EventEmitter<CommentSet> = new EventEmitter<CommentSet>()
+    @Output() onSave: EventEmitter<CommentModel> = new EventEmitter<CommentModel>()
     @Output() onCancel = new EventEmitter()
 
     @ViewChild('commentText') private commentText?: ElementRef
@@ -58,7 +58,7 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
             this.disableForm(false)
             return
         }
-        this.onSave.emit(<CommentSet>this.formModel.formGroup.getRawValue())
+        this.onSave.emit(<CommentModel>this.formModel.formGroup.getRawValue())
     }
 
     cancelClick() {

@@ -1,2 +1,2 @@
-export * from './comment-set'
+export * from './comment-model'
 export * from './comment-item'

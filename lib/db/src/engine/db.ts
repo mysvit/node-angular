@@ -63,7 +63,7 @@ export class Db {
             .then(data => data.affectedRows)
     }
 
-    async delete<T>(whereObj: T): Promise<number> {
+    async delete(whereObj: Object): Promise<number> {
         const del = SqlBuilder.deleteBuilder(this.table, whereObj)
         return this.conn.query(del.sql, del.values)
             .then(data => data.affectedRows)

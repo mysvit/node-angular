@@ -14,4 +14,14 @@ describe('StringHelper', () => {
     it('1 format 0', () => {
         expect(StringHelper.format('{1} test {0}', 0, 1)).to.be.eq('1 test 0')
     })
+
+
+    it('addZero 1', () => {
+        expect(StringHelper.addZero('1', 2)).to.be.eq('01')
+    })
+
+    it('addZero 10', () => {
+        expect(StringHelper.addZero('12', 2)).to.be.eq('12')
+    })
+
 })

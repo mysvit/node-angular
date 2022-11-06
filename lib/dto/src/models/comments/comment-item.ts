@@ -2,7 +2,7 @@ export interface CommentItem {
     comment_id: string
     parent_id: string
     comment: string
-    write_date: string
+    add_date: string
     likes_count: number
     dislikes_count: number
     replies_count: number

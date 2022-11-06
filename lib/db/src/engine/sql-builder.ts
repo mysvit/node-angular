@@ -33,6 +33,10 @@ export namespace SqlBuilder {
             .join(',')
     }
 
+    function deleteTbl(table: string) {
+        return 'DELETE FROM ' + table
+    }
+
 
     export function selectOneBuilder(table: string, whereObj: any): BuilderResult {
         const sql =
@@ -51,6 +55,13 @@ export namespace SqlBuilder {
         return <BuilderResult>{sql: sql, values: values}
     }
 
+    export function deleteBuilder(table, whereObj) {
+        const sql =
+            deleteTbl(table) +
+            whereEqBuild(whereObj)
+        const values = getValues(whereObj)
+        return <BuilderResult>{sql: sql, values: values}
+    }
 
     export function insertBuilder(table, obj): BuilderResult {
         const sql = `INSERT INTO ${table} (${getFields(obj)}) VALUES (${getInsertParams(obj)})`
@@ -76,12 +87,6 @@ export namespace SqlBuilder {
         return <BuilderResult>{sql: sql, values: whereValues}
     }
 
-
-    export function deleteBuilder(table, whereObj) {
-        const sql = `DELETE FROM ${table} WHERE ${getWhere(whereObj)}`
-        const values = getValues(whereObj)
-        return <BuilderResult>{sql: sql, values: values}
-    }
 
 }
 

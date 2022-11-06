@@ -3,7 +3,7 @@ export interface CommentsTbl {
     parent_id: string
     is_del: number
     user_id: string
-    write_date: Date
+    add_date: Date
     comment: string
     likes_count: number
     dislikes_count: number

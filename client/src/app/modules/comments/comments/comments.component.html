@@ -18,7 +18,7 @@
         <app-comment-form
                 [formAction]="FormAction.Add"
                 [disabled]="executingForm"
-                [model]="addCommentSet"
+                [model]="addCommentModel"
                 (onSave)="saveCommentAddEvent($event)"
                 (onCancel)="cancelCommentAddEvent()">
         </app-comment-form>
@@ -36,10 +36,9 @@
 
 <ng-template #itemViewEdit let-item>
     <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemView">
-        <app-comment-form *ngIf="item.comment_id === editId"
-                          [formAction]="FormAction.Edit"
+        <app-comment-form [formAction]="FormAction.Edit"
                           [disabled]="executingForm"
-                          [model]="editCommentSet"
+                          [model]="editCommentModel"
                           (onSave)="saveCommentEditEvent($event)"
                           (onCancel)="cancelCommentEditEvent()">
         </app-comment-form>
@@ -62,7 +61,7 @@
         <app-comment-form [smallIcon]="true"
                           [formAction]="FormAction.Reply"
                           [disabled]="executingForm"
-                          [model]="replyCommentSet"
+                          [model]="replyCommentModel"
                           (onSave)="saveCommentReplyEvent($event)"
                           (onCancel)="cancelCommentReplyEvent()">
         </app-comment-form>

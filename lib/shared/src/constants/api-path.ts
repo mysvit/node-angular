@@ -25,6 +25,7 @@ export namespace ApiPath {
 
     export const comments_add = api + comments + '/add'
     export const comments_upd = api + comments + '/upd'
+    export const comments_del = api + comments + '/del/:id'
     export const comments_get = api + comments + '/get/:id'
     export const comments_list = api + comments + '/list'
 

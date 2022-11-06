@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { CommentItem, CommentSet, CommentsLikesModel, CommentsTbl } from '@dto'
+import { CommentItem, CommentModel, CommentsLikesModel } from '@dto'
 import { environment } from '@env'
 import { ApiParams, ApiPath } from '@shared-lib/constants'
 import { Select } from '@shared-lib/db'
@@ -17,16 +17,16 @@ export class CommentsService {
     ) {
     }
 
-    commentAdd(commentSet: CommentSet): Observable<any> {
-        return this.http.post(environment.apiEndPoint + ApiPath.comments_add, commentSet)
+    commentAdd(model: CommentModel): Observable<any> {
+        return this.http.post(environment.apiEndPoint + ApiPath.comments_add, model)
     }
 
-    commentUpd(commentSet: CommentSet): Observable<any> {
-        return this.http.post(environment.apiEndPoint + ApiPath.comments_upd, commentSet)
+    commentUpd(model: CommentModel): Observable<any> {
+        return this.http.post(environment.apiEndPoint + ApiPath.comments_upd, model)
     }
 
-    commentDel(tbl?: CommentsTbl): Observable<any> {
-        return this.http.post(environment.apiEndPoint + ApiPath.comments_add, tbl)
+    commentDel(commentId: string): Observable<any> {
+        return this.http.delete(environment.apiEndPoint + ApiPath.comments_del.replace(ApiParams.id, commentId))
     }
 
     commentGet(id: string) {

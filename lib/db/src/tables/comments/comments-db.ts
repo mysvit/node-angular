@@ -11,7 +11,7 @@ export class CommentsDb extends Db {
             SELECT
                 c.comment_id,
                 c.comment,
-                c.write_date,
+                c.add_date,
                 c.likes_count,
                 c.dislikes_count,
                 c.replies_count,
@@ -23,8 +23,10 @@ export class CommentsDb extends Db {
                 comments c
                 JOIN users u ON c.user_id = u.user_id
                 LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND c.user_id = cl.user_id
+            WHERE
+                c.is_del = 0
             ORDER BY
-                c.write_date DESC
+                c.add_date DESC
         `
         const values = []
         return this.conn.query(sel, values)
