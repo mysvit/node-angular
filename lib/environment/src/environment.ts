@@ -4,6 +4,7 @@ export interface DbConnection {
     user: string
     password: string
     connectionLimit: number
+    logger: any
 }
 
 export interface EmailAuth {

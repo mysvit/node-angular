@@ -100,12 +100,18 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentReplyEvent(item: CommentItem) {
-        this.replyCommentModel = <CommentModel>{commentId: item.comment_id}
+        this.replyCommentModel = <CommentModel>{parentId: item.comment_id}
         this.replyId = item.comment_id
     }
 
     saveCommentReplyEvent(model: CommentModel) {
-        this.replyId = undefined
+        this.execute(
+            this.comments.commentAdd(model)
+                .pipe(
+                    switchMap(() => this.commentsListData()),
+                    switchMap(() => of(this.replyId = undefined))
+                )
+        )
     }
 
     cancelCommentReplyEvent() {

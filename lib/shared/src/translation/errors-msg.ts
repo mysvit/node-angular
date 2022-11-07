@@ -20,4 +20,5 @@ export class ErrorsMsg {
     static UserNotExist: string = 'User with this ID does not exist'
     static WrongCurrentPassword = 'Wrong current password'
     static SendSingUpVerificationCode = 'Send signup verification code'
+    static ErrorExecutingDbScript = 'Error executing a db scrip'
 }

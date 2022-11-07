@@ -1,4 +1,4 @@
-import { CommentsDb } from '@db'
+import { CommentsDb, Db } from '@db'
 import { CommentItem, CommentModel, CommentsTbl } from '@dto'
 import { CommentsDtoHelper, Select, SelectLimit } from '@shared'
 import { randomUUID } from 'crypto'
@@ -12,8 +12,16 @@ export class CommentsCore extends Core {
     async add(userId: string, model: CommentModel): Promise<string> {
         model.commentId = randomUUID()
         const commentsTbl = CommentsDtoHelper.modelToTbl(model, userId)
-        await this.commentsDb.insert(commentsTbl)
-        return model.commentId
+        const trCatch = Db.transactionCatch(async <Number>(conn) => {
+            const commentsDb = new CommentsDb(conn)
+            await commentsDb.insert(commentsTbl)
+            // for replay a comment
+            if (commentsTbl.parent_id) {
+                await commentsDb.updateRepliesCount(commentsTbl.parent_id, 1)
+            }
+            return model.commentId
+        })
+        return trCatch(await this.pool.getConnection())
     }
 
     async upd(userId: string, model: CommentModel): Promise<number> {
@@ -26,10 +34,23 @@ export class CommentsCore extends Core {
 
     async del(userId: string, commentId: string): Promise<number> {
         ParamValidation.validateUuId(commentId)
-        return this.commentsDb.update(
-            <CommentsTbl>{is_del: 1},
-            <CommentsTbl>{comment_id: commentId, user_id: userId}
-        )
+        const commentsTbl: CommentsTbl = await this.commentsDb.selectOne(<CommentsTbl>{comment_id: commentId, user_id: userId})
+        if (commentsTbl) {
+            const trCatch = Db.transactionCatch(async <Number>(conn) => {
+                const commentsDb2 = new CommentsDb(conn)
+                // for replay a comment
+                if (commentsTbl.parent_id) {
+                    await commentsDb2.updateRepliesCount(commentsTbl.parent_id, -1)
+                }
+                return commentsDb2.update(
+                    <CommentsTbl>{is_del: 1},
+                    <CommentsTbl>{comment_id: commentsTbl.comment_id}
+                )
+            })
+            return trCatch(await this.pool.getConnection())
+        } else {
+            return 0
+        }
     }
 
     async get(commentId: string): Promise<CommentsTbl> {

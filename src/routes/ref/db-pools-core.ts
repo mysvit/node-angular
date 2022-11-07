@@ -3,7 +3,16 @@ import { Db } from '@db'
 import { environment } from '@env'
 import { logger } from './logger'
 
-const poolConfig = environment.db
+let poolConfig = environment.db
+poolConfig = {
+    ...poolConfig,
+    logger: {
+        // silly network traffic
+        // network: (msg) => logger.debug(msg),
+        query: (msg) => logger.info(msg),
+        error: (err) => logger.error(err)
+    }
+}
 
 const userPool = Db.createPool({...poolConfig, connectionLimit: 5})
 const picturePool = Db.createPool({...poolConfig, connectionLimit: 10})

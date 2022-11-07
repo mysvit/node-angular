@@ -38,4 +38,17 @@ export class CommentsDb extends Db {
             .then(data => data.affectedRows)
     }
 
+    async updateRepliesCount(comment_id: string, count: number): Promise<number> {
+        const sql = `
+            UPDATE 
+                ${this.table} 
+            SET 
+                replies_count = replies_count + ? 
+            WHERE 
+                comment_id = ?
+        `
+        return this.conn.query(sql, [count, comment_id])
+            .then(data => data.affectedRows)
+    }
+
 }

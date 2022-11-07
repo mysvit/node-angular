@@ -1,4 +1,5 @@
 import { DbConnection } from '@env'
+import { ErrorApi500, ErrorsMsg } from '@shared'
 import { Connection, createPool, Pool, PoolConnection, QueryOptions } from 'mariadb'
 import { SqlBuilder } from './sql-builder'
 
@@ -11,12 +12,22 @@ export class Db {
         return createPool(dbConfig)
     }
 
+    static transactionCatch(fn: Function) {
+        return async function <T>(conn: PoolConnection): Promise<T> {
+            try {
+                await conn.beginTransaction()
+                return await fn(conn)
+            } catch (e) {
+                await conn.rollback()
+                throw new ErrorApi500(ErrorsMsg.ErrorExecutingDbScript)
+            } finally {
+                await conn.commit()
+                await conn.end()
+            }
+        }
+    }
+
     constructor(public conn: Connection | PoolConnection | Pool) {
-        // logger: {
-        //     query: (msg) => logger.info(msg),
-        //         error: (err) => logger.error(err),
-        // }
-        // this.conn = createPool(this.environment.db)
     }
 
     async selectOne<T>(whereObj): Promise<T> {
@@ -70,3 +81,4 @@ export class Db {
     }
 
 }
+
