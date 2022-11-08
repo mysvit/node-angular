@@ -46,21 +46,26 @@ LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` VALUES
 ('013c713b-2577-45f1-ba57-0878a7748256',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-06 15:09:32','Hello,\nWorld<div>111111111</div><div>111111111</div>',0,1,0),
+('11c09626-9963-4f26-a239-0b8c4d47c8b8','377c0c45-091b-4f5b-8fe8-49471a7cf458',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-07 09:05:41','22222222222',1,0,0),
 ('1c88abef-2915-4383-9ccb-2ea2e278bd2b',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:37:05',NULL,0,0,0),
 ('1fcb7991-7da1-416e-90d0-70388b171bd4',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:41:55','qqqqqqqqqqqqqqq',0,0,0),
 ('3194f512-b342-4f57-9cb1-657b663bc839',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 08:34:06',NULL,0,0,0),
 ('31ba5125-0a31-4195-92fc-487590288996',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 19:01:53','qqqqqq',1,0,0),
 ('32929cb1-7225-489e-bbdf-e9c9da283e38',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 18:54:20','qqqqqqqqqq',0,1,0),
 ('3729579c-291f-462f-913f-23f20e16cdfe',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 19:04:04','sssssss',1,0,0),
+('377c0c45-091b-4f5b-8fe8-49471a7cf458',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-06 19:36:05','1111111111111111<div>33333333333333</div><div>gggggggggg</div>',1,0,3),
+('40bd4fdb-a8ca-46e2-8143-9db8373f98f7','6ea17cee-e266-4441-9552-408f976b2166',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-07 20:21:50','222222222222222<div>222222222222222</div><div>222222222222222</div>',0,0,1),
 ('48b70cbb-04f3-4fcd-abb1-137349a85b9e',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:43:51','aaaaaaaaaaa',0,0,0),
 ('4b9093a5-9ef0-4310-b47a-58fc206be3d0',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:34:30',NULL,0,0,0),
 ('6bcca822-ba55-4dc9-b481-46c4f1c97577',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-10-29 19:39:11','Привіт, тест тест відро кружка, во пваоп овіапоіво пвіоап віо поваі опвіо пві  авооіпв пвіпв ва пвпі<div>33333333333</div>',1,0,0),
+('6ea17cee-e266-4441-9552-408f976b2166',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-07 18:21:06','11111111111<div>asdasd as</div><div>&nbsp;sdg</div><div>&nbsp;sdgdfg sfgdsgs</div>',1,0,1),
 ('8a57985f-1640-495c-b2bb-59a061d51973',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-10-26 11:18:34','qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq gggggggggggggggggg hhhhhhhhhhhhhhhhh ttttttttttttttttt qqqqqqqqqqqqq nnnnnnnnnnnnnnnnnnn',0,1,0),
 ('8ae09aa1-27f8-4d29-b3b3-98509ca203b7',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 19:03:34','dddd',0,0,0),
 ('93e67b10-d525-4951-b0b7-fdd0f2bb9c06',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-10-29 19:39:35','Тест скрол для контейнера<div>11111111111</div><div>22222222222</div><div>33333333333</div>',0,0,0),
 ('cc679fca-2bc4-4502-b2ef-a4cae99bf7fd',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 08:46:48',NULL,0,0,0),
 ('d7f73b3f-28cb-4b81-b9ef-c881656050df',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:45:32','aaaaaaaaaaaaaa',0,1,0),
 ('e0b60412-23fc-44f2-a71a-29491f431829',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:46:20','11111111111111111',1,0,0),
+('e1b5d420-fd64-4a75-8f12-d05172c23a37','40bd4fdb-a8ca-46e2-8143-9db8373f98f7',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-07 20:22:38','333333333333',1,0,0),
 ('efdb112c-f2fd-4fd0-b876-8130bcc6b5dd',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-10-29 17:26:11','rcf fgsdg54646e464',0,0,0),
 ('fb9a45b3-681e-4c8b-8a52-9b26c6b4e23c',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:30:48',NULL,0,0,0),
 ('fdb49c02-9d0b-4e9d-98d6-abf6f2ec7448',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-10-18 10:08:34','Long comments s fdsdfdhfkdhfkjhldshgk  dfg dfh d gdfh hkhkhslfajl fhsdklfhksdfds',0,0,0),
@@ -98,13 +103,17 @@ LOCK TABLES `comments_likes` WRITE;
 /*!40000 ALTER TABLE `comments_likes` DISABLE KEYS */;
 INSERT INTO `comments_likes` VALUES
 ('2b773db4-774e-4f04-984a-6bc689808fe3','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','3729579c-291f-462f-913f-23f20e16cdfe','2022-11-03 18:51:24',1,0),
+('2bc49f93-8a91-41bf-b355-b9d156f56ee3','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','e1b5d420-fd64-4a75-8f12-d05172c23a37','2022-11-08 12:36:17',1,0),
 ('387a7b35-b662-4fdf-9dcf-b272f105d811','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','013c713b-2577-45f1-ba57-0878a7748256','2022-10-31 18:42:21',0,1),
 ('4bbdc9cd-5725-4c74-ace2-a9d691143387','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','31ba5125-0a31-4195-92fc-487590288996','2022-10-31 18:42:22',1,0),
 ('6f3112f3-cfbb-4cb4-8f53-63111b3f398f','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','8ae09aa1-27f8-4d29-b3b3-98509ca203b7','2022-10-31 18:42:08',0,0),
+('951f6538-b8eb-422c-9eb0-77b3ad5960b1','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','377c0c45-091b-4f5b-8fe8-49471a7cf458','2022-11-06 21:39:33',1,0),
 ('a070fd31-74b5-4757-a769-4b2f9cbf2492','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','32929cb1-7225-489e-bbdf-e9c9da283e38','2022-10-31 18:42:22',0,1),
+('a4cdebd4-97de-499c-8b4d-889cd82b7822','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','6ea17cee-e266-4441-9552-408f976b2166','2022-11-07 22:10:33',1,0),
 ('c0ffac30-07a4-49fd-afea-4a75437e2d6d','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','6bcca822-ba55-4dc9-b481-46c4f1c97577','2022-10-31 18:42:24',1,0),
 ('c1ea95d3-dfbe-45e8-a159-94f564f5a8e6','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','e0b60412-23fc-44f2-a71a-29491f431829','2022-11-04 12:25:47',1,0),
 ('c4e2df4c-17b8-4f61-8b0f-7a31f2a1ddfc','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','d7f73b3f-28cb-4b81-b9ef-c881656050df','2022-11-04 12:25:58',0,1),
+('da014579-b541-4ed1-9512-d7f5011f755c','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','11c09626-9963-4f26-a239-0b8c4d47c8b8','2022-11-07 18:38:49',1,0),
 ('da1c38e6-5c32-4c06-a8c0-64914de098ea','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','ff69d1f6-4d3a-4b22-bc42-9830381b2f7e','2022-11-06 18:36:44',1,0),
 ('dbed168b-48e7-4418-aed7-5697c0e97a73','fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','8a57985f-1640-495c-b2bb-59a061d51973','2022-10-31 18:42:24',0,1);
 /*!40000 ALTER TABLE `comments_likes` ENABLE KEYS */;
@@ -166,43 +175,6 @@ INSERT INTO `pictures` VALUES
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_logs`
---
-
-DROP TABLE IF EXISTS `user_logs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_logs` (
-  `user_log_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(36) DEFAULT NULL,
-  `write_date` datetime DEFAULT current_timestamp(),
-  `host_ip` varchar(46) DEFAULT NULL,
-  `log_type_id` int(11) DEFAULT NULL,
-  `log_desc` varchar(300) DEFAULT NULL,
-  PRIMARY KEY (`user_log_id`),
-  KEY `log_type_ref` (`log_type_id`),
-  KEY `user_ref` (`user_id`),
-  CONSTRAINT `log_type_ref` FOREIGN KEY (`log_type_id`) REFERENCES `log_types` (`log_type_id`),
-  CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_logs`
---
-
-LOCK TABLES `user_logs` WRITE;
-/*!40000 ALTER TABLE `user_logs` DISABLE KEYS */;
-INSERT INTO `user_logs` VALUES
-(4,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-23 18:13:25','::1',1,'old email: q@q.qq, new email: q@q.qqq'),
-(5,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-23 18:14:27','::1',1,'old pass hash: 5fe329219ce143e4a1f772ae22fa17b85f93f047a53fc58cd2ab5b6d17502a85974474372c141718054cb045e369554e04eb599a8ac9956ad059bbe54284037c, new pass hash: 35352a2e7e8a0e793ac5fac97e3f504358fc7612707ffb165f459b77f7ff27bbf57d24f3a60492478114d078c7d86a8016ed82ce0c35efd2595509a909c34fd3'),
-(6,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-27 09:39:37','::1',1,'old email: q@q.qqq, new email: q@q.qq'),
-(7,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-27 09:42:32','::1',1,'old email: q@q.qq, new email: q@q.qqq'),
-(8,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-27 09:43:06','::1',2,'old pass hash: 9e38343ad0870821cb1180960b5783050ac50a63f57b8ebb43816ef4e4d7f0d66f5ea95f9abc8c1dc29655d980295d5a149cea344f0e8490b33065eeaed6ba64, new pass hash: 86c4a75e0ea067da4d0fe477463043eeb4723b81d59edb2842e37ad85c7790c46cbad4b7b6f119d281696acf3e13648d499d4db5dd767506efd75cff6286ba19');
-/*!40000 ALTER TABLE `user_logs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
@@ -243,8 +215,45 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-('fb2b2e63-ebff-4ed3-a15b-fda45e3452a4',0,'Test Name','q@q.qqq','2022-09-23 19:12:33',NULL,'2022-11-06 18:36:30',1,NULL,NULL,'86c4a75e0ea067da4d0fe477463043eeb4723b81d59edb2842e37ad85c7790c46cbad4b7b6f119d281696acf3e13648d499d4db5dd767506efd75cff6286ba19','ec1f359ec97b2181ed1320fe1d32e786','ce41a1a7-d0ba-4a49-891c-af1433d217f4',1,'2022-09-30 13:16:57',1,'2022-09-23 21:15:13','65e6c1995dcf44f49f8ae72ba84b8f4d',NULL,NULL);
+('fb2b2e63-ebff-4ed3-a15b-fda45e3452a4',0,'Test Name','q@q.qqq','2022-09-23 19:12:33',NULL,'2022-11-08 12:36:14',1,NULL,NULL,'86c4a75e0ea067da4d0fe477463043eeb4723b81d59edb2842e37ad85c7790c46cbad4b7b6f119d281696acf3e13648d499d4db5dd767506efd75cff6286ba19','ec1f359ec97b2181ed1320fe1d32e786','ce41a1a7-d0ba-4a49-891c-af1433d217f4',1,'2022-09-30 13:16:57',1,'2022-09-23 21:15:13','65e6c1995dcf44f49f8ae72ba84b8f4d',NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users_logs`
+--
+
+DROP TABLE IF EXISTS `users_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users_logs` (
+  `user_log_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(36) DEFAULT NULL,
+  `write_date` datetime DEFAULT current_timestamp(),
+  `host_ip` varchar(46) DEFAULT NULL,
+  `log_type_id` int(11) DEFAULT NULL,
+  `log_desc` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`user_log_id`),
+  KEY `log_type_ref` (`log_type_id`),
+  KEY `user_ref` (`user_id`),
+  CONSTRAINT `log_type_ref` FOREIGN KEY (`log_type_id`) REFERENCES `log_types` (`log_type_id`),
+  CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users_logs`
+--
+
+LOCK TABLES `users_logs` WRITE;
+/*!40000 ALTER TABLE `users_logs` DISABLE KEYS */;
+INSERT INTO `users_logs` VALUES
+(4,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-23 18:13:25','::1',1,'old email: q@q.qq, new email: q@q.qqq'),
+(5,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-23 18:14:27','::1',1,'old pass hash: 5fe329219ce143e4a1f772ae22fa17b85f93f047a53fc58cd2ab5b6d17502a85974474372c141718054cb045e369554e04eb599a8ac9956ad059bbe54284037c, new pass hash: 35352a2e7e8a0e793ac5fac97e3f504358fc7612707ffb165f459b77f7ff27bbf57d24f3a60492478114d078c7d86a8016ed82ce0c35efd2595509a909c34fd3'),
+(6,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-27 09:39:37','::1',1,'old email: q@q.qqq, new email: q@q.qq'),
+(7,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-27 09:42:32','::1',1,'old email: q@q.qq, new email: q@q.qqq'),
+(8,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-27 09:43:06','::1',2,'old pass hash: 9e38343ad0870821cb1180960b5783050ac50a63f57b8ebb43816ef4e4d7f0d66f5ea95f9abc8c1dc29655d980295d5a149cea344f0e8490b33065eeaed6ba64, new pass hash: 86c4a75e0ea067da4d0fe477463043eeb4723b81d59edb2842e37ad85c7790c46cbad4b7b6f119d281696acf3e13648d499d4db5dd767506efd75cff6286ba19');
+/*!40000 ALTER TABLE `users_logs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -256,4 +265,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-06 17:27:39
+-- Dump completed on 2022-11-08 10:43:06
