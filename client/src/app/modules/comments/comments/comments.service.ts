@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { CommentItem, CommentModel, CommentsLikesModel } from '@dto'
+import { CommentItem, CommentLikeModel, CommentModel } from '@dto'
 import { environment } from '@env'
 import { ApiParams, ApiPath } from '@shared-lib/constants'
-import { Select } from '@shared-lib/db'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { Observable } from 'rxjs'
 
@@ -33,11 +32,11 @@ export class CommentsService {
         return this.http.get(environment.apiEndPoint + ApiPath.comments_get.replace(ApiParams.id, id))
     }
 
-    commentsList(select: Select): Observable<Array<CommentItem>> {
+    commentsList(select: any): Observable<Array<CommentItem>> {
         return this.http.post<Array<CommentItem>>(environment.apiEndPoint + ApiPath.comments_list, select)
     }
 
-    commentLike(model: CommentsLikesModel): Observable<LikeDislikeCalc> {
+    commentLike(model: CommentLikeModel): Observable<LikeDislikeCalc> {
         return this.http.post<LikeDislikeCalc>(environment.apiEndPoint + ApiPath.comments_likes_set, model)
     }
 

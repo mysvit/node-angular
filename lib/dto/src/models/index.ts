@@ -1,5 +1,0 @@
-export * from './comments'
-export * from './comments-likes'
-export * from './date'
-export * from './user'
-export * from './picture'

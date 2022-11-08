@@ -2,8 +2,8 @@ import { Component, Injector, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogModel } from '@core/components/dialog/dialog-model'
 import { DialogComponent } from '@core/components/dialog/dialog.component'
-import { CommentItem, CommentModel, CommentsLikesModel } from '@dto'
-import { Select, SelectLimit } from '@shared-lib/db'
+import { CommentItem, CommentLikeModel, CommentModel } from '@dto'
+import { Select, SelectLimit } from '@shared-lib/db/select'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { FormAction } from '@shared/enum'
@@ -144,7 +144,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentLikeEvent(item: CommentItem): void {
-        const model = <CommentsLikesModel>{
+        const model = <CommentLikeModel>{
             comment_id: item.comment_id,
             is_like: 1,
             is_dislike: 0
@@ -158,7 +158,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
     commentDislikeEvent(item: CommentItem): void {
-        const model = <CommentsLikesModel>{
+        const model = <CommentLikeModel>{
             comment_id: item.comment_id,
             is_like: 0,
             is_dislike: 1

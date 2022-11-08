@@ -24,7 +24,7 @@ export class UserSignInService {
     }
 
     signIn(model: SignInModel, activatedRoute: ActivatedRoute): Observable<void> {
-        return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.user_sign_in, model)
+        return this.http.post<AuthModel>(environment.apiEndPoint + ApiPath.users_sign_in, model)
             .pipe(
                 map((data: AuthModel) => {
                     SlStorage.user_id = data.userId
@@ -42,7 +42,7 @@ export class UserSignInService {
     }
 
     verifyCode(verificationCode: string): Observable<void> {
-        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.user_verify_code,
+        return this.http.put<AuthModel>(environment.apiEndPoint + ApiPath.users_verify_code,
             <VerifyCodeModel>{verificationCode: verificationCode})
             .pipe(
                 map((data: AuthModel) => {
@@ -63,11 +63,11 @@ export class UserSignInService {
     }
 
     resendCode(): Observable<number> {
-        return this.http.put<number>(environment.apiEndPoint + ApiPath.user_resend_code, {})
+        return this.http.put<number>(environment.apiEndPoint + ApiPath.users_resend_code, {})
     }
 
     forgotPass(email: string): Observable<number> {
-        return this.http.post<number>(environment.apiEndPoint + ApiPath.user_forgot_pass,
+        return this.http.post<number>(environment.apiEndPoint + ApiPath.users_forgot_pass,
             <EmailModel>{
                 email: email
             }
@@ -75,7 +75,7 @@ export class UserSignInService {
     }
 
     resetPass(resetPassModel: ResetPassModel): Observable<number> {
-        return this.http.post<number>(environment.apiEndPoint + ApiPath.user_reset_pass, resetPassModel)
+        return this.http.post<number>(environment.apiEndPoint + ApiPath.users_reset_pass, resetPassModel)
     }
 
     private userAuthenticated(data: AuthModel): Promise<boolean> {

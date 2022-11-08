@@ -21,8 +21,8 @@ export class CommentsDb extends Db {
                 cl.is_dislike AS dislike_user
             FROM 
                 comments c
-                JOIN users u ON c.user_id = u.user_id
-                LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND c.user_id = cl.user_id
+                JOIN users u ON u.user_id = c.user_id 
+                LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND cl.user_id = c.user_id 
             WHERE
                 c.is_del = 0
             ORDER BY

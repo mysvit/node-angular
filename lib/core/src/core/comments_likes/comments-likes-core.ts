@@ -1,5 +1,5 @@
 import { CommentsDb, CommentsLikesDb, Db } from '@db'
-import { CommentsLikesModel, CommentsLikesSelectOneWhere, CommentsLikesTbl, DateDb } from '@dto'
+import { CommentLikeModel, CommentsLikesSelectOneWhere, CommentsLikesTbl, DateType } from '@dto'
 import { CommentsLikesDtoHelper, LikeDislike, LikeDislikeCalc } from '@shared'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -7,7 +7,7 @@ import { Core } from '../core'
 export class CommentsLikesCore extends Core {
 
     // add, remove, update likes for comment
-    async set(userId: string, model: CommentsLikesModel): Promise<LikeDislikeCalc> {
+    async set(userId: string, model: CommentLikeModel): Promise<LikeDislikeCalc> {
         ParamValidation.validateUuId(userId)
         const commentsLikesUserSend = CommentsLikesDtoHelper.modelToTbl(model, userId)
 
@@ -26,7 +26,7 @@ export class CommentsLikesCore extends Core {
                 // update exist
                 await commentsLikesDb.update(
                     <CommentsLikesTbl>{
-                        write_date: new DateDb().value,
+                        write_date: new DateType().value,
                         is_like: ld.likeUsr,
                         is_dislike: ld.dislikeUsr
                     },

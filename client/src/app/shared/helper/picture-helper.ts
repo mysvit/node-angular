@@ -80,7 +80,7 @@ export namespace PictureHelper {
     }
 
     export function getPictureUrl(id: string): string {
-        return environment.apiEndPoint + ApiPath.picture_get.replace(ApiParams.id, id)
+        return environment.apiEndPoint + ApiPath.pictures_get.replace(ApiParams.id, id)
     }
 
 }

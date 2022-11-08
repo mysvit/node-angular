@@ -5,7 +5,7 @@ import chaiHttp from 'chai-http'
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jsonwebtoken'
 import { app } from '../../server'
-import { userCore } from '../ref/db-pools-core'
+import { usersCore } from '../ref/db-pools-core'
 import { logger } from '../ref/logger'
 
 const {sign} = jwt
@@ -26,13 +26,13 @@ describe('ErrorHandler', () => {
         expect(res.body.message).to.equal(StringHelper.format(ErrorsMsg.RouteNotFound, nonExistentRoute))
     })
 
-    it('Centralized error handling: apiHandler' + ApiPath.user_sign_in, async () => {
-        chai.spy.on(userCore, 'login', () => {
+    it('Centralized error handling: apiHandler' + ApiPath.users_sign_in, async () => {
+        chai.spy.on(usersCore, 'login', () => {
             throw new ErrorApi500(ErrorsMsg.AllFieldsRequired)
         })
         chai.spy.on(logger, 'error', () => true)
         const res = await agent
-            .post(ApiPath.user_sign_in)
+            .post(ApiPath.users_sign_in)
             .type('form')
             .send({})
         expect(res).to.have.status(StatusCodes.INTERNAL_SERVER_ERROR)

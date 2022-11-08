@@ -1,5 +1,0 @@
-export * from './comments-likes-tbl'
-export * from './comments-tbl'
-export * from './picture-tbl'
-export * from './user-log-tbl'
-export * from './user-tbl'

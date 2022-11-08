@@ -1,4 +1,5 @@
 export * from './comments'
 export * from './comments_likes'
-export * from './user'
-export * from './picture'
+export * from './pictures'
+export * from './users'
+export * from './users-logs'

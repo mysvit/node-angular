@@ -16,7 +16,7 @@ export class AppService {
     }
 
     isAuth() {
-        return this.http.get(environment.apiEndPoint + ApiPath.user_auth)
+        return this.http.get(environment.apiEndPoint + ApiPath.users_auth)
             .pipe(
                 map(() => SlStorage.isAuth = true),
                 // catch error interceptor

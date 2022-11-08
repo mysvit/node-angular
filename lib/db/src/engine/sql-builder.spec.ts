@@ -1,4 +1,4 @@
-import { DateDb } from '@dto'
+import { DateType } from '@dto'
 import chai from 'chai'
 import { getValues, SqlBuilder } from './sql-builder'
 
@@ -8,14 +8,14 @@ describe('SqlBuilder', () => {
 
     const testObj = {
         string_field: 'string',
-        date_field: new DateDb().value,
+        date_field: new DateType().value,
         number_field: 12345,
         null_date: null
     }
 
     const whereObj = {
         string_field: 'string',
-        date_field: new DateDb().value,
+        date_field: new DateType().value,
         number_field: 12345,
         null_date: null
     }

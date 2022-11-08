@@ -13,7 +13,7 @@ export class UserSignupService {
     }
 
     signup(user: UserSignupModel) {
-        return this.http.post(environment.apiEndPoint + ApiPath.user_signup, user)
+        return this.http.post(environment.apiEndPoint + ApiPath.users_signup, user)
     }
 
 }

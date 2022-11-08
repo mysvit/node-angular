@@ -8,7 +8,7 @@ import { ApiParams, ApiPath } from '@shared-lib/constants'
 export class PictureUrlPipe implements PipeTransform {
 
     transform(value: string): string {
-        return value ? environment.apiEndPoint + ApiPath.picture_get.replace(ApiParams.id, value) : ''
+        return value ? environment.apiEndPoint + ApiPath.pictures_get.replace(ApiParams.id, value) : ''
     }
 
 }

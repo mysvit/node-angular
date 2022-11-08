@@ -1,8 +1,8 @@
 import * as express from 'express'
 import { commentsEditRouter, commentsViewRouter } from './api/comments'
 import { commentsLikesRouter } from './api/comments-likes'
-import { pictureRouter, pictureUrlRouter } from './api/picture'
-import { userAuth, userBase, userProf } from './api/user'
+import { picturesRouter, pictureUrlRouter } from './api/pictures'
+import { userAuth, userBase, userProf } from './api/users'
 import { ErrorHandler } from './errors'
 import { Middleware } from './middleware'
 
@@ -25,7 +25,7 @@ routes.use('/', userAuth)
 // user Profile
 routes.use('/', userProf)
 // user Picture
-routes.use('/', pictureRouter)
+routes.use('/', picturesRouter)
 // user CommentsEdit
 routes.use('/', commentsEditRouter)
 // user CommentsLikes

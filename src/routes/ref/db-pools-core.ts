@@ -1,4 +1,4 @@
-import { CommentsCore, CommentsLikesCore, PictureCore, UserCore, UserProfileCore } from '@core'
+import { CommentsCore, CommentsLikesCore, PicturesCore, UserProfileCore, UsersCore } from '@core'
 import { Db } from '@db'
 import { environment } from '@env'
 import { logger } from './logger'
@@ -14,14 +14,14 @@ poolConfig = {
     }
 }
 
-const userPool = Db.createPool({...poolConfig, connectionLimit: 5})
-const picturePool = Db.createPool({...poolConfig, connectionLimit: 10})
+const usersPool = Db.createPool({...poolConfig, connectionLimit: 5})
+const picturesPool = Db.createPool({...poolConfig, connectionLimit: 10})
 const commentsPool = Db.createPool({...poolConfig, connectionLimit: 10})
 
-export const userCore = new UserCore(environment, logger, userPool)
-export const userProfileCore = new UserProfileCore(environment, logger, userPool)
+export const usersCore = new UsersCore(environment, logger, usersPool)
+export const usersProfileCore = new UserProfileCore(environment, logger, usersPool)
 
-export const pictureCore = new PictureCore(environment, logger, picturePool)
+export const picturesCore = new PicturesCore(environment, logger, picturesPool)
 
 export const commentsCore = new CommentsCore(environment, logger, commentsPool)
 export const commentsLikesCore = new CommentsLikesCore(environment, logger, commentsPool)
