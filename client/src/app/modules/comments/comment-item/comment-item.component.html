@@ -33,7 +33,7 @@
         </div>
         <div class="sl-item-reply" *ngIf="!isReplyItem && item.replies_count > 0">
             <div class="sl-reply-button" (click)="commentRepliesShowClick()">
-                <ng-template [ngIf]="repliesShow" [ngIfElse]="repliesHide">
+                <ng-template [ngIf]="isRepliesShowed" [ngIfElse]="repliesHide">
                     <mat-icon>arrow_drop_up</mat-icon>
                 </ng-template>
                 <ng-template #repliesHide>
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="sl-item-menu">
-        <mat-icon class="sl-icon-button sl-menu-icon" [ngClass]="{'show-all-time':menuOpened}"
+        <mat-icon class="sl-icon-button sl-menu-icon" [ngClass]="{'show-all-time':isMenuOpened}"
                   [matMenuTriggerFor]="menu" (menuOpened)="menuItemOpenedEvent()" (menuClosed)="menuItemClosedEvent()">
             more_vert
         </mat-icon>

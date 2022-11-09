@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatMenuModule } from '@angular/material/menu'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SharedModule } from '@shared/shared.module'
 import { CommentFormComponent } from './comment-form/comment-form.component'
 import { CommentsRoutingModule } from './comments-routing.module'
@@ -29,7 +30,8 @@ import { CommentItemComponent } from './comment-item/comment-item.component'
         MatButtonModule,
         MatIconModule,
         FormsModule,
-        MatMenuModule
+        MatMenuModule,
+        MatProgressSpinnerModule
     ],
     providers: [
         CommentsService

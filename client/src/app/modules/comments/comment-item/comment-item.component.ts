@@ -10,16 +10,16 @@ export class CommentItemComponent implements OnInit {
 
     @Input() isReplyItem: boolean = false
     @Input() item!: CommentItemUI
-    @Output() onCommentLike: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
-    @Output() onCommentDislike: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
-    @Output() onCommentReply: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
-    @Output() onCommentRepliesShow: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
-    @Output() onCommentEdit: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
-    @Output() onCommentDelete: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+    @Output() onCommentLike: EventEmitter<void> = new EventEmitter<void>()
+    @Output() onCommentDislike: EventEmitter<void> = new EventEmitter<void>()
+    @Output() onCommentReply: EventEmitter<void> = new EventEmitter<void>()
+    @Output() onCommentRepliesShow: EventEmitter<boolean> = new EventEmitter<boolean>()
+    @Output() onCommentEdit: EventEmitter<void> = new EventEmitter<void>()
+    @Output() onCommentDelete: EventEmitter<void> = new EventEmitter<void>()
 
 
-    menuOpened: boolean = false
-    repliesShow: boolean = false
+    isMenuOpened: boolean = false
+    isRepliesShowed: boolean = false
 
     constructor() {
     }
@@ -28,36 +28,36 @@ export class CommentItemComponent implements OnInit {
     }
 
     commentLikeClick() {
-        this.onCommentLike.emit(this.item)
+        this.onCommentLike.emit()
     }
 
     commentDislikeClick() {
-        this.onCommentDislike.emit(this.item)
+        this.onCommentDislike.emit()
     }
 
     commentReplyClick() {
-        this.onCommentReply.emit(this.item)
+        this.onCommentReply.emit()
     }
 
     commentRepliesShowClick() {
-        this.repliesShow = !this.repliesShow
-        this.onCommentRepliesShow.emit(this.item)
+        this.isRepliesShowed = !this.isRepliesShowed
+        this.onCommentRepliesShow.emit(this.isRepliesShowed)
     }
 
     editCommentClick() {
-        this.onCommentEdit.emit(this.item)
+        this.onCommentEdit.emit()
     }
 
     deleteCommentClick() {
-        this.onCommentDelete.emit(this.item)
+        this.onCommentDelete.emit()
     }
 
     menuItemOpenedEvent() {
-        this.menuOpened = true
+        this.isMenuOpened = true
     }
 
     menuItemClosedEvent() {
-        this.menuOpened = false
+        this.isMenuOpened = false
     }
 
 }

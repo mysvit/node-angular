@@ -10,13 +10,19 @@
             <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>
         </ng-container>
 
-        <ng-container *ngIf="item.commentReplies">
-            <div class="ml-50">
+        <!--        Replies-->
+        <ng-template [ngIf]="item.commentRepliesLoading" [ngIfElse]="repliesLoaded">
+            <div class="sl-replies-loading">
+                <mat-spinner></mat-spinner>
+            </div>
+        </ng-template>
+        <ng-template #repliesLoaded>
+            <div class="ml-50" *ngIf="item.commentReplies">
                 <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">
                     <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>
                 </ng-template>
             </div>
-        </ng-container>
+        </ng-template>
 
     </ng-template>
 
@@ -57,12 +63,12 @@
     </ng-template>
     <ng-template #itemView>
         <app-comment-item [item]="item"
-                          (onCommentLike)="commentLikeEvent($event)"
-                          (onCommentDislike)="commentDislikeEvent($event)"
-                          (onCommentReply)="commentReplyEvent($event)"
-                          (onCommentRepliesShow)="commentRepliesShowEvent($event)"
-                          (onCommentEdit)="commentEditEvent($event)"
-                          (onCommentDelete)="commentDeleteEvent($event)">
+                          (onCommentLike)="commentLikeEvent(item)"
+                          (onCommentDislike)="commentDislikeEvent(item)"
+                          (onCommentReply)="commentReplyEvent(item)"
+                          (onCommentRepliesShow)="commentRepliesShowEvent(item, $event)"
+                          (onCommentEdit)="commentEditEvent(item)"
+                          (onCommentDelete)="commentDeleteEvent(item)">
         </app-comment-item>
     </ng-template>
 </ng-template>
@@ -96,11 +102,10 @@
     <ng-template #itemViewReplies>
         <app-comment-item [isReplyItem]="true"
                           [item]="item"
-                          (onCommentLike)="commentLikeEvent($event)"
-                          (onCommentDislike)="commentDislikeEvent($event)"
-                          (onCommentEdit)="commentEditEvent($event)"
-                          (onCommentDelete)="commentDeleteEvent($event)">
+                          (onCommentLike)="commentLikeEvent(item)"
+                          (onCommentDislike)="commentDislikeEvent(item)"
+                          (onCommentEdit)="commentEditEvent(item)"
+                          (onCommentDelete)="commentDeleteEvent(item)">
         </app-comment-item>
     </ng-template>
 </ng-template>
-

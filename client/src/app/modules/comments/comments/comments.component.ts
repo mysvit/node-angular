@@ -109,10 +109,15 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentRepliesShowEvent(item: CommentItemUI) {
-        this.execute(
-            this.commentRepliesData(item)
-        )
+    commentRepliesShowEvent(item: CommentItemUI, isRepliesShowed: boolean) {
+        if (isRepliesShowed) {
+            item.commentRepliesLoading = true
+            this.execute(
+                this.commentRepliesData(item)
+            )
+        } else {
+            item.commentReplies = []
+        }
     }
 
 
@@ -177,23 +182,20 @@ export class CommentsComponent extends ProcessForm implements OnInit {
             )
     }
 
-    private commentRepliesData(item: CommentItemUI): Observable<Array<CommentItem>> {
+    private commentRepliesData(item: CommentItemUI): Observable<boolean> {
         // selectLimit: <SelectLimit>{limit: 5}
         return this.comments.commentsList(<CommentsSelectWhere>{parent_id: item.comment_id})
             .pipe(
-                map(items => item.commentReplies = items)
+                map(items => item.commentReplies = items),
+                switchMap(() => of(item.commentRepliesLoading = false))
             )
     }
 
     private updateCommentItem(item: CommentItemUI, data: LikeDislikeCalc): void {
-        const index = this.commentsList.findIndex(f => f.comment_id === item.comment_id)
-        this.commentsList[index] = {
-            ...item,
-            like_user: data.likeUsr,
-            dislike_user: data.dislikeUsr,
-            likes_count: item.likes_count + data.likeCount,
-            dislikes_count: item.dislikes_count + data.dislikeCount
-        }
+        item.like_user = data.likeUsr
+        item.dislike_user = data.dislikeUsr
+        item.likes_count = item.likes_count + data.likeCount
+        item.dislikes_count = item.dislikes_count + data.dislikeCount
     }
 
 }
