@@ -50,11 +50,11 @@ globally
 npm outdated -g --depth=0
 ```
 
-**To Install latest version**
+**To Install the latest version of `nodemon` and globally `npm`**
 ``` bash
 npm install nodemon@lates
 ```
 globally
 ```bash
-npm install npm@latest -g
+sudo npm install --location=global npm@latest
 ```
