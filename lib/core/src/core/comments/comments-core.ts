@@ -1,6 +1,6 @@
 import { CommentsDb, Db } from '@db'
-import { CommentItem, CommentModel, CommentsTbl } from '@dto'
-import { CommentsDtoHelper, Select, SelectLimit } from '@shared'
+import { CommentItem, CommentModel, CommentsSelectWhere, CommentsTbl } from '@dto'
+import { CommentsDtoHelper } from '@shared'
 import { randomUUID } from 'crypto'
 import { ParamValidation } from '../../validation'
 import { Core } from '../core'
@@ -66,11 +66,8 @@ export class CommentsCore extends Core {
         )
     }
 
-    async list(select: Select): Promise<Array<CommentItem>> {
-        const sel = <Select>{
-            selectLimit: <SelectLimit>{limit: 5}
-        }
-        return this.commentsDb.list(sel)
+    async list(where: CommentsSelectWhere): Promise<Array<CommentItem>> {
+        return this.commentsDb.list(where)
     }
 
 }

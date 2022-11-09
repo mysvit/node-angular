@@ -1,13 +1,25 @@
 <h1 class="p-20">Testing PWA</h1>
 
 <div class="sl-container">
+
     <ng-container *ngTemplateOutlet="itemAdd"></ng-container>
-
     <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
-        <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>
 
-        <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>
+        <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>
+        <ng-container *ngIf="item.comment_id === replyId">
+            <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="item.commentReplies">
+            <div class="ml-50">
+                <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">
+                    <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>
+                </ng-template>
+            </div>
+        </ng-container>
+
     </ng-template>
+
 </div>
 
 
@@ -48,6 +60,7 @@
                           (onCommentLike)="commentLikeEvent($event)"
                           (onCommentDislike)="commentDislikeEvent($event)"
                           (onCommentReply)="commentReplyEvent($event)"
+                          (onCommentRepliesShow)="commentRepliesShowEvent($event)"
                           (onCommentEdit)="commentEditEvent($event)"
                           (onCommentDelete)="commentDeleteEvent($event)">
         </app-comment-item>
@@ -57,7 +70,7 @@
 <!--Reply on comment-->
 
 <ng-template #itemReply let-item>
-    <div class="ml-50" *ngIf="item.comment_id === replyId">
+    <div class="ml-50">
         <app-comment-form [smallIcon]="true"
                           [formAction]="FormAction.Reply"
                           [disabled]="executingForm"
@@ -67,3 +80,27 @@
         </app-comment-form>
     </div>
 </ng-template>
+
+
+<!--View and Edit a replies on comment-->
+
+<ng-template #itemViewEditReplies let-item>
+    <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemViewReplies">
+        <app-comment-form [formAction]="FormAction.Edit"
+                          [disabled]="executingForm"
+                          [model]="editCommentModel"
+                          (onSave)="saveCommentEditEvent($event)"
+                          (onCancel)="cancelCommentEditEvent()">
+        </app-comment-form>
+    </ng-template>
+    <ng-template #itemViewReplies>
+        <app-comment-item [isReplyItem]="true"
+                          [item]="item"
+                          (onCommentLike)="commentLikeEvent($event)"
+                          (onCommentDislike)="commentDislikeEvent($event)"
+                          (onCommentEdit)="commentEditEvent($event)"
+                          (onCommentDelete)="commentDeleteEvent($event)">
+        </app-comment-item>
+    </ng-template>
+</ng-template>
+

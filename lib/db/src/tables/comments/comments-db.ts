@@ -1,12 +1,20 @@
-import { CommentItem } from '@dto'
-import { Select } from '@shared'
+import { CommentItem, CommentsSelectWhere } from '@dto'
 import { Db } from '../../engine'
 
 export class CommentsDb extends Db {
 
     table = 'comments'
 
-    async list(select: Select): Promise<Array<CommentItem>> {
+    async list(where: CommentsSelectWhere): Promise<Array<CommentItem>> {
+        let whereBuild = ''
+        const values = []
+        if (where.parent_id) {
+            whereBuild += ' AND parent_id = ?'
+            values.push(where.parent_id)
+        } else {
+            whereBuild += ' AND parent_id is NULL'
+        }
+
         const sel = `
             SELECT
                 c.comment_id,
@@ -24,11 +32,11 @@ export class CommentsDb extends Db {
                 JOIN users u ON u.user_id = c.user_id 
                 LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND cl.user_id = c.user_id 
             WHERE
-                c.is_del = 0
+                c.is_del = 0 
+                ${whereBuild}
             ORDER BY
                 c.add_date DESC
         `
-        const values = []
         return this.conn.query(sel, values)
     }
 

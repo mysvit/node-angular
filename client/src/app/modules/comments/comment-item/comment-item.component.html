@@ -1,6 +1,6 @@
 <div class="sl-item">
     <div>
-        <img class="sl-avatar" alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
+        <img class="sl-avatar" [ngClass]="{'small':isReplyItem}"  alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
     </div>
     <div class="sl-item-text">
         <div class="g-col">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div [innerHtml]="item.comment"></div>
-        <div class="sl-item-reply">
+        <div class="sl-item-likes">
             <div class="sl-item-icon">
                 <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.like_user}"
                           aria-hidden="false" aria-label="I like this" (click)="commentLikeClick()">
@@ -27,8 +27,19 @@
                 </mat-icon>
                 <span>{{item.dislikes_count}}</span>
             </div>
-            <div class="sl-item-icon">
+            <div class="sl-item-icon" *ngIf="!isReplyItem">
                 <mat-icon class="sl-icon-button" (click)="commentReplyClick()">chat</mat-icon>
+            </div>
+        </div>
+        <div class="sl-item-reply" *ngIf="!isReplyItem && item.replies_count > 0">
+            <div class="sl-reply-button" (click)="commentRepliesShowClick()">
+                <ng-template [ngIf]="repliesShow" [ngIfElse]="repliesHide">
+                    <mat-icon>arrow_drop_up</mat-icon>
+                </ng-template>
+                <ng-template #repliesHide>
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </ng-template>
+                {{item.replies_count}} replies
             </div>
         </div>
     </div>

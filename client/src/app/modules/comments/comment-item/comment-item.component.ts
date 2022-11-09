@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { CommentItem } from '@dto'
+import { CommentItemUI } from '../comments/comments.model'
 
 @Component({
     selector: 'app-comment-item',
@@ -8,14 +8,18 @@ import { CommentItem } from '@dto'
 })
 export class CommentItemComponent implements OnInit {
 
-    @Input() item!: CommentItem
-    @Output() onCommentLike: EventEmitter<CommentItem> = new EventEmitter<CommentItem>()
-    @Output() onCommentDislike: EventEmitter<CommentItem> = new EventEmitter<CommentItem>()
-    @Output() onCommentReply: EventEmitter<CommentItem> = new EventEmitter<CommentItem>()
-    @Output() onCommentEdit: EventEmitter<CommentItem> = new EventEmitter<CommentItem>()
-    @Output() onCommentDelete: EventEmitter<CommentItem> = new EventEmitter<CommentItem>()
+    @Input() isReplyItem: boolean = false
+    @Input() item!: CommentItemUI
+    @Output() onCommentLike: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+    @Output() onCommentDislike: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+    @Output() onCommentReply: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+    @Output() onCommentRepliesShow: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+    @Output() onCommentEdit: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+    @Output() onCommentDelete: EventEmitter<CommentItemUI> = new EventEmitter<CommentItemUI>()
+
 
     menuOpened: boolean = false
+    repliesShow: boolean = false
 
     constructor() {
     }
@@ -33,6 +37,11 @@ export class CommentItemComponent implements OnInit {
 
     commentReplyClick() {
         this.onCommentReply.emit(this.item)
+    }
+
+    commentRepliesShowClick() {
+        this.repliesShow = !this.repliesShow
+        this.onCommentRepliesShow.emit(this.item)
     }
 
     editCommentClick() {

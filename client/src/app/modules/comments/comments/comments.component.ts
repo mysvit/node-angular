@@ -2,14 +2,14 @@ import { Component, Injector, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogModel } from '@core/components/dialog/dialog-model'
 import { DialogComponent } from '@core/components/dialog/dialog.component'
-import { CommentItem, CommentLikeModel, CommentModel } from '@dto'
-import { Select, SelectLimit } from '@shared-lib/db/select'
+import { CommentItem, CommentLikeModel, CommentModel, CommentsSelectWhere } from '@dto'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { FormAction } from '@shared/enum'
 import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
 import { map, Observable, of, switchMap } from 'rxjs'
+import { CommentItemUI } from './comments.model'
 import { CommentsService } from './comments.service'
 
 @Component({
@@ -20,7 +20,7 @@ import { CommentsService } from './comments.service'
 export class CommentsComponent extends ProcessForm implements OnInit {
 
     FormAction = FormAction
-    commentsList: Array<CommentItem> = []
+    commentsList: Array<CommentItemUI> = []
     addCommentModel: CommentModel = <CommentModel>{}
     editCommentModel: CommentModel = <CommentModel>{}
     replyCommentModel: CommentModel = <CommentModel>{}
@@ -41,16 +41,6 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         this.execute(
             this.commentsListData()
         )
-    }
-
-
-    commentsListData(): Observable<Array<CommentItem>> {
-        return this.comments.commentsList(<Select>{
-            selectLimit: <SelectLimit>{limit: 5}
-        })
-            .pipe(
-                map(items => this.commentsList = items)
-            )
     }
 
     commentsTrackBy(index: number, item: CommentItem): string {
@@ -99,7 +89,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentReplyEvent(item: CommentItem) {
+    commentReplyEvent(item: CommentItemUI) {
         this.replyCommentModel = <CommentModel>{parentId: item.comment_id}
         this.replyId = item.comment_id
     }
@@ -119,7 +109,14 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentDeleteEvent(item: CommentItem) {
+    commentRepliesShowEvent(item: CommentItemUI) {
+        this.execute(
+            this.commentRepliesData(item)
+        )
+    }
+
+
+    commentDeleteEvent(item: CommentItemUI) {
         const dialogRef = this.dialog.open(DialogComponent, {
             width: '350px',
             data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
@@ -143,7 +140,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentLikeEvent(item: CommentItem): void {
+    commentLikeEvent(item: CommentItemUI): void {
         const model = <CommentLikeModel>{
             comment_id: item.comment_id,
             is_like: 1,
@@ -157,7 +154,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    commentDislikeEvent(item: CommentItem): void {
+    commentDislikeEvent(item: CommentItemUI): void {
         const model = <CommentLikeModel>{
             comment_id: item.comment_id,
             is_like: 0,
@@ -171,7 +168,24 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    private updateCommentItem(item: CommentItem, data: LikeDislikeCalc): void {
+
+    private commentsListData(): Observable<Array<CommentItem>> {
+        // selectLimit: <SelectLimit>{limit: 5}
+        return this.comments.commentsList(<CommentsSelectWhere>{})
+            .pipe(
+                map(items => this.commentsList = <Array<CommentItemUI>>items)
+            )
+    }
+
+    private commentRepliesData(item: CommentItemUI): Observable<Array<CommentItem>> {
+        // selectLimit: <SelectLimit>{limit: 5}
+        return this.comments.commentsList(<CommentsSelectWhere>{parent_id: item.comment_id})
+            .pipe(
+                map(items => item.commentReplies = items)
+            )
+    }
+
+    private updateCommentItem(item: CommentItemUI, data: LikeDislikeCalc): void {
         const index = this.commentsList.findIndex(f => f.comment_id === item.comment_id)
         this.commentsList[index] = {
             ...item,
