@@ -16,8 +16,8 @@ export class CommentsService {
     ) {
     }
 
-    commentAdd(model: CommentModel): Observable<any> {
-        return this.http.post(environment.apiEndPoint + ApiPath.comments_add, model)
+    commentAdd(model: CommentModel): Observable<string> {
+        return this.http.post<string>(environment.apiEndPoint + ApiPath.comments_add, model)
     }
 
     commentUpd(model: CommentModel): Observable<any> {

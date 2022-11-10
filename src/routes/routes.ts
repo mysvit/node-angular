@@ -11,14 +11,17 @@ export const routes = express.Router()
 // Api without auth
 routes.use('/', userBase)
 // picture url
+// Cross-Origin-Resource-Policy
 routes.use('/', pictureUrlRouter)
-// // user CommentsView
+
+
+// user CommentsView
+// Middleware.verifyUserId
 routes.use('/', commentsViewRouter)
 
 
 // Authenticated
 routes.use(Middleware.verifyToken)
-
 
 // user Auth
 routes.use('/', userAuth)

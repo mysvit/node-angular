@@ -17,7 +17,7 @@
             </div>
         </ng-template>
         <ng-template #repliesLoaded>
-            <div class="ml-50" *ngIf="item.commentReplies">
+            <div class="ml-50" *ngIf="item.isRepliesShowed">
                 <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">
                     <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>
                 </ng-template>
@@ -81,7 +81,7 @@
                           [formAction]="FormAction.Reply"
                           [disabled]="executingForm"
                           [model]="replyCommentModel"
-                          (onSave)="saveCommentReplyEvent($event)"
+                          (onSave)="saveCommentReplyEvent($event, item)"
                           (onCancel)="cancelCommentReplyEvent()">
         </app-comment-form>
     </div>

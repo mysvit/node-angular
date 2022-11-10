@@ -1,6 +1,6 @@
 {
   "exec": "rm -rf ../../dist/lib/core && ttsc --project ./tsconfig.lib.json",
-  "delay": 5000,
+  "delay": 1000,
   "restartable": "rs",
   "verbose": true,
   "events": {

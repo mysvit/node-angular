@@ -1,6 +1,6 @@
 <div class="sl-item">
     <div>
-        <img class="sl-avatar" [ngClass]="{'small':isReplyItem}"  alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
+        <img class="sl-avatar" [ngClass]="{'small':isReplyItem}" alt="User avatar" src="{{item.avatar_id | slPictureUrl}}">
     </div>
     <div class="sl-item-text">
         <div class="g-col">
@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div class="sl-item-menu">
+    <div class="sl-item-menu" *ngIf="isShowMenu">
         <mat-icon class="sl-icon-button sl-menu-icon" [ngClass]="{'show-all-time':isMenuOpened}"
                   [matMenuTriggerFor]="menu" (menuOpened)="menuItemOpenedEvent()" (menuClosed)="menuItemClosedEvent()">
             more_vert

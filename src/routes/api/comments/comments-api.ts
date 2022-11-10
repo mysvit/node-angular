@@ -26,7 +26,7 @@ export class CommentsApi {
     }
 
     static async list(req: Request, res: Response) {
-        const result = await commentsCore.list(req.body)
+        const result = await commentsCore.list(ParamsHelper.getUserId(req.headers), req.body)
         res.status(StatusCodes.OK).json(result)
     }
 

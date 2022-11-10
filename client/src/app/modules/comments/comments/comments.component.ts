@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { DialogModel } from '@core/components/dialog/dialog-model'
 import { DialogComponent } from '@core/components/dialog/dialog.component'
 import { CommentItem, CommentLikeModel, CommentModel, CommentsSelectWhere } from '@dto'
+import { ValueHelper } from '@shared-lib/helpers'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { FormAction } from '@shared/enum'
@@ -90,15 +91,26 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentReplyEvent(item: CommentItemUI) {
+        if (!this.isAuth) return
         this.replyCommentModel = <CommentModel>{parentId: item.comment_id}
         this.replyId = item.comment_id
     }
 
-    saveCommentReplyEvent(model: CommentModel) {
+
+    // TODO - add message what your comment added to the end
+    saveCommentReplyEvent(model: CommentModel, parentItem: CommentItemUI) {
         this.execute(
             this.comments.commentAdd(model)
                 .pipe(
-                    switchMap(() => this.commentsListData()),
+                    map(() => {
+                        parentItem.replies_count = parentItem.replies_count ? parentItem.replies_count + 1 : 1
+                        if (parentItem.isRepliesShowed) {
+                            return this.commentsListData()
+                        } else {
+                            parentItem.commentReplies = []
+                        }
+                        return
+                    }),
                     switchMap(() => of(this.replyId = undefined))
                 )
         )
@@ -110,13 +122,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     commentRepliesShowEvent(item: CommentItemUI, isRepliesShowed: boolean) {
-        if (isRepliesShowed) {
+        item.isRepliesShowed = isRepliesShowed
+        if (isRepliesShowed && ValueHelper.isEmpty(item.commentReplies)) {
             item.commentRepliesLoading = true
             this.execute(
                 this.commentRepliesData(item)
             )
-        } else {
-            item.commentReplies = []
         }
     }
 

@@ -59,13 +59,16 @@ describe('UserApi', () => {
         expect(auth).to.have.status(StatusCodes.UNAUTHORIZED)
     })
 
-    it('GET ' + ApiPath.users_auth + ' NOT USER OR TOKEN', async () => {
-        let auth = await agent
+    it('GET ' + ApiPath.users_auth + ' NOT TOKEN', async () => {
+        const auth = await agent
             .get(ApiPath.users_auth)
             .query({user_id: 'uuid'})
             .set({'user_id': 'user_test_uuid'})
         expect(auth).to.have.status(StatusCodes.FORBIDDEN)
-        auth = await agent
+    })
+
+    it('GET ' + ApiPath.users_auth + ' NOT USER', async () => {
+        const auth = await agent
             .get(ApiPath.users_auth)
             .query({user_id: 'uuid'})
             .set({'authorization': 'Bearer ..token..'})

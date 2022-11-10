@@ -6,6 +6,7 @@ export interface CommentItem {
     likes_count: number
     dislikes_count: number
     replies_count: number
+    user_id: string
     nickname: string
     avatar_id: string
     like_user: number

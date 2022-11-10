@@ -1,6 +1,7 @@
 import { ApiPath } from '@shared'
 import * as express from 'express'
 import { ErrorHandler } from '../../errors'
+import { Middleware } from '../../middleware'
 import { CommentsApi } from './comments-api'
 
 // Router
@@ -9,10 +10,10 @@ export const commentsEditRouter = express.Router()
 
 
 // api/comments/list
-commentsViewRouter.post(ApiPath.comments_list, ErrorHandler.apiCatch(CommentsApi.list))
+commentsViewRouter.post(ApiPath.comments_list, Middleware.verifyUserId, ErrorHandler.apiCatch(CommentsApi.list))
 
 // api/comments/get/:id
-commentsViewRouter.get(ApiPath.comments_get, ErrorHandler.apiCatch(CommentsApi.get))
+// commentsViewRouter.get(ApiPath.comments_get, ErrorHandler.apiCatch(CommentsApi.get))
 
 
 // api/comments/add

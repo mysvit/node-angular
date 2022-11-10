@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { SlStorage } from '@shared/storage'
 import { CommentItemUI } from '../comments/comments.model'
 
 @Component({
@@ -20,6 +21,10 @@ export class CommentItemComponent implements OnInit {
 
     isMenuOpened: boolean = false
     isRepliesShowed: boolean = false
+
+    get isShowMenu() {
+        return SlStorage.isAuth && this.item.user_id === SlStorage.user_id
+    }
 
     constructor() {
     }

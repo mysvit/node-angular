@@ -66,8 +66,8 @@ export class CommentsCore extends Core {
         )
     }
 
-    async list(where: CommentsSelectWhere): Promise<Array<CommentItem>> {
-        return this.commentsDb.list(where)
+    async list(userId: string, where: CommentsSelectWhere): Promise<Array<CommentItem>> {
+        return this.commentsDb.list(userId, where)
     }
 
 }
