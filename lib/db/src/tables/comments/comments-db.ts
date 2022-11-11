@@ -16,10 +16,14 @@ export class CommentsDb extends Db {
 
         let whereBuild = ''
         if (where?.parent_id) {
-            whereBuild += ' AND parent_id = ?'
+            whereBuild += ' AND c.parent_id = ?'
             values.push(where.parent_id)
         } else {
-            whereBuild += ' AND parent_id is NULL'
+            whereBuild += ' AND c.parent_id is NULL'
+        }
+        if (where?.search) {
+            whereBuild += ' AND c.comment like ?'
+            values.push('%' + where.search + '%')
         }
 
         const sel = `

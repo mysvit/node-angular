@@ -29,6 +29,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     editId?: string
     replyId?: string
     deleteId?: string
+    searchWords?: string
 
     constructor(
         injector: Injector,
@@ -49,7 +50,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentAddClick(): void {
+    handleCommentAddClick(): void {
         if (!this.isAuth) return
         this.addCommentModel = <CommentModel>{}
         this.addId = true
@@ -70,12 +71,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentEditEvent(item: CommentItem) {
+    handleCommentEditEvent(item: CommentItem) {
         this.editCommentModel = <CommentModel>{commentId: item.comment_id, parentId: item.parent_id, comment: item.comment}
         this.editId = item.comment_id
     }
 
-    saveCommentEditEvent(CommentModel: CommentModel) {
+    handleSaveCommentEditEvent(CommentModel: CommentModel) {
         this.execute(
             this.comments.commentUpd(CommentModel)
                 .pipe(
@@ -85,12 +86,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    cancelCommentEditEvent() {
+    handleCancelCommentEditEvent() {
         this.editId = undefined
     }
 
 
-    commentReplyEvent(item: CommentItemUI) {
+    handleCommentReplyEvent(item: CommentItemUI) {
         if (!this.isAuth) return
         this.replyCommentModel = <CommentModel>{parentId: item.comment_id}
         this.replyId = item.comment_id
@@ -98,7 +99,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
 
     // TODO - add message what your comment added to the end
-    saveCommentReplyEvent(model: CommentModel, parentItem: CommentItemUI) {
+    handleSaveCommentReplyEvent(model: CommentModel, parentItem: CommentItemUI) {
         this.execute(
             this.comments.commentAdd(model)
                 .pipe(
@@ -116,12 +117,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    cancelCommentReplyEvent() {
+    handleCancelCommentReplyEvent() {
         this.replyId = undefined
     }
 
 
-    commentRepliesShowEvent(item: CommentItemUI, isRepliesShowed: boolean) {
+    handleCommentRepliesShowEvent(item: CommentItemUI, isRepliesShowed: boolean) {
         item.isRepliesShowed = isRepliesShowed
         if (isRepliesShowed && ValueHelper.isEmpty(item.commentReplies)) {
             item.commentRepliesLoading = true
@@ -132,7 +133,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentDeleteEvent(item: CommentItemUI) {
+    handleCommentDeleteEvent(item: CommentItemUI) {
         const dialogRef = this.dialog.open(DialogComponent, {
             width: '350px',
             data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
@@ -156,7 +157,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    commentLikeEvent(item: CommentItemUI): void {
+    handleCommentLikeEvent(item: CommentItemUI): void {
         const model = <CommentLikeModel>{
             comment_id: item.comment_id,
             is_like: 1,
@@ -170,7 +171,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-    commentDislikeEvent(item: CommentItemUI): void {
+    handleCommentDislikeEvent(item: CommentItemUI): void {
         const model = <CommentLikeModel>{
             comment_id: item.comment_id,
             is_like: 0,
@@ -187,7 +188,11 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     private commentsListData(): Observable<Array<CommentItem>> {
         // selectLimit: <SelectLimit>{limit: 5}
-        return this.comments.commentsList(<CommentsSelectWhere>{})
+        const where = <CommentsSelectWhere>{}
+        if (this.searchWords) {
+            where.search = this.searchWords
+        }
+        return this.comments.commentsList(where)
             .pipe(
                 map(items => this.commentsList = <Array<CommentItemUI>>items)
             )
@@ -195,7 +200,11 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     private commentRepliesData(item: CommentItemUI): Observable<boolean> {
         // selectLimit: <SelectLimit>{limit: 5}
-        return this.comments.commentsList(<CommentsSelectWhere>{parent_id: item.comment_id})
+        const where = <CommentsSelectWhere>{parent_id: item.comment_id}
+        // if (this.searchWords) {
+        //     where.search = this.searchWords
+        // }
+        return this.comments.commentsList(where)
             .pipe(
                 map(items => item.commentReplies = items),
                 switchMap(() => of(item.commentRepliesLoading = false))
@@ -207,6 +216,13 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         item.dislike_user = data.dislikeUsr
         item.likes_count = item.likes_count + data.likeCount
         item.dislikes_count = item.dislikes_count + data.dislikeCount
+    }
+
+    handleCommentSearchClick(value: string | undefined) {
+        this.searchWords = value
+        this.execute(
+            this.commentsListData()
+        )
     }
 
 }

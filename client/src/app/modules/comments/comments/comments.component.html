@@ -1,6 +1,21 @@
 <h1 class="p-20">Testing PWA</h1>
 
-<div class="sl-container">
+<div class="sl-comments-container">
+
+    <div class="sl-comments-search">
+        <mat-form-field appearance="fill">
+            <mat-label>Search</mat-label>
+            <input type="text" matInput [(ngModel)]="searchWords">
+            <button *ngIf="searchWords" matSuffix mat-icon-button aria-label="Clear" (click)="handleCommentSearchClick(undefined)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <div class="sl-btn-search-margin">
+            <button mat-flat-button color="primary" aria-label="Search" (click)="handleCommentSearchClick(searchWords)">
+                <span>Search</span>
+            </button>
+        </div>
+    </div>
 
     <ng-container *ngTemplateOutlet="itemAdd"></ng-container>
     <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
@@ -43,7 +58,7 @@
     </ng-template>
     <ng-template #addBtn>
         <div class="sl-btn-margin">
-            <button mat-flat-button color="primary" aria-label="Add a comment" (click)="commentAddClick()">
+            <button mat-flat-button color="primary" aria-label="Add a comment" (click)="handleCommentAddClick()">
                 <span>Add comment</span>
             </button>
         </div>
@@ -57,18 +72,18 @@
         <app-comment-form [formAction]="FormAction.Edit"
                           [disabled]="executingForm"
                           [model]="editCommentModel"
-                          (onSave)="saveCommentEditEvent($event)"
-                          (onCancel)="cancelCommentEditEvent()">
+                          (onSave)="handleSaveCommentEditEvent($event)"
+                          (onCancel)="handleCancelCommentEditEvent()">
         </app-comment-form>
     </ng-template>
     <ng-template #itemView>
         <app-comment-item [item]="item"
-                          (onCommentLike)="commentLikeEvent(item)"
-                          (onCommentDislike)="commentDislikeEvent(item)"
-                          (onCommentReply)="commentReplyEvent(item)"
-                          (onCommentRepliesShow)="commentRepliesShowEvent(item, $event)"
-                          (onCommentEdit)="commentEditEvent(item)"
-                          (onCommentDelete)="commentDeleteEvent(item)">
+                          (onCommentLike)="handleCommentLikeEvent(item)"
+                          (onCommentDislike)="handleCommentDislikeEvent(item)"
+                          (onCommentReply)="handleCommentReplyEvent(item)"
+                          (onCommentRepliesShow)="handleCommentRepliesShowEvent(item, $event)"
+                          (onCommentEdit)="handleCommentEditEvent(item)"
+                          (onCommentDelete)="handleCommentDeleteEvent(item)">
         </app-comment-item>
     </ng-template>
 </ng-template>
@@ -81,8 +96,8 @@
                           [formAction]="FormAction.Reply"
                           [disabled]="executingForm"
                           [model]="replyCommentModel"
-                          (onSave)="saveCommentReplyEvent($event, item)"
-                          (onCancel)="cancelCommentReplyEvent()">
+                          (onSave)="handleSaveCommentReplyEvent($event, item)"
+                          (onCancel)="handleCancelCommentReplyEvent()">
         </app-comment-form>
     </div>
 </ng-template>
@@ -95,17 +110,17 @@
         <app-comment-form [formAction]="FormAction.Edit"
                           [disabled]="executingForm"
                           [model]="editCommentModel"
-                          (onSave)="saveCommentEditEvent($event)"
-                          (onCancel)="cancelCommentEditEvent()">
+                          (onSave)="handleSaveCommentEditEvent($event)"
+                          (onCancel)="handleCancelCommentEditEvent()">
         </app-comment-form>
     </ng-template>
     <ng-template #itemViewReplies>
         <app-comment-item [isReplyItem]="true"
                           [item]="item"
-                          (onCommentLike)="commentLikeEvent(item)"
-                          (onCommentDislike)="commentDislikeEvent(item)"
-                          (onCommentEdit)="commentEditEvent(item)"
-                          (onCommentDelete)="commentDeleteEvent(item)">
+                          (onCommentLike)="handleCommentLikeEvent(item)"
+                          (onCommentDislike)="handleCommentDislikeEvent(item)"
+                          (onCommentEdit)="handleCommentEditEvent(item)"
+                          (onCommentDelete)="handleCommentDeleteEvent(item)">
         </app-comment-item>
     </ng-template>
 </ng-template>

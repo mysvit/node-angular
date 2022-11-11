@@ -1,28 +1,48 @@
-# NodeJS
+# NodeJS & Angular naming
 
 <!-- toc -->
 
-- [Data naming](#data-naming)
+- [Data interface](#data-interface)
+- [Angular event](#angular-event)
 
 <!-- tocstop -->
 
-## Data interface naming
+## Data interface
 
 Naming for interfaces:
 
-- Database tables
+- Database table:<span style="color: blue"> [Name][**s**]**Tbl** </span>
+- All tables in plurals
 
-  interface Name**Tbl** : CommentTbl
+```typescript
+interface CommentsTbl {
+}
+```
 
+- get data from server to client: <span style="color: blue"> [Name]**Item** </span>
 
-- get data from server to client
+```typescript
+interface CommentItem {
+}
+```
 
-  interface Name**Item** : CommentModel
+- Send data from client to server:  <span style="color: blue"> [Name]**Model** </span>
 
+```typescript
+interface CommentModel {
+}
+```
 
-- Send data from client to server
+## Angular event
 
-    interface Name**Model** : CommentModel
+Component Event declaration: @Output() <span style="color: blue"> **on**[Name] </span>
 
+```
+@Output() onSave: EventEmitter<string> = new EventEmitter<string>()
+```
 
-## Data interface naming
+Create handle of this event when declare component:  <span style="color: blue"> **handle**[Name]**Event** </span>
+
+```typescript
+(onCommentReply) = "handleCommentReplyEvent(item)"
+```
