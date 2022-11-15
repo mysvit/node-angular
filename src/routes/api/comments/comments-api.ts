@@ -30,4 +30,8 @@ export class CommentsApi {
         res.status(StatusCodes.OK).json(result)
     }
 
+    static async listCount(req: Request, res: Response) {
+        const result = await commentsCore.listCount(ParamsHelper.getUserId(req.headers), req.body)
+        res.status(StatusCodes.OK).json(result)
+    }
 }

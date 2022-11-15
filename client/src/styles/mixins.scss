@@ -110,3 +110,20 @@
         color: var($color);
     }
 }
+
+// buttons
+@mixin sl-icon-text-button($color, $hover) {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    user-select: none;
+    color: var($color);
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            cursor: pointer;
+            background-color: var($hover);
+        }
+    }
+}

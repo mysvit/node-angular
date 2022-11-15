@@ -1,0 +1,20 @@
+<mat-icon class="sl-icon-button" (click)="handleFirstPageClick()">first_page</mat-icon>
+<div class="sl-icon-text-button" (click)="handlePrevClick()">
+    <mat-icon>navigate_before</mat-icon>
+    Prev
+</div>
+
+<div class="sl-buttons-container">
+    <ng-container *ngFor="let pageNumber of pagesButtons">
+        <a class="sl-icon-button" [ngClass]="{'selected': pageNumber === this.event.pageNum}" (click)="handlePageSelectClick(pageNumber)">
+            {{pageNumber}}
+        </a>
+    </ng-container>
+</div>
+
+<div class="sl-icon-text-button" (click)="handleForwardClick()">
+    Next
+    <mat-icon>navigate_next</mat-icon>
+</div>
+<mat-icon class="sl-icon-button" (click)="handleLastPageClick()">last_page</mat-icon>
+

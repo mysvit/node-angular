@@ -28,6 +28,7 @@ export namespace ApiPath {
     export const comments_del = api + comments + '/del/:id'
     export const comments_get = api + comments + '/get/:id'
     export const comments_list = api + comments + '/list'
+    export const comments_list_count = api + comments + '/list-count'
 
     export const comments_likes_set = api + comments_likes + '/set'
     export const comments_likes_list = api + comments_likes + '/list'

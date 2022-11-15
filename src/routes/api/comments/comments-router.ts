@@ -12,6 +12,9 @@ export const commentsEditRouter = express.Router()
 // api/comments/list
 commentsViewRouter.post(ApiPath.comments_list, Middleware.verifyUserId, ErrorHandler.apiCatch(CommentsApi.list))
 
+// api/comments/list-count
+commentsViewRouter.post(ApiPath.comments_list_count, Middleware.verifyUserId, ErrorHandler.apiCatch(CommentsApi.listCount))
+
 // api/comments/get/:id
 // commentsViewRouter.get(ApiPath.comments_get, ErrorHandler.apiCatch(CommentsApi.get))
 

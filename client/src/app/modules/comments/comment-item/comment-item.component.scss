@@ -55,22 +55,6 @@
     grid-template-columns: minmax(0, max-content);
 }
 
-.sl-reply-button {
-    display: flex;
-    align-items: center;
-    border-radius: 20px;
-    padding: 0.2em 0.5em 0.2em 0.5em;
-    user-select: none;
-    color: var(--c-link-button);
-
-    @media (hover: hover) and (pointer: fine) {
-        &:hover {
-            cursor: pointer;
-            background-color: var(--c-hover-link-button);
-        }
-    }
-}
-
 .sl-avatar {
     &.small {
         @include sl-avatar(21px)

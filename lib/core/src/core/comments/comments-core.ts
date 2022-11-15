@@ -70,4 +70,8 @@ export class CommentsCore extends Core {
         return this.commentsDb.list(userId, where)
     }
 
+    async listCount(userId: string, where: CommentsSelectWhere): Promise<number> {
+        return this.commentsDb.listCount(userId, where)
+    }
+
 }

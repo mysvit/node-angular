@@ -48,3 +48,9 @@
 .sl-snack-bar-error {
     @include sl-snack-bar(--c-error, --c-error-background, --c-error-border);
 }
+
+
+// icon text button
+.sl-icon-text-button {
+    @include sl-icon-text-button(--c-link-button, --c-link-button-hover)
+}

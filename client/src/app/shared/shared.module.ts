@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SpinnerDirective } from '@shared/directives/spinner.directive'
 import { DateTimeYyyyMmDdHhMmSsPipe } from '@shared/pipes/date-time-yyyy-mm-dd-hh-mm-ss.pipe'
 import { EmailFieldComponent } from './components/fields/email-field/email-field.component'
+import { PaginatorComponent } from './components/paginator/paginator.component'
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component'
 import { SpinnerComponent } from './components/spinner/spinner.component'
 import { PictureUrlPipe } from './pipes/picture.pipe'
@@ -15,7 +16,8 @@ import { PictureUrlPipe } from './pipes/picture.pipe'
 const components = [
     EmailFieldComponent,
     SpinnerComponent,
-    SnackBarComponent
+    SnackBarComponent,
+    PaginatorComponent
 ]
 
 const pipes = [

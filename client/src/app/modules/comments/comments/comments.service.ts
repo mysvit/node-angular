@@ -36,6 +36,10 @@ export class CommentsService {
         return this.http.post<Array<CommentItem>>(environment.apiEndPoint + ApiPath.comments_list, where)
     }
 
+    commentsListCount(where: CommentsSelectWhere): Observable<number> {
+        return this.http.post<number>(environment.apiEndPoint + ApiPath.comments_list_count, where)
+    }
+
     commentLike(model: CommentLikeModel): Observable<LikeDislikeCalc> {
         return this.http.post<LikeDislikeCalc>(environment.apiEndPoint + ApiPath.comments_likes_set, model)
     }

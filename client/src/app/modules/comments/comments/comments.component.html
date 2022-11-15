@@ -20,6 +20,7 @@
     <ng-container *ngTemplateOutlet="itemAdd"></ng-container>
     <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
 
+        <!--        Items-->
         <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>
         <ng-container *ngIf="item.comment_id === replyId">
             <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>
@@ -40,6 +41,10 @@
         </ng-template>
 
     </ng-template>
+
+    <app-paginator [itemsLength]="170"
+                   (onPageChange)="handlePageChangeEvent($event)">
+    </app-paginator>
 
 </div>
 

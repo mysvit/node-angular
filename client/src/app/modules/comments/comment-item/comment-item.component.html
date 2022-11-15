@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="sl-item-reply" *ngIf="!isReplyItem && item.replies_count > 0">
-            <div class="sl-reply-button" (click)="commentRepliesShowClick()">
+            <div class="sl-icon-text-button" (click)="commentRepliesShowClick()">
                 <ng-template [ngIf]="isRepliesShowed" [ngIfElse]="repliesHide">
                     <mat-icon>arrow_drop_up</mat-icon>
                 </ng-template>

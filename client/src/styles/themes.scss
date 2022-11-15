@@ -19,15 +19,20 @@ html {
     --c-error-background: #FFEBEB;
     --c-error-border: #f0caca;
 
+    // buttons
     --c-link-button: #0000FF;
-    --c-hover-link-button: #cadcfa;
-    --c-date-time: #858080;
+    --c-link-button-hover: #cadcfa;
+
+    --c-black-button: #000000;
+    --c-black-button-hover: #D3D3D3;
 
     // Form
     --form-single-col-width: 600px;
 
     // Elements
     --c-hover-icon: #D3D3D3;
+    --c-selected-icon: #9FD6F4;
+    --c-date-time: #858080;
 }
 
 // default class

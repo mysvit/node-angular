@@ -6,10 +6,11 @@ import { CommentItem, CommentLikeModel, CommentModel, CommentsSelectWhere } from
 import { ValueHelper } from '@shared-lib/helpers'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { TrMessage, TrTitle } from '@shared-lib/translation'
+import { PaginatorEvent } from '@shared/components/paginator/paginator.model'
 import { FormAction } from '@shared/enum'
 import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
-import { map, Observable, of, switchMap } from 'rxjs'
+import { concat, map, Observable, of, switchMap } from 'rxjs'
 import { CommentItemUI } from './comments.model'
 import { CommentsService } from './comments.service'
 
@@ -22,6 +23,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     FormAction = FormAction
     commentsList: Array<CommentItemUI> = []
+    commentsListCount: number = 0
     addCommentModel: CommentModel = <CommentModel>{}
     editCommentModel: CommentModel = <CommentModel>{}
     replyCommentModel: CommentModel = <CommentModel>{}
@@ -41,8 +43,12 @@ export class CommentsComponent extends ProcessForm implements OnInit {
 
     ngOnInit(): void {
         this.execute(
-            this.commentsListData()
+            concat(
+                this.commentsListDataCount(),
+                this.commentsListData()
+            )
         )
+
     }
 
     commentsTrackBy(index: number, item: CommentItem): string {
@@ -186,17 +192,29 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    private commentsListData(): Observable<Array<CommentItem>> {
-        // selectLimit: <SelectLimit>{limit: 5}
+    private getCommentsListWhere(): CommentsSelectWhere {
         const where = <CommentsSelectWhere>{}
         if (this.searchWords) {
             where.search = this.searchWords
         }
-        return this.comments.commentsList(where)
+        return where
+    }
+
+    private commentsListData(): Observable<Array<CommentItem>> {
+        // selectLimit: <SelectLimit>{limit: 5}
+        return this.comments.commentsList(this.getCommentsListWhere())
             .pipe(
                 map(items => this.commentsList = <Array<CommentItemUI>>items)
             )
     }
+
+    private commentsListDataCount(): Observable<number> {
+        return this.comments.commentsListCount(this.getCommentsListWhere())
+            .pipe(
+                map(count => this.commentsListCount = count)
+            )
+    }
+
 
     private commentRepliesData(item: CommentItemUI): Observable<boolean> {
         // selectLimit: <SelectLimit>{limit: 5}
@@ -221,8 +239,15 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     handleCommentSearchClick(value: string | undefined) {
         this.searchWords = value
         this.execute(
-            this.commentsListData()
+            concat(
+                this.commentsListDataCount(),
+                this.commentsListData()
+            )
         )
+    }
+
+    handlePageChangeEvent(event: PaginatorEvent) {
+        console.log(event)
     }
 
 }
