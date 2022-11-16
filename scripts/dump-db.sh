@@ -15,7 +15,7 @@ if [ $1 = "local" ]; then
   mariadb-dump -h 127.0.0.1 -u root -proot $DBNAME > $DBNAME-schema-data.sql
 elif [ $1 = "docker" ]; then
   # docker dump
-  docker exec server-host bash -c "mariadb-dump --verbose -h 0.0.0.0 -u root -proot $DBNAME > /docker-entrypoint-initdb.d/$DBNAME-schema-data.sql"
+  docker exec server-host bash -c "mariadb-dump --verbose --routines -h 0.0.0.0 -u root -proot $DBNAME > /docker-entrypoint-initdb.d/$DBNAME-schema-data.sql"
 fi
 
 chmod 777 $(pwd)/db/$DBNAME-schema-data.sql
