@@ -1,43 +1,49 @@
 import { CommentItem, CommentsSelectWhere } from '@dto'
-import { Db } from '../../engine'
+import { Db, SqlBuild } from '../../engine'
+import LimitResult = SqlBuild.LimitResult
 
 
 interface ListWhereResult {
-    LikesBuild: string
-    WhereBuild: string
-    Values: Array<any>
+    likesBuild: string
+    whereBuild: string
+    limitBuild: LimitResult
+    values: Array<any>
 }
 
 export class CommentsDb extends Db {
 
     table = 'comments'
 
-
     getListWhere(userId: string, where: CommentsSelectWhere, isCount: boolean = false): ListWhereResult {
         const result = <ListWhereResult>{
-            LikesBuild: '',
-            WhereBuild: '',
-            Values: []
+            likesBuild: '',
+            whereBuild: '',
+            values: []
         }
 
+        // LikesBuild
         if (!isCount) {
-            result.LikesBuild = 'JOIN (SELECT 0 AS is_like, 0 AS is_dislike) cl '
+            result.likesBuild = 'JOIN (SELECT 0 AS is_like, 0 AS is_dislike) cl '
             if (userId) {
-                result.LikesBuild = 'LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND cl.user_id = ?'
-                result.Values.push(userId)
+                result.likesBuild = 'LEFT OUTER JOIN comments_likes cl ON cl.comment_id = c.comment_id AND cl.user_id = ?'
+                result.values.push(userId)
             }
         }
 
+        // WhereBuild
         if (where?.parent_id) {
-            result.WhereBuild += ' AND c.parent_id = ?'
-            result.Values.push(where.parent_id)
+            result.whereBuild += ' AND c.parent_id = ?'
+            result.values.push(where.parent_id)
         } else {
-            result.WhereBuild += ' AND c.parent_id is NULL'
+            result.whereBuild += ' AND c.parent_id is NULL'
         }
         if (where?.search) {
-            result.WhereBuild += ' AND c.comment like ?'
-            result.Values.push('%' + where.search + '%')
+            result.whereBuild += ' AND c.comment like ?'
+            result.values.push('%' + where.search + '%')
         }
+
+        result.limitBuild = SqlBuild.limitBuild(where?.limit)
+
         return result
     }
 
@@ -59,14 +65,15 @@ export class CommentsDb extends Db {
             FROM 
                 comments c
                 JOIN users u ON u.user_id = c.user_id 
-                ${listWhere.LikesBuild} 
+                ${listWhere.likesBuild} 
             WHERE
                 c.is_del = 0 
-                ${listWhere.WhereBuild}
+                ${listWhere.whereBuild}
             ORDER BY
                 c.add_date
+            ${listWhere.limitBuild.limit}
         `
-        return this.conn.query(sel, listWhere.Values)
+        return this.conn.query(sel, [...listWhere.values, ...listWhere.limitBuild.values])
     }
 
     async listCount(userId: string, where: CommentsSelectWhere): Promise<number> {
@@ -78,8 +85,8 @@ export class CommentsDb extends Db {
                 comments c  
             WHERE
                 c.is_del = 0 
-                ${listWhere.WhereBuild}`
-        return this.conn.query(sel, listWhere.Values)
+                ${listWhere.whereBuild}`
+        return this.conn.query(sel, listWhere.values)
             .then(data => data[0]['cnt'])
     }
 
@@ -101,6 +108,5 @@ export class CommentsDb extends Db {
         return this.conn.query(sql, [count, comment_id])
             .then(data => data.affectedRows)
     }
-
 
 }

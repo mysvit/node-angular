@@ -1,6 +1,5 @@
 export * from './constants'
 export * from './crypt'
-export * from './db/select'
 export * from './db/dto-helpers'
 export * from './errors'
 export * from './helpers'

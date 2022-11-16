@@ -1,5 +1,6 @@
 export * from './comments'
 export * from './comments-likes'
+export * from './db-models'
 export * from './db-types'
 export * from './pictures'
 export * from './users'

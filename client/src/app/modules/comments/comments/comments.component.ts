@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogModel } from '@core/components/dialog/dialog-model'
 import { DialogComponent } from '@core/components/dialog/dialog.component'
-import { CommentItem, CommentLikeModel, CommentModel, CommentsSelectWhere } from '@dto'
+import { CommentItem, CommentLikeModel, CommentModel, CommentsSelectWhere, SelectLimit } from '@dto'
 import { ValueHelper } from '@shared-lib/helpers'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { TrMessage, TrTitle } from '@shared-lib/translation'
@@ -32,6 +32,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     replyId?: string
     deleteId?: string
     searchWords?: string
+    selectLimit?: SelectLimit = {offset: 0, fetch: 10}
 
     constructor(
         injector: Injector,
@@ -197,11 +198,13 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         if (this.searchWords) {
             where.search = this.searchWords
         }
+        if (this.selectLimit) {
+            where.limit = this.selectLimit
+        }
         return where
     }
 
     private commentsListData(): Observable<Array<CommentItem>> {
-        // selectLimit: <SelectLimit>{limit: 5}
         return this.comments.commentsList(this.getCommentsListWhere())
             .pipe(
                 map(items => this.commentsList = <Array<CommentItemUI>>items)
@@ -247,7 +250,10 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
     handlePageChangeEvent(event: PaginatorEvent) {
-        console.log(event)
+        this.selectLimit = event.limit
+        this.execute(
+            this.commentsListData()
+        )
     }
 
 }

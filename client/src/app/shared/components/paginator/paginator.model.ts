@@ -1,8 +1,9 @@
+import { SelectLimit } from '@dto'
+
 export interface PaginatorEvent {
     startPagesRange: number
     pageNum: number
-    itemsStart: number
-    itemsEnd: number
+    limit: SelectLimit
 }
 
 export interface PaginatorOption {

@@ -44,6 +44,7 @@ export namespace PaginatorLogics {
 
     // 17, 10
     export function startRangeForLastRange(totalPages: number, pagesMaxLength: number): number {
+        if (totalPages <= pagesMaxLength) return 1
         let startPagesRange = (Math.floor(totalPages / pagesMaxLength) * pagesMaxLength) - pagesMaxLength
         startPagesRange += 1
         // 5

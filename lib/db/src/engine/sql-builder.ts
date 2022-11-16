@@ -1,4 +1,5 @@
-import { Select, SelectLimit, SelectOrder, SelectWhere } from '@shared'
+// import { Select, SelectLimit, SelectOrder, SelectWhere } from '@shared'
+import { SelectLimit } from '@dto'
 import { BuilderResult } from './insert-build'
 
 export namespace SqlBuilder {
@@ -17,7 +18,6 @@ export namespace SqlBuilder {
             .map(fieldName => `${fieldName}=?`)
             .join(' AND ')
     }
-
 
     function selectFromTbl(table: string) {
         return 'SELECT * FROM ' + table
@@ -76,16 +76,16 @@ export namespace SqlBuilder {
         return <BuilderResult>{sql: sql, values: whereValues}
     }
 
-    export function listBuilder(table: string, select: Select) {
-        let sql = getSelectFields(select.selectFields)
-        sql += getSelectFrom(table)
-        sql += getSelectWhere(select.selectWhere)
-        sql += getSelectOrder(select.selectOrder)
-        sql += getSelectLimit(select.selectLimit)
-        const whereValues = []
-        // getValues(select.)
-        return <BuilderResult>{sql: sql, values: whereValues}
-    }
+    // export function listBuilder(table: string, select: Select) {
+    //     let sql = getSelectFields(select.selectFields)
+    //     sql += getSelectFrom(table)
+    //     sql += getSelectWhere(select.selectWhere)
+    //     sql += getSelectOrder(select.selectOrder)
+    //     sql += getSelectLimit(select.selectLimit)
+    //     const whereValues = []
+    //     // getValues(select.)
+    //     return <BuilderResult>{sql: sql, values: whereValues}
+    // }
 
 
 }
@@ -99,18 +99,17 @@ export function getSelectFrom(table: string) {
     return ` FROM ${table}`
 }
 
-export function getSelectWhere(selectWhere: SelectWhere[]) {
-    // TODO: where build
-    return selectWhere ? ' WHERE ' + selectWhere.map(fieldName => `${fieldName}=?`).join(' AND ') : ''
-}
-
-export function getSelectOrder(selectOrder: SelectOrder[]) {
-    return selectOrder ? ' ORDER BY ' + selectOrder.map(order => `${order.field} ${order.order}`).join(' , ') : ''
-}
-
-export function getSelectLimit(selectLimit: SelectLimit) {
-    return `${selectLimit.limit} ${selectLimit.limit}`
-}
+// export function getSelectWhere(selectWhere: SelectWhere[]) {
+//     return selectWhere ? ' WHERE ' + selectWhere.map(fieldName => `${fieldName}=?`).join(' AND ') : ''
+// }
+//
+// export function getSelectOrder(selectOrder: SelectOrder[]) {
+//     return selectOrder ? ' ORDER BY ' + selectOrder.map(order => `${order.field} ${order.order}`).join(' , ') : ''
+// }
+//
+// export function getSelectLimit(selectLimit: SelectLimit) {
+//     return `${selectLimit.limit} ${selectLimit.limit}`
+// }
 
 export function getFields(obj) {
     return Object.getOwnPropertyNames(obj).join(',')
@@ -134,4 +133,27 @@ export function getUpdateFields(obj) {
 
 export function getWhere(obj) {
     return Object.getOwnPropertyNames(obj).map(fieldName => `${fieldName}=?`).join(' AND ')
+}
+
+export namespace SqlBuild {
+
+    export interface LimitResult {
+        limit: string
+        values: Array<any>
+    }
+
+    export function limitBuild(limit: SelectLimit) {
+        let result: LimitResult = <LimitResult>{
+            limit: '',
+            values: []
+        }
+        if (limit) {
+            result.limit = ' LIMIT ?'
+            result.values.push(limit.offset)
+            result.limit += ', ?'
+            result.values.push(limit.fetch)
+        }
+        return result
+    }
+
 }

@@ -59,6 +59,7 @@ describe('PaginatorLogics', () => {
             .to.deep.eq([5, 6, 7, 8, 9])
     })
 
+
     it('startRangeForLastRange(10,10) => 1', () => {
         expect(PaginatorLogics.startRangeForLastRange(10, 10)).to.be.eq(1)
     })
@@ -69,6 +70,10 @@ describe('PaginatorLogics', () => {
 
     it('startRangeForLastRange(17,10) => 11', () => {
         expect(PaginatorLogics.startRangeForLastRange(17, 10)).to.be.eq(11)
+    })
+
+    it('startRangeForLastRange(2,10) => 2', () => {
+        expect(PaginatorLogics.startRangeForLastRange(2, 10)).to.be.eq(1)
     })
 
 })
