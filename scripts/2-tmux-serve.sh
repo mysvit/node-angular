@@ -87,7 +87,12 @@ runDockerBuild() {
   tmux send-keys -t build:0.7 "docker run -it --rm --name debug-client -v $(pwd):$(pwd) -w $(pwd)/client     --net dev-net -p 4200:4200              devnode npm start" Enter
 }
 
+
 # main part
+
+
+cd ~
+cd projects/server-cli/
 
 killPrevSession
 enableMouse

@@ -17,8 +17,8 @@ initDB() {
   if [[ -z "`mariadb -h 127.0.0.1 -u root -proot -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='$DBNAME'" 2>&1`" ]];
   then
     echo "DATABASE DOES NOT EXIST"
-    mariadb -h 127.0.0.1 -u root -proot -e "CREATE DATABASE $DBNAME CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
-    mariadb -h 127.0.0.1 -u root -proot -D $DBNAME < $DBNAME-schema-data.sql
+    sudo mariadb -h 127.0.0.1 -u root -proot -e "CREATE DATABASE $DBNAME CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
+    sudo mariadb -h 127.0.0.1 -u root -proot -D $DBNAME < $DBNAME-schema-data.sql
   else
     echo "DATABASE ALREADY EXISTS"
   fi
@@ -26,9 +26,9 @@ initDB() {
 
 initDBinDocker() {
   [ ! -d "$(pwd)/mariadb" ] && mkdir $(pwd)/mariadb
-  docker network create dev-net || true
+  sudo docker network create dev-net || true
 
-  docker run --rm \
+  sudo docker run --rm \
             --name server-host \
             --net dev-net \
              -v $(pwd)/db:/docker-entrypoint-initdb.d \
@@ -38,6 +38,13 @@ initDBinDocker() {
              -e MARIADB_ROOT_PASSWORD=root \
              --pull missing mariadb:10.9.3-jammy
 }
+
+
+# main part
+
+
+cd ~
+cd projects/server-cli/
 
 if [ $1 = "local" ]; then
   initDB

@@ -65,7 +65,12 @@ runDockerTest() {
   tmux select-pane -t test:0.5 -T 'Client'  && tmux send-keys -t test:0.5 "docker run -it --rm --name test-client -v $(pwd):/$(pwd) -w $(pwd)/client     --net dev-net -p 9876:9876 -p 9222:9222 devnode npm run test" Enter
 }
 
+
 # main part
+
+
+cd ~
+cd projects/server-cli/
 
 killPrevSession
 enableMouse
