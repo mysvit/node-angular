@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core'
+import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogModel } from '@core/components/dialog/dialog-model'
 import { DialogComponent } from '@core/components/dialog/dialog.component'
@@ -11,19 +11,26 @@ import { FormAction } from '@shared/enum'
 import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
 import { concat, map, Observable, of, switchMap } from 'rxjs'
+import { CommentFormComponent } from '../comment-form/comment-form.component'
 import { CommentItemUI } from './comments.model'
 import { CommentsService } from './comments.service'
 
 @Component({
     selector: 'app-comments',
     templateUrl: './comments.component.html',
-    styleUrls: ['./comments.component.scss']
+    styleUrls: ['./comments.component.scss'],
+    providers: [CommentsService]
 })
 export class CommentsComponent extends ProcessForm implements OnInit {
+
+    @Input() parentId?: string
+
+    @ViewChild('commentFormAddRef', {read: ViewContainerRef, static: true}) commentFormAddRef?: ViewContainerRef
 
     FormAction = FormAction
     commentsList: Array<CommentItemUI> = []
     commentsListCount: number = 0
+
     addCommentModel: CommentModel = <CommentModel>{}
     editCommentModel: CommentModel = <CommentModel>{}
     replyCommentModel: CommentModel = <CommentModel>{}
@@ -31,8 +38,13 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     editId?: string
     replyId?: string
     deleteId?: string
-    searchWords?: string
     selectLimit?: SelectLimit = {offset: 0, fetch: 10}
+
+    where: CommentsSelectWhere = <CommentsSelectWhere>{
+        parent_id: undefined,
+        search: undefined,
+        limit: {offset: 0, fetch: 10}
+    }
 
     constructor(
         injector: Injector,
@@ -56,11 +68,15 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         return item.comment_id
     }
 
-
-    handleCommentAddClick(): void {
+    commentAdd(): void {
         if (!this.isAuth) return
-        this.addCommentModel = <CommentModel>{}
-        this.addId = true
+        this.commentFormAddRef?.clear()
+        const ref = this.commentFormAddRef?.createComponent<CommentFormComponent>(CommentFormComponent, {})
+        if (ref) {
+            ref.instance.formAction = FormAction.Add
+            ref.instance.parentId = this.parentId
+            ref.instance.close.subscribe(() => ref.destroy())
+        }
     }
 
     saveCommentAddEvent(model: CommentModel): void {
@@ -192,27 +208,15 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         )
     }
 
-
-    private getCommentsListWhere(): CommentsSelectWhere {
-        const where = <CommentsSelectWhere>{}
-        if (this.searchWords) {
-            where.search = this.searchWords
-        }
-        if (this.selectLimit) {
-            where.limit = this.selectLimit
-        }
-        return where
-    }
-
     private commentsListData(): Observable<Array<CommentItem>> {
-        return this.comments.commentsList(this.getCommentsListWhere())
+        return this.comments.commentsList(this.where)
             .pipe(
                 map(items => this.commentsList = <Array<CommentItemUI>>items)
             )
     }
 
     private commentsListDataCount(): Observable<number> {
-        return this.comments.commentsListCount(this.getCommentsListWhere())
+        return this.comments.commentsListCount(this.where)
             .pipe(
                 map(count => this.commentsListCount = count)
             )
@@ -239,15 +243,16 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         item.dislikes_count = item.dislikes_count + data.dislikeCount
     }
 
-    handleCommentSearchClick(value: string | undefined) {
-        this.searchWords = value
-        this.execute(
-            concat(
-                this.commentsListDataCount(),
-                this.commentsListData()
-            )
-        )
-    }
+    //
+    // handleCommentSearchClick(value: string | undefined) {
+    //     this.searchWords = value
+    //     this.execute(
+    //         concat(
+    //             this.commentsListDataCount(),
+    //             this.commentsListData()
+    //         )
+    //     )
+    // }
 
     handlePageChangeEvent(event: PaginatorEvent) {
         this.selectLimit = event.limit

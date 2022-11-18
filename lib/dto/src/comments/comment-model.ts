@@ -1,5 +1,5 @@
 export interface CommentModel {
     commentId: string
-    parentId: string
+    parentId?: string
     comment: string
 }

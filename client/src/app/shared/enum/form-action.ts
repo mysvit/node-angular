@@ -1,6 +1,6 @@
 export enum FormAction {
     Add,
-    Edit,
+    Upd,
     Del,
     View,
     Reply

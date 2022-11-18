@@ -1,8 +1,11 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core'
 import { CommentModel } from '@dto'
 import { FormAction } from '@shared/enum'
+import { ProcessForm } from '@shared/form'
+import { ErrorClient } from '@shared/models/error-client'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
+import { CommentsService } from '../comments/comments.service'
 import { CommentFormModel } from './comment.form-model'
 
 @Component({
@@ -10,80 +13,111 @@ import { CommentFormModel } from './comment.form-model'
     templateUrl: './comment-form.component.html',
     styleUrls: ['./comment-form.component.scss']
 })
-export class CommentFormComponent implements OnInit, AfterViewInit {
+export class CommentFormComponent extends ProcessForm implements OnInit, AfterViewInit {
 
-    @Input() set formAction(value: FormAction) {
-        this.saveButtonLabel = this.getButtonLabel(value)
-    }
+    @Input() formAction!: FormAction
+    @Input() parentId?: string
+
+    @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>()
+
+    @ViewChild('commentTextRef') private commentTextRef?: ElementRef
+    @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
+
 
     @Input() smallIcon?: boolean
     @Input() model: CommentModel = <CommentModel>{}
 
-    @Input() set disabled(value: boolean) {
-        this.disableForm(value)
-    }
+    // @Input() set disabled(value: boolean) {
+    //     this.disableForm(value)
+    // }
 
-    get disabled() {
-        return this.isDisabled
-    }
 
-    @Output() onSave: EventEmitter<CommentModel> = new EventEmitter<CommentModel>()
-    @Output() onCancel = new EventEmitter()
+    isButtonDisabled: boolean = false
 
-    @ViewChild('commentText') private commentText?: ElementRef
 
     SlStorage = SlStorage
     FieldValidators = FieldValidators
     formModel = new CommentFormModel()
-    isDisabled: boolean = false
     saveButtonLabel?: string
 
-    constructor(private renderer: Renderer2) {
-
+    constructor(
+        private injector: Injector,
+        private renderer: Renderer2,
+        private comments: CommentsService
+    ) {
+        super(injector)
     }
 
     ngOnInit(): void {
+        this.setButtonLabel()
         this.formModel.formGroup.patchValue(this.model)
     }
 
     ngAfterViewInit() {
-        this.renderer.setAttribute(this.commentText?.nativeElement, 'contenteditable', 'true')
-        this.renderer.setAttribute(this.commentText?.nativeElement, 'placeholder', 'Add a comment...')
-        this.commentText?.nativeElement.focus()
+        this.renderer.setAttribute(this.commentTextRef?.nativeElement, 'contenteditable', 'true')
+        this.renderer.setAttribute(this.commentTextRef?.nativeElement, 'placeholder', 'Add a comment...')
+        this.commentTextRef?.nativeElement.focus()
     }
 
-    saveClick() {
+    handleCommentTextChange(event: any) {
+        this.formModel.comment.patchValue(event?.target?.innerHTML)
+    }
+
+    handleSaveClick() {
         this.disableForm(true)
         if (!this.formModel.isFieldValid()) {
             this.disableForm(false)
             return
         }
-        this.onSave.emit(<CommentModel>this.formModel.formGroup.getRawValue())
+        this.saveComment()
     }
 
-    cancelClick() {
-        this.onCancel.emit()
-    }
-
-    changeComment(event: any) {
-        this.formModel.comment.patchValue(event?.target?.innerHTML)
+    handleCancelClick() {
+        this.close.emit(true)
     }
 
     private disableForm(isDisable: boolean) {
-        this.isDisabled = isDisable
-        if (this.commentText?.nativeElement) {
-            this.renderer.setAttribute(this.commentText?.nativeElement, 'contenteditable', String(!isDisable))
+        this.isButtonDisabled = isDisable
+        if (this.commentTextRef?.nativeElement) {
+            this.renderer.setAttribute(this.commentTextRef?.nativeElement, 'contenteditable', String(!isDisable))
         }
     }
 
-    private getButtonLabel(value: FormAction) {
-        switch (value) {
+    private setButtonLabel() {
+        switch (this.formAction) {
             case FormAction.Add:
-                return 'Comment'
+                this.saveButtonLabel = 'Comment'
+                break
             case FormAction.Reply:
-                return 'Reply'
+                this.saveButtonLabel = 'Reply'
+                break
+            default:
+                this.saveButtonLabel = 'Save'
         }
-        return 'Save'
+    }
+
+    private saveComment() {
+        const model = <CommentModel>this.formModel.formGroup.getRawValue()
+        model.parentId = this.parentId
+        switch (this.formAction) {
+            case FormAction.Add:
+            case FormAction.Reply:
+                this.execute(this.comments.commentAdd(model), {completedMessage: 'Your comment added to the end.'})
+                break
+            case FormAction.Upd:
+                this.execute(this.comments.commentUpd(model))
+                break
+        }
+    }
+
+    override processError(error: ErrorClient) {
+        this.disableForm(false)
+        super.processError(error)
+    }
+
+    override processCompleted(message?: any) {
+        super.processCompleted(message)
+        this.close.emit(true)
     }
 
 }

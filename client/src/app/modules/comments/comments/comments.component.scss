@@ -1,29 +1,10 @@
 @import "../../../../styles/mixins";
 @import "../../../../styles/components";
 
-:host {
-    overflow-y: auto;
-}
-
-.sl-comments-search {
-    display: grid;
-    grid-template-columns: minmax(0, 400px) minmax(0, max-content);
-    justify-content: center;
-    margin: 0 1em 1em 1em;
-}
-
-.sl-comments-container {
-    max-width: 800px;
-}
-
 .sl-btn-margin {
     margin: 0 1em 2em 1em;
 }
 
-.sl-btn-search-margin {
-    margin: 0 0 1.3em 1em;
-    display: flex;
-}
 
 .sl-replies-loading {
     @extend .sl-spinner-container;

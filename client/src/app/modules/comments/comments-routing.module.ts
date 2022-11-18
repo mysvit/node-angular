@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { CommentsComponent } from './comments/comments.component'
+import { CommentsRootComponent } from './comments-root/comments-root.component'
 
 const routes: Routes = [
     {
         path: '',
-        component: CommentsComponent
+        component: CommentsRootComponent
     }
 ]
 

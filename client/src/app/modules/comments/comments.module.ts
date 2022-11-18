@@ -9,16 +9,17 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SharedModule } from '@shared/shared.module'
 import { CommentFormComponent } from './comment-form/comment-form.component'
+import { CommentItemComponent } from './comment-item/comment-item.component'
+import { CommentsRootComponent } from './comments-root/comments-root.component'
 import { CommentsRoutingModule } from './comments-routing.module'
 import { CommentsComponent } from './comments/comments.component'
-import { CommentsService } from './comments/comments.service';
-import { CommentItemComponent } from './comment-item/comment-item.component'
 
 @NgModule({
     declarations: [
         CommentsComponent,
         CommentFormComponent,
-        CommentItemComponent
+        CommentItemComponent,
+        CommentsRootComponent
     ],
     imports: [
         CommentsRoutingModule,
@@ -33,9 +34,7 @@ import { CommentItemComponent } from './comment-item/comment-item.component'
         MatMenuModule,
         MatProgressSpinnerModule
     ],
-    providers: [
-        CommentsService
-    ]
+    providers: []
 })
 export class CommentsModule {
 }

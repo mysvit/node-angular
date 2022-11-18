@@ -1,131 +1,150 @@
-<h1 class="p-20">Testing PWA</h1>
+<!--<app-comment-form [formAction]="FormAction.Add"-->
+<!--                  [parentId]="parentId">-->
+<!--</app-comment-form>-->
 
-<div class="sl-comments-container">
+<template #commentFormAddRef></template>
+<ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
 
-    <div class="sl-comments-search">
-        <mat-form-field appearance="fill">
-            <mat-label>Search</mat-label>
-            <input type="text" matInput [(ngModel)]="searchWords">
-            <button *ngIf="searchWords" matSuffix mat-icon-button aria-label="Clear" (click)="handleCommentSearchClick(undefined)">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-        <div class="sl-btn-search-margin">
-            <button mat-flat-button color="primary" aria-label="Search" (click)="handleCommentSearchClick(searchWords)">
-                <span>Search</span>
-            </button>
-        </div>
-    </div>
+    <app-comment-item [item]="item"></app-comment-item>
 
-    <ng-container *ngTemplateOutlet="itemAdd"></ng-container>
-    <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
+    <!--    &lt;!&ndash;        Items&ndash;&gt;-->
+    <!--    <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>-->
+    <!--    <ng-container *ngIf="item.comment_id === replyId">-->
+    <!--        <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>-->
+    <!--    </ng-container>-->
 
-        <!--        Items-->
-        <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>
-        <ng-container *ngIf="item.comment_id === replyId">
-            <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>
-        </ng-container>
+    <!--    &lt;!&ndash;        Replies&ndash;&gt;-->
+    <!--    <ng-template [ngIf]="item.commentRepliesLoading" [ngIfElse]="repliesLoaded">-->
+    <!--        <div class="sl-replies-loading">-->
+    <!--            <mat-spinner></mat-spinner>-->
+    <!--        </div>-->
+    <!--    </ng-template>-->
+    <!--    <ng-template #repliesLoaded>-->
+    <!--        <div class="ml-50" *ngIf="item.isRepliesShowed">-->
+    <!--            <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">-->
+    <!--                <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>-->
+    <!--            </ng-template>-->
+    <!--        </div>-->
+    <!--    </ng-template>-->
 
-        <!--        Replies-->
-        <ng-template [ngIf]="item.commentRepliesLoading" [ngIfElse]="repliesLoaded">
-            <div class="sl-replies-loading">
-                <mat-spinner></mat-spinner>
-            </div>
-        </ng-template>
-        <ng-template #repliesLoaded>
-            <div class="ml-50" *ngIf="item.isRepliesShowed">
-                <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">
-                    <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>
-                </ng-template>
-            </div>
-        </ng-template>
-
-    </ng-template>
-
-    <app-paginator [itemsLength]="commentsListCount"
-                   (onPageChange)="handlePageChangeEvent($event)">
-    </app-paginator>
-
-</div>
-
-
-<!--Add a comment-->
-
-<ng-template #itemAdd>
-    <ng-template [ngIf]="addId" [ngIfElse]="addBtn">
-        <app-comment-form
-                [formAction]="FormAction.Add"
-                [disabled]="executingForm"
-                [model]="addCommentModel"
-                (onSave)="saveCommentAddEvent($event)"
-                (onCancel)="cancelCommentAddEvent()">
-        </app-comment-form>
-    </ng-template>
-    <ng-template #addBtn>
-        <div class="sl-btn-margin">
-            <button mat-flat-button color="primary" aria-label="Add a comment" (click)="handleCommentAddClick()">
-                <span>Add comment</span>
-            </button>
-        </div>
-    </ng-template>
 </ng-template>
 
-<!--View and Edit a comment-->
-
-<ng-template #itemViewEdit let-item>
-    <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemView">
-        <app-comment-form [formAction]="FormAction.Edit"
-                          [disabled]="executingForm"
-                          [model]="editCommentModel"
-                          (onSave)="handleSaveCommentEditEvent($event)"
-                          (onCancel)="handleCancelCommentEditEvent()">
-        </app-comment-form>
-    </ng-template>
-    <ng-template #itemView>
-        <app-comment-item [item]="item"
-                          (onCommentLike)="handleCommentLikeEvent(item)"
-                          (onCommentDislike)="handleCommentDislikeEvent(item)"
-                          (onCommentReply)="handleCommentReplyEvent(item)"
-                          (onCommentRepliesShow)="handleCommentRepliesShowEvent(item, $event)"
-                          (onCommentEdit)="handleCommentEditEvent(item)"
-                          (onCommentDelete)="handleCommentDeleteEvent(item)">
-        </app-comment-item>
-    </ng-template>
-</ng-template>
-
-<!--Reply on comment-->
-
-<ng-template #itemReply let-item>
-    <div class="ml-50">
-        <app-comment-form [smallIcon]="true"
-                          [formAction]="FormAction.Reply"
-                          [disabled]="executingForm"
-                          [model]="replyCommentModel"
-                          (onSave)="handleSaveCommentReplyEvent($event, item)"
-                          (onCancel)="handleCancelCommentReplyEvent()">
-        </app-comment-form>
-    </div>
-</ng-template>
+<app-paginator [itemsLength]="commentsListCount"
+               (onPageChange)="handlePageChangeEvent($event)">
+</app-paginator>
 
 
-<!--View and Edit a replies on comment-->
+<!--<div class="sl-comments-container">-->
 
-<ng-template #itemViewEditReplies let-item>
-    <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemViewReplies">
-        <app-comment-form [formAction]="FormAction.Edit"
-                          [disabled]="executingForm"
-                          [model]="editCommentModel"
-                          (onSave)="handleSaveCommentEditEvent($event)"
-                          (onCancel)="handleCancelCommentEditEvent()">
-        </app-comment-form>
-    </ng-template>
-    <ng-template #itemViewReplies>
-        <app-comment-item [isReplyItem]="true"
-                          [item]="item"
-                          (onCommentLike)="handleCommentLikeEvent(item)"
-                          (onCommentDislike)="handleCommentDislikeEvent(item)"
-                          (onCommentEdit)="handleCommentEditEvent(item)"
-                          (onCommentDelete)="handleCommentDeleteEvent(item)">
-        </app-comment-item>
-    </ng-template>
-</ng-template>
+<!--    <ng-container *ngTemplateOutlet="itemAdd"></ng-container>-->
+<!--    <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">-->
+
+<!--        &lt;!&ndash;        Items&ndash;&gt;-->
+<!--        <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>-->
+<!--        <ng-container *ngIf="item.comment_id === replyId">-->
+<!--            <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>-->
+<!--        </ng-container>-->
+
+<!--        &lt;!&ndash;        Replies&ndash;&gt;-->
+<!--        <ng-template [ngIf]="item.commentRepliesLoading" [ngIfElse]="repliesLoaded">-->
+<!--            <div class="sl-replies-loading">-->
+<!--                <mat-spinner></mat-spinner>-->
+<!--            </div>-->
+<!--        </ng-template>-->
+<!--        <ng-template #repliesLoaded>-->
+<!--            <div class="ml-50" *ngIf="item.isRepliesShowed">-->
+<!--                <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">-->
+<!--                    <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>-->
+<!--                </ng-template>-->
+<!--            </div>-->
+<!--        </ng-template>-->
+
+<!--    </ng-template>-->
+
+<!--    <app-paginator [itemsLength]="commentsListCount"-->
+<!--                   (onPageChange)="handlePageChangeEvent($event)">-->
+<!--    </app-paginator>-->
+
+<!--</div>-->
+
+
+<!--&lt;!&ndash;Add a comment&ndash;&gt;-->
+
+<!--<ng-template #itemAdd>-->
+<!--    <ng-template [ngIf]="addId" [ngIfElse]="addBtn">-->
+<!--        <app-comment-form-->
+<!--                [formAction]="FormAction.Add"-->
+<!--                [disabled]="executingForm"-->
+<!--                [model]="addCommentModel"-->
+<!--                (onSave)="saveCommentAddEvent($event)"-->
+<!--                (onCancel)="cancelCommentAddEvent()">-->
+<!--        </app-comment-form>-->
+<!--    </ng-template>-->
+<!--    <ng-template #addBtn>-->
+<!--        <div class="sl-btn-margin">-->
+<!--            <button mat-flat-button color="primary" aria-label="Add a comment" (click)="handleCommentAddClick()">-->
+<!--                <span>Add comment</span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+<!--</ng-template>-->
+
+<!--&lt;!&ndash;View and Edit a comment&ndash;&gt;-->
+
+<!--<ng-template #itemViewEdit let-item>-->
+<!--    <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemView">-->
+<!--        <app-comment-form [formAction]="FormAction.Edit"-->
+<!--                          [disabled]="executingForm"-->
+<!--                          [model]="editCommentModel"-->
+<!--                          (onSave)="handleSaveCommentEditEvent($event)"-->
+<!--                          (onCancel)="handleCancelCommentEditEvent()">-->
+<!--        </app-comment-form>-->
+<!--    </ng-template>-->
+<!--    <ng-template #itemView>-->
+<!--        <app-comment-item [item]="item"-->
+<!--                          (onCommentLike)="handleCommentLikeEvent(item)"-->
+<!--                          (onCommentDislike)="handleCommentDislikeEvent(item)"-->
+<!--                          (onCommentReply)="handleCommentReplyEvent(item)"-->
+<!--                          (onCommentRepliesShow)="handleCommentRepliesShowEvent(item, $event)"-->
+<!--                          (onCommentEdit)="handleCommentEditEvent(item)"-->
+<!--                          (onCommentDelete)="handleCommentDeleteEvent(item)">-->
+<!--        </app-comment-item>-->
+<!--    </ng-template>-->
+<!--</ng-template>-->
+
+<!--&lt;!&ndash;Reply on comment&ndash;&gt;-->
+
+<!--<ng-template #itemReply let-item>-->
+<!--    <div class="ml-50">-->
+<!--        <app-comment-form [smallIcon]="true"-->
+<!--                          [formAction]="FormAction.Reply"-->
+<!--                          [disabled]="executingForm"-->
+<!--                          [model]="replyCommentModel"-->
+<!--                          (onSave)="handleSaveCommentReplyEvent($event, item)"-->
+<!--                          (onCancel)="handleCancelCommentReplyEvent()">-->
+<!--        </app-comment-form>-->
+<!--    </div>-->
+<!--</ng-template>-->
+
+
+<!--&lt;!&ndash;View and Edit a replies on comment&ndash;&gt;-->
+
+<!--<ng-template #itemViewEditReplies let-item>-->
+<!--    <ng-template [ngIf]="item.comment_id === editId" [ngIfElse]="itemViewReplies">-->
+<!--        <app-comment-form [formAction]="FormAction.Edit"-->
+<!--                          [disabled]="executingForm"-->
+<!--                          [model]="editCommentModel"-->
+<!--                          (onSave)="handleSaveCommentEditEvent($event)"-->
+<!--                          (onCancel)="handleCancelCommentEditEvent()">-->
+<!--        </app-comment-form>-->
+<!--    </ng-template>-->
+<!--    <ng-template #itemViewReplies>-->
+<!--        <app-comment-item [isReplyItem]="true"-->
+<!--                          [item]="item"-->
+<!--                          (onCommentLike)="handleCommentLikeEvent(item)"-->
+<!--                          (onCommentDislike)="handleCommentDislikeEvent(item)"-->
+<!--                          (onCommentEdit)="handleCommentEditEvent(item)"-->
+<!--                          (onCommentDelete)="handleCommentDeleteEvent(item)">-->
+<!--        </app-comment-item>-->
+<!--    </ng-template>-->
+<!--</ng-template>-->
