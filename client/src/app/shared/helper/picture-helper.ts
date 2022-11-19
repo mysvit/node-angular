@@ -83,4 +83,7 @@ export namespace PictureHelper {
         return environment.apiEndPoint + ApiPath.pictures_get.replace(ApiParams.id, id)
     }
 
+    export function getRandomBackground() {
+        return getRandomColor(MathHelper.getRandomInt(0, 360), 90, 80) + '50'
+    }
 }

@@ -1,37 +1,27 @@
-<!--<app-comment-form [formAction]="FormAction.Add"-->
-<!--                  [parentId]="parentId">-->
-<!--</app-comment-form>-->
+<div class="comments-container" [ngStyle]="{'background-color': background}">
 
-<template #commentFormAddRef></template>
-<ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
+    <div *ngIf="level>0"
+         class="sl-badge-container"
+         matBadge="{{level}}"
+         matBadgePosition="above before"
+         matBadgeSize="small"
+         matBadgeColor="accent">
+        level
+    </div>
 
-    <app-comment-item [item]="item"></app-comment-item>
+    <template #commentFormAddRef></template>
 
-    <!--    &lt;!&ndash;        Items&ndash;&gt;-->
-    <!--    <ng-container *ngTemplateOutlet="itemViewEdit; context:{ $implicit: item}"></ng-container>-->
-    <!--    <ng-container *ngIf="item.comment_id === replyId">-->
-    <!--        <ng-container *ngTemplateOutlet="itemReply; context:{ $implicit: item}"></ng-container>-->
-    <!--    </ng-container>-->
+    <ng-template ngFor let-item [ngForOf]="commentsList" let-i="index" [ngForTrackBy]="commentsTrackBy">
+        <app-comment-item [level]="level" [item]="item"></app-comment-item>
+    </ng-template>
 
-    <!--    &lt;!&ndash;        Replies&ndash;&gt;-->
-    <!--    <ng-template [ngIf]="item.commentRepliesLoading" [ngIfElse]="repliesLoaded">-->
-    <!--        <div class="sl-replies-loading">-->
-    <!--            <mat-spinner></mat-spinner>-->
-    <!--        </div>-->
-    <!--    </ng-template>-->
-    <!--    <ng-template #repliesLoaded>-->
-    <!--        <div class="ml-50" *ngIf="item.isRepliesShowed">-->
-    <!--            <ng-template ngFor let-itemR [ngForOf]="item.commentReplies" let-i="index" [ngForTrackBy]="commentsTrackBy">-->
-    <!--                <ng-container *ngTemplateOutlet="itemViewEditReplies; context:{ $implicit: itemR}"></ng-container>-->
-    <!--            </ng-template>-->
-    <!--        </div>-->
-    <!--    </ng-template>-->
+    <app-paginator *ngIf="commentsListCount > paginatorOptions.pageSize"
+                   [options]="paginatorOptions"
+                   [itemsLength]="commentsListCount"
+                   (onPageChange)="handlePageChangeEvent($event)">
+    </app-paginator>
 
-</ng-template>
-
-<app-paginator [itemsLength]="commentsListCount"
-               (onPageChange)="handlePageChangeEvent($event)">
-</app-paginator>
+</div>
 
 
 <!--<div class="sl-comments-container">-->

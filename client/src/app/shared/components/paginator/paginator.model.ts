@@ -6,7 +6,7 @@ export interface PaginatorEvent {
     limit: SelectLimit
 }
 
-export interface PaginatorOption {
+export interface PaginatorOptions {
     pageSize: number
     pagesMaxLength: number
 }

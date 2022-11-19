@@ -2,11 +2,11 @@ import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from 
 import { MatDialog } from '@angular/material/dialog'
 import { DialogModel } from '@core/components/dialog/dialog-model'
 import { DialogComponent } from '@core/components/dialog/dialog.component'
-import { CommentItem, CommentLikeModel, CommentModel, CommentsSelectWhere, SelectLimit } from '@dto'
+import { CommentItem, CommentModel, CommentsSelectWhere } from '@dto'
 import { ValueHelper } from '@shared-lib/helpers'
 import { LikeDislikeCalc } from '@shared-lib/logic'
 import { TrMessage, TrTitle } from '@shared-lib/translation'
-import { PaginatorEvent } from '@shared/components/paginator/paginator.model'
+import { PaginatorEvent, PaginatorOptions } from '@shared/components/paginator/paginator.model'
 import { FormAction } from '@shared/enum'
 import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
@@ -23,13 +23,18 @@ import { CommentsService } from './comments.service'
 })
 export class CommentsComponent extends ProcessForm implements OnInit {
 
+    @Input() level: number = 0
     @Input() parentId?: string
+    @Input() background: string = 'transparent'
 
     @ViewChild('commentFormAddRef', {read: ViewContainerRef, static: true}) commentFormAddRef?: ViewContainerRef
 
-    FormAction = FormAction
     commentsList: Array<CommentItemUI> = []
     commentsListCount: number = 0
+    paginatorOptions: PaginatorOptions = {
+        pageSize: 10,
+        pagesMaxLength: 10
+    }
 
     addCommentModel: CommentModel = <CommentModel>{}
     editCommentModel: CommentModel = <CommentModel>{}
@@ -38,7 +43,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     editId?: string
     replyId?: string
     deleteId?: string
-    selectLimit?: SelectLimit = {offset: 0, fetch: 10}
+    // selectLimit?: SelectLimit = {offset: 0, fetch: 10}
 
     where: CommentsSelectWhere = <CommentsSelectWhere>{
         parent_id: undefined,
@@ -55,13 +60,13 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
     ngOnInit(): void {
+        this.where.parent_id = this.parentId
         this.execute(
             concat(
                 this.commentsListDataCount(),
                 this.commentsListData()
             )
         )
-
     }
 
     commentsTrackBy(index: number, item: CommentItem): string {
@@ -180,33 +185,33 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
 
-    handleCommentLikeEvent(item: CommentItemUI): void {
-        const model = <CommentLikeModel>{
-            comment_id: item.comment_id,
-            is_like: 1,
-            is_dislike: 0
-        }
-        this.execute(
-            this.comments.commentLike(model)
-                .pipe(
-                    map(data => this.updateCommentItem(item, data))
-                )
-        )
-    }
+    // handleCommentLikeEvent(item: CommentItemUI): void {
+    //     const model = <CommentLikeModel>{
+    //         comment_id: item.comment_id,
+    //         is_like: 1,
+    //         is_dislike: 0
+    //     }
+    //     this.execute(
+    //         this.comments.commentLike(model)
+    //             .pipe(
+    //                 map(data => this.updateCommentItem(item, data))
+    //             )
+    //     )
+    // }
 
-    handleCommentDislikeEvent(item: CommentItemUI): void {
-        const model = <CommentLikeModel>{
-            comment_id: item.comment_id,
-            is_like: 0,
-            is_dislike: 1
-        }
-        this.execute(
-            this.comments.commentLike(model)
-                .pipe(
-                    map(data => this.updateCommentItem(item, data))
-                )
-        )
-    }
+    // handleCommentDislikeEvent(item: CommentItemUI): void {
+    //     const model = <CommentLikeModel>{
+    //         comment_id: item.comment_id,
+    //         is_like: 0,
+    //         is_dislike: 1
+    //     }
+    //     this.execute(
+    //         this.comments.commentLike(model)
+    //             .pipe(
+    //                 map(data => this.updateCommentItem(item, data))
+    //             )
+    //     )
+    // }
 
     private commentsListData(): Observable<Array<CommentItem>> {
         return this.comments.commentsList(this.where)
@@ -255,7 +260,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     // }
 
     handlePageChangeEvent(event: PaginatorEvent) {
-        this.selectLimit = event.limit
+        // this.selectLimit = event.limit
         this.execute(
             this.commentsListData()
         )

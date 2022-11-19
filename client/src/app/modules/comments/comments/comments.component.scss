@@ -1,13 +1,30 @@
 @import "../../../../styles/mixins";
 @import "../../../../styles/components";
 
+.comments-container {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-left: 0.1em;
+}
+
 .sl-btn-margin {
     margin: 0 1em 2em 1em;
 }
-
 
 .sl-replies-loading {
     @extend .sl-spinner-container;
     margin-left: 50px;
     height: 100px;
+}
+
+.sl-badge-container {
+    padding-left: 2em;
+}
+
+.mat-badge-small.mat-badge-overlap.mat-badge-before .mat-badge-content {
+    left: 0;
+}
+
+.mat-badge-small.mat-badge-above .mat-badge-content {
+    top: 0;
 }

@@ -1,0 +1,62 @@
+@import "../../../../styles/mixins";
+
+:host {
+    @media (hover: hover) and (pointer: fine) {
+        --display-menu-icon: none;
+
+        &:hover {
+            --display-menu-icon: block;
+        }
+    }
+}
+
+.sl-item-menu {
+    width: 30px;
+    margin-right: 1em;
+    padding-top: 1em;
+}
+
+.sl-menu-icon {
+    display: var(--display-menu-icon);
+
+    &.show-all-time {
+        display: block;
+    }
+}
+
+.sl-item {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) 1fr minmax(0, max-content);
+    gap: 1em;
+    margin: 0.5em 1em 0.5em 1em;
+}
+
+.sl-item-text {
+    @include g-row(3);
+    gap: 0;
+}
+
+.sl-item-likes {
+    @include g-col(3);
+    margin-top: 10px;
+}
+
+.sl-item-icon {
+    @include g-col;
+    align-items: center;
+}
+
+.sl-date {
+    color: var(--c-date-time);
+}
+
+.sl-item-reply {
+    display: grid;
+    grid-template-columns: minmax(0, max-content);
+}
+
+.sl-avatar {
+    &.small {
+        @include sl-avatar(21px)
+    }
+}
