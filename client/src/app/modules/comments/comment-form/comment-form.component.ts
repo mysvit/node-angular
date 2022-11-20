@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core'
 import { CommentModel } from '@dto'
-import { FormAction } from '@shared/enum'
+import { FormAction, FormCloseAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { ErrorClient } from '@shared/models/error-client'
 import { SlStorage } from '@shared/storage'
@@ -18,7 +18,7 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     @Input() formAction!: FormAction
     @Input() parentId?: string
 
-    @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>()
+    @Output() close: EventEmitter<FormCloseAction> = new EventEmitter<FormCloseAction>()
 
     @ViewChild('commentTextRef') private commentTextRef?: ElementRef
     @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
@@ -73,7 +73,7 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     }
 
     handleCancelClick() {
-        this.close.emit(true)
+        this.close.emit(FormCloseAction.Cancel)
     }
 
     private disableForm(isDisable: boolean) {
@@ -116,8 +116,8 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     }
 
     override processCompleted(message?: any) {
-        super.processCompleted(message)
-        this.close.emit(true)
+        super.processCompleted(message, 0)
+        this.close.emit(FormCloseAction.Save)
     }
 
 }

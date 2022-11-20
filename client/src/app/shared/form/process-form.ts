@@ -64,9 +64,9 @@ export class ProcessForm {
         this.spinnerShow()
     }
 
-    protected processCompleted(message?: any) {
+    protected processCompleted(message?: any, duration=4000) {
         this.processState = ProcessState.Completed
-        if (message) this.snackBar?.show(message, MessageType.Success, 4000)
+        if (message) this.snackBar?.show(message, MessageType.Success, duration)
         this.spinnerHide()
     }
 
