@@ -1,14 +1,9 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { DialogModel } from '@core/components/dialog/dialog-model'
-import { DialogComponent } from '@core/components/dialog/dialog.component'
 import { CommentItem, CommentModel, CommentsSelectWhere } from '@dto'
-import { ValueHelper } from '@shared-lib/helpers'
 import { LikeDislikeCalc } from '@shared-lib/logic'
-import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { PaginatorEvent, PaginatorOptions } from '@shared/components/paginator/paginator.model'
 import { FormAction } from '@shared/enum'
-import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
 import { concat, map, Observable, of, switchMap } from 'rxjs'
 import { CommentFormComponent } from '../comment-form/comment-form.component'
@@ -35,16 +30,6 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         pageSize: 10,
         pagesMaxLength: 10
     }
-
-    addCommentModel: CommentModel = <CommentModel>{}
-    editCommentModel: CommentModel = <CommentModel>{}
-    replyCommentModel: CommentModel = <CommentModel>{}
-    addId?: boolean
-    editId?: string
-    replyId?: string
-    deleteId?: string
-    // selectLimit?: SelectLimit = {offset: 0, fetch: 10}
-
     where: CommentsSelectWhere = <CommentsSelectWhere>{
         parent_id: undefined,
         search: undefined,
@@ -64,7 +49,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         this.execute(
             concat(
                 this.commentsListDataCount(),
-                this.commentsListData()
+                this.commentsListData(this.where)
             )
         )
     }
@@ -85,103 +70,103 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     }
 
     saveCommentAddEvent(model: CommentModel): void {
-        this.execute(
-            this.comments.commentAdd(model)
-                .pipe(
-                    switchMap(() => this.commentsListData()),
-                    switchMap(() => of(this.addId = false))
-                )
-        )
+        // this.execute(
+        //     this.comments.commentAdd(model)
+        //         .pipe(
+        //             switchMap(() => this.commentsListData()),
+        //             switchMap(() => of(this.addId = false))
+        //         )
+        // )
     }
 
     cancelCommentAddEvent(): void {
-        this.addId = false
+        // this.addId = false
     }
 
 
     handleCommentEditEvent(item: CommentItem) {
-        this.editCommentModel = <CommentModel>{commentId: item.comment_id, parentId: item.parent_id, comment: item.comment}
-        this.editId = item.comment_id
+        // this.editCommentModel = <CommentModel>{commentId: item.comment_id, parentId: item.parent_id, comment: item.comment}
+        // this.editId = item.comment_id
     }
 
     handleSaveCommentEditEvent(CommentModel: CommentModel) {
-        this.execute(
-            this.comments.commentUpd(CommentModel)
-                .pipe(
-                    switchMap(() => this.commentsListData()),
-                    switchMap(() => of(this.editId = undefined))
-                )
-        )
+        // this.execute(
+        //     this.comments.commentUpd(CommentModel)
+        //         .pipe(
+        //             switchMap(() => this.commentsListData()),
+        //             switchMap(() => of(this.editId = undefined))
+        //         )
+        // )
     }
 
     handleCancelCommentEditEvent() {
-        this.editId = undefined
+        // this.editId = undefined
     }
 
 
     handleCommentReplyEvent(item: CommentItemUI) {
-        if (!this.isAuth) return
-        this.replyCommentModel = <CommentModel>{parentId: item.comment_id}
-        this.replyId = item.comment_id
+        // if (!this.isAuth) return
+        // this.replyCommentModel = <CommentModel>{parentId: item.comment_id}
+        // this.replyId = item.comment_id
     }
 
 
     // TODO - add message what your comment added to the end
     handleSaveCommentReplyEvent(model: CommentModel, parentItem: CommentItemUI) {
-        this.execute(
-            this.comments.commentAdd(model)
-                .pipe(
-                    map(() => {
-                        parentItem.replies_count = parentItem.replies_count ? parentItem.replies_count + 1 : 1
-                        if (parentItem.isRepliesShowed) {
-                            return this.commentsListData()
-                        } else {
-                            parentItem.commentReplies = []
-                        }
-                        return
-                    }),
-                    switchMap(() => of(this.replyId = undefined))
-                )
-        )
+        // this.execute(
+        //     this.comments.commentAdd(model)
+        //         .pipe(
+        //             map(() => {
+        //                 parentItem.replies_count = parentItem.replies_count ? parentItem.replies_count + 1 : 1
+        //                 if (parentItem.isRepliesShowed) {
+        //                     return this.commentsListData()
+        //                 } else {
+        //                     parentItem.commentReplies = []
+        //                 }
+        //                 return
+        //             }),
+        //             switchMap(() => of(this.replyId = undefined))
+        //         )
+        // )
     }
 
     handleCancelCommentReplyEvent() {
-        this.replyId = undefined
+        // this.replyId = undefined
     }
 
 
     handleCommentRepliesShowEvent(item: CommentItemUI, isRepliesShowed: boolean) {
-        item.isRepliesShowed = isRepliesShowed
-        if (isRepliesShowed && ValueHelper.isEmpty(item.commentReplies)) {
-            item.commentRepliesLoading = true
-            this.execute(
-                this.commentRepliesData(item)
-            )
-        }
+        // item.isRepliesShowed = isRepliesShowed
+        // if (isRepliesShowed && ValueHelper.isEmpty(item.commentReplies)) {
+        //     item.commentRepliesLoading = true
+        //     this.execute(
+        //         this.commentRepliesData(item)
+        //     )
+        // }
     }
 
 
     handleCommentDeleteEvent(item: CommentItemUI) {
-        const dialogRef = this.dialog.open(DialogComponent, {
-            width: '350px',
-            data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
-        })
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.execute(
-                    this.comments.commentDel(item.comment_id)
-                        .pipe(
-                            switchMap((result) => {
-                                if (result) {
-                                    return this.commentsListData()
-                                } else {
-                                    return of(undefined)
-                                }
-                            })
-                        )
-                )
-            }
-        })
+        // const dialogRef = this.dialog.open(DialogComponent, {
+        //     width: '350px',
+        //     data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
+        // })
+        // dialogRef.afterClosed().subscribe(result => {
+        //     if (result) {
+        //         this.execute(
+        //             this.comments.commentDel(item.comment_id)
+        //                 .pipe(
+        //                     switchMap((result) => {
+        //                         if (result) {
+        //                             return this.commentsListData()
+        //                         } else {
+        //                             return of(undefined)
+        //                         }
+        //                     })
+        //                 )
+        //         )
+        //     }
+        // })
     }
 
 
@@ -213,7 +198,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     //     )
     // }
 
-    private commentsListData(): Observable<Array<CommentItem>> {
+    private commentsListData(where: CommentsSelectWhere): Observable<Array<CommentItem>> {
         return this.comments.commentsList(this.where)
             .pipe(
                 map(items => this.commentsList = <Array<CommentItemUI>>items)
@@ -260,9 +245,9 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     // }
 
     handlePageChangeEvent(event: PaginatorEvent) {
-        // this.selectLimit = event.limit
+        this.where.limit = event.limit
         this.execute(
-            this.commentsListData()
+            this.commentsListData(this.where)
         )
     }
 
