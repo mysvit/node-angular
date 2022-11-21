@@ -1,4 +1,4 @@
-<div class="comments-container" [ngStyle]="{'background-color': background}">
+<div class="comments-container" [ngClass]="{'first-level': level===1}" [ngStyle]="{'background-color': background}">
 
     <div *ngIf="level>0"
          class="sl-badge-container"
@@ -22,6 +22,8 @@
     </app-paginator>
 
 </div>
+
+<template #spinner></template>
 
 
 <!--<div class="sl-comments-container">-->

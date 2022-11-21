@@ -17,6 +17,7 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
     @Input() level!: number
     @Input() item!: CommentItemUI
     @Output() onCommentEdit: EventEmitter<void> = new EventEmitter<void>()
+    @Output() onCommentReply: EventEmitter<void> = new EventEmitter<void>()
     @Output() onCommentRepliesShow: EventEmitter<boolean> = new EventEmitter<boolean>()
 
     isRepliesShowed: boolean = false
@@ -69,11 +70,11 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
     }
 
     handleCommentReplyClick() {
-        // this.onCommentReply.emit()
+        this.onCommentReply.emit()
     }
 
-    handleCommentsRepliesShowClick() {
-        this.isRepliesShowed = !this.isRepliesShowed
+    handleCommentsRepliesShowClick(isShow?: boolean) {
+        this.isRepliesShowed = isShow === undefined ? !this.isRepliesShowed : isShow
         this.onCommentRepliesShow.emit(this.isRepliesShowed)
     }
 

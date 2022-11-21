@@ -16,24 +16,18 @@ import { CommentFormModel } from './comment.form-model'
 export class CommentFormComponent extends ProcessForm implements OnInit, AfterViewInit {
 
     @Input() formAction!: FormAction
+    @Input() smallIcon?: boolean
+    // for add and reply
     @Input() parentId?: string
+    // for edit
+    @Input() model: CommentModel = <CommentModel>{}
 
     @Output() close: EventEmitter<FormCloseAction> = new EventEmitter<FormCloseAction>()
 
     @ViewChild('commentTextRef') private commentTextRef?: ElementRef
     @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
 
-
-    @Input() smallIcon?: boolean
-    @Input() model: CommentModel = <CommentModel>{}
-
-    // @Input() set disabled(value: boolean) {
-    //     this.disableForm(value)
-    // }
-
-
     isButtonDisabled: boolean = false
-
 
     SlStorage = SlStorage
     FieldValidators = FieldValidators
@@ -102,7 +96,10 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
         switch (this.formAction) {
             case FormAction.Add:
             case FormAction.Reply:
-                this.execute(this.comments.commentAdd(model), {completedMessage: 'Your comment added to the end.'})
+                this.execute(
+                    this.comments.commentAdd(model),
+                    {completedMessage: 'Your comment added to the end' + (this.formAction === FormAction.Reply ? ' of replies.' : '.')}
+                )
                 break
             case FormAction.Upd:
                 this.execute(this.comments.commentUpd(model))

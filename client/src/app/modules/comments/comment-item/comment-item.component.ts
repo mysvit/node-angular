@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core'
 import { CommentModel } from '@dto'
-import { FormAction } from '@shared/enum'
+import { FormAction, FormCloseAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { CommentFormComponent } from '../comment-form/comment-form.component'
@@ -34,6 +34,7 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
     // }
 
     @ViewChild('commentRef', {read: ViewContainerRef, static: true}) commentRef?: ViewContainerRef
+    @ViewChild('commentReplyRef', {read: ViewContainerRef, static: true}) commentReplyRef?: ViewContainerRef
     @ViewChild('commentsRepliesRef', {read: ViewContainerRef, static: true}) commentsRepliesRef?: ViewContainerRef
 
     constructor(
@@ -54,6 +55,7 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
             ref.instance.level = this.level
             ref.instance.item = this.item
             ref.instance.onCommentEdit.subscribe(() => this.showCommentFormEdit())
+            ref.instance.onCommentReply.subscribe(isShow => this.showCommentFormReply())
             ref.instance.onCommentRepliesShow.subscribe(isShow => this.showCommentsReplies(isShow))
         }
     }
@@ -68,7 +70,25 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
         }
     }
 
+    private showCommentFormReply(): void {
+        if (!this.isAuth) return
+        this.commentReplyRef?.clear()
+        const ref = this.commentReplyRef?.createComponent<CommentFormComponent>(CommentFormComponent, {})
+        if (ref) {
+            ref.instance.formAction = FormAction.Reply
+            ref.instance.parentId = this.item.comment_id
+            ref.instance.smallIcon = true
+            ref.instance.close.subscribe((result: FormCloseAction) => {
+                ref.destroy()
+                if (result === FormCloseAction.Save) {
+                    this.item.replies_count++
+                }
+            })
+        }
+    }
+
     private showCommentsReplies(isShow: boolean): void {
+        this.item.isRepliesShowed = isShow
         this.commentsRepliesRef?.clear()
         if (!isShow) return
         const ref = this.commentsRepliesRef?.createComponent<CommentsComponent>(CommentsComponent, {})

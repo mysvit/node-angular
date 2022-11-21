@@ -23,6 +23,7 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     @Input() background: string = 'transparent'
 
     @ViewChild('commentFormAddRef', {read: ViewContainerRef, static: true}) commentFormAddRef?: ViewContainerRef
+    @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
 
     commentsList: Array<CommentItemUI> = []
     commentsListCount: number = 0

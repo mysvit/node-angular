@@ -1,10 +1,19 @@
 @import "../../../../styles/mixins";
 @import "../../../../styles/components";
 
+:host {
+    display: grid;
+}
+
 .comments-container {
+    grid-area: 1 / 1;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     margin-left: 0.15em;
+
+    &.first-level {
+        margin-left: 3em;
+    }
 }
 
 .sl-btn-margin {
