@@ -14,14 +14,14 @@
         <div [innerHtml]="item.comment"></div>
         <div class="sl-item-likes">
             <div class="sl-item-icon">
-                <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.like_user}"
+                <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.like_user, 'disabled':executingForm}"
                           aria-hidden="false" aria-label="I like this" (click)="handleCommentLikeClick()">
                     thumb_up
                 </mat-icon>
                 <span>{{item.likes_count}}</span>
             </div>
             <div class="sl-item-icon">
-                <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.dislike_user}"
+                <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.dislike_user, 'disabled':executingForm}"
                           aria-hidden="false" aria-label="I dislike this" (click)="handleCommentDislikeClick()">
                     thumb_down
                 </mat-icon>

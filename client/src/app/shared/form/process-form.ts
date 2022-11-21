@@ -16,8 +16,10 @@ export class ProcessForm {
     processState: ProcessState = ProcessState.Initial
 
     spinnerRef?: ViewContainerRef
-    public snackBar?: SnackBarService
-    public router: Router
+    snackBar?: SnackBarService
+    router: Router
+
+    private delayMultiExecution?: Date
 
     constructor(injector: Injector) {
         this.snackBar = injector.get<SnackBarService>(SnackBarService)
@@ -40,9 +42,14 @@ export class ProcessForm {
     }
 
     protected execute(observable: Observable<Object | void>, option?: ProcessOption): void {
+        if (this.delayMultiExecution == undefined || new Date().getTime() - this.delayMultiExecution.getTime() > 2000) {
+            this.delayMultiExecution = new Date()
+        } else {
+            return
+        }
         this.resetMessages()
         this.processExecuting()
-        if (option?.multipleProcess) {
+        if (!option?.multipleProcess) {
             this.cancelProcess()
         }
         observable
@@ -64,7 +71,7 @@ export class ProcessForm {
         this.spinnerShow()
     }
 
-    protected processCompleted(message?: any, duration=4000) {
+    protected processCompleted(message?: any, duration = 4000) {
         this.processState = ProcessState.Completed
         if (message) this.snackBar?.show(message, MessageType.Success, duration)
         this.spinnerHide()
