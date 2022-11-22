@@ -27,6 +27,7 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
 
     isRepliesShowed: boolean = false
     isMenuOpened: boolean = false
+    isShowDeleteSpinner: boolean = false
 
     constructor(
         injector: Injector,
@@ -95,6 +96,7 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
         })
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                this.isShowDeleteSpinner = true
                 this.execute(
                     this.comments.commentDelApi(this.item.comment_id)
                         .pipe(
@@ -103,6 +105,11 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
                 )
             }
         })
+    }
+
+    override processCompleted(message?: any) {
+        super.processCompleted(message)
+        this.isShowDeleteSpinner = false
     }
 
     menuItemOpenedEvent() {
