@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core'
+import { Component, Injector, OnInit } from '@angular/core'
 import { ProcessForm } from '@shared/form'
 import { AppService } from './app.service'
 
@@ -8,8 +8,6 @@ import { AppService } from './app.service'
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends ProcessForm implements OnInit {
-
-    @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
 
     constructor(
         injector: Injector,

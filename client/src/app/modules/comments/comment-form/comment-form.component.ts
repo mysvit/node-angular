@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, Renderer2, ViewChild, ViewContainerRef } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core'
 import { CommentModel } from '@dto'
 import { FormAction, FormCloseAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
@@ -22,7 +22,6 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     @Output() close: EventEmitter<FormCloseAction> = new EventEmitter<FormCloseAction>()
 
     @ViewChild('commentTextRef') private commentTextRef?: ElementRef
-    @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
 
     isButtonDisabled: boolean = false
 

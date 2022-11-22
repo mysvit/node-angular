@@ -3,9 +3,8 @@ import { CommentItem, CommentModel, CommentsSelectWhere } from '@dto'
 import { PaginatorEvent, PaginatorOptions } from '@shared/components/paginator/paginator.model'
 import { FormAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
-import { concat, map, Observable, of, switchMap } from 'rxjs'
+import { concat } from 'rxjs'
 import { CommentFormComponent } from '../comment-form/comment-form.component'
-import { CommentItemUI } from './comments.model'
 import { CommentsService } from './comments.service'
 
 @Component({
@@ -21,7 +20,6 @@ export class CommentsComponent extends ProcessForm implements OnInit {
     @Input() background: string = 'transparent'
 
     @ViewChild('commentFormAddRef', {read: ViewContainerRef, static: true}) commentFormAddRef?: ViewContainerRef
-    @ViewChild('spinner', {read: ViewContainerRef, static: true}) override spinnerRef?: ViewContainerRef
 
     paginatorOptions: PaginatorOptions = {
         pageSize: 10,
@@ -65,18 +63,18 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         }
     }
 
-    private commentRepliesData(item: CommentItemUI): Observable<boolean> {
-        // selectLimit: <SelectLimit>{limit: 5}
-        const where = <CommentsSelectWhere>{parent_id: item.comment_id}
-        // if (this.searchWords) {
-        //     where.search = this.searchWords
-        // }
-        return this.comments.commentsListApi(where)
-            .pipe(
-                map(items => item.commentReplies = items),
-                switchMap(() => of(item.commentRepliesLoading = false))
-            )
-    }
+    // private commentRepliesData(item: CommentItemUI): Observable<boolean> {
+    //     // selectLimit: <SelectLimit>{limit: 5}
+    //     const where = <CommentsSelectWhere>{parent_id: item.comment_id}
+    //     // if (this.searchWords) {
+    //     //     where.search = this.searchWords
+    //     // }
+    //     return this.comments.commentsListApi(where)
+    //         .pipe(
+    //             map(items => item.commentReplies = items),
+    //             switchMap(() => of(item.commentRepliesLoading = false))
+    //         )
+    // }
 
     // private updateCommentItem(item: CommentItemUI, data: LikeDislikeCalc): void {
     //     item.like_user = data.likeUsr
