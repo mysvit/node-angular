@@ -52,6 +52,7 @@ export class CommentsDb extends Db {
         const sel = `
             SELECT
                 c.comment_id,
+                c.parent_id,
                 c.comment,
                 c.add_date,
                 c.likes_count,

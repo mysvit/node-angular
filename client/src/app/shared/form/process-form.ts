@@ -73,6 +73,7 @@ export class ProcessForm {
 
     protected processCompleted(message?: any, duration = 4000) {
         this.processState = ProcessState.Completed
+        this.delayMultiExecution = undefined
         if (message) this.snackBar?.show(message, MessageType.Success, duration)
         this.spinnerHide()
     }

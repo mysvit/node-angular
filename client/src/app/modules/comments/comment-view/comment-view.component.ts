@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
+import { DialogModel } from '@core/components/dialog/dialog-model'
+import { DialogComponent } from '@core/components/dialog/dialog.component'
 import { CommentLikeModel } from '@dto'
 import { LikeDislikeCalc } from '@shared-lib/logic'
+import { TrMessage, TrTitle } from '@shared-lib/translation'
+import { DialogAction } from '@shared/enum/dialog-action'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { map } from 'rxjs'
@@ -25,6 +30,7 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
 
     constructor(
         injector: Injector,
+        public dialog: MatDialog,
         private comments: CommentsService
     ) {
         super(injector)
@@ -48,7 +54,7 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
             is_dislike: 0
         }
         this.execute(
-            this.comments.commentLike(model)
+            this.comments.commentLikeApi(model)
                 .pipe(
                     map(data => this.updateCommentItem(this.item, data))
                 )
@@ -62,7 +68,7 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
             is_dislike: 1
         }
         this.execute(
-            this.comments.commentLike(model)
+            this.comments.commentLikeApi(model)
                 .pipe(
                     map(data => this.updateCommentItem(this.item, data))
                 )
@@ -83,7 +89,20 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
     }
 
     deleteCommentClick() {
-        // this.onCommentDelete.emit()
+        const dialogRef = this.dialog.open(DialogComponent, {
+            width: '350px',
+            data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
+        })
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.execute(
+                    this.comments.commentDelApi(this.item.comment_id)
+                        .pipe(
+                            map(result => result ? this.comments.commentsListDelItem(this.item) : undefined)
+                        )
+                )
+            }
+        })
     }
 
     menuItemOpenedEvent() {

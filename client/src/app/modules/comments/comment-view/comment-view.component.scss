@@ -44,6 +44,11 @@
 .sl-item-icon {
     @include g-col;
     align-items: center;
+
+    &.disabled {
+        cursor: wait;
+        color: var(--c-disabled-icon);
+    }
 }
 
 .sl-date {

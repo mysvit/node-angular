@@ -18,24 +18,10 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
 
     @Input() level: number = 0
     @Input() item!: CommentItemUI
-    // @Output() onCommentLike: EventEmitter<void> = new EventEmitter<void>()
-    // @Output() onCommentDislike: EventEmitter<void> = new EventEmitter<void>()
-    // @Output() onCommentReply: EventEmitter<void> = new EventEmitter<void>()
-    // @Output() onCommentRepliesShow: EventEmitter<boolean> = new EventEmitter<boolean>()
-    // @Output() onCommentEdit: EventEmitter<void> = new EventEmitter<void>()
-    // @Output() onCommentDelete: EventEmitter<void> = new EventEmitter<void>()
 
-    // FormAction = FormAction
-    // isMenuOpened: boolean = false
-    // isRepliesShowed: boolean = false
-
-    // get isShowMenu() {
-    //     return SlStorage.isAuth && this.item.user_id === SlStorage.user_id
-    // }
-
-    @ViewChild('commentRef', {read: ViewContainerRef, static: true}) commentRef?: ViewContainerRef
-    @ViewChild('commentReplyRef', {read: ViewContainerRef, static: true}) commentReplyRef?: ViewContainerRef
-    @ViewChild('commentsRepliesRef', {read: ViewContainerRef, static: true}) commentsRepliesRef?: ViewContainerRef
+    @ViewChild('commentRef', {read: ViewContainerRef, static: true}) commentRef!: ViewContainerRef
+    @ViewChild('commentReplyRef', {read: ViewContainerRef, static: true}) commentReplyRef!: ViewContainerRef
+    @ViewChild('commentsRepliesRef', {read: ViewContainerRef, static: true}) commentsRepliesRef!: ViewContainerRef
 
     constructor(
         injector: Injector,
@@ -49,20 +35,20 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
     }
 
     private showCommentItem(): void {
-        this.commentRef?.clear()
-        const ref = this.commentRef?.createComponent<CommentViewComponent>(CommentViewComponent, {})
+        this.commentRef.clear()
+        const ref = this.commentRef.createComponent<CommentViewComponent>(CommentViewComponent, {})
         if (ref) {
             ref.instance.level = this.level
             ref.instance.item = this.item
             ref.instance.onCommentEdit.subscribe(() => this.showCommentFormEdit())
-            ref.instance.onCommentReply.subscribe(isShow => this.showCommentFormReply())
+            ref.instance.onCommentReply.subscribe(() => this.showCommentFormReply())
             ref.instance.onCommentRepliesShow.subscribe(isShow => this.showCommentsReplies(isShow))
         }
     }
 
     private showCommentFormEdit(): void {
-        this.commentRef?.clear()
-        const ref = this.commentRef?.createComponent<CommentFormComponent>(CommentFormComponent, {})
+        this.commentRef.clear()
+        const ref = this.commentRef.createComponent<CommentFormComponent>(CommentFormComponent, {})
         if (ref) {
             ref.instance.formAction = FormAction.Upd
             ref.instance.model = <CommentModel>{commentId: this.item.comment_id, parentId: this.item.parent_id, comment: this.item.comment}
@@ -72,16 +58,18 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
 
     private showCommentFormReply(): void {
         if (!this.isAuth) return
-        this.commentReplyRef?.clear()
-        const ref = this.commentReplyRef?.createComponent<CommentFormComponent>(CommentFormComponent, {})
+        if (this.commentReplyRef.length > 0) return
+        this.commentReplyRef.clear()
+        const ref = this.commentReplyRef.createComponent<CommentFormComponent>(CommentFormComponent, {})
         if (ref) {
             ref.instance.formAction = FormAction.Reply
-            ref.instance.parentId = this.item.comment_id
+            ref.instance.model = <CommentModel>{parentId: this.item.comment_id}
             ref.instance.smallIcon = true
             ref.instance.close.subscribe((result: FormCloseAction) => {
                 ref.destroy()
                 if (result === FormCloseAction.Save) {
                     this.item.replies_count++
+                    this.showCommentsReplies(true)
                 }
             })
         }
@@ -89,14 +77,23 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
 
     private showCommentsReplies(isShow: boolean): void {
         this.item.isRepliesShowed = isShow
-        this.commentsRepliesRef?.clear()
+        this.commentsRepliesRef.clear()
         if (!isShow) return
-        const ref = this.commentsRepliesRef?.createComponent<CommentsComponent>(CommentsComponent, {})
+        const ref = this.commentsRepliesRef.createComponent<CommentsComponent>(CommentsComponent, {})
         if (ref) {
             ref.instance.level = this.level + 1
             ref.instance.parentId = this.item.comment_id
             ref.instance.background = PictureHelper.getRandomBackground()
+            ref.instance.comments.onCommentDeleted.subscribe(() => {
+                console.log('onCommentDeleted')
+                this.commentsDeleted()
+            })
         }
+    }
+
+    private commentsDeleted() {
+        this.item.replies_count--
+        if (this.item.replies_count < 1) this.showCommentsReplies(false)
     }
 
     // handleCommentLikeClick() {
@@ -106,7 +103,7 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
     //         is_dislike: 0
     //     }
     //     this.execute(
-    //         this.comments.commentLike(model)
+    //         this.comments.commentLikeApi(model)
     //             .pipe(
     //                 map(data => this.updateCommentItem(this.item, data))
     //             )
@@ -120,7 +117,7 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
     //         is_dislike: 1
     //     }
     //     this.execute(
-    //         this.comments.commentLike(model)
+    //         this.comments.commentLikeApi(model)
     //             .pipe(
     //                 map(data => this.updateCommentItem(this.item, data))
     //             )

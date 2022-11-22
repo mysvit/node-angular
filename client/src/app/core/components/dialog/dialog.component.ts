@@ -32,8 +32,10 @@ export class DialogComponent {
         switch (this.data.action) {
             case DialogAction.Delete:
                 this.okButtonLabel = TrButton.Delete
+                break
+            default:
+                this.okButtonLabel = TrButton.Ok
         }
-        this.okButtonLabel = TrButton.Ok
     }
 
 }

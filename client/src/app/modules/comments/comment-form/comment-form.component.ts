@@ -16,11 +16,8 @@ import { CommentFormModel } from './comment.form-model'
 export class CommentFormComponent extends ProcessForm implements OnInit, AfterViewInit {
 
     @Input() formAction!: FormAction
-    @Input() smallIcon?: boolean
-    // for add and reply
-    @Input() parentId?: string
-    // for edit
     @Input() model: CommentModel = <CommentModel>{}
+    @Input() smallIcon?: boolean
 
     @Output() close: EventEmitter<FormCloseAction> = new EventEmitter<FormCloseAction>()
 
@@ -92,17 +89,16 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
 
     private saveComment() {
         const model = <CommentModel>this.formModel.formGroup.getRawValue()
-        model.parentId = this.parentId
         switch (this.formAction) {
             case FormAction.Add:
             case FormAction.Reply:
                 this.execute(
-                    this.comments.commentAdd(model),
+                    this.comments.commentAddApi(model),
                     {completedMessage: 'Your comment added to the end' + (this.formAction === FormAction.Reply ? ' of replies.' : '.')}
                 )
                 break
             case FormAction.Upd:
-                this.execute(this.comments.commentUpd(model))
+                this.execute(this.comments.commentUpdApi(model))
                 break
         }
     }
