@@ -25,7 +25,10 @@ initDB() {
 }
 
 initDBinDocker() {
-  [ ! -d "$(pwd)/mariadb" ] && mkdir $(pwd)/mariadb
+  if [ ! -d "$(pwd)/mariadb" ]; then
+    mkdir $(pwd)/mariadb
+    echo "mkdir $(pwd)/mariadb"
+  fi
   sudo docker network create dev-net || true
 
   sudo docker run --rm \
@@ -36,7 +39,7 @@ initDBinDocker() {
              -p 3306:3306 \
              -e MARIADB_DATABASE=$DBNAME \
              -e MARIADB_ROOT_PASSWORD=root \
-             --pull missing mariadb:10.9.3-jammy
+             --pull missing mariadb:10.10-jammy
 }
 
 

@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.9.3-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.10.2-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: 0.0.0.0    Database: server-db
 -- ------------------------------------------------------
--- Server version	10.9.3-MariaDB-1:10.9.3+maria~ubu2204
+-- Server version	10.10.2-MariaDB-1:10.10.2+maria~ubu2204
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`comment_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `comments_users_ref` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` VALUES
 ('013c713b-2577-45f1-ba57-0878a7748256',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-06 15:09:32','Hello,\nWorld<div>111111111</div><div>111111111</div>',0,1,0),
+('03b877ee-b157-4f7b-914d-021f30d49cfc','32929cb1-7225-489e-bbdf-e9c9da283e38',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-23 11:57:57','111',0,0,0),
 ('0892b4b5-47a5-46fd-9f34-5562b49bf12e','ff69d1f6-4d3a-4b22-bc42-9830381b2f7e',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-09 18:03:50','22222222222',0,0,0),
 ('11c09626-9963-4f26-a239-0b8c4d47c8b8','377c0c45-091b-4f5b-8fe8-49471a7cf458',1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-07 09:05:41','22222222222',1,0,0),
 ('1c88abef-2915-4383-9ccb-2ea2e278bd2b',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 11:37:05',NULL,0,0,0),
@@ -54,7 +55,7 @@ INSERT INTO `comments` VALUES
 ('288b2bde-ade8-4ac7-a495-cac9a36882ac','6ea17cee-e266-4441-9552-408f976b2166',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-09 20:39:23','33',0,0,0),
 ('3194f512-b342-4f57-9cb1-657b663bc839',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-03 08:34:06',NULL,0,0,0),
 ('31ba5125-0a31-4195-92fc-487590288996',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 19:01:53','qqqqqq',1,0,0),
-('32929cb1-7225-489e-bbdf-e9c9da283e38',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 18:54:20','qqqqqqqqqq',0,2,0),
+('32929cb1-7225-489e-bbdf-e9c9da283e38',NULL,0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 18:54:20','qqqqqqqqqq',0,2,1),
 ('3729579c-291f-462f-913f-23f20e16cdfe',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-09-29 19:04:04','sssssss',1,0,0),
 ('377c0c45-091b-4f5b-8fe8-49471a7cf458',NULL,1,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-06 19:36:05','1111111111111111<div>33333333333333</div><div>gggggggggg</div>',1,0,2),
 ('3b09ec6f-fd9f-494c-90a7-93aa127e52fa','6ea17cee-e266-4441-9552-408f976b2166',0,'fb2b2e63-ebff-4ed3-a15b-fda45e3452a4','2022-11-09 18:28:08','222222222',0,0,0),
@@ -111,7 +112,7 @@ CREATE TABLE `comments_likes` (
   KEY `comments_likes_user_id_ref` (`user_id`),
   CONSTRAINT `comments_likes_comment_id_ref` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`),
   CONSTRAINT `comments_likes_user_id_ref` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +158,7 @@ CREATE TABLE `log_types` (
   `log_type_id` int(11) NOT NULL,
   `log_type_name` varchar(100) NOT NULL,
   PRIMARY KEY (`log_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +188,7 @@ CREATE TABLE `pictures` (
   `width` smallint(6) DEFAULT NULL,
   `content` blob DEFAULT NULL,
   PRIMARY KEY (`picture_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +234,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `picture_ctr` (`avatar_id`),
   CONSTRAINT `picture_ctr` FOREIGN KEY (`avatar_id`) REFERENCES `pictures` (`picture_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,7 +245,7 @@ LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
 ('a0e6f4c0-23b5-46aa-a935-571ffcb18ce7',0,'Second','second@n.n','2022-11-10 14:14:39',NULL,'2022-11-14 22:36:22',1,NULL,NULL,'758954d86ebdd71cfc37cf0d875908e43ec1e4d347a82faf2298f0dec027be08a71e678a772be8dc70f5bc1539f64e40ce17bf9c442be5e4d9408dbb5282f5b6','e9655565ef600952a7c9b88c93a9c062','15e41a52-a880-41c6-a29b-8be57228c912',NULL,NULL,NULL,NULL,NULL,NULL,NULL),
-('fb2b2e63-ebff-4ed3-a15b-fda45e3452a4',0,'First','first@n.n','2022-09-23 19:12:33',NULL,'2022-11-11 10:17:23',1,NULL,NULL,'86c4a75e0ea067da4d0fe477463043eeb4723b81d59edb2842e37ad85c7790c46cbad4b7b6f119d281696acf3e13648d499d4db5dd767506efd75cff6286ba19','ec1f359ec97b2181ed1320fe1d32e786','ce41a1a7-d0ba-4a49-891c-af1433d217f4',1,'2022-09-30 13:16:57',1,'2022-09-23 21:15:13','65e6c1995dcf44f49f8ae72ba84b8f4d',NULL,NULL);
+('fb2b2e63-ebff-4ed3-a15b-fda45e3452a4',0,'First','first@n.n','2022-09-23 19:12:33',NULL,'2022-11-23 13:57:41',1,NULL,NULL,'86c4a75e0ea067da4d0fe477463043eeb4723b81d59edb2842e37ad85c7790c46cbad4b7b6f119d281696acf3e13648d499d4db5dd767506efd75cff6286ba19','ec1f359ec97b2181ed1320fe1d32e786','ce41a1a7-d0ba-4a49-891c-af1433d217f4',1,'2022-09-30 13:16:57',1,'2022-09-23 21:15:13','65e6c1995dcf44f49f8ae72ba84b8f4d',NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +268,7 @@ CREATE TABLE `users_logs` (
   KEY `user_ref` (`user_id`),
   CONSTRAINT `log_type_ref` FOREIGN KEY (`log_type_id`) REFERENCES `log_types` (`log_type_id`),
   CONSTRAINT `user_ref` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,4 +316,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-16 10:54:08
+-- Dump completed on 2022-11-23 12:38:35
