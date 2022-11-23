@@ -12,7 +12,7 @@
 }
 
 .sl-item {
-    grid-area: 1 / 1;
+    grid-area: 1/1;
     display: grid;
     grid-template-columns: minmax(0, max-content) 1fr minmax(0, max-content);
     gap: 1em;

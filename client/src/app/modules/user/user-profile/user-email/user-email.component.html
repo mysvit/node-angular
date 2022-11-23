@@ -12,56 +12,54 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="EmailState.NewEmail">
-        <ng-template [appSpinner]="executingForm">
-            <form [formGroup]="newEmailFormModel.formGroup" class="g-row">
-                <h3>Change email</h3>
-                <mat-form-field appearance="fill">
-                    <mat-label>Email address</mat-label>
-                    <input name="login-email" autocomplete="email" type="email" matInput [formControl]="newEmailFormModel.newEmail"
-                           placeholder="Ex. email@domain.com">
-                    <mat-error *ngIf="newEmailFormModel.newEmail.invalid">{{FieldValidators.errorMessage(newEmailFormModel.newEmail)}}</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Confirm email address</mat-label>
-                    <input name="login-email" autocomplete="email" type="email" matInput [formControl]="newEmailFormModel.confirmEmail"
-                           placeholder="Ex. email@domain.com">
-                    <mat-error *ngIf="newEmailFormModel.confirmEmail.invalid">{{FieldValidators.errorMessage(newEmailFormModel.confirmEmail)}}</mat-error>
-                </mat-form-field>
+        <form [formGroup]="newEmailFormModel.formGroup" class="g-row">
+            <h3>Change email</h3>
+            <mat-form-field appearance="fill">
+                <mat-label>Email address</mat-label>
+                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="newEmailFormModel.newEmail"
+                       placeholder="Ex. email@domain.com">
+                <mat-error *ngIf="newEmailFormModel.newEmail.invalid">{{FieldValidators.errorMessage(newEmailFormModel.newEmail)}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirm email address</mat-label>
+                <input name="login-email" autocomplete="email" type="email" matInput [formControl]="newEmailFormModel.confirmEmail"
+                       placeholder="Ex. email@domain.com">
+                <mat-error *ngIf="newEmailFormModel.confirmEmail.invalid">{{FieldValidators.errorMessage(newEmailFormModel.confirmEmail)}}</mat-error>
+            </mat-form-field>
 
-                <div class="g-col">
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Cancel" (click)="homeClick()">
-                        <span>Cancel</span>
-                    </button>
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Modify email" (click)="modifyEmailClick()">
-                        <span>Modify email</span>
-                    </button>
-                </div>
-            </form>
-        </ng-template>
+            <div class="g-col">
+                <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Cancel" (click)="homeClick()">
+                    <span>Cancel</span>
+                </button>
+                <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Modify email" (click)="modifyEmailClick()">
+                    <span>Modify email</span>
+                </button>
+            </div>
+        </form>
+        <ng-template [appSpinner]="executingForm"></ng-template>
     </ng-container>
 
     <ng-container *ngSwitchCase="EmailState.VerifyCode">
-        <ng-template [appSpinner]="executingForm">
-            <form [formGroup]="verifyFormModel.formGroup" class="g-row">
-                <h3>Check new email and enter verification code</h3>
-                <mat-form-field appearance="fill">
-                    <mat-label>Verification code</mat-label>
-                    <input matInput #verifyCode [formControl]="verifyFormModel.verificationCode" maxlength="5" placeholder="Ex. 12345">
-                    <mat-hint align="end">{{verifyCode.value.length}} / 5</mat-hint>
-                    <mat-error *ngIf="verifyFormModel.verificationCode.invalid">{{FieldValidators.errorMessage(verifyFormModel.verificationCode)}}</mat-error>
-                </mat-form-field>
+        <form [formGroup]="verifyFormModel.formGroup" class="g-row">
+            <h3>Check new email and enter verification code</h3>
+            <mat-form-field appearance="fill">
+                <mat-label>Verification code</mat-label>
+                <input matInput #verifyCode [formControl]="verifyFormModel.verificationCode" maxlength="5" placeholder="Ex. 12345">
+                <mat-hint align="end">{{verifyCode.value.length}} / 5</mat-hint>
+                <mat-error *ngIf="verifyFormModel.verificationCode.invalid">{{FieldValidators.errorMessage(verifyFormModel.verificationCode)}}</mat-error>
+            </mat-form-field>
 
-                <div class="g-col">
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Cancel" (click)="homeClick()">
-                        <span>Cancel</span>
-                    </button>
-                    <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Verify" (click)="verifyEmailClick()">
-                        <mat-icon>check</mat-icon>
-                        <span>Verify</span>
-                    </button>
-                </div>
-            </form>
-        </ng-template>
+            <div class="g-col">
+                <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Cancel" (click)="homeClick()">
+                    <span>Cancel</span>
+                </button>
+                <button mat-flat-button color="primary" [ngClass]="{'disabled': executingForm}" aria-label="Verify" (click)="verifyEmailClick()">
+                    <mat-icon>check</mat-icon>
+                    <span>Verify</span>
+                </button>
+            </div>
+        </form>
+        <ng-template [appSpinner]="executingForm"></ng-template>
     </ng-container>
 
 </ng-container>

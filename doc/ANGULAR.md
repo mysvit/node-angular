@@ -122,7 +122,7 @@ Set custom font if you needed
 }
 
 .main .overlap {
-    grid-area: 1 / 1;
+    grid-area: 1/1;
 }
 ```
 
