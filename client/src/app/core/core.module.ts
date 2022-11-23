@@ -5,8 +5,13 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatToolbarModule } from '@angular/material/toolbar'
+import { SnackBarComponent } from '@core/components/snack-bar/snack-bar.component'
+import { SpinnerComponent } from '@core/components/spinner/spinner.component'
+import { SnackBarDirective } from '@core/directives/snack-bar.directive'
+import { SpinnerDirective } from '@core/directives/spinner.directive'
 import { httpInterceptorProviders } from '@core/http-interceptors'
 import { StatesService } from '@core/services/states.service'
 import { DialogComponent } from './components/dialog/dialog.component'
@@ -14,7 +19,14 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component'
 
 const components = [
+    SnackBarComponent,
+    SpinnerComponent,
     ToolbarComponent
+]
+
+const directives = [
+    SnackBarDirective,
+    SpinnerDirective
 ]
 
 const pages = [
@@ -31,24 +43,27 @@ const mat = [
     MatToolbarModule,
     MatFormFieldModule,
     MatMenuModule,
-    MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
 ]
 
 @NgModule({
     declarations: [
         components,
+        directives,
         pages,
         DialogComponent
 
     ],
     exports: [
         components,
+        directives,
         pages
     ],
     imports: [
         CommonModule,
         mat
+
     ],
     providers: [
         MatSnackBar,

@@ -1,5 +1,5 @@
 import { Directive, Input, ViewContainerRef } from '@angular/core'
-import { SpinnerComponent } from '@shared/components/spinner/spinner.component'
+import { SpinnerComponent } from '@core/components/spinner/spinner.component'
 
 // add to host display: grid
 // add to replacement container - grid-area: 1 / 1;

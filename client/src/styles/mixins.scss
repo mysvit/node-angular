@@ -100,17 +100,6 @@
     }
 }
 
-// snack bar style
-@mixin sl-snack-bar($color, $background, $border) {
-    color: var($color);
-    background-color: var($background);
-    border: 1px solid var($border);
-
-    .mat-button {
-        color: var($color);
-    }
-}
-
 // buttons
 @mixin sl-icon-text-button($color, $hover) {
     display: flex;

@@ -9,7 +9,7 @@ source $(pwd)/scripts/config.sh
 if [ $# -eq 0 ]; then
   echo
   echo "Use parameter: [docker] or [local]"
-  echo "Example: sudo bash scripts/1-start-db.sh docker"
+  echo "Example: bash scripts/1-start-db.sh docker"
   exit 1
 fi
 
@@ -25,6 +25,7 @@ initDB() {
 }
 
 initDBinDocker() {
+  echo "check if exist: $(pwd)/mariadb"
   if [ ! -d "$(pwd)/mariadb" ]; then
     mkdir $(pwd)/mariadb
     echo "mkdir $(pwd)/mariadb"

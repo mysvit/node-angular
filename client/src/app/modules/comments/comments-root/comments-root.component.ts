@@ -1,4 +1,6 @@
 import { Component, ViewChild } from '@angular/core'
+import { SnackBarService } from '@core/services/snack-bar.service'
+import { MessageType } from '@shared/enum'
 import { CommentsComponent } from '../comments/comments.component'
 
 @Component({
@@ -12,6 +14,9 @@ export class CommentsRootComponent {
 
     searchWords?: string
 
+    constructor(private snackBar: SnackBarService) {
+    }
+
     handleCommentSearchClick() {
         this.commentsComponent.commentSearch(this.searchWords)
     }
@@ -23,6 +28,14 @@ export class CommentsRootComponent {
 
     handleAddCommentClick() {
         this.commentsComponent.commentAdd()
+    }
+
+    snackOpen() {
+        this.snackBar.show('test', MessageType.Success, 0)
+    }
+
+    snackClose() {
+        this.snackBar.close()
     }
 
 }

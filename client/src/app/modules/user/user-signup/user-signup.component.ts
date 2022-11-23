@@ -25,7 +25,7 @@ export class UserSignupComponent extends ProcessForm {
         private userSignup: UserSignupService
     ) {
         super(injector)
-        this.snackBar?.dismiss()
+        this.snackBar?.close()
     }
 
     registerClick() {

@@ -82,7 +82,7 @@ export class ProcessForm {
     }
 
     protected resetMessages() {
-        this.snackBar?.dismiss()
+        this.snackBar?.close()
     }
 
 }

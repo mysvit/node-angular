@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core'
-import { MatSnackBar } from '@angular/material/snack-bar'
-import { SnackBarComponent } from '@shared/components/snack-bar/snack-bar.component'
+import { Injectable, ViewContainerRef } from '@angular/core'
+import { SnackBarComponent } from '@core/components/snack-bar/snack-bar.component'
 import { MessageType } from '@shared/enum'
 
 @Injectable({
@@ -8,30 +7,23 @@ import { MessageType } from '@shared/enum'
 })
 export class SnackBarService {
 
-    constructor(
-        private matSnackBar: MatSnackBar
-    ) {
-    }
+    snackBarRef?: ViewContainerRef
 
-    show(message: string, messageType: MessageType, duration?: number) {
-        switch (messageType) {
-            case MessageType.Info:
-                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-info', duration: duration})
-                break
-            case MessageType.Success:
-                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-success', duration: duration})
-                break
-            case MessageType.Warn:
-                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-warn', duration: duration})
-                break
-            case MessageType.Error:
-                this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-error', duration: duration})
-                break
+    show(message: string, messageType: MessageType, closeDelay?: number) {
+        this.snackBarRef?.clear()
+        const ref = this.snackBarRef?.createComponent(SnackBarComponent)
+        if (ref) {
+            if (closeDelay) {
+                setTimeout(() => this.close(), closeDelay)
+            }
+            ref.instance.message = message
+            ref.instance.messageType = messageType
+            ref.instance.onClose.subscribe(() => this.close())
         }
     }
 
-    dismiss() {
-        this.matSnackBar.dismiss()
+    close() {
+        this.snackBarRef?.clear()
     }
 
 }
