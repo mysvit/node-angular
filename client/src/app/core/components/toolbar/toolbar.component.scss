@@ -5,11 +5,12 @@
 }
 
 .sl-sign-in-button {
-    border-color: #ffffff;
+    border-color: #FFFFFF !important;
+    color: #FFFFFF !important;
 
     &:hover {
-        border-color: #D3D3D3;
-        color: #D3D3D3;
+        border-color: #D3D3D3 !important;
+        color: #D3D3D3 !important;
     }
 }
 
