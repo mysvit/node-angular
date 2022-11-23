@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core'
 import { CommentModel } from '@dto'
-import { FormAction, FormCloseAction } from '@shared/enum'
+import { FormAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { ErrorClient } from '@shared/models/error-client'
 import { SlStorage } from '@shared/storage'
@@ -19,7 +19,7 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     @Input() model: CommentModel = <CommentModel>{}
     @Input() smallIcon?: boolean
 
-    @Output() close: EventEmitter<FormCloseAction> = new EventEmitter<FormCloseAction>()
+    @Output() close: EventEmitter<CommentModel> = new EventEmitter<CommentModel>()
 
     @ViewChild('commentTextRef') private commentTextRef?: ElementRef
 
@@ -63,7 +63,7 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     }
 
     handleCancelClick() {
-        this.close.emit(FormCloseAction.Cancel)
+        this.close.emit()
     }
 
     private disableForm(isDisable: boolean) {
@@ -87,17 +87,17 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
     }
 
     private saveComment() {
-        const model = <CommentModel>this.formModel.formGroup.getRawValue()
+        this.model = <CommentModel>this.formModel.formGroup.getRawValue()
         switch (this.formAction) {
             case FormAction.Add:
             case FormAction.Reply:
                 this.execute(
-                    this.comments.commentAddApi(model),
+                    this.comments.commentAddApi(this.model),
                     {completedMessage: 'Your comment added to the end' + (this.formAction === FormAction.Reply ? ' of replies.' : '.')}
                 )
                 break
             case FormAction.Upd:
-                this.execute(this.comments.commentUpdApi(model))
+                this.execute(this.comments.commentUpdApi(this.model))
                 break
         }
     }
@@ -109,7 +109,7 @@ export class CommentFormComponent extends ProcessForm implements OnInit, AfterVi
 
     override processCompleted(message?: any) {
         super.processCompleted(message, 0)
-        this.close.emit(FormCloseAction.Save)
+        this.close.emit(this.model)
     }
 
 }

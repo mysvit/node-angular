@@ -50,7 +50,10 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
         if (ref) {
             ref.instance.formAction = FormAction.Upd
             ref.instance.model = <CommentModel>{commentId: this.item.comment_id, parentId: this.item.parent_id, comment: this.item.comment}
-            ref.instance.close.subscribe(() => this.showCommentItem())
+            ref.instance.close.subscribe((result: CommentModel) => {
+                if (result) this.item.comment = result.comment
+                this.showCommentItem()
+            })
         }
     }
 
