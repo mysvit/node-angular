@@ -7,7 +7,6 @@ import { CommentFormComponent } from '../comment-form/comment-form.component'
 import { CommentViewComponent } from '../comment-view/comment-view.component'
 import { CommentsComponent } from '../comments/comments.component'
 import { CommentItemUI } from '../comments/comments.model'
-import { CommentsService } from '../comments/comments.service'
 
 @Component({
     selector: 'app-comment-item',
@@ -24,8 +23,7 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
     @ViewChild('commentsRepliesRef', {read: ViewContainerRef, static: true}) commentsRepliesRef!: ViewContainerRef
 
     constructor(
-        injector: Injector,
-        private comments: CommentsService
+        injector: Injector
     ) {
         super(injector)
     }
@@ -84,10 +82,7 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
             ref.instance.level = this.level + 1
             ref.instance.parentId = this.item.comment_id
             ref.instance.background = PictureHelper.getRandomBackground()
-            ref.instance.comments.onCommentDeleted.subscribe(() => {
-                console.log('onCommentDeleted')
-                this.commentsDeleted()
-            })
+            ref.instance.onCommentDeleted.subscribe(() => this.commentsDeleted())
         }
     }
 
@@ -95,64 +90,5 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
         this.item.replies_count--
         if (this.item.replies_count < 1) this.showCommentsReplies(false)
     }
-
-    // handleCommentLikeClick() {
-    //     const model = <CommentLikeModel>{
-    //         comment_id: this.item.comment_id,
-    //         is_like: 1,
-    //         is_dislike: 0
-    //     }
-    //     this.execute(
-    //         this.comments.commentLikeApi(model)
-    //             .pipe(
-    //                 map(data => this.updateCommentItem(this.item, data))
-    //             )
-    //     )
-    // }
-    //
-    // handleCommentDislikeClick() {
-    //     const model = <CommentLikeModel>{
-    //         comment_id: this.item.comment_id,
-    //         is_like: 0,
-    //         is_dislike: 1
-    //     }
-    //     this.execute(
-    //         this.comments.commentLikeApi(model)
-    //             .pipe(
-    //                 map(data => this.updateCommentItem(this.item, data))
-    //             )
-    //     )
-    // }
-    //
-    // handleCommentReplyClick() {
-    //     // this.onCommentReply.emit()
-    // }
-    //
-    // handleCommentsRepliesShowClick() {
-    //     this.isRepliesShowed = !this.isRepliesShowed
-    // }
-    //
-    // editCommentClick() {
-    //     // this.onCommentEdit.emit()
-    // }
-    //
-    // deleteCommentClick() {
-    //     // this.onCommentDelete.emit()
-    // }
-    //
-    // menuItemOpenedEvent() {
-    //     this.isMenuOpened = true
-    // }
-    //
-    // menuItemClosedEvent() {
-    //     this.isMenuOpened = false
-    // }
-    //
-    // private updateCommentItem(item: CommentItemUI, data: LikeDislikeCalc): void {
-    //     item.like_user = data.likeUsr
-    //     item.dislike_user = data.dislikeUsr
-    //     item.likes_count = item.likes_count + data.likeCount
-    //     item.dislikes_count = item.dislikes_count + data.dislikeCount
-    // }
 
 }

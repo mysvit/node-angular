@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core'
+import { Component, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core'
 import { CommentItem, CommentModel, CommentsSelectWhere } from '@dto'
 import { PaginatorEvent, PaginatorOptions } from '@shared/components/paginator/paginator.model'
 import { FormAction } from '@shared/enum'
@@ -13,11 +13,13 @@ import { CommentsService } from './comments.service'
     styleUrls: ['./comments.component.scss'],
     providers: [CommentsService]
 })
-export class CommentsComponent extends ProcessForm implements OnInit {
+export class CommentsComponent extends ProcessForm implements OnInit, OnDestroy {
 
     @Input() level: number = 0
     @Input() parentId?: string
     @Input() background: string = 'transparent'
+
+    @Output() onCommentDeleted: EventEmitter<void> = new EventEmitter<void>()
 
     @ViewChild('commentFormAddRef', {read: ViewContainerRef, static: true}) commentFormAddRef?: ViewContainerRef
 
@@ -31,21 +33,23 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         limit: {offset: 0, fetch: 10}
     }
 
+    private handleCommentDeletedEvent
+
     constructor(
         injector: Injector,
         public comments: CommentsService
     ) {
         super(injector)
+        this.handleCommentDeletedEvent = comments.onCommentDeleted.subscribe(() => this.onCommentDeleted.emit())
     }
 
     ngOnInit(): void {
         this.where.parent_id = this.parentId
-        this.execute(
-            concat(
-                this.comments.commentsListCountApi(this.where),
-                this.comments.commentsListApi(this.where)
-            )
-        )
+        this.getData(this.where)
+    }
+
+    ngOnDestroy(): void {
+        this.handleCommentDeletedEvent.unsubscribe()
     }
 
     commentsTrackBy(index: number, item: CommentItem): string {
@@ -63,41 +67,25 @@ export class CommentsComponent extends ProcessForm implements OnInit {
         }
     }
 
-    // private commentRepliesData(item: CommentItemUI): Observable<boolean> {
-    //     // selectLimit: <SelectLimit>{limit: 5}
-    //     const where = <CommentsSelectWhere>{parent_id: item.comment_id}
-    //     // if (this.searchWords) {
-    //     //     where.search = this.searchWords
-    //     // }
-    //     return this.comments.commentsListApi(where)
-    //         .pipe(
-    //             map(items => item.commentReplies = items),
-    //             switchMap(() => of(item.commentRepliesLoading = false))
-    //         )
-    // }
+    commentSearch(value: string | undefined) {
+        this.where.search = value
+        this.getData(this.where)
 
-    // private updateCommentItem(item: CommentItemUI, data: LikeDislikeCalc): void {
-    //     item.like_user = data.likeUsr
-    //     item.dislike_user = data.dislikeUsr
-    //     item.likes_count = item.likes_count + data.likeCount
-    //     item.dislikes_count = item.dislikes_count + data.dislikeCount
-    // }
-
-    //
-    // handleCommentSearchClick(value: string | undefined) {
-    //     this.searchWords = value
-    //     this.execute(
-    //         concat(
-    //             this.commentsListDataCount(),
-    //             this.commentsListData()
-    //         )
-    //     )
-    // }
+    }
 
     handlePageChangeEvent(event: PaginatorEvent) {
         this.where.limit = event.limit
         this.execute(
             this.comments.commentsListApi(this.where)
+        )
+    }
+
+    private getData(where: CommentsSelectWhere) {
+        this.execute(
+            concat(
+                this.comments.commentsListCountApi(where),
+                this.comments.commentsListApi(where)
+            )
         )
     }
 
