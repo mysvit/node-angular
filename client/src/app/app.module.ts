@@ -1,11 +1,12 @@
 import { HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CoreModule } from '@core/core.module'
 import { SharedModule } from '@shared/shared.module'
+import { SnackBarDirective } from '@standalone/snack-bar/snack-bar.directive'
+import { SpinnerDirective } from '@standalone/spinner/spinner.directive'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 
@@ -20,7 +21,8 @@ import { AppComponent } from './app.component'
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
-        MatProgressSpinnerModule
+        SpinnerDirective,
+        SnackBarDirective
     ],
     bootstrap: [
         AppComponent

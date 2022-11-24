@@ -1,15 +1,24 @@
+import { NgClass } from '@angular/common'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { MessageType } from '@shared/enum'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { SnackBarType } from './snack-bar.type'
 
 @Component({
+    standalone: true,
     selector: 'app-snack-bar',
     templateUrl: './snack-bar.component.html',
+    imports: [
+        MatIconModule,
+        NgClass,
+        MatButtonModule
+    ],
     styleUrls: ['./snack-bar.component.scss']
 })
 export class SnackBarComponent {
 
     @Input() message?: string
-    @Input() messageType?: MessageType
+    @Input() messageType?: SnackBarType
     @Input() duration?: number
 
     @Output() onClose: EventEmitter<void> = new EventEmitter<void>()
@@ -19,23 +28,19 @@ export class SnackBarComponent {
     constructor() {
     }
 
-    ngOnInit(){
+    ngOnInit() {
         switch (this.messageType) {
-            case MessageType.Success:
+            case SnackBarType.Success:
                 this.snackBarStyle = 'sl-snack-bar-success'
-                // this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-success', duration: duration})
                 break
-            case MessageType.Warn:
+            case SnackBarType.Warn:
                 this.snackBarStyle = 'sl-snack-bar-warn'
-                // this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-warn', duration: duration})
                 break
-            case MessageType.Error:
+            case SnackBarType.Error:
                 this.snackBarStyle = 'sl-snack-bar-error'
-                // this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-error', duration: duration})
                 break
             default:
                 this.snackBarStyle = 'sl-snack-bar-info'
-                // this.matSnackBar.openFromComponent(SnackBarComponent, {data: message, panelClass: 'sl-snack-bar-info', duration: duration})
                 break
         }
     }

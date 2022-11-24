@@ -16,6 +16,9 @@
       "@shared/*": [
         "src/app/shared/*"
       ],
+      "@standalone/*": [
+        "src/app/standalone/*"
+      ],
       "@env": [
         "src/environments/environment"
       ]

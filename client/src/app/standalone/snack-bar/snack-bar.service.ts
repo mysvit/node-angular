@@ -1,6 +1,6 @@
 import { Injectable, ViewContainerRef } from '@angular/core'
-import { SnackBarComponent } from '@core/components/snack-bar/snack-bar.component'
-import { MessageType } from '@shared/enum'
+import { SnackBarComponent } from './snack-bar.component'
+import { SnackBarType } from './snack-bar.type'
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +9,7 @@ export class SnackBarService {
 
     snackBarRef?: ViewContainerRef
 
-    show(message: string, messageType: MessageType, closeDelay?: number) {
+    show(message: string, messageType: SnackBarType, closeDelay?: number) {
         this.snackBarRef?.clear()
         const ref = this.snackBarRef?.createComponent(SnackBarComponent)
         if (ref) {

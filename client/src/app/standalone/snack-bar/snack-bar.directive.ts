@@ -1,7 +1,10 @@
 import { Directive, ViewContainerRef } from '@angular/core'
-import { SnackBarService } from '@core/services/snack-bar.service'
+import { SnackBarService } from './snack-bar.service'
 
-@Directive({selector: '[appSnackBar]'})
+@Directive({
+    standalone: true,
+    selector: '[appSnackBar]'
+})
 export class SnackBarDirective {
 
     constructor(

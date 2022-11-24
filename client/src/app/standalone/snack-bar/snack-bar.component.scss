@@ -6,6 +6,22 @@
     display: flex;
     justify-content: center;
     //border: solid 1px black; //for debug
+
+    --c-info: #FFFFFF;
+    --c-info-background: #636262;
+    --c-info-border: #323232;
+
+    --c-success: #3C763DFF;
+    --c-success-background: #c5f6c6;
+    --c-success-border: #a4e5a7;
+
+    --c-warn: #BB8C00;
+    --c-warn-background: #F8EBC4;
+    --c-warn-border: #fdde81;
+
+    --c-error: #F44336;
+    --c-error-background: #FFEBEB;
+    --c-error-border: #f0caca;
 }
 
 .sl-snack-bar-container {

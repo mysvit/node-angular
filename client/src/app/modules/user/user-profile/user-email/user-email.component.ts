@@ -1,10 +1,10 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core'
 import { EmailModel, VerifyCodeModel } from '@dto'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
-import { MessageType } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { map } from 'rxjs'
 import { UserProfileService } from '../user-profile.service'
 import { NewEmailFormModel, UserEmailFormModel, VerifyFormModel } from './user-email-form-model'
@@ -48,7 +48,7 @@ export class UserEmailComponent extends ProcessForm implements OnInit, OnDestroy
             this.userProfile.modifyEmail(<EmailModel>{email: this.newEmailFormModel.newEmail.value})
                 .pipe(
                     map(() => {
-                        this.snackBar?.show('Check your new email to get verification code.', MessageType.Success, 6000)
+                        this.snackBar?.show('Check your new email to get verification code.', SnackBarType.Success, 6000)
                         this.emailState = EmailState.VerifyCode
                     })
                 )
@@ -64,7 +64,7 @@ export class UserEmailComponent extends ProcessForm implements OnInit, OnDestroy
                         SlStorage.isAuth = false
                         SlStorage.remove(ApiParams.token)
                         SlStorage.email = this.newEmailFormModel.newEmail.value
-                        this.snackBar?.show('Your new email changed and verified. <br/> Sign in using new email.', MessageType.Success, 6000)
+                        this.snackBar?.show('Your new email changed and verified. <br/> Sign in using new email.', SnackBarType.Success, 6000)
                         this.router.navigate([ClientPath.sign_in]).finally()
                     })
                 )

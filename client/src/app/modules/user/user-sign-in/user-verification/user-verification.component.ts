@@ -1,7 +1,7 @@
 import { Component, Injector } from '@angular/core'
 import { ClientPath } from '@shared-lib/constants'
 import { ValueHelper } from '@shared-lib/helpers'
-import { MessageType } from '@shared/enum'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -43,8 +43,8 @@ export class UserVerificationComponent extends ProcessForm {
             this.userSignIn.resendCode()
                 .pipe(
                     map((isSent) => isSent === 1
-                        ? this.snackBar?.show('Check your email to get the verification code.', MessageType.Success)
-                        : this.snackBar?.show('Error happened during sending the verification code.', MessageType.Error)
+                        ? this.snackBar?.show('Check your email to get the verification code.', SnackBarType.Success)
+                        : this.snackBar?.show('Error happened during sending the verification code.', SnackBarType.Error)
                     )
                 )
         )

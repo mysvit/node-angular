@@ -1,7 +1,7 @@
 import { Component, Injector } from '@angular/core'
 import { ChangePassModel } from '@dto'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
-import { MessageType } from '@shared/enum'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
@@ -38,7 +38,7 @@ export class UserPasswordComponent extends ProcessForm {
                     map(() => {
                         SlStorage.isAuth = false
                         SlStorage.remove(ApiParams.token)
-                        this.snackBar?.show('Your old password changed. <br/> Sign in using new password.', MessageType.Success, 6000)
+                        this.snackBar?.show('Your old password changed. <br/> Sign in using new password.', SnackBarType.Success, 6000)
                         this.router.navigate([ClientPath.sign_in]).finally()
                     })
                 )

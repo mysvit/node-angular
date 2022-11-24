@@ -1,11 +1,12 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable, Optional, SkipSelf } from '@angular/core'
 import { Router } from '@angular/router'
-import { SnackBarService } from '@core/services/snack-bar.service'
 import { ApiParams, ApiPath, ClientPath } from '@shared-lib/constants'
-import { ErrorTypes, MessageType } from '@shared/enum'
+import { ErrorTypes } from '@shared/enum'
 import { ErrorClient } from '@shared/models/error-client'
 import { SlStorage } from '@shared/storage'
+import { SnackBarService } from '@standalone/snack-bar/snack-bar.service'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { StatusCodes } from 'http-status-codes'
 import { catchError, throwError } from 'rxjs'
 
@@ -53,7 +54,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                         }
 
                         // show snack bar for all backend error
-                        this.snackBar.show(message, MessageType.Error)
+                        this.snackBar.show(message, SnackBarType.Error)
                         // Return an observable with a user-facing error message.
                         return throwError(() => new ErrorClient(message, ErrorTypes.Interceptor))
                     }

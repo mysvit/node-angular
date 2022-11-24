@@ -1,4 +1,4 @@
-export enum MessageType {
+export enum SnackBarType {
     Info,
     Success,
     Warn,

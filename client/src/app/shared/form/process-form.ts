@@ -1,11 +1,12 @@
 import { Injector } from '@angular/core'
 import { Router } from '@angular/router'
-import { SnackBarService } from '@core/services/snack-bar.service'
 import { ClientPath } from '@shared-lib/constants'
-import { ErrorTypes, MessageType, ProcessState } from '@shared/enum'
+import { ErrorTypes, ProcessState } from '@shared/enum'
 import { ProcessOption } from '@shared/form/process-option'
 import { ErrorClient } from '@shared/models/error-client'
 import { SlStorage } from '@shared/storage'
+import { SnackBarService } from '@standalone/snack-bar/snack-bar.service'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { Observable, Subject, takeUntil } from 'rxjs'
 
 export class ProcessForm {
@@ -71,13 +72,13 @@ export class ProcessForm {
     protected processCompleted(message?: any, duration = 4000) {
         this.processState = ProcessState.Completed
         this.delayMultiExecution = undefined
-        if (message) this.snackBar?.show(message, MessageType.Success, duration)
+        if (message) this.snackBar?.show(message, SnackBarType.Success, duration)
     }
 
     protected processError(error: ErrorClient) {
         this.processState = ProcessState.Error
         if (error && error.errorType !== ErrorTypes.Interceptor) {
-            this.snackBar?.show(error.message, MessageType.Error)
+            this.snackBar?.show(error.message, SnackBarType.Error)
         }
     }
 

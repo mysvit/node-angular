@@ -1,7 +1,7 @@
 import { Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { StatesService } from '@core/services/states.service'
 import { PictureModel, UserPublicProfileModel } from '@dto'
-import { MessageType } from '@shared/enum'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { UploadHelper } from '@shared/helper/upload-helper'
@@ -77,7 +77,7 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit, O
                     {completedMessage: 'Picture updated.'}
                 )
             })
-            .catch(error => this.snackBar?.show(error.message, MessageType.Error))
+            .catch(error => this.snackBar?.show(error.message, SnackBarType.Error))
     }
 
     private updateAvatar(pictureId: string) {

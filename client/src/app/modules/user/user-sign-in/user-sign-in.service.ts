@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { SnackBarService } from '@core/services/snack-bar.service'
 import { StatesService } from '@core/services/states.service'
 import { AuthModel, AuthType, EmailModel, ResetPassModel, SignInModel, VerifyCodeModel } from '@dto'
 import { environment } from '@env'
 import { ApiPath, ClientPath } from '@shared-lib/constants'
-import { MessageType } from '@shared/enum'
 import { SlStorage } from '@shared/storage'
+import { SnackBarService } from '@standalone/snack-bar/snack-bar.service'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { map, Observable } from 'rxjs'
 
 @Injectable({
@@ -49,12 +49,12 @@ export class UserSignInService {
                     switch (data.authType) {
                         case AuthType.Authenticated:
                             this.userAuthenticated(data).finally(() =>
-                                this.snackBar.show('Verification ok. You signed in in to your account.', MessageType.Success, 5000)
+                                this.snackBar.show('Verification ok. You signed in in to your account.', SnackBarType.Success, 5000)
                             )
                             break
                         case AuthType.VerifiedButNotAuth:
                             this.router.navigate([ClientPath.sign_in]).finally(() =>
-                                this.snackBar.show('Verification ok. Sign in to your account.', MessageType.Success, 5000)
+                                this.snackBar.show('Verification ok. Sign in to your account.', SnackBarType.Success, 5000)
                             )
                             break
                     }
