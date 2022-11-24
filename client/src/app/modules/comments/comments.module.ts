@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SharedModule } from '@shared/shared.module'
+import { SearchBarComponent } from '@standalone/search-bar/search-bar.component'
 import { SpinnerDirective } from '@standalone/spinner/spinner.directive'
 import { CommentFormComponent } from './comment-form/comment-form.component'
 import { CommentItemComponent } from './comment-item/comment-item.component'
@@ -38,7 +39,8 @@ import { CommentsComponent } from './comments/comments.component'
         MatMenuModule,
         MatProgressSpinnerModule,
         MatBadgeModule,
-        SpinnerDirective
+        SpinnerDirective,
+        SearchBarComponent
     ],
     providers: []
 })

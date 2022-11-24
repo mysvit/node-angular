@@ -1,6 +1,6 @@
 <div class="sl-snack-bar-container" [ngClass]="snackBarStyle">
     <div class="message" [innerHTML]="message"></div>
-    <button mat-icon-button (click)="handleCloseEvent()">
-        <mat-icon>close</mat-icon>
-    </button>
+    <div class="button">
+        <span class="material-symbols-outlined" (click)="handleCloseEvent()">close</span>
+    </div>
 </div>

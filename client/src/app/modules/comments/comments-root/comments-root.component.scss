@@ -2,21 +2,16 @@
     overflow-y: auto;
 }
 
+h1 {
+    padding: 16px 16px 0 16px;
+}
+
 .sl-comments-search {
-    display: grid;
-    grid-template-columns: minmax(0, 400px) minmax(0, max-content);
-    justify-content: center;
-    align-items: center;
     margin: 0 1em 1em 1em;
 }
 
 .sl-comments-container {
     max-width: 800px;
-}
-
-.sl-btn-search {
-    margin: 0 0 1.3em 1em;
-    display: flex;
 }
 
 .sl-btn-add {

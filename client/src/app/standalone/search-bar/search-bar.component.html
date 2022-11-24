@@ -1,0 +1,17 @@
+<div class="sl-search-box-container">
+
+    <div>
+        <div class="button-left" *ngIf="searchText">
+            <span class="material-symbols-outlined" (click)="handleClearClick()">close</span>
+        </div>
+    </div>
+
+    <div class="text">
+        <input type="text" [(ngModel)]="searchText" placeholder="Search">
+    </div>
+
+    <div class="button-right">
+        <span class="material-symbols-outlined" (click)="handleSearchClick()">search</span>
+    </div>
+
+</div>

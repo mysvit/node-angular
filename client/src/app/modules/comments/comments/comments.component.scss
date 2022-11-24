@@ -5,35 +5,34 @@
     display: grid;
 }
 
-.comments-container {
+.sl-comments-container {
     grid-area: 1/1;
-    padding-top: 0.5em;
     padding-bottom: 0.5em;
     margin-left: 0.3em;
 
     &.first-level {
-        margin-left: 3em;
+        margin-left: 1em;
     }
 }
 
-.sl-btn-margin {
-    margin: 0 1em 2em 1em;
-}
+.sl-replies-level {
+    display: flex;
+    line-height: 14px;
+    font-size: 12px;
+    margin-top: 1px;
+    margin-left: 1px;
 
-.sl-replies-loading {
-    @extend .sl-spinner-container;
-    margin-left: 50px;
-    height: 100px;
-}
+    .level {
+        border-radius: 50%;
+        border: 1px solid black;
+        padding-left: 2px;
+        padding-right: 2px;
+        background-color: white;
+        color: black;
+    }
 
-.sl-badge-container {
-    padding-left: 2em;
-}
-
-.mat-badge-small.mat-badge-overlap.mat-badge-before .mat-badge-content {
-    left: 0;
-}
-
-.mat-badge-small.mat-badge-above .mat-badge-content {
-    top: 0;
+    .text {
+        margin-left: 5px;
+        margin-top: 2px;
+    }
 }

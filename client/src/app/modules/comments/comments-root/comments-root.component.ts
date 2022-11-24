@@ -10,15 +10,8 @@ export class CommentsRootComponent {
 
     @ViewChild(CommentsComponent) commentsComponent!: CommentsComponent
 
-    searchWords?: string
-
-    handleCommentSearchClick() {
-        this.commentsComponent.commentSearch(this.searchWords)
-    }
-
-    handleCommentClearSearchClick() {
-        this.searchWords = undefined
-        this.commentsComponent.commentSearch(this.searchWords)
+    handleCommentSearchClick(searchWords: string) {
+        this.commentsComponent.commentSearch(searchWords)
     }
 
     handleAddCommentClick() {

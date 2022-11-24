@@ -1,7 +1,5 @@
 import { NgClass } from '@angular/common'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
-import { MatIconModule } from '@angular/material/icon'
 import { SnackBarType } from './snack-bar.type'
 
 @Component({
@@ -9,9 +7,7 @@ import { SnackBarType } from './snack-bar.type'
     selector: 'app-snack-bar',
     templateUrl: './snack-bar.component.html',
     imports: [
-        MatIconModule,
-        NgClass,
-        MatButtonModule
+        NgClass
     ],
     styleUrls: ['./snack-bar.component.scss']
 })

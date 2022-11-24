@@ -1,6 +1,6 @@
 import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core'
 import { CommentModel } from '@dto'
-import { FormAction, FormCloseAction } from '@shared/enum'
+import { FormAction } from '@shared/enum'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { CommentFormComponent } from '../comment-form/comment-form.component'
@@ -10,8 +10,7 @@ import { CommentItemUI } from '../comments/comments.model'
 
 @Component({
     selector: 'app-comment-item',
-    templateUrl: './comment-item.component.html',
-    styleUrls: ['./comment-item.component.scss']
+    templateUrl: './comment-item.component.html'
 })
 export class CommentItemComponent extends ProcessForm implements OnInit {
 
@@ -66,12 +65,9 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
             ref.instance.formAction = FormAction.Reply
             ref.instance.model = <CommentModel>{parentId: this.item.comment_id}
             ref.instance.smallIcon = true
-            ref.instance.close.subscribe((result: FormCloseAction) => {
+            ref.instance.close.subscribe((result: CommentModel) => {
                 ref.destroy()
-                if (result === FormCloseAction.Save) {
-                    this.item.replies_count++
-                    this.showCommentsReplies(true)
-                }
+                if (result) this.item.replies_count++
             })
         }
     }
@@ -85,11 +81,12 @@ export class CommentItemComponent extends ProcessForm implements OnInit {
             ref.instance.level = this.level + 1
             ref.instance.parentId = this.item.comment_id
             ref.instance.background = PictureHelper.getRandomBackground()
-            ref.instance.onCommentDeleted.subscribe(() => this.commentsDeleted())
+            ref.instance.onCommentDeleted.subscribe(() => this.handleCommentReplyDeletedEvent())
         }
     }
 
-    private commentsDeleted() {
+    // child element deleted
+    private handleCommentReplyDeletedEvent() {
         this.item.replies_count--
         if (this.item.replies_count < 1) this.showCommentsReplies(false)
     }

@@ -1,8 +1,10 @@
+@import "../standalone-style/buttons";
+
 :host {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 10px;
+    bottom: 5px;
     display: flex;
     justify-content: center;
     //border: solid 1px black; //for debug
@@ -24,41 +26,44 @@
     --c-error-border: #f0caca;
 }
 
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
+}
+
 .sl-snack-bar-container {
     border-radius: 5px;
     width: 100vw;
     max-width: 400px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
 
     .message {
-        padding: 5px 10px 5px 10px;
+        padding: 10px;
     }
 }
 
 @mixin sl-snack-bar($color, $background, $border) {
-    color: var($color);
-    background-color: var($background);
-    border: 1px solid var($border);
+    color: $color;
+    background-color: $background;
+    border: 1px solid $border;
 
-    .mat-button {
-        color: var($color);
+    .button {
+        @include sl-icon-border-button(border-left, $border)
     }
 }
 
 .sl-snack-bar-info {
-    @include sl-snack-bar(--c-info, --c-info-background, --c-info-border);
+    @include sl-snack-bar(var(--c-info), var(--c-info-background), var(--c-info-border));
 }
 
 .sl-snack-bar-success {
-    @include sl-snack-bar(--c-success, --c-success-background, --c-success-border);
+    @include sl-snack-bar(var(--c-success), var(--c-success-background), var(--c-success-border));
 }
 
 .sl-snack-bar-warn {
-    @include sl-snack-bar(--c-warn, --c-warn-background, --c-warn-border);
+    @include sl-snack-bar(var(--c-warn), var(--c-warn-background), var(--c-warn-border));
 }
 
 .sl-snack-bar-error {
-    @include sl-snack-bar(--c-error, --c-error-background, --c-error-border);
+    @include sl-snack-bar(var(--c-error), var(--c-error-background), var(--c-error-border));
 }

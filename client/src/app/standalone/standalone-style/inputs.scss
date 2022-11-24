@@ -1,0 +1,16 @@
+@mixin sl-input($background) {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    min-height: 20px;
+    line-height: 20px;
+    background-color: $background;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+.sl-input {
+    @include sl-input(#FFFFFF);
+}

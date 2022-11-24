@@ -1,12 +1,8 @@
-<div class="comments-container" [ngClass]="{'first-level': level===1}" [ngStyle]="{'background-color': background}">
+<div class="sl-comments-container" [ngClass]="{'first-level': level===1}" [ngStyle]="{'background-color': background}">
 
-    <div *ngIf="level>0"
-                 class="sl-badge-container"
-                 matBadge="{{level}}"
-                 matBadgePosition="above before"
-                 matBadgeSize="small"
-                 matBadgeColor="accent">
-        level
+    <div *ngIf="level>0" class="sl-replies-level">
+        <div class="level">{{level}}</div>
+        <div class="text">level</div>
     </div>
 
     <ng-template #commentFormAddRef></ng-template>

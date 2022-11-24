@@ -1,0 +1,38 @@
+@import "../standalone-style/buttons";
+@import "../standalone-style/inputs";
+
+:host {
+    width: 100vw;
+
+    --c-border: #323232;
+    --c-background: #FFFFFF;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32;
+}
+
+.sl-search-box-container {
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px solid var(--c-border);
+    background-color: var(--c-background);
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+
+    .text {
+        padding-left: 5px;
+
+        input {
+            @extend .sl-input
+        }
+    }
+
+    .button-left {
+        @include sl-icon-border-button(border-right, var(--c-border))
+    }
+
+    .button-right {
+        @include sl-icon-border-button(border-left, var(--c-border))
+    }
+}

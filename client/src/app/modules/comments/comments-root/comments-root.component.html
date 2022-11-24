@@ -1,18 +1,7 @@
 <h1 class="p-20">Testing PWA</h1>
 
 <div class="sl-comments-search">
-    <mat-form-field appearance="fill">
-        <mat-label>Search</mat-label>
-        <input type="text" matInput [(ngModel)]="searchWords">
-        <button *ngIf="searchWords" matSuffix mat-icon-button aria-label="Clear" (click)="handleCommentClearSearchClick()">
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-form-field>
-    <div class="sl-btn-search">
-        <button mat-flat-button color="primary" aria-label="Search" (click)="handleCommentSearchClick()">
-            <span>Search</span>
-        </button>
-    </div>
+    <app-search-bar (onSearch)="handleCommentSearchClick($event)"></app-search-bar>
 </div>
 
 <div class="sl-comments-container">
