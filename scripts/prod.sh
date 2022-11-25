@@ -27,6 +27,7 @@ runLocalBuild() {
   cd $WORKDIR/lib/core        && npm run prod
   cd $WORKDIR                 && npm run prod
   cd $WORKDIR/dist            && npm install --omit=dev
+  cd $WORKDIR/client          && npm build
 }
 
 # run build from docker
@@ -37,6 +38,8 @@ runDockerBuild() {
   sudo docker run -it --rm --name build-db     -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/db           devnode npm run prod
   sudo docker run -it --rm --name build-core   -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/core         devnode npm run prod
   sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR                  devnode npm run prod
+  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/dist             devnode npm install --omit=dev
+  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/client           devnode npm build
 }
 
 # main part
