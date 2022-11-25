@@ -40,7 +40,12 @@
     .message {
         padding: 10px;
     }
+
+    .button {
+        @include sl-icon-button
+    }
 }
+
 
 @mixin sl-snack-bar($color, $background, $border) {
     color: $color;
@@ -48,7 +53,7 @@
     border: 1px solid $border;
 
     .button {
-        @include sl-icon-border-button(border-left, $border)
+        @include sl-icon-button-border(border-left, $border)
     }
 }
 

@@ -1,5 +1,4 @@
-@mixin sl-icon-border-button($borderSide, $borderColor) {
-    #{$borderSide}: 1px solid $borderColor;
+@mixin sl-icon-button() {
     display: flex;
     align-items: center;
     user-select: none;
@@ -10,4 +9,8 @@
             background-color: rgba(0, 0, 0, .04);
         }
     }
+}
+
+@mixin sl-icon-button-border($borderSide, $borderColor) {
+    #{$borderSide}: 1px solid $borderColor;
 }

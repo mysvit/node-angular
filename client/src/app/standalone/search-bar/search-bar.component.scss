@@ -24,15 +24,17 @@
         padding-left: 5px;
 
         input {
-            @extend .sl-input
+            @extend .sl-input;
         }
     }
 
     .button-left {
-        @include sl-icon-border-button(border-right, var(--c-border))
+        @include sl-icon-button;
+        @include sl-icon-button-border(border-right, var(--c-border));
     }
 
     .button-right {
-        @include sl-icon-border-button(border-left, var(--c-border))
+        @include sl-icon-button;
+        @include sl-icon-button-border(border-left, var(--c-border));
     }
 }
