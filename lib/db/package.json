@@ -14,8 +14,7 @@
     "test:debug": "NODE_ENV=test mocha --config .mocharc-brk.json",
 
     "preprod": "rm -rf ../../dist/lib/db",
-    "prod": "ttsc --project ./tsconfig.lib.prod.json",
-    "postprod": "cp ./package.json ../../dist/lib/db/package.json"
+    "prod": "ttsc --project ./tsconfig.lib.prod.json"
   },
   "author": "",
   "license": "ISC"

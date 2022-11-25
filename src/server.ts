@@ -43,9 +43,11 @@ export function server() {
     const server = app()
     server.listen(environment.port, () => {
         logger.info(`:) Node Express server listening on http://localhost:${environment.port}`)
+        console.log(`:) Node Express server listening on http://localhost:${environment.port}`)
     })
     server.on('close', () => {
         logger.info('Node Express server closed!')
+        console.log('Node Express server closed!')
     })
 }
 

@@ -15,8 +15,8 @@
     "test": "NODE_ENV=test mocha",
     "test:debug": "NODE_ENV=test mocha --config .mocharc-brk.json",
 
-    "preprod": "rm -rf ./dist",
-    "prod": "ttsc --build --project ./tsconfig.prod.json",
+    "preprod": "rm -rf ./dist/routes",
+    "prod": "ttsc --project ./tsconfig.prod.json",
     "postprod": "cp ./package.json ./dist/package.json"
   },
   "dependencies": {

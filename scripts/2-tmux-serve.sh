@@ -91,13 +91,16 @@ runDockerBuild() {
 # main part
 
 
-cd ~
-cd projects/server-cli/
 
 killPrevSession
 enableMouse
 createTmuxLayout
 sleep 0.2
+
+cd ~
+cd projects/server-cli/
+rm -rf dist
+
 # if not argument run build for local configuration
 if [ $1 = "local" ]; then
   runLocalBuild &
