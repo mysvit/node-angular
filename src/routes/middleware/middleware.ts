@@ -1,6 +1,5 @@
 import { environment } from '@env'
 import { ApiParams, ErrorsMsg, ValueHelper } from '@shared'
-import { randomBytes } from 'crypto'
 import { NextFunction, Request, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jsonwebtoken'
@@ -43,12 +42,6 @@ export namespace Middleware {
             return res.status(StatusCodes.UNAUTHORIZED).send({message: ErrorsMsg.InvalidToken})
         }
         next()
-    }
-
-    export function updateEnvironmentTokenKey() {
-        if (environment.production) {
-            environment.token_key = randomBytes(32).toString('hex')
-        }
     }
 
 }

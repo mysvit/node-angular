@@ -60,9 +60,9 @@ sudo apt -y install wget software-properties-common gnupg;
 ```
 **Step 2**: Import MariaDB gpg key and add repository.
 ```bash
-wget -qO- https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.8" --os-type="ubuntu" --os-version="jammy"
+wget -qO- https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-10.10.2" --os-type="ubuntu" --os-version="jammy"
 ```
-**Step 3**: Install MariaDB 10.8.3 on Ubuntu 22.04 (jammy).
+**Step 3**: Install MariaDB 10.10.2 on Ubuntu 22.04 (jammy).
 ```bash
 sudo apt install mariadb-server mariadb-client
 ```
