@@ -12,10 +12,10 @@ fi
 # stop execute if error
 set -ex
 
-WORKDIR=$(pwd)
-
 cleanUpPrevBuild() {
   rm -fr $WORKDIR/dist
+  rm -fr $WORKDIR/client/dist
+  rm -fr $WORKDIR/www
 }
 
 # run build from local
@@ -27,7 +27,7 @@ runLocalBuild() {
   cd $WORKDIR/lib/core        && npm run prod
   cd $WORKDIR                 && npm run prod
   cd $WORKDIR/dist            && npm install --omit=dev
-  cd $WORKDIR/client          && npm build
+  cd $WORKDIR/client          && npm run prod
 }
 
 # run build from docker
@@ -39,10 +39,22 @@ runDockerBuild() {
   sudo docker run -it --rm --name build-core   -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/core         devnode npm run prod
   sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR                  devnode npm run prod
   sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/dist             devnode npm install --omit=dev
-  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/client           devnode npm build
+  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/client           devnode npm run prod
+}
+
+makeCompressProductionFile() {
+  cd $WORKDIR
+  mkdir -p $WORKDIR/www/client
+  mkdir -p $WORKDIR/www/api
+  mv $WORKDIR/client/dist/client/* $WORKDIR/www/client
+  mv $WORKDIR/dist/* $WORKDIR/www/api
+  tar -zcvf www.tar.gz www
 }
 
 # main part
+cd ~
+cd projects/server-cli/
+WORKDIR=$(pwd)
 
 cleanUpPrevBuild
 # if not argument run build for local configuration
@@ -51,3 +63,6 @@ if [ $1 = "local" ]; then
 elif [ $1 = "docker" ]; then
   runDockerBuild
 fi
+
+makeCompressProductionFile
+cleanUpPrevBuild
