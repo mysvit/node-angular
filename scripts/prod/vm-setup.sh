@@ -63,10 +63,15 @@ mariadb-secure-installation
 
 DBNAME=nasho
 mariadb -h 127.0.0.1 -u root -p -e "CREATE DATABASE $DBNAME CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
-mariadb -h 127.0.0.1 -u root -p -D $DBNAME < $DBNAME-schema-data.sql
+#mariadb -h 127.0.0.1 -u root -p -D $DBNAME < $DBNAME-schema-data.sql
 
 # NODEJS 16
 wget -qO- https://deb.nodesource.com/setup_16.x | bash -
 apt-get install -y nodejs
 
-npm install pm2@latest -g
+npm install --location=global npm@latest
+npm install --location=global pm2@latest
+
+mkdir www
+useradd -m -d /home/www www
+passwd www

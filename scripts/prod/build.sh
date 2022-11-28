@@ -43,17 +43,25 @@ runDockerBuild() {
 }
 
 makeCompressProductionFile() {
-  cd $WORKDIR
   mkdir -p $WORKDIR/www/client
   mkdir -p $WORKDIR/www/api
   mv $WORKDIR/client/dist/client/* $WORKDIR/www/client
   mv $WORKDIR/dist/* $WORKDIR/www/api
-  tar -zcvf www.tar.gz www
+  cd $WORKDIR/www
+  tar -zcvf www.tgz client api
+}
+
+createRelease() {
+  DAY=$(date -d "$D" '+%d')
+  MONTH=$(date -d "$D" '+%m')
+  YEAR=$(date -d "$D" '+%y')
+  cd $WORKDIR/www
+  gh release create --generate-notes v$YEAR.$MONTH.$DAY www.tgz
 }
 
 # main part
 cd ~
-cd projects/server-cli/
+cd projects/server-cli
 WORKDIR=$(pwd)
 
 cleanUpPrevBuild
@@ -65,4 +73,5 @@ elif [ $1 = "docker" ]; then
 fi
 
 makeCompressProductionFile
+createRelease
 cleanUpPrevBuild
