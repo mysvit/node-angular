@@ -79,7 +79,9 @@ installPM2() {
   passwd pm2api
   npm install --location=global pm2@latest
   mkdir -p /var/log/pm2
-  sudo su -c "pm2 start /www/api/server.js ---log '/var/log/pm2' -node-args '--experimental-specifier-resolution=node'" -s /bin/sh pm2api
+  sudo find /var/log/pm2 -exec chown pm2api: {} \;
+  sudo chmod -R u=rwx,g=rx,o=rx /var/log/pm2
+  sudo su -c "pm2 start /www/api/server.js -node-args '--experimental-specifier-resolution=node' -o /var/log/pm2/out.log -e /var/log/pm2/error.log" -s /bin/sh pm2api
   # pm2 startup
   sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pm2api --hp /home/pm2api
   sudo su -c "pm2 save" -s /bin/sh pm2api
@@ -117,8 +119,10 @@ installCaddy() {
 prepareEnv() {
   mkdir -p /www/api
   # for pm2
-  echo '' > /www/api/server.js
-  echo '' > /www/api/environment.js
+  echo 'console.log(new Date().toString())' | tee /www/api/server.js
+  echo 'setTimeout(()=>{},3600000)' | tee -a /www/api/server.js
+
+  echo '' > /www/environment.js
   wget https://github.com/mysvit/server-cli/releases/download/init/vm-update.sh
 }
 
