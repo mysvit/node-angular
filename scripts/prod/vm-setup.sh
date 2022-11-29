@@ -123,6 +123,7 @@ prepareEnv() {
   echo 'setTimeout(()=>{},3600000)' | tee -a /www/api/server.js
 
   echo '' > /www/environment.js
+  cd /www
   wget https://github.com/mysvit/server-cli/releases/download/init/vm-update.sh
 }
 
