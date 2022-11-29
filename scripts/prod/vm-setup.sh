@@ -62,7 +62,7 @@ installMariaDb() {
   # secure mariadb
   mariadb-secure-installation
 
-  DBNAME=server-db
+  DBNAME=server_db
   mariadb -h 127.0.0.1 -u root -p -e "CREATE DATABASE $DBNAME CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
 }
 

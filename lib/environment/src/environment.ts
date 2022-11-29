@@ -44,7 +44,7 @@ export const environment: Environment = {
 
     db: <DbConnection>{
         host: 'server-host',
-        database: 'server-db',
+        database: 'server_db',
         user: 'root',
         password: 'root',
         connectionLimit: 5

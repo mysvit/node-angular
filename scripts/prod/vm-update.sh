@@ -29,7 +29,7 @@ extractRelease() {
 
 executeDbUpdate() {
   if [ -f /www/db-updates/$RELEASE.sql ]; then
-    DBNAME=server-db
+    DBNAME=server_db
     mariadb -h 127.0.0.1 -u root -p -D $DBNAME </www/db-updates/$RELEASE.sql
   fi
 }
