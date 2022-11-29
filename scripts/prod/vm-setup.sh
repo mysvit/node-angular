@@ -123,7 +123,6 @@ prepareEnv() {
 }
 
 prepareEnv
-createUsers
 installCommonLib
 addKeys
 installMariaDb
