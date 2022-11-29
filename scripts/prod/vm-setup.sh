@@ -81,7 +81,7 @@ installPM2() {
   mkdir -p /var/log/pm2
   sudo find /var/log/pm2 -exec chown pm2api: {} \;
   sudo chmod -R u=rwx,g=rx,o=rx /var/log/pm2
-  sudo su -c "pm2 start /www/api/server.js -node-args '--experimental-specifier-resolution=node' -o /var/log/pm2/out.log -e /var/log/pm2/error.log" -s /bin/sh pm2api
+  sudo su -c "pm2 start /www/api/server.js --node-args=--experimental-specifier-resolution=node --output=/var/log/pm2/out.log --error=/var/log/pm2/error.log" -s /bin/sh pm2api
   # pm2 startup
   sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pm2api --hp /home/pm2api
   sudo su -c "pm2 save" -s /bin/sh pm2api
