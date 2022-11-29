@@ -112,7 +112,8 @@ installCaddy() {
                     level info
             }
     }" | tee /tmp/Caddyfile
-  caddy fmt /tmp/Caddyfile >/etc/caddy/Caddyfile
+  caddy fmt /tmp/Caddyfile > /etc/caddy/Caddyfile
+  cd /etc/caddy/
   caddy validate
 }
 
