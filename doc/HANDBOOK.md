@@ -7,6 +7,7 @@
   - [Local environment Ubuntu](#local-environment-ubuntu)
   - [Docker environment Ubuntu](#docker-environment-ubuntu)
   - [Developer tools](#developer-tools)
+  - [Production](#production)
 - [How work with tools](#how-work-with-tools)
   - [Debug with Chrome Developer Tools](#debug-with-chrome-developer-tools)
   - [Terminal multiplexer - tmux](#terminal-multiplexer---tmux)
@@ -121,6 +122,15 @@ sudo apt -y install dbeaver-ce;
 ```bash
 sudo apt-get install tmux xclip
 ```
+
+### Production
+Login to vm and get script
+```bash
+cd /tmp
+wget https://github.com/mysvit/server-cli/releases/download/init/vm-setup.sh
+sudo bash vm-setup.sh 
+```
+
 
 ## How work with tools
 ### DBeaver - connect to MariaDB

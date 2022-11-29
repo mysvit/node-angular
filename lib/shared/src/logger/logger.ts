@@ -38,20 +38,30 @@ export class Logger {
 
     constructor(public environment: Environment) {
         let transport
+        let transportError
         if (environment.production) {
-            transport = new winston.transports.File({
-                filename: 'logs/error.log',
+            transportError = new winston.transports.File({
+                filename: environment.logPath + '/error.log',
                 level: 'error'
+            })
+            transport = new winston.transports.File({
+                filename: environment.logPath + '/info.log',
+                level: 'info'
             })
         } else {
             transport = new winston.transports.Console({
-                format: formatter
+                format: formatter,
+                level: 'info'
+            })
+            transportError = new winston.transports.Console({
+                format: formatter,
+                level: 'error'
             })
         }
         this.logger = winston.createLogger({
-            level: environment.production ? 'error' : 'trace',
+            level: environment.production ? 'info' : 'trace',
             levels: customLevels.levels,
-            transports: [transport]
+            transports: [transport, transportError]
         })
         winston.addColors(customLevels.colors)
     }

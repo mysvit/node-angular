@@ -24,6 +24,7 @@ export interface EmailConnection {
 export interface Environment {
     production: boolean
     port: number
+    logPath: string,
     db: DbConnection
     email: EmailConnection
     token_key: string
@@ -38,6 +39,8 @@ export const environment: Environment = {
     port: isTest
         ? 3100
         : 3000,
+
+    logPath: '/var/log/api',
 
     db: <DbConnection>{
         host: 'server-host',

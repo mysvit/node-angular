@@ -12,6 +12,13 @@ fi
 # stop execute if error
 set -ex
 
+getReleaseName() {
+  DAY=$(date +%d)
+  MONTH=$(date +%m)
+  YEAR=$(date +%y)
+  RELEASE=$YEAR.$MONTH.$DAY
+}
+
 cleanUpPrevBuild() {
   rm -fr $WORKDIR/dist
   rm -fr $WORKDIR/client/dist
@@ -21,42 +28,41 @@ cleanUpPrevBuild() {
 # run build from local
 runLocalBuild() {
   cd $WORKDIR/lib/environment && npm run prod
-  cd $WORKDIR/lib/dto         && npm run prod
-  cd $WORKDIR/lib/shared      && npm run prod
-  cd $WORKDIR/lib/db          && npm run prod
-  cd $WORKDIR/lib/core        && npm run prod
-  cd $WORKDIR                 && npm run prod
-  cd $WORKDIR/dist            && npm install --omit=dev
-  cd $WORKDIR/client          && npm run prod
+  cd $WORKDIR/lib/dto && npm run prod
+  cd $WORKDIR/lib/shared && npm run prod
+  cd $WORKDIR/lib/db && npm run prod
+  cd $WORKDIR/lib/core && npm run prod
+  cd $WORKDIR && npm run prod
+  cd $WORKDIR/dist && npm install --omit=dev
+  cd $WORKDIR/client && npm run prod
 }
 
 # run build from docker
 runDockerBuild() {
-  sudo docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/environment  devnode npm run prod
-  sudo docker run -it --rm --name build-dto    -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/dto          devnode npm run prod
-  sudo docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/shared       devnode npm run prod
-  sudo docker run -it --rm --name build-db     -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/db           devnode npm run prod
-  sudo docker run -it --rm --name build-core   -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/core         devnode npm run prod
-  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR                  devnode npm run prod
-  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/dist             devnode npm install --omit=dev
-  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/client           devnode npm run prod
+  sudo docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/environment devnode npm run prod
+  sudo docker run -it --rm --name build-dto -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/dto devnode npm run prod
+  sudo docker run -it --rm --name build-shared -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/shared devnode npm run prod
+  sudo docker run -it --rm --name build-db -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/db devnode npm run prod
+  sudo docker run -it --rm --name build-core -v $WORKDIR:$WORKDIR -w $WORKDIR/lib/core devnode npm run prod
+  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR devnode npm run prod
+  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/dist devnode npm install --omit=dev
+  sudo docker run -it --rm --name build-server -v $WORKDIR:$WORKDIR -w $WORKDIR/client devnode npm run prod
 }
 
-makeCompressProductionFile() {
+makeCompressedProductionFile() {
   mkdir -p $WORKDIR/www/client
   mkdir -p $WORKDIR/www/api
+  mkdir -p $WORKDIR/www/db-updates
   mv $WORKDIR/client/dist/client/* $WORKDIR/www/client
   mv $WORKDIR/dist/* $WORKDIR/www/api
+  cp $WORKDIR/db-updates/$RELEASE.sql $WORKDIR/www/db-updates
   cd $WORKDIR/www
-  tar -zcvf www.tgz client api
+  tar -zcvf www.tgz client api db-updates
 }
 
 createRelease() {
-  DAY=$(date -d "$D" '+%d')
-  MONTH=$(date -d "$D" '+%m')
-  YEAR=$(date -d "$D" '+%y')
   cd $WORKDIR/www
-  gh release create --generate-notes v$YEAR.$MONTH.$DAY www.tgz
+  gh release create --generate-notes v$RELEASE www.tgz
 }
 
 # main part
@@ -72,6 +78,7 @@ elif [ $1 = "docker" ]; then
   runDockerBuild
 fi
 
-makeCompressProductionFile
+getReleaseName
+makeCompressedProductionFile
 createRelease
 cleanUpPrevBuild
