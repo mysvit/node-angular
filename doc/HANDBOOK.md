@@ -124,11 +124,15 @@ sudo apt-get install tmux xclip
 ```
 
 ### Production
-Login to vm and get script
+#### Setup VM
 ```bash
 cd /tmp
 wget https://github.com/mysvit/server-cli/releases/download/init/vm-setup.sh
 sudo bash vm-setup.sh 
+```
+#### Build release
+```bash
+bash scripts/prod/build.sh local
 ```
 
 
