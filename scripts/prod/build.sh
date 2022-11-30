@@ -10,7 +10,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # stop execute if error
-set -ex
+set -eux
 
 getReleaseName() {
   DAY=$(date +%d)
@@ -52,20 +52,30 @@ runDockerBuild() {
 makeCompressedProductionFile() {
   mkdir -p $WORKDIR/www/client
   mkdir -p $WORKDIR/www/api
-  mkdir -p $WORKDIR/www/db-updates
   mv $WORKDIR/client/dist/client/* $WORKDIR/www/client
   mv $WORKDIR/dist/* $WORKDIR/www/api
-  cp $WORKDIR/db-updates/$RELEASE.sql $WORKDIR/www/db-updates
+  if [ -f $WORKDIR/db-updates/$RELEASE.sql ]; then
+    mkdir -p $WORKDIR/www/db-updates
+    cp $WORKDIR/db-updates/$RELEASE.sql $WORKDIR/www/db-updates
+  fi
   cd $WORKDIR/www
-  tar -zcvf www.tgz client api db-updates
+  if [ -f $WORKDIR/db-updates/$RELEASE.sql ]; then
+    tar -zcvf www.tgz client api db-updates
+  else
+    tar -zcvf www.tgz client api
+  fi
+
 }
 
-createRelease() {
+createReleaseInGit() {
   cd $WORKDIR/www
   gh release create --generate-notes v$RELEASE www.tgz
 }
 
+#######################################################
 # main part
+#######################################################
+
 cd ~
 cd projects/server-cli
 WORKDIR=$(pwd)
@@ -77,8 +87,7 @@ if [ $1 = "local" ]; then
 elif [ $1 = "docker" ]; then
   runDockerBuild
 fi
-
 getReleaseName
 makeCompressedProductionFile
-createRelease
+createReleaseInGit
 cleanUpPrevBuild

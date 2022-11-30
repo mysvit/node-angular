@@ -2,11 +2,19 @@
 
 set -eux
 
-getReleaseName() {
+getReleaseNameMan() {
+  set -
   DAY=$(date +%d)
   MONTH=$(date +%m)
   YEAR=$(date +%y)
   RELEASE=$YEAR.$MONTH.$DAY
+  echo -n "Enter release if different then current: ${RELEASE}"
+  read NEW_RELEASE
+  if [ ! -z "$NEW_RELEASE" ]; then
+      RELEASE = $NEW_RELEASE
+  fi
+  echo "Update release: ${RELEASE}"
+  set -eux
 }
 
 mp2ReloadService() {
@@ -34,7 +42,7 @@ executeDbUpdate() {
   fi
 }
 
-getReleaseName
+getReleaseNameMan
 downloadRelease
 extractRelease
 executeDbUpdate

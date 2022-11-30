@@ -62,6 +62,12 @@ installMariaDb() {
   # secure mariadb
   mariadb-secure-installation
 
+  set -
+  echo "*********************************"
+  echo "Enter root password for db server"
+  echo "     to create database          "
+  echo "*********************************"
+  set -eux
   DBNAME=server_db
   mariadb -h 127.0.0.1 -u root -p -e "CREATE DATABASE $DBNAME CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
 }
@@ -75,6 +81,11 @@ installNodeJS() {
 }
 
 installPM2() {
+  set -
+  echo "**************************************"
+  echo "Enter random password for pm2api user"
+  echo "**************************************"
+  set -eux
   useradd -m -d /home/pm2api pm2api
   passwd pm2api
   npm install --location=global pm2@latest
