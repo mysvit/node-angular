@@ -80,15 +80,15 @@ export class CommentsDb extends Db {
     async listCount(userId: string, where: CommentsSelectWhere): Promise<number> {
         const listWhere = this.getListWhere(userId, where, true)
         const sel = `
-            SELECT 
-                BigToInt(COUNT(*)) AS cnt  
+            SELECT
+                COUNT(*)/1 AS cnt  
             FROM
                 comments c  
             WHERE
                 c.is_del = 0 
                 ${listWhere.whereBuild}`
         return this.conn.query(sel, listWhere.values)
-            .then(data => data[0]['cnt'])
+            .then(data => Number.parseInt(data[0]['cnt']))
     }
 
     async updateLikesCount(comment_id: string, is_like: number, is_dislike: number): Promise<number> {

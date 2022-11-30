@@ -8,11 +8,13 @@
   - [Foreign Keys](#foreign-keys)
   - [Backup](#backup)
 - [Notes](#notes)
+  - [BigInt to Int](#bigint-to-int)
 
 
 <!-- tocstop -->
 
 ## Commands
+
 
 ### Connection
 Connection count
@@ -73,3 +75,19 @@ mariadb-dump -h 127.0.0.1 -u backup -p<Password> --no-date <database> > schema.s
 ```
 
 ## Notes
+
+### BigInt to Int
+
+In sql `BigInt / 1 => Decimal`
+
+```sql
+SELECT 
+  COUNT(*)/1 AS cnt 
+FROM
+  tbl
+```
+
+In JS Decimal => Int
+```js
+Number.parseInt(Decimal)
+```
