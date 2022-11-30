@@ -16,15 +16,15 @@ export interface EmailConnection {
     host: string
     port: number
     secure: boolean // true for 465, false for other ports
-    connectionTimeout: number,
-    greetingTimeout: number,
+    connectionTimeout: number
+    greetingTimeout: number
     auth: EmailAuth
 }
 
 export interface Environment {
     production: boolean
     port: number
-    logPath: string,
+    logPath: string
     db: DbConnection
     email: EmailConnection
     token_key: string
