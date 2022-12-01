@@ -35,6 +35,12 @@ extractRelease() {
   tar -xvf www.tgz
 }
 
+updateEnvironmentFile() {
+  if [ -f /www/environment.js ]; then
+    cp /www/environment.js /www/api/lib/environment/environment.js
+  fi
+}
+
 executeDbUpdate() {
   if [ -f /www/db-updates/$RELEASE.sql ]; then
     DBNAME=server_db
@@ -45,5 +51,6 @@ executeDbUpdate() {
 getReleaseNameMan
 downloadRelease
 extractRelease
+updateEnvironmentFile
 executeDbUpdate
 mp2ReloadService
