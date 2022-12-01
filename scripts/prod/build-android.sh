@@ -8,15 +8,9 @@ WORKDIR=$(pwd)
 
 PATH=${PATH}:${WORKDIR}
 
-npm instal @capacitor/core
-npm install -D @capacitor/cli
-
-npx cap init
-
-npm install @capacitor/android
-
 
 ng build
+npm install @capacitor/android
 npx cap add android
 
 # sync web with android

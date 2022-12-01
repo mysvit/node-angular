@@ -3,6 +3,9 @@
 <!-- toc -->
 
 - [Update](#update)
+- [Android](#android)
+  - [Setup](#setup)
+  - [Build](#build)
 - [Material](#material)
     - [mat-icon](#mat-icon)
 - [CSS](#css)
@@ -35,6 +38,36 @@ Run commands what needed. Start with cli as it used for update others:
 ```bash
 ng update @angular/cli
 ```
+
+## Android
+### Setup
+
+Install capacitor
+```bash
+npm install @capacitor/core
+npm install -D @capacitor/cli
+```
+Init capacitor config
+```bash
+npx cap init
+```
+it will create `capacitor.config.ts`
+
+### Build
+
+Build android folder
+```bash
+ng build
+npm install @capacitor/android
+npx cap add android
+
+# sync web with android
+npx cap sync
+# open in android studio
+npx cap open android
+
+```
+
 
 ## Material
 
