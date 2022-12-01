@@ -1,5 +1,6 @@
 export interface DbConnection {
     host: string
+    port: number
     database: string
     user: string
     password: string
@@ -44,6 +45,7 @@ export const environment: Environment = {
 
     db: <DbConnection>{
         host: 'server-host',
+        port: 3306,
         database: 'server_db',
         user: 'root',
         password: 'root',

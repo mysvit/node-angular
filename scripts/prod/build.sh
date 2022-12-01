@@ -52,7 +52,7 @@ runDockerBuild() {
 makeCompressedProductionFile() {
   mkdir -p $WORKDIR/www/client
   mkdir -p $WORKDIR/www/api
-  mv $WORKDIR/client/dist/client/* $WORKDIR/www/client
+  mv $WORKDIR/client/dist/* $WORKDIR/www/client
   mv $WORKDIR/dist/* $WORKDIR/www/api
   if [ -f $WORKDIR/db-updates/$RELEASE.sql ]; then
     mkdir -p $WORKDIR/www/db-updates
@@ -89,5 +89,5 @@ elif [ $1 = "docker" ]; then
 fi
 getReleaseName
 makeCompressedProductionFile
-createReleaseInGit
-cleanUpPrevBuild
+#createReleaseInGit
+#cleanUpPrevBuild
