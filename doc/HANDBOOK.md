@@ -78,7 +78,7 @@ sudo mariadb-secure-installation
 ```bash 
 sudo nano /etc/hosts
 ```
-Add: **127.0.1.1     server-host**
+Add: **127.0.1.1     server-docker-db-dev**
 
 Restart network
 ```bash

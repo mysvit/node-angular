@@ -18,7 +18,7 @@ elif [ $1 = "docker" ]; then
   # --hex-blob   - keep blob data correct
   # --routines   - export procedures and functions
   # --verbose    - just more information
-  docker exec server-host bash -c "mariadb-dump --verbose --routines --hex-blob -h 0.0.0.0 -u root -proot $DBNAME > /docker-entrypoint-initdb.d/$DBNAME-schema-data.sql"
+  docker exec server-docker-db-dev bash -c "mariadb-dump --verbose --routines --hex-blob -h 0.0.0.0 -u root -proot $DBNAME > /docker-entrypoint-initdb.d/$DBNAME-schema-data.sql"
 fi
 
 chmod 777 $(pwd)/db/$DBNAME-schema-data.sql

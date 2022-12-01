@@ -44,7 +44,7 @@ export const environment: Environment = {
     logPath: '/var/log/api',
 
     db: <DbConnection>{
-        host: 'server-host',
+        host: 'server-docker-db-dev',
         port: 3306,
         database: 'server_db',
         user: 'root',

@@ -2,7 +2,7 @@
 # how to use
 # sudo bash scripts/9-docker-stop-clean.sh
 
-sudo docker stop server-host || true
+sudo docker stop server-docker-db-dev || true
 sudo docker stop $(sudo docker ps -qa --filter ancestor=devnode) || true
 sudo docker network rm dev-net || true
 

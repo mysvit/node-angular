@@ -33,7 +33,7 @@ initDBinDocker() {
   sudo docker network create dev-net || true
 
   sudo docker run --rm \
-            --name server-host \
+            --name server-docker-db-dev \
             --net dev-net \
              -v $(pwd)/db:/docker-entrypoint-initdb.d \
              -v $(pwd)/mariadb:/var/lib/mysql \
