@@ -15,6 +15,7 @@ export class ProcessForm {
     cancel$: Subject<boolean> = new Subject<boolean>()
     processState: ProcessState = ProcessState.Initial
 
+    isShowSpinner: boolean = false
     snackBar?: SnackBarService
     router: Router
 
@@ -40,17 +41,24 @@ export class ProcessForm {
         return SlStorage.isAuth
     }
 
+    get showSpinner() {
+        return this.isShowSpinner
+    }
+
     protected execute(observable: Observable<Object | void>, option?: ProcessOption): void {
+        // don't allow to execute process many times from many click
         if (this.delayMultiExecution == undefined || new Date().getTime() - this.delayMultiExecution.getTime() > 2000) {
             this.delayMultiExecution = new Date()
         } else {
             return
         }
-        this.resetMessages()
-        this.processExecuting()
+        // cancel previous process if set option not multipleProcess
         if (!option?.multipleProcess) {
             this.cancelProcess()
         }
+        this.resetMessages()
+        this.processExecuting()
+        this.setShowSpinner()
         observable
             .pipe(
                 takeUntil(this.cancel$)
@@ -71,6 +79,7 @@ export class ProcessForm {
 
     protected processCompleted(message?: any, duration = 4000) {
         this.processState = ProcessState.Completed
+        this.setShowSpinner()
         this.delayMultiExecution = undefined
         if (message) this.snackBar?.show(message, SnackBarType.Success, duration)
     }
@@ -84,6 +93,12 @@ export class ProcessForm {
 
     protected resetMessages() {
         this.snackBar?.close()
+    }
+
+    private setShowSpinner() {
+        setTimeout(() => {
+            this.isShowSpinner = this.processState === ProcessState.Executing
+        }, 500)
     }
 
 }

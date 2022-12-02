@@ -36,7 +36,7 @@
                 </button>
             </div>
         </form>
-        <ng-template [appSpinner]="executingForm"></ng-template>
+        <ng-template [appSpinner]="showSpinner"></ng-template>
     </ng-container>
 
     <ng-container *ngSwitchCase="EmailState.VerifyCode">
@@ -59,7 +59,7 @@
                 </button>
             </div>
         </form>
-        <ng-template [appSpinner]="executingForm"></ng-template>
+        <ng-template [appSpinner]="showSpinner"></ng-template>
     </ng-container>
 
 </ng-container>
