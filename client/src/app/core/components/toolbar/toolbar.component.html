@@ -1,33 +1,25 @@
-<mat-toolbar color="primary">
+<div class="sl-toolbar">
 
-    <button mat-icon-button aria-label="Go to home" (click)="homeClick()">
-        <mat-icon>menu</mat-icon>
-    </button>
+    <div class="left">
+        <div class="sl-home-button">
+            <span class="material-symbols-outlined" (click)="handleHomeClick()">menu</span>
+        </div>
+    </div>
 
-    <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
-        <img class="sl-avatar" alt="User avatar" src="{{avatarUrl}}" [matMenuTriggerFor]="menu">
-        <mat-menu #menu="matMenu">
-            <ng-template matMenuContent>
-                <div class="sl-menu-title">Signed in as <b>{{nickname}}</b></div>
-                <hr/>
-                <button mat-menu-item (click)="profileClick()">
-                    <mat-icon>account_circle</mat-icon>
-                    <span>Your profile</span>
-                </button>
-                <hr/>
-                <button mat-menu-item (click)="signOutClick()">
-                    <mat-icon>logout</mat-icon>
-                    <span>Sign Out</span>
-                </button>
-            </ng-template>
-        </mat-menu>
-    </ng-template>
+    <div class="center">
+    </div>
 
-    <ng-template #signIn>
-        <button mat-stroked-button class="sl-sign-in-button" (click)="signInClick()">
-            <mat-icon>login</mat-icon>
-            <span>Sign in</span>
-        </button>
-    </ng-template>
+    <div class="right">
+        <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
+            <img class="sl-avatar" alt="User avatar" src="{{avatarUrl}}" [appMenuPointer]="profileMenu" [items]="items">
+            <ng-template #profileMenu></ng-template>
+        </ng-template>
+        <ng-template #signIn>
+            <div class="sl-button" (click)="handleSignInClick()">
+                <span class="material-symbols-outlined">login</span>
+                <span>Sign in</span>
+            </div>
+        </ng-template>
+    </div>
 
-</mat-toolbar>
+</div>

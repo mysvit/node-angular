@@ -1,20 +1,38 @@
 @import "../../../../styles/mixins";
+@import "../../../standalone/standalone-style/buttons";
+
+:host {
+    --c-toolbar-background: #3F51B5;
+    --c-toolbar-color: #FFFFFF;
+}
+
+.sl-toolbar {
+    display: grid;
+    grid-template-columns: 64px 1fr 128px;
+    align-items: center;
+    justify-items: center;
+    height: 64px;
+    color: var(--c-toolbar-color);
+    background-color: var(--c-toolbar-background);
+}
+
+.sl-home-button {
+    @include sl-icon-button;
+    border-radius: 50%;
+    padding: 3px;
+}
 
 .sl-avatar {
     @include sl-avatar(40px)
 }
 
-.sl-sign-in-button {
-    border-color: #FFFFFF !important;
-    color: #FFFFFF !important;
+.sl-button {
+    @include sl-icon-button;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 0 5px 0 5px;
 
-    &:hover {
-        border-color: #D3D3D3 !important;
-        color: #D3D3D3 !important;
+    span {
+        padding: 5px;
     }
 }
-
-.sl-menu-title {
-    padding: 8px 16px;
-}
-

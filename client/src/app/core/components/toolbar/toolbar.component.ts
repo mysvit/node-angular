@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { ApiParams, ClientPath } from '@shared-lib/constants'
 import { PictureHelper } from '@shared/helper'
 import { SlStorage } from '@shared/storage'
+import { MenuItemType, MenuModel } from '@standalone/menu/menu.model'
 
 @Component({
     selector: 'app-toolbar',
@@ -23,29 +24,63 @@ export class ToolbarComponent {
         return SlStorage.nickname
     }
 
+    items = [
+        <MenuModel>{
+            id: 0,
+            type: MenuItemType.Title,
+            text: this.getTitle.bind(this)
+        },
+        <MenuModel>{
+            id: 1,
+            type: MenuItemType.ThematicBreak
+        },
+        <MenuModel>{
+            id: 2,
+            type: MenuItemType.Button,
+            icon: 'account_circle',
+            text: 'Your profile',
+            click: this.handleProfileClick.bind(this)
+        },
+        <MenuModel>{
+            id: 3,
+            type: MenuItemType.ThematicBreak
+        },
+        <MenuModel>{
+            id: 4,
+            type: MenuItemType.Button,
+            icon: 'logout',
+            text: 'Sign Out',
+            click: this.handleSignOutClick.bind(this)
+        }
+    ]
+
     constructor(
         private router: Router
     ) {
     }
 
-    homeClick() {
+    handleHomeClick() {
         this.router.navigate([ClientPath.home]).finally()
     }
 
-    signInClick() {
+    handleSignInClick() {
         this.router.navigate([ClientPath.sign_in]).finally()
     }
 
-    profileClick() {
+    handleProfileClick() {
         this.router.navigate([ClientPath.user_profile]).finally()
     }
 
-    signOutClick() {
+    handleSignOutClick() {
         SlStorage.remove(ApiParams.token)
         SlStorage.isAuth = false
         this.router.navigateByUrl(ClientPath.home, {skipLocationChange: true}).then(() => {
             window.location.reload()
         })
+    }
+
+    private getTitle(): string {
+        return `Signed in as <b>${this.nickname}</b>`
     }
 
 }

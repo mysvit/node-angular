@@ -1,0 +1,28 @@
+<div class="sl-menu-container" [ngStyle]="position">
+
+    <ng-container *ngFor="let item of items">
+
+        <div class="sl-menu-item">
+
+            <ng-container [ngSwitch]="item.type">
+                <ng-container *ngSwitchCase="MenuItemType.Title">
+                    <div class="sl-menu-title">
+                        <span [innerHtml]="item.text()"></span>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="MenuItemType.ThematicBreak">
+                    <hr>
+                </ng-container>
+                <ng-container *ngSwitchCase="MenuItemType.Button">
+                    <div class="sl-menu-button" (click)="item.click()">
+                        <span class="material-symbols-outlined">{{item.icon}}</span>
+                        <span>{{item.text}}</span>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+        </div>
+
+    </ng-container>
+
+</div>

@@ -1,12 +1,12 @@
 import { Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { StatesService } from '@core/services/states.service'
 import { PictureModel, UserPublicProfileModel } from '@dto'
-import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { ProcessForm } from '@shared/form'
 import { PictureHelper } from '@shared/helper'
 import { UploadHelper } from '@shared/helper/upload-helper'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
+import { SnackBarType } from '@standalone/snack-bar/snack-bar.type'
 import { map } from 'rxjs'
 import { UserProfileService } from '../user-profile.service'
 import { UserPublicProfileFormModel } from './user-public-profile.form-model'
@@ -41,7 +41,10 @@ export class UserPublicProfileComponent extends ProcessForm implements OnInit, O
     updateProfileClick() {
         if (!this.formModel.isFieldValid()) return
         this.execute(
-            this.userProfile.updUserPublicProfile(<UserPublicProfileModel>{nickname: this.formModel.nickname.value}),
+            this.userProfile.updUserPublicProfile(<UserPublicProfileModel>{nickname: this.formModel.nickname.value})
+                .pipe(
+                    map(() => SlStorage.nickname = this.formModel.nickname.value)
+                ),
             {completedMessage: 'User profile updated.'}
         )
     }
