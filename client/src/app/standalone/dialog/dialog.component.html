@@ -1,0 +1,12 @@
+<h3 class="sl-dialog-title">{{title}}</h3>
+
+<div class="sl-dialog-content" [innerHtml]="content"></div>
+
+<div class="sl-dialog-button-container">
+    <div class="sl-button" (click)="handleCancelClick()">
+        <span>Cancel</span>
+    </div>
+    <div class="sl-button" (click)="handleOkClick()">
+        <span>{{okButtonLabel}}</span>
+    </div>
+</div>

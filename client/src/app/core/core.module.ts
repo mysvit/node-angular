@@ -11,7 +11,6 @@ import { StatesService } from '@core/services/states.service'
 import { MenuComponent } from '@standalone/menu/menu.component'
 import { MenuDirective } from '@standalone/menu/menu.directive'
 import { SnackBarService } from '@standalone/snack-bar/snack-bar.service'
-import { DialogComponent } from './components/dialog/dialog.component'
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component'
 
@@ -39,9 +38,7 @@ const mat = [
 @NgModule({
     declarations: [
         components,
-        pages,
-        DialogComponent
-
+        pages
     ],
     exports: [
         components,

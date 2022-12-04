@@ -8,12 +8,16 @@
 
 .sl-toolbar {
     display: grid;
-    grid-template-columns: 64px 1fr 128px;
+    grid-template-columns: 64px 1fr min-content;
     align-items: center;
     justify-items: center;
     height: 64px;
     color: var(--c-toolbar-color);
     background-color: var(--c-toolbar-background);
+
+    .right {
+        padding-right: 20px;
+    }
 }
 
 .sl-home-button {
@@ -31,6 +35,7 @@
     border-radius: 5px;
     border: 1px solid;
     padding: 0 5px 0 5px;
+    white-space: nowrap;
 
     span {
         padding: 5px;

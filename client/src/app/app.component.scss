@@ -1,10 +1,12 @@
 :host {
-    height: 100%;
-    display: grid;
+    display: grid; // 1. overlap snack bar and dialog
+    height: 100vh; // 2. scroll inside sl-nav-container
 }
 
 .sl-app-container {
-    grid-area: 1/1;
+    grid-area: 1/1; // 1. overlap snack bar and dialog
+    height: 100vh; // 2. scroll inside sl-nav-container
+    display: grid; // 2. scroll inside sl-nav-container
     grid-template-rows: auto 1fr;
 }
 

@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CoreModule } from '@core/core.module'
 import { SharedModule } from '@shared/shared.module'
+import { DialogDirective } from '@standalone/dialog/dialog.directive'
 import { SnackBarDirective } from '@standalone/snack-bar/snack-bar.directive'
 import { SpinnerDirective } from '@standalone/spinner/spinner.directive'
 import { AppRoutingModule } from './app-routing.module'
@@ -22,7 +23,8 @@ import { AppComponent } from './app.component'
         HttpClientModule,
         AppRoutingModule,
         SpinnerDirective,
-        SnackBarDirective
+        SnackBarDirective,
+        DialogDirective
     ],
     bootstrap: [
         AppComponent
