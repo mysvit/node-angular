@@ -5,18 +5,20 @@ import { MenuPosition } from '@standalone/menu/menu.position'
 
 @Directive({
     standalone: true,
-    selector: '[appMenuPointer]'
+    selector: '[appMenu]'
 })
 export class MenuDirective {
 
     @Input()
-    set appMenuPointer(menuRef: TemplateRef<any>) {
+    set appMenu(menuRef: TemplateRef<any>) {
         this.menuRef = menuRef
     }
 
-    @Input() items!: Array<MenuModel>
+    @Input()
+    items!: Array<MenuModel>
 
-    @HostListener('click') onClickEvent() {
+    @HostListener('click')
+    onClickEvent() {
         this.showMenu()
     }
 

@@ -14,8 +14,8 @@ import { catchError, throwError } from 'rxjs'
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        private snackBar: SnackBarService,
         private router: Router,
+        private snackBar: SnackBarService,
         @Optional() @SkipSelf() error: ErrorInterceptor
     ) {
         if (error) {

@@ -4,12 +4,13 @@
 
 - [Update](#update)
 - [Android](#android)
-  - [Setup](#setup)
-  - [Build](#build)
+    - [Setup](#setup)
+    - [Build](#build)
 - [Material](#material)
     - [mat-icon](#mat-icon)
 - [CSS](#css)
     - [Overlapping](#overlapping)
+    - [Add custom style to nativeElement](#add-custom-style-to-nativeElement)
 
 <!-- tocstop -->
 
@@ -40,22 +41,28 @@ ng update @angular/cli
 ```
 
 ## Android
+
 ### Setup
 
 Install capacitor
+
 ```bash
 npm install @capacitor/core
 npm install -D @capacitor/cli
 ```
+
 Init capacitor config
+
 ```bash
 npx cap init
 ```
+
 it will create `capacitor.config.ts`
 
 ### Build
 
 Build android folder
+
 ```bash
 ng build
 npm install @capacitor/android
@@ -67,7 +74,6 @@ npx cap sync
 npx cap open android
 
 ```
-
 
 ## Material
 
@@ -165,4 +171,10 @@ Set custom font if you needed
     <div class="main"></div>
     <div class="overlap"></div>
 </div>
+```
+
+### Add custom style to nativeElement
+
+```typescript
+    ref.location.nativeElement.style = `left: 50px; top: 30px;`
 ```

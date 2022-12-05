@@ -1,0 +1,40 @@
+@import "../../../standalone/standalone-style/buttons";
+
+.sl-dialog-title {
+    padding: 20px 20px 0 20px;
+}
+
+.sl-dialog-content {
+    padding: 0 20px 20px 20px;
+}
+
+.sl-dialog-button-container {
+    padding: 0 20px 20px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+
+.sl-button {
+    @include sl-icon-button;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 0 5px 0 5px;
+    white-space: nowrap;
+
+    &.primary {
+        background-color: #3F51B5;
+        border: none;
+        color: #FFFFFF;
+        box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+
+        &:hover {
+            color: lightgray;
+            box-shadow: 0 3px 5px -1px rgb(0 0 0 / 50%), 0px 6px 10px 0px rgb(0 0 0 / 32%), 0px 1px 18px 0px rgb(0 0 0 / 26%);
+        }
+    }
+
+    span {
+        padding: 5px;
+    }
+}

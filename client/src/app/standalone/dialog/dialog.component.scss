@@ -5,20 +5,17 @@
     height: 100%;
     width: 100%;
     z-index: 1000;
-    border: 2px solid red;
-    --c-menu-background: #FFF;
-    --c-menu-color: #000;
-}
-
-.sl-dialog-title {
-
-}
-
-.sl-dialog-content {
-
-}
-
-.sl-dialog-button-container {
+    background-color: rgba(0, 0, 0, 0.4);
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+
+    --c-dialog-background: #FFFFFF;
+    --c-dialog-color: #000000;
+}
+
+.sl-dialog-container {
+    background-color: var(--c-dialog-background);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
 }

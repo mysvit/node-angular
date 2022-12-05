@@ -1,4 +1,5 @@
-import { EventEmitter, Injectable, ViewContainerRef } from '@angular/core'
+import { ComponentRef, Injectable, ViewContainerRef } from '@angular/core'
+import { DialogConfigModel } from '@standalone/dialog/dialog-config.model'
 import { DialogComponent } from '@standalone/dialog/dialog.component'
 
 @Injectable({
@@ -6,25 +7,23 @@ import { DialogComponent } from '@standalone/dialog/dialog.component'
 })
 export class DialogService {
 
-    public dialogRef?: ViewContainerRef
+    public dialogComponentRef?: ViewContainerRef
+    public dialogContainerRef?: ComponentRef<DialogComponent>
 
-    onClose: EventEmitter<boolean> = new EventEmitter<boolean>()
+    public config?: DialogConfigModel
+    public component?: any
 
-    open(title: string, content: string, okButtonLabel?: string) {
-        this.dialogRef?.clear()
-        const ref = this.dialogRef?.createComponent(DialogComponent)
-        if (ref) {
-            // document.documentElement.style.overflow = 'hidden'
-            ref.instance.title = title
-            ref.instance.content = content
-            ref.instance.onClose.subscribe(result => this.handleCloseEvent(result))
+    open(component: any, config: DialogConfigModel) {
+        this.component = component
+        this.config = config
+        this.dialogComponentRef?.clear()
+        const componentRef = this.dialogComponentRef?.createComponent(DialogComponent)
+        if (componentRef) {
+            this.dialogContainerRef = componentRef
+            componentRef.instance.onClose.subscribe(() => this.dialogComponentRef?.clear())
+            return componentRef.instance
         }
-    }
-
-    handleCloseEvent(isOk: boolean) {
-        document.documentElement.style.overflow = 'hidden'
-        this.dialogRef?.clear()
-        this.onClose.emit(isOk)
+        return
     }
 
 }

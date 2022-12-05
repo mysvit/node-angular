@@ -1,0 +1,18 @@
+Initial Chunk Files           | Names                                         |  Raw Size | Estimated Transfer Size
+main.935ffba4e5886949.js      | main                                          | 595.26 kB |               140.75 kB
+styles.5617ede57b96b1e0.css   | styles                                        | 124.54 kB |                10.67 kB
+polyfills.c7c0494d6a715bf6.js | polyfills                                     |  32.96 kB |                10.63 kB
+runtime.4d5882e71573229b.js   | runtime                                       |   2.86 kB |                 1.38 kB
+
+                              | Initial Total                                 | 755.61 kB |               163.43 kB
+
+Lazy Chunk Files              | Names                                         |  Raw Size | Estimated Transfer Size
+31.c78682aee1780965.js        | modules-user-user-profile-user-profile-module |  34.42 kB |                 7.97 kB
+763.4a3ada6b48916ca9.js       | comments-comments-module                      |  27.49 kB |                 6.23 kB
+71.1f918b29c19cf596.js        | modules-user-user-profile-user-profile-module |  25.30 kB |                 7.10 kB
+470.757802a9e0d30cd8.js       | modules-user-user-sign-in-user-sign-in-module |  19.75 kB |                 4.17 kB
+928.bdf6d5099796f48e.js       | modules-user-user-signup-user-signup-module   |   7.82 kB |                 2.52 kB
+common.20fc83474122ca89.js    | common                                        |   1.29 kB |               520 bytes
+524.48f6af0cf7ca1ae6.js       | modules-home-home-module                      | 959 bytes |               464 bytes
+
+Build at: 2022-12-05T17:42:27.935Z - Hash: 39adb179a8b37291 - Time: 15559ms

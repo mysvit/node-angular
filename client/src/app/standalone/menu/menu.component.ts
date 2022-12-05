@@ -21,7 +21,6 @@ export class MenuComponent {
     @Output() onMenuClose: EventEmitter<void> = new EventEmitter<void>()
 
     @HostListener('click') click() {
-        console.log('click')
         this.onMenuClose.emit()
     }
 

@@ -8,10 +8,10 @@ import { DialogService } from '@standalone/dialog/dialog.service'
 export class DialogDirective {
 
     constructor(
-        private viewContainer: ViewContainerRef,
-        private dialog: DialogService
+        viewContainer: ViewContainerRef,
+        dialog: DialogService
     ) {
-        dialog.dialogRef = viewContainer
+        dialog.dialogComponentRef = viewContainer
     }
 
 }

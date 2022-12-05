@@ -11,7 +11,7 @@
 
     <div class="right">
         <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
-            <img class="sl-avatar" alt="User avatar" src="{{avatarUrl}}" [appMenuPointer]="profileMenu" [items]="items">
+            <img class="sl-avatar" alt="User avatar" src="{{avatarUrl}}" [appMenu]="profileMenu" [items]="items">
             <ng-template #profileMenu></ng-template>
         </ng-template>
         <ng-template #signIn>

@@ -9,6 +9,10 @@ export class SnackBarService {
 
     snackBarRef?: ViewContainerRef
 
+    constructor() {
+        console.debug('==SnackBarService', new Date())
+    }
+
     show(message: string, messageType: SnackBarType, closeDelay?: number) {
         this.snackBarRef?.clear()
         const ref = this.snackBarRef?.createComponent(SnackBarComponent)

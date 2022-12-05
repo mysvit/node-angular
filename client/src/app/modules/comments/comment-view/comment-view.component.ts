@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core'
 import { CommentLikeModel } from '@dto'
 import { LikeDislikeCalc } from '@shared-lib/logic'
-import { TrButton, TrMessage, TrTitle } from '@shared-lib/translation'
+import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { DialogService } from '@standalone/dialog/dialog.service'
 import { map } from 'rxjs'
+import { CommentDelComponent } from '../comment-del/comment-del.component'
+import { CommentDelModel } from '../comment-del/comment-del.model'
 import { CommentItemUI } from '../comments/comments.model'
 import { CommentsService } from '../comments/comments.service'
 
@@ -87,23 +89,20 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
     }
 
     deleteCommentClick() {
-        // const dialogRef = this.dialog.open(DialogComponent, {
-        //     width: '350px',
-        //     data: <DialogModel>{action: DialogAction.Delete, title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
-        // })
-        // dialogRef.afterClosed().subscribe(result => {
-        //     if (result) {
-        //         this.isShowDeleteSpinner = true
-        //         this.execute(
-        //             this.comments.commentDelApi(this.item.comment_id)
-        //                 .pipe(
-        //                     map(result => result ? this.comments.commentsListDelItem(this.item) : undefined)
-        //                 )
-        //         )
-        //     }
-        // })
-        this.dialog.open(TrTitle.DeleteComment, TrMessage.DoYouWantDelete, TrButton.Delete)
-        this.dialog.onClose.subscribe(result => console.log(result))
+        const ref = this.dialog.open(CommentDelComponent, {
+            data: <CommentDelModel>{title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
+        })
+        if (ref) ref.onClose.subscribe(result => {
+            if (result) {
+                this.isShowDeleteSpinner = true
+                this.execute(
+                    this.comments.commentDelApi(this.item.comment_id)
+                        .pipe(
+                            map(result => result ? this.comments.commentsListDelItem(this.item) : undefined)
+                        )
+                )
+            }
+        })
     }
 
     override processCompleted(message?: any) {
