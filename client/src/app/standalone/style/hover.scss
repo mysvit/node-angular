@@ -1,0 +1,17 @@
+.hp {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.hp-trans {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, .04);
+        }
+    }
+}
+

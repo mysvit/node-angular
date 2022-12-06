@@ -6,7 +6,7 @@ import { ErrorClient } from '@shared/models/error-client'
 import { SlStorage } from '@shared/storage'
 import { FieldValidators } from '@shared/validators'
 import { CommentsService } from '../comments/comments.service'
-import { CommentFormModel } from './comment.form-model'
+import { CommentFormModel } from './comment-form.model'
 
 @Component({
     selector: 'app-comment-form',

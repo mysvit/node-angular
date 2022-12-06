@@ -1,0 +1,24 @@
+// size min max
+@mixin size($size) {
+    min-height: $size;
+    min-width: $size;
+    max-height: $size;
+    max-width: $size;
+    line-height: $size;
+}
+
+.s-mm-21 {
+    @include size(21px)
+}
+
+.s-mm-32 {
+    @include size(32px)
+}
+
+.s-mm-40 {
+    @include size(40px)
+}
+
+.s-mm-180 {
+    @include size(180px)
+}

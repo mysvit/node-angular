@@ -5,6 +5,7 @@ import { TrMessage, TrTitle } from '@shared-lib/translation'
 import { ProcessForm } from '@shared/form'
 import { SlStorage } from '@shared/storage'
 import { DialogService } from '@standalone/dialog/dialog.service'
+import { MenuItemType, MenuModel } from '@standalone/menu/menu.model'
 import { map } from 'rxjs'
 import { CommentDelComponent } from '../comment-del/comment-del.component'
 import { CommentDelModel } from '../comment-del/comment-del.model'
@@ -23,6 +24,27 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
     @Output() onCommentEdit: EventEmitter<void> = new EventEmitter<void>()
     @Output() onCommentReply: EventEmitter<void> = new EventEmitter<void>()
     @Output() onCommentRepliesShow: EventEmitter<boolean> = new EventEmitter<boolean>()
+
+    items = [
+        <MenuModel>{
+            id: 0,
+            type: MenuItemType.Button,
+            icon: 'edit_note',
+            text: 'Edit comment',
+            click: this.handleEditCommentClick.bind(this)
+        },
+        <MenuModel>{
+            id: 1,
+            type: MenuItemType.ThematicBreak
+        },
+        <MenuModel>{
+            id: 2,
+            type: MenuItemType.Button,
+            icon: 'delete',
+            text: 'Delete comment',
+            click: this.handleDeleteCommentClick.bind(this)
+        }
+    ]
 
     isRepliesShowed: boolean = false
     isMenuOpened: boolean = false
@@ -84,11 +106,11 @@ export class CommentViewComponent extends ProcessForm implements OnInit {
         this.onCommentRepliesShow.emit(this.isRepliesShowed)
     }
 
-    editCommentClick() {
+    handleEditCommentClick() {
         this.onCommentEdit.emit()
     }
 
-    deleteCommentClick() {
+    handleDeleteCommentClick() {
         const ref = this.dialog.open(CommentDelComponent, {
             data: <CommentDelModel>{title: TrTitle.DeleteComment, content: TrMessage.DoYouWantDelete}
         })

@@ -14,53 +14,37 @@
         <div [innerHtml]="item.comment"></div>
         <div class="sl-item-likes">
             <div class="sl-item-icon" [ngClass]="{'disabled':executingForm}">
-                <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.like_user, 'disabled':executingForm}"
-                          aria-hidden="false" aria-label="I like this" (click)="handleCommentLikeClick()">
-                    thumb_up
-                </mat-icon>
+                <span class="material-symbols-outlined sl-icon-button" [ngClass]="{'fill':item.like_user, 'disabled':executingForm}"
+                      aria-hidden="false" aria-label="I like this"
+                      (click)="handleCommentLikeClick()">thumb_up</span>
                 <span>{{item.likes_count}}</span>
             </div>
             <div class="sl-item-icon" [ngClass]="{'disabled':executingForm}">
-                <mat-icon class="sl-icon-button" [ngClass]="{'fill':item.dislike_user, 'disabled':executingForm}"
-                          aria-hidden="false" aria-label="I dislike this" (click)="handleCommentDislikeClick()">
-                    thumb_down
-                </mat-icon>
+                <span class="material-symbols-outlined sl-icon-button" [ngClass]="{'fill':item.dislike_user, 'disabled':executingForm}"
+                      aria-hidden="false" aria-label="I dislike this"
+                      (click)="handleCommentDislikeClick()">thumb_down</span>
                 <span>{{item.dislikes_count}}</span>
             </div>
             <div class="sl-item-icon">
-                <mat-icon class="sl-icon-button" (click)="handleCommentReplyClick()">chat</mat-icon>
+                <span class="material-symbols-outlined sl-icon-button" (click)="handleCommentReplyClick()">chat</span>
             </div>
         </div>
         <div class="sl-item-reply" *ngIf="item.replies_count > 0">
             <div class="sl-icon-text-button" (click)="handleCommentsRepliesShowClick()">
                 <ng-template [ngIf]="isRepliesShowed" [ngIfElse]="repliesHide">
-                    <mat-icon>arrow_drop_up</mat-icon>
+                    <span class="material-symbols-outlined">arrow_drop_up</span>
                 </ng-template>
                 <ng-template #repliesHide>
-                    <mat-icon>arrow_drop_down</mat-icon>
+                    <span class="material-symbols-outlined">arrow_drop_down</span>
                 </ng-template>
                 {{item.replies_count}} replies
             </div>
         </div>
     </div>
     <div class="sl-item-menu" *ngIf="isShowMenu">
-        <mat-icon class="sl-icon-button sl-menu-icon" [ngClass]="{'show-all-time':isMenuOpened}"
-                  [matMenuTriggerFor]="menu" (menuOpened)="menuItemOpenedEvent()" (menuClosed)="menuItemClosedEvent()">
-            more_vert
-        </mat-icon>
-        <mat-menu #menu="matMenu">
-            <ng-template matMenuContent>
-                <button mat-menu-item (click)="editCommentClick()">
-                    <mat-icon>edit_note</mat-icon>
-                    <span>Edit comment</span>
-                </button>
-                <hr/>
-                <button mat-menu-item (click)="deleteCommentClick()">
-                    <mat-icon>delete</mat-icon>
-                    <span>Delete comment</span>
-                </button>
-            </ng-template>
-        </mat-menu>
+        <span class="material-symbols-outlined sl-icon-button sl-menu-icon" [ngClass]="{'show-all-time':isMenuOpened}"
+              [appMenu]="itemMenu" [items]="items">more_vert</span>
+        <ng-template #itemMenu></ng-template>
     </div>
 </div>
 

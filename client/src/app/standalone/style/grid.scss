@@ -1,0 +1,8 @@
+.grid {
+    display: grid;
+
+    &.cc {
+        align-items: center;
+        justify-items: center;
+    }
+}

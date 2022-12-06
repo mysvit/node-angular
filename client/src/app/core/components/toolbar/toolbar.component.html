@@ -1,22 +1,20 @@
-<div class="sl-toolbar">
+<div class="grid cc toolbar">
 
-    <div class="left">
-        <div class="sl-home-button">
-            <span class="material-symbols-outlined" (click)="handleHomeClick()">menu</span>
-        </div>
+    <div>
+        <span class="btn-icon hp-trans icon outlined" (click)="handleHomeClick()">menu</span>
     </div>
 
-    <div class="center">
+    <div>
     </div>
 
     <div class="right">
         <ng-template [ngIf]="isAuth" [ngIfElse]="signIn">
-            <img class="sl-avatar" alt="User avatar" src="{{avatarUrl}}" [appMenu]="profileMenu" [items]="items">
+            <img class="img s-mm-40 hp" alt="User avatar" src="{{avatarUrl}}" [appMenu]="profileMenu" [items]="items">
             <ng-template #profileMenu></ng-template>
         </ng-template>
         <ng-template #signIn>
-            <div class="sl-button" (click)="handleSignInClick()">
-                <span class="material-symbols-outlined">login</span>
+            <div class="btn-stroked hp-trans" (click)="handleSignInClick()">
+                <span class="icon outlined">login</span>
                 <span>Sign in</span>
             </div>
         </ng-template>

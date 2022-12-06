@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { MatBadgeModule } from '@angular/material/badge'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
-import { MatMenuModule } from '@angular/material/menu'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { SharedModule } from '@shared/shared.module'
 import { DialogCancelDirective, DialogOkDirective } from '@standalone/dialog/dialog-buttons.directive'
+import { MenuDirective } from '@standalone/menu/menu.directive'
 import { SearchBarComponent } from '@standalone/search-bar/search-bar.component'
 import { SpinnerDirective } from '@standalone/spinner/spinner.directive'
 import { CommentDelComponent } from './comment-del/comment-del.component'
@@ -40,13 +38,11 @@ import { CommentsComponent } from './comments/comments.component'
         MatButtonModule,
         MatIconModule,
         FormsModule,
-        MatMenuModule,
-        MatProgressSpinnerModule,
-        MatBadgeModule,
         SpinnerDirective,
         SearchBarComponent,
         DialogCancelDirective,
-        DialogOkDirective
+        DialogOkDirective,
+        MenuDirective
     ],
     providers: []
 })

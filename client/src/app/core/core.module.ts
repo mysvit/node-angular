@@ -3,6 +3,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core'
 import { httpInterceptorProviders } from '@core/http-interceptors'
 import { StatesService } from '@core/services/states.service'
 import { MenuDirective } from '@standalone/menu/menu.directive'
+import { SnackBarDirective } from '@standalone/snack-bar/snack-bar.directive'
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component'
 
@@ -29,7 +30,8 @@ const singletonServices = [
     ],
     imports: [
         CommonModule,
-        MenuDirective
+        MenuDirective,
+        SnackBarDirective
     ],
     providers: [
         singletonServices,

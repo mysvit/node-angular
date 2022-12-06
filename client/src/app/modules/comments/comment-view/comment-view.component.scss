@@ -2,6 +2,7 @@
 
 :host {
     display: grid;
+    // when :hover view component change --display-menu-icon to display 'block' in mobile version show all time
     @media (hover: hover) and (pointer: fine) {
         --display-menu-icon: none;
 
