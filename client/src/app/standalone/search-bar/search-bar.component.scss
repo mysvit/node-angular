@@ -3,38 +3,29 @@
 
 :host {
     width: 100vw;
-
-    --c-border: #323232;
-    --c-background: #FFFFFF;
 }
 
-.material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32;
-}
-
-.sl-search-box-container {
-    max-width: 400px;
+.container {
     border-radius: 5px;
-    border: 1px solid var(--c-border);
-    background-color: var(--c-background);
+    border: 1px solid var(--input-brc);
+    background-color: var(--input-b);
     display: grid;
     grid-template-columns: min-content 1fr min-content;
 
-    .text {
+    .input {
         padding-left: 5px;
-
-        input {
-            @extend .sl-input;
-        }
     }
 
-    .button-left {
-        @include sl-icon-button;
-        @include sl-icon-button-border(border-right, var(--c-border));
+    .b-right {
+        border-right: 1px solid var(--input-brc);
+        border-bottom-left-radius: unset;
+        border-top-left-radius: unset;
     }
 
-    .button-right {
-        @include sl-icon-button;
-        @include sl-icon-button-border(border-left, var(--c-border));
+    .b-left {
+        border-left: 1px solid var(--input-brc);
+        border-bottom-right-radius: unset;
+        border-top-right-radius: unset;
     }
+
 }

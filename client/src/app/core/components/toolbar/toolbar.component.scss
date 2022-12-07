@@ -6,8 +6,8 @@
 .toolbar {
     grid-template-columns: 64px 1fr min-content;
     height: 64px;
-    color: var(--c-toolbar-color);
-    background-color: var(--c-toolbar-background);
+    color: var(--toolbar-c);
+    background-color: var(--toolbar-b);
 
     .right {
         padding-right: 20px;

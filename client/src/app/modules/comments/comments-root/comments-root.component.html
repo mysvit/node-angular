@@ -1,17 +1,15 @@
-<h1 class="p-20">Testing PWA</h1>
+<div class="container">
+    <h1 class="m-14">Testing PWA</h1>
 
-<div class="sl-comments-search">
-    <app-search-bar (onSearch)="handleCommentSearchClick($event)"></app-search-bar>
-</div>
+    <div class="m-w14">
+        <app-search-bar (onSearch)="handleCommentSearchClick($event)"></app-search-bar>
+    </div>
 
-<div class="sl-comments-container">
-
-    <div class="sl-btn-add">
-        <button mat-flat-button color="primary" aria-label="Add a comment" (click)="handleAddCommentClick()">
+    <div class="m-14">
+        <div class="btn-flat hp" (click)="handleAddCommentClick()">
             <span>Add comment</span>
-        </button>
+        </div>
     </div>
 
     <app-comments></app-comments>
-
 </div>

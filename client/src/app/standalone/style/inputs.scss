@@ -1,4 +1,4 @@
-@mixin sl-input($background) {
+@mixin input($background) {
     display: inline-block;
     height: 100%;
     width: 100%;
@@ -11,6 +11,7 @@
     padding: 0;
 }
 
-.sl-input {
-    @include sl-input(#FFFFFF);
+// input no border white
+.input-nb-w {
+    @include input(var(--input-b));
 }

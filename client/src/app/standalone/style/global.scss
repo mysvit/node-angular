@@ -1,0 +1,13 @@
+html, body {
+    height: 100vh;
+    background-color: var(--c-body);
+    @extend .f-normal
+}
+
+body {
+    margin: 0;
+}
+
+h1 {
+    @extend .f-h
+}

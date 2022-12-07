@@ -1,11 +1,16 @@
 @import "app/standalone/style/border";
 @import "app/standalone/style/buttons";
+@import "app/standalone/style/font";
+@import "app/standalone/style/global";
 @import "app/standalone/style/grid";
 @import "app/standalone/style/hover";
 @import "app/standalone/style/icons";
 @import "app/standalone/style/img";
 @import "app/standalone/style/shadow";
 @import "app/standalone/style/size";
+@import "app/standalone/style/space";
+@import "app/standalone/style/themes";
+
 
 @import "styles/themes";
 @import "styles/default-mixings";
@@ -13,12 +18,3 @@
 @import "styles/tags";
 @import "styles/components";
 @import "styles/mat-customization";
-
-html, body {
-    height: 100vh;
-    background-color: var(--c-body);
-}
-
-body {
-    margin: 0;
-}
